@@ -1,0 +1,552 @@
+{
+  "orders" : {
+    "orders" : "Orders" , 
+      "allOrders" : "All Orders" , 
+      "storeName" : "Store Name" ,
+      "totalPrice" : "Grand Total", 
+      "status" : "Order Status",
+      "orderDetails" : {
+        "name" : "Name" ,
+        "date" : "Date" , 
+        "quantity" : "Quantity",
+        "price" : "Price" ,
+        "totalQuantity" : "Total Quantity" ,
+        "deliveryPrice" : "Delivery Cost" ,
+        "discount" : "Discount" , 
+        "finalPrice" : "Net Total" ,
+        "reasonForCancel" : "Order Cancelling Reason. " ,
+        "reason" : "Reason" , 
+        "cancelOrder" : "Cancel The Order" , 
+        "noOrders" : "You have no Orders Yet."
+      }
+    },
+    "nav" : {
+      "orders" : "My Orders" , 
+      "login" : "Login",
+      "SignUp" : "Sign-Up" 
+    },
+    "profile": {
+      "myprofile": "My Profile",
+      "back" : "Back" ,
+      "name" :"Name" , 
+      "phone" : "Phone with WhatsApp" ,
+      "address" : "Address" ,
+      "logout" : "Log Out" 
+    } , 
+    "home" : {
+      "search" : "Search for Store Type (Ex.Stationary) or Category (Ex.Pens) or Brand (Ex.Zero)" ,
+      "storeType" : "Store Type" , 
+      "storeTypes" : "Store Types" , 
+      "category" : "Category" ,
+      "brand" : "Brands" ,
+      "discover" : "Discover our current store types" ,
+      "stores" : "Stores" ,
+      "BecomeASeller" : " Become A Seller ",
+      "BecomeACustomer" : "Become A Customer " ,
+      "TawasyApp" : "Discover Tawasy Shopping App" ,
+      "WhatYouNeed" : " Get what you need, when you need it.",
+      "DownloadApp" : "Download App" ,
+      "JoinUs" : "Join us",
+      "seller" : "Reach more buyers and achieve growth with us" ,
+      "customer" : "Shop from your home with us"
+    } , 
+    "store" : {
+      "openingTime" : "Opening Time" ,
+      "closingTime" : "Closing time" ,
+      "address" : "Address" ,
+      "openingDays" : "Opening Days" ,
+      "search" :"Search",
+      "product" : {
+        "addToCart" : "Add To Cart"
+      } 
+    } ,  
+    "submitOrder" : {
+      "submit" : "Submit Order" ,
+      "useExisting" : "Use my existing Address" , 
+      "useNew" : "Use new address" , 
+      "Note" : "Notes on the order" ,
+      "differ" : "*The delivery cost may differ if you change your location."
+    },  
+    "footer" : {
+      "syria" : "Damascus , Syria" , 
+      "home" : "Home" , 
+      "aboutUs" : "About Us" , 
+      "contactUS" : "Contact Us" , 
+      "terms" : "Terms and conditions" ,
+      "privacy" : " Privacy policy " ,
+      "copyrights" : "Copyrights, Tawasy Shopping" ,
+      "ALLProducts" : "All Products",
+      "ALLStores" : "All Stores" ,
+      "Text" : "Start Now! And Enjoy e-commercing" ,
+      "Advertise" : "Advertise with us",
+      "developed" : "Designed & Developed By"
+    } , 
+    "cart" : {
+      "emptyCart" : "You have not added any product to the Cart yet. " ,
+      "cart" : "My Cart",
+      "cancel" : "Cancel" ,
+      "addCoupon" : "Enter Coupon Code" ,
+      "apply" : "Use Coupon Code" , 
+      "submitOrder" : "Proceed to submit the order"
+    },
+
+    "stores" : {
+     "ALLStore" : "All Stores", 
+     "noStores" :"There are currently no stores yet",
+     "nextPage" : "Next Page",
+     "previousPage" : "Previous Page"
+    },
+    "products" : {
+      "ALLProducts" : "All Products",
+      "SearchALLProducts" : "Search Products by name",
+      "AddtoCart" : "Add To Cart"
+     },
+     "componentStore" : {
+      "ViewStore" : "View Product"
+     },
+    "product" : {
+      "storeSellers" :"Stores that sell this product" ,
+      "noStores" : "There are currently no stores selling this product."
+    },
+    "verification" : {
+      "contactUs" : "Please enter the verification code that was sent to you via WhatsApp or " ,
+      "contactUsNumber" : "Contact Us",
+      "resendCode" : "Resend the code" ,
+      "didntGetCode" : "Didn’t recieve the code ?"
+    }, 
+    "pending" : {
+      "thankyou" : "Thank you" ,
+      "meanwhile" : "Meanwhile; If you need any information please contact Us on 0987000888 We will contact you when it becomes available",
+      "ourTeam" : "Our team will review the details soon and will revert back to you if we need any information" , 
+      "weRecieved" : "We have recieved your request" 
+    },  
+    "privacy" :{ 
+      "title" : "Privacy Policy For Tawasy Shopping E-Platform." ,
+      "intro" : {
+        "title" : "Introduction:",
+        "info" : "The Privacy Policy of Tawasy Shopping outlines the company's policy on privacy and cookies. The purpose of this policy is to inform the user about how we handle his personal data. In compliance with applicable data protection and privacy laws, Tawasy Shopping e-platform is responsible for the personal information covered in this Privacy Policy unless otherwise stated. We are dedicated to protecting the privacy of our user's personal information, and this privacy policy explains how Tawasy Shopping will use any personal information submitted by the user. If the user wants to access, modify, or delete his personal information, or if he wishes to opt out or change the usage of his personal information, please contact us. “Tawasy Shopping” appreciates user interest and concerns about the privacy of their data on the Internet." 
+      },   
+        "personal" : {
+          "title" : "Personal Information Retention And Disposal:",
+          "info" : "We collect your personal information when you interact with our e-platform. We use this information to provide you with our services and to protect your account. We will only keep your information for as long as we need it, and we will destroy it securely when we don't need it anymore."
+      } ,
+      "use" : {
+        "title" : "Use Of Your Information:",
+        "info" : "Tawasy Shopping e-platform collects your personal information to provide you with its services and to improve its business. Tawasy Shopping e-platform may also use your personal information for marketing purposes, such as sending you newsletters or information about new products and services. Tawasy Shopping e-platform will only share your personal information with other companies if it is necessary to provide you with its services or if it is required by law. Tawasy Shopping e-platform will take all reasonable steps to protect your personal information from unauthorized access or use. We take your privacy seriously. When you contact customer support, your information will be kept confidential and used to help you improve the e-platform."
+      } ,
+      "cookies" : {
+        "title" : "Cookies:",
+        "info" : "Tawasy Shopping e-platform uses cookies to make your experience on its e-platform more personalized and convenient. Cookies are small files that are stored on your computer or mobile phones when you visit our e-platform. Tawasy Shopping e-platform uses cookies for a variety of purposes, such as keeping you logged in, tracking your browsing habits, and serving you relevant ads. Most web browsers accept cookies by default, but you can change your browser settings to block or delete cookies. However, blocking cookies may limit your ability to use some or all features on the Tawasy Shopping e-platform."
+    } ,
+    "third" : {
+      "title" : "Third-Party:",
+      "info" : "Tawasy Shopping e-platform is not responsible for what other companies do with your personal information. If you click on a link to another platform from Tawasy Shopping e-platform, be sure to read that platform's privacy policy to understand how they will use your personal information. We may use third-party companies to show you ads when you visit our e-platform. These companies can use information about your browsing habits to show you ads for products and services that you might be interested in. Tawasy Shopping e-platform only asks for your personal information when we need it, and we will only use it for the purposes for which you provided it. We will never sell your personal information to other companies for marketing purposes without your permission. If we use your personal information for statistical or research purposes, we will not identify you personally."
+    },
+    "registration" : {
+      "title" : "Registration:",
+      "info" : "If you want to use some parts of the Tawasy Shopping e-platform, you may need to create an account and give Tawasy Shopping e-platform some information about yourself. In this case, you agree to give Tawasy Shopping e-platform accurate information and to keep it up to date."
+    },
+    "tele" : {
+      "title" : "Telephone Calls:",
+      "info" : 
+        "Please be aware that your phone conversations with Tawasy Shopping e-platform may be recorded for quality control."
+    },
+    "tawasy" : {
+      "title" : "Tawasy Shopping E-Platform Customer Satisfaction Survey:",
+      "info" : "Tawasy Shopping e-platform conducts surveys directly on its e-platform to collect specific data about customer satisfaction. This data is used to improve the e-platform and the customer experience. Customers have the choice to provide their name and other information, but this is not required."
+    },
+    "amendments" : {
+      "title" : "Amendments To The Information Privacy And Confidentiality Policy:",
+      "info" : "Tawasy Shopping e-platform may change its privacy policy from time to time. If it does, it will post the changes on its e-platform. It is the user’s responsibility to periodically check our e-platform the user uses to ensure that the user is aware of the current privacy policy and to update user preferences accordingly."
+    },
+    "contact" : {
+      "title" : "Contact Us:",
+      "info" : 
+        "You can contact us if needed by clicking on the contact us link provided in our e-platform links or sending an email to info@tawasyme.com."
+      },
+    "finally" : {
+      "title" : "Finally:",
+      "info" :
+          "We at Tawasy Shopping e-platform care about your privacy. We hope that this policy has answered your questions and concerns about how we keep your data safe and confidential."
+    }
+  }, 
+  "terms" : {
+    "title" : "Terms And Conditions" ,
+    "info" : "Welcome to Tawasy Shopping , This document contains the general terms and conditions for using the Tawasy Shopping e-commerce e-platform. Please read it carefully before carrying out any activity within the e-platform. Therefore, when you use our services, you agree to all of these terms and conditions." ,
+    "definitions" : {
+      "title" : "Definitions:" , 
+        "termsAndConditions": {
+          "title": "Terms and Conditions",
+          "info": "It is a set of terms and conditions that the visitor must be aware of before using any of the provided services."
+        },
+        "tawasyShopping": {
+          "title": "Tawasy Shopping",
+          "info": "It is a registered brand that provides marketing, promotion, and showcasing services."
+        },
+        "tawasyExpress": {
+          "title": "Tawasy Express",
+          "info": "It is a brand administratively independent, which is part of Tawasy Shopping and is concerned with paid delivery services."
+        },
+        "onlineShoppingPlatform": {
+          "title": "Online Shopping Platform",
+          "info": "This is a digital environment that brings the need of the buyer \"consumer\" for a specific material or service and the availability of the same material or service from the store (seller) together, and it is the environment in which the order process takes place."
+        },
+        "mobileApplication": {
+          "title": "Mobile Application",
+          "info": "It is the program that the user downloads on his mobile device to use the e-platform."
+        },
+        "activityWithinPlatform": {
+          "title": "Activity Within the Platform",
+          "info": "These are browsing, advertising, selling, buying, rating, or any other process that the user performs on the online shopping platform."
+        },
+        "buyers": {
+          "title": "Buyers",
+          "info": "They are all visitors who order any product or service through the e-platform."
+        },
+        "storesSellers": {
+          "title": "Stores (Sellers)",
+          "info": "They are the visitors who offer any product or service through the e-platform."
+        },
+        "advertisers": {
+          "title": "Advertisers",
+          "info": "They are the companies or individuals who benefit from paid advertising services within the e-platform to promote a product or service."
+        },
+        "prices": {
+          "title": "Prices",
+          "info": "They are the announced material value of the intention to sell the products or services offered by each store (seller) separately, which the buyer must request, and the store (seller) must confirm the request."
+        },
+        "availability": {
+          "title": "Availability",
+          "info": "The details of the product or service on the e-platform that reflects the availability of the product or service itself at the store (seller) despite the fact it does not specify the quantity available at the store (seller)."
+        },
+        "deliveryService": {
+          "title": "Delivery Service",
+          "info": "It is the process of receiving the order from the store (seller) and delivering it to the buyer."
+        },
+        "deliveryFees": {
+          "title": "Delivery Fees",
+          "info": "They are the material value specified as fees for delivering the order, and It is the value that the buyer is obligated to pay upon receipt of the order."
+        },
+        "acceptanceOfTheOrder": {
+          "title": "Acceptance of the Order",
+          "info": "It is the approval of the store (seller) for the purchase order received from the buyer after the order is confirmed by the buyer to proceed with the preparation of the order and its delivery to the buyer."
+        },
+        "rejectionOfTheOrder": {
+          "title": "Rejection of the Order",
+          "info": "It is the rejection of the store (seller) for the purchase order received from the buyer for reasons related to the store (seller)."
+        },
+        "buyersAddress": {
+          "title": "Buyer's Address",
+          "info": "It is the real location that the buyer specifies to receive the confirmed order."
+        },
+        "storeAddressSeller": {
+          "title": "Store Address (Seller)",
+          "info": "It is the real announced address of the store (seller) from which the order is delivered to the delivery company."
+        },
+        "images": {
+          "title": "Images",
+          "info": "The images displayed on the online shopping platform may not always match the actual product image."
+        },
+        "categories": {
+          "title": "Categories",
+          "info": "These are the main types or patterns of the products and services offered that facilitate the search, browsing, and then purchase process."
+        },
+        "whoWeAre": {
+          "title": "Who We Are",
+          "info": "We are an online shopping platform that operates under the name of \"Tawasy Shopping\", which is a registered brand and operates under the commercial register in Damascus countryside with number: /91759/."
+        }
+    },
+    "ourgoal" : {
+      "title" : "OurGoal:" ,
+      "info1" : "Tawasy Shopping aims to become the first and leading e-commerce platform in Syria. Our team of experts in retail, customer service, and e-commerce is committed to providing the best possible experience to our customers. We are confidently venturing into the e-commerce and delivery market, driven by the global trend of bringing entrepreneurs, brand owners, and all types of retail goods and advanced services under one roof. Our goal is to provide consumers with the highest possible availability and variety of products, the best prices and promotional offers, and the finest expertise in delivery systems.",
+      "info2" : "Tawasy Shopping's new approach reinforces the idea of total cost of ownership (TCOS) by reducing general purchasing costs for the consumer by providing closer purchase options for the consumer, thereby reducing transportation costs.",
+      "info3" : "Tawasy Shopping aims to provide market products directly at the consumer's doorstep, thus achieving its slogan \"Elsouq Bebitak\" which means 'the shop at your doorstep.'",
+      "info4" : "Tawasy Shopping is committed to providing its services initially in the city of Damascus and its countryside, with future plans to expand to other cities and governorates."
+    },
+    "shoppingMechanism": {
+      "title": "Tawasy Shopping Mechanism:",
+      "info": "When a visitor (buyer) visits the e-platform, they can browse through various product and service categories to find nearby stores (sellers). Once they find a store, they can choose a product or service and add it to their cart. The cart will display the total cost of the order, including delivery charges. To complete the order, the buyer needs to provide their personal information, such as full name, phone number, and delivery address. The platform may automatically determine the delivery address based on the buyer's location. The buyer's order will be processed and delivered according to the regulations, laws, and conditions listed in the (Delivery and Shipping) section and the (Prices and Payment) section.",
+      "noteThat" :{
+        "title" : "Note That:" , 
+        "info" : "No order from the e-platform is considered finished until the store (seller) confirms it. The store (seller) will review the order, confirm availability, and then accept or reject the order, stating the reason for the rejection. When the buyer completes their order, the buyer will see the order status next to their order, which will initially be 'Pending Confirmation', and then it will become 'Order Accepted' or 'Order Rejected'."
+        }
+    },
+    "creatingSeller" : {
+      "title" : "Creating a Seller Account on the E-Platform:" , 
+      "info" : "To create a virtual store on the e-platform, a seller needs to follow the 'How to Become a Seller' instructions, complete all required procedures to activate their store, and ensure that their store or stores are ready before launching on the actual e-platform. Tawasy Shopping will review the store and ensure it's ready for launch.",
+      "noteThat" : {
+        "title" : "Note That:" , 
+        "info" : "The management of the e-platform has the right to suspend the operation of any virtual store and prevent its seller from conducting any commercial activity through the platform in case of any violation of the terms and conditions or inappropriate use of the platform. Some examples of such violations include frequent order rejection, abuse of others, defamation of a company's reputation, or violation of any or all of the terms and conditions for using the e-platform."
+      }
+    } , 
+    "creatingCustomer" : {
+      "title" : "Creating a Buyer Account on the E-Platform:" , 
+      "info" : "Anyone can have a look at the Tawasy Shopping online shopping platform, but to be able to use our services to make purchase orders, they need to create an account using their mobile phone number. They can log out of their account at any time.",
+      "noteThat" : {
+        "title" : "Note That:" ,
+        "info" : "The management of the e-platform has the right to suspend the account of any buyer and prevent them from placing orders if they violate the terms and conditions or misuse the platform. Examples of such violations include repeatedly refusing to receive orders, abusing others, damaging the reputation of a company, or violating any or all of the terms and conditions for using the platform."
+      }
+    },
+    "express" :{
+      "title" : "Tawasy Express - Delivery:",
+      "info" : "Tawasy Express delivery team offers safe delivery services within Damascus and its countryside. The initial delivery charges are communicated to the buyer on the e-platform right after the purchase order is reviewed. However, these charges may change due to various factors such as the type of vehicle, the type of delivery, peak times, changes in pickup or delivery locations, or fuel prices. It is important for the buyer to keep this in mind before placing an order to avoid any confusion or unexpected delivery charges.",
+      "noteThat" : {
+        "title" :"Note That:", 
+        "info1" :"Sometimes, we may request the buyer to pay the full or partial value of their order after placing it, but only after coordinating with our customer service department at Tawasy Shopping. If this happens, we will not start preparing the order until the required amount has been paid. It's important to note that if the buyer delays payment, we will not be responsible for any changes in the product's availability or price at the source (store).",
+        "info2" :"It is important that the buyer checks the product immediately upon delivery. Please note that the product cannot be returned or exchanged after delivery unless coordinated with the store (seller) and approved according to their policy, which varies based on the type of product or service. Please keep in mind that delivery charges are the responsibility of the buyer.",
+        "info3" :"Once the buyer confirms the delivery address, it is mandatory to receive the order at the specified address. In case the buyer wishes to modify the delivery address, the delivery cost will be recalculated based on the new address by the relevant department.",
+        "info4" :"The buyer's delay in receiving the order or failure to promptly respond to the delivery team or customer service team may result in legal consequences due to wasting time, effort, or fraud.",
+        "info5" :"If the buyer does not respond to the order confirmation within 24 hours, the store or customer service team will cancel the order.",
+        "info6" :"We aim to deliver the requested products as soon as possible. However, it's important to note that the delivery time is dependent on the availability of the products and the ability to receive them from the store (seller)."
+      }
+    },
+    "classifications" : {
+      "title" : "Classifications:" , 
+      "info" : "Our e-platform offers a practical and attractive classification of products to help visitors easily find the products and services they need. We continuously optimize the search process and make it easy to navigate between the basic classifications of all virtual stores on the e-platform. We are committed to expanding our list of products and services based on customer needs and suggestions, and we aim to increase the number and diversity of brands for both products and services."
+    }, 
+    "payment" : {
+      "title" : "Prices and Payment:" ,
+      "info" : "Please note that the prices shown on the platform are subject to change at any time upon the request of the store (seller). This means that prices may vary while you are browsing the e-platform. You can choose from the following payment methods:" ,
+      "info1" : "Cash: You will pay for the order and delivery fees when the delivery service arrives.",
+      "info2" : "Online Payment: You can pay for the order at the time of ordering using your bank account at one of our partner banks. The delivery fees, however, must be paid in cash to the delivery service. Please note that this service is not currently available.",
+      "info3" : "Using the e-wallet service of telecom companies: You can pay for your order at the time of ordering. However, the delivery fees must be paid in cash to the delivery service. Please note that this service is not currently available."
+    },
+    "offers" : {
+      "title" : "Offers and Discounts:" ,
+      "info" : "We collaborate with some stores (sellers) on the platform to offer special offers to buyers. Buyers can take advantage of these offers according to the type of offer."
+    }, 
+    "genral":{
+      "title" : "General Note:" , 
+      "info" : "Please note that Tawasy Shopping operates as an intermediary between buyers and stores (sellers) and is not the source of the products or services offered. As a result, we are not responsible for the unavailability of products or services from the source store (seller). Also, we are not responsible for pricing, returns, or replacements as they are subject to the store's (seller's) policy. However, our team will make every effort to try to fulfill similar alternatives to the desired product or service if it is not available at a store (seller). We will inform the buyer of all the details regarding the alternative product, and if the buyer wishes, we will direct them to make the order from the alternative store (seller). This process is considered a service provided by our team to improve performance and raise the level of consumer satisfaction.",
+      "info1" : "Tawasy Shopping customer service is at your service from Saturday to Thursday from 10:00 a.m. to 4:00 p.m. Friday: Holiday.",
+      "info2" : "For further information regarding the Terms and Conditions, please call: 0987000888 Or email us at info@tawasyme.com"
+    }
+  }, 
+  "contacUs" : {
+    "main" : "For any enquires, contact us on the following numbers and emails:" ,
+    "general" : {
+      "title" : "General Inquiries-Call Center:" ,
+      "info" : "0987000888",
+      "email" : {
+        "title" : "Email:" ,
+        "info" : "info@tawasyme.com"
+      }
+    },
+    "commercial" : {
+      "title" : "Commercial Inquiries-Sellers Related: ",
+      "info" : "0987000851",
+      "email" : {
+        "title" : "Email:" ,
+        "info" : "sales@tawasyme.com"
+      }
+    },
+    "delivery" : {
+      "title" : "Delivery Inquiries-Express:" ,
+      "info" : "0987000850",
+      "email" : {
+        "title" : "Email:" ,
+        "info" : "express@tawasyme.com"
+      }
+    },
+    "management" : {
+      "title" : "Management: " ,
+      "info" : "0987000883",
+      "email" : {
+        "title" : "Email:" ,
+        "info" : "management@tawasyme.com"
+      }
+    }
+  }, 
+  "seller" : {
+    "sidebar" : {
+      "dashbaord" : "Dashboard" ,
+      "orders" : "Orders" ,
+      "order" : {
+        "pending" : "Pending Orders" ,
+        "rejected" : "Rejected Orders" ,
+        "accepted" : "Accepted Orders",
+        "all" : "All Orders"
+      } , 
+      "products" : "Products" , 
+      "product" : {
+        "unpublished" : "Unpublished Products" ,
+        "published" : "Published Products",
+        "add" : "Add a Product",
+        "all" : "All Products"
+      } , 
+      "store" : "My Store",
+      "settings" : "Store Settings",
+      "logout" : "Logout"
+    } , 
+    "dashboard" : {
+      "mainDashboard" : "Main Dashboard" ,
+      "totalAvailableProducts" : "Total Available Products" ,
+      "totalOrders" : "Total Orders" ,
+      "totalPendingOrders" : "Total Pending Orders",
+      "totalProducts" : "Total Products" , 
+      "totalSales" : "Total Sales" ,
+      "totalUnavailableProducts" : "Total Unavailable Products" 
+    },
+    "orders" : {
+      "table" : {
+        "id" : "Id" , 
+        "status" : "Status" ,
+        "date" : "Date" ,
+        "total" : "Total",
+        "coupon" : "Coupon",
+        "reason" : "Reason of Rejection",
+        "details" : "Details"
+      } , 
+      "noOrders" : "There are no orders" , 
+      "orderDetails" : {
+        "storeName" : "Store Name",
+        "orderStatus" : "Order Status" ,
+        "orderDate" : "Order Date",
+        "orderId" : "Order Id" ,
+        "productName" : "Product Name" ,
+        "quantity" : "Quantity",
+        "price" : "Price" ,
+        "total" : "Total" ,
+        "coupon" : "Coupon" ,
+        "totalQuantity" : "Total Quantity" ,
+        "discount" : "Discount" ,
+        "totalPrice" : "Total Price",
+        "deliveryFee" : "Delivery Fee" ,
+        "finalPrice" :"Final Price" ,
+        "notes" : "Notes"
+      }
+    }, 
+    "products" : {
+      "addProduct" : "Add a Product to your store", 
+      "addNewProduct" : "Add a New Product to your store",
+      "addCombinations" : "Add Combinations To Product",
+      "table" : {
+        "id" : "Id",
+        "action" : "Action" ,
+        "name" : "Name",
+        "variations" : "Variations",
+        "partNumber" : "Part-Number",
+        "category" : "Category" ,
+        "image" : "Image" ,
+        "status" : "Status" ,
+        "brand" : "Brand" ,
+        "price" :"Price"
+      },
+      "action" :{
+        "edit" : {
+          "editProduct" : "Edit Product" ,
+          "save" : "Save" , 
+          "cancel" : "Cancel"
+        } ,
+        "delete" : {
+          "deleteProduct" : "Delete Product" ,
+          "areYouSure" : "Are you sure you want to delete this product from your store :" ,
+          "yes" : "Yes" ,
+          "no" : "No"
+        }
+      },
+      "noProducts" : "There are no products"
+    },
+    "addProduct" : {
+      "cantFind" : "If you could not find the desired product, You can create a new one.",
+      "search" : "Search a product by name",
+      "noAvailable" : "There are no available products for your store type." ,
+      "selectProduct" : "Select Product" ,
+      "nextPage" : "Next Page" ,
+      "previousPage" : "Previous Page" ,
+      "selectedProducts" : {
+        "selectedProducts" : "Selected Products" ,
+        "notCompatible" : "This Product is not compatible with your store type" ,
+        "noProducts" : "You did not select any product to add your store yet",
+        "table" : {
+          "price" : "Price" , 
+          "variations" : "variations",
+          "image" : "Image" ,
+          "publish" : "Publish/Unpublish" ,
+          "category" : "Category" ,
+          "brand" : "Brand" ,
+          "productName" : "Product Name"
+        }
+      }
+    },
+    "addNewProduct" : {
+      "create" : "Create a new Product",
+      "engProductName" : "English Product Name" , 
+      "arProductName" : "Arabic Product Name" , 
+      "engDesc" : "English Description" , 
+      "arDesc" : "Arabic Description" , 
+      "eanCode" : "EAN Code" ,
+      "brandSelection" : "Select a brand for the product" ,
+      "categorySelection" : "Select a category for this product" ,
+      "productImage" : "Product Image" ,
+      "addProduct" : "Add Product"
+    },
+    "setting" : {
+      "storeSettings" : "Store Settings" , 
+      "openingTime" : "Opening Time",
+      "closingTime" : "Closing time",
+      "openingDays" : "Opening Days",
+      "saveChanges" : "Save Changes"
+    },
+    "request" : {
+      "engName" : "English Store Name",
+      "arName" : "Arabic Store Name",
+      "area" : "Area",
+      "street" : "Street",
+      "storeType" : "Store Type",
+      "address" : "Address",
+      "storeImage" : "Store Image",
+      "storeLogo" : "Store Logo",
+      "submit" : "Submit Store",
+      "openingTime" : "Opening Time",
+      "closingTime" : "Closing time",
+      "openingDays" : "Opening Days"
+    }
+  },
+  "login" : {
+    "login" : "Login using your phone number", 
+    "number" : "Number",
+    "logins" : "Login" , 
+    "loginAs" : "Login As:" ,
+    "signup" : "SignUp"
+  },
+  "signup" : {
+    "customerRegister" : "Register as a Customer" , 
+    "sellerRegister" : "Register as a Seller" ,
+    "userName" : "Username" ,
+    "phone" : "Phone number" ,
+    "address" : "Address" , 
+    "ia" : "I agree to the" , 
+    "terms" : "Terms and conditions",
+    "andThe" : "and the" , 
+    "privacy" : " Privacy policy ",
+    "ofTawasy" : "of Tawasy",
+    "signupAs" : "Signup as" ,
+    "customer" : "Customer" ,
+    "seller" : "Seller" ,
+    "existing" : "Have an existing account?" , 
+    "login" : "Login"
+  },
+  "tradeMark" : {
+    "title" : "Trademark Usage Policy",
+    "info" : "Please find below our Trademark Usage Policy, which outlines our responsibility for the use of any trademarks, logos, and brand names. We would like to emphasize that all trademarks, logos, and brand names belong to their respective owners, and we do not hold any responsibility for their use unless we receive official communication from the owner to do so. ",
+    "contactTitle" : "Contact Information:",
+    "contactInfo" : "If you have any questions about this Policy, please contact the relevant Department of our company.",
+    "amendTitle" : "Amendments:" ,
+    "amendInfo" : "The Company has the right to modify this Policy at any time. Any updated version of this Policy will be published on the Company's e-platform."
+  },
+  "titles" : {
+    "home" : "Tawasy Shopping",
+    "allStores" : "All Stores",
+    "allProducts" : "All Products",
+    "profile" : "Profile",
+    "orders" : "Orders"
+  } ,
+  "descs" : {
+    "allStores" : "Browse all our stores",
+    "allProducts" : "Browse all our Products",
+    "profile" : "Your Profile",
+    "orders" : "Your Orders",
+    "home" : "Elsouq Bebitak"
+  }
+}
