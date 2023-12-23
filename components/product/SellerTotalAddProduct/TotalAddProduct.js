@@ -9,7 +9,7 @@ import createAxiosInstance from "@/API";
 import Link from "next/link";
 import { MdCheck, MdClose } from "react-icons/md";
 
-function  TotalAddProduct({ selectproduct, refetch }) {
+function TotalAddProduct({ selectproduct, refetch }) {
   const [isSaving, setIsSaving] = useState(false);
   const [available, setAvailable] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -61,13 +61,13 @@ function  TotalAddProduct({ selectproduct, refetch }) {
     if (
       selectproduct.variations &&
       selectproduct.variations.length > 0
-    ){
+    ) {
       setIsDeleting(true);
       try {
         const response = await Api.post(
-          `/api/seller/unselect-product/${selectproduct.product_id}` , {
-            variation : selectproduct.line_id
-          }
+          `/api/seller/unselect-product/${selectproduct.product_id}`, {
+          variation: selectproduct.line_id
+        }
         );
         refetch();
         setIsDeleting(false);
@@ -75,7 +75,7 @@ function  TotalAddProduct({ selectproduct, refetch }) {
         setIsDeleting(false);
       }
       setIsDeleting(false);
-    }else{
+    } else {
       setIsDeleting(true);
       try {
         const response = await Api.post(
@@ -111,9 +111,9 @@ function  TotalAddProduct({ selectproduct, refetch }) {
   }
 
   if (imagesArray.length === 0) {
-    if(selectproduct.image){
+    if (selectproduct.image) {
       imagesArray.push(selectproduct.image);
-    }else{
+    } else {
       imagesArray.push(logo);
     }
   }
@@ -139,7 +139,7 @@ function  TotalAddProduct({ selectproduct, refetch }) {
         </td>
         <td className="px-4">
           {selectproduct.variations &&
-          selectproduct.variations.length > 0 ? (
+            selectproduct.variations.length > 0 ? (
             <div className="flex justify-center items-center space-x-3">
               {" "}
               {/* {varis && varis.length > 0 && varis.map((variation) => {
@@ -183,17 +183,18 @@ function  TotalAddProduct({ selectproduct, refetch }) {
           )}
         </td>
         <td className="flex justify-center items-center">
-          { imagesArray && imagesArray.length > 0 && imagesArray.map((image) => {
+          {imagesArray && imagesArray.length > 0 && imagesArray.map((image, i) => {
             return <img
-            src={
-              image
-            }
-            width={75}
-            height={75}
-            loading="lazy"
-            alt={selectproduct.name}
-          /> 
-          }) }
+              src={
+                image
+              }
+              key={i}
+              width={75}
+              height={75}
+              loading="lazy"
+              alt={selectproduct.name}
+            />
+          })}
         </td>
         <td className="md:px-0 px-2">
           <input

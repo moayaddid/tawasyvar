@@ -223,7 +223,8 @@ function SellerProduct({ product, refetch }) {
         </td>
         <td className="px-4 py-4">{product.category}</td>
         <td className="px-4 py-4">
-          { imagesArray && imagesArray.length > 0 && imagesArray.map((image => { return <Image
+          { imagesArray && imagesArray.length > 0 && imagesArray.map(((image , i) => { return <Image
+          key={i}
             src={image}
             alt="photo"
             width={100}
