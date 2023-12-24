@@ -113,7 +113,7 @@ function AdminProductVariation({ variant, deleteV, options, productId }) {
           Cancel
         </button>
       )}
-      {/* {editing == false && (
+      {editing == false && (
         <button
           onClick={deleteVariation}
           disabled={loading == true}
@@ -123,7 +123,7 @@ function AdminProductVariation({ variant, deleteV, options, productId }) {
         >
           Delete Variation
         </button>
-      )} */}
+      )}
       {loading == true && (
         <div>
           <Ring size={20} speed={2} lineWeight={5} color="#ff6600" />
