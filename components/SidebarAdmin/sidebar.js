@@ -21,6 +21,7 @@ import { FaStore } from "react-icons/fa";
 import Cookies from "js-cookie";
 import createAxiosInstance from "@/API";
 import { Ring } from "@uiball/loaders";
+import { IoMdGitNetwork } from "react-icons/io";
 
 export default function SidebarAdmin(props) {
   const [open, setOpen] = useState(false);
@@ -330,6 +331,18 @@ export default function SidebarAdmin(props) {
                   <TbGitBranch className="block text-[25px] text-white " />
                   <p className="hidden md:block" style={{ marginLeft: "43px" }}>
                     Variations
+                  </p>
+                </Link>
+              </li>
+
+              <li className="rounded-sm pb-3">
+                <Link
+                  href="/admin/Options"
+                  className="flex items-center pl-2 space-x-3 pt-2 pb-1 rounded-md text-gray-100"
+                >
+                  <IoMdGitNetwork className="block text-[25px] text-white " />
+                  <p className="hidden md:block" style={{ marginLeft: "43px" }}>
+                    Options
                   </p>
                 </Link>
               </li>

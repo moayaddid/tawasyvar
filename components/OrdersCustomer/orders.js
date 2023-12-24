@@ -131,7 +131,10 @@ function OrdersCustomer({ order, refetch }) {
       <Dialog open={open} fullWidth maxWidth="lg" onClose={closepopup}>
         <DialogTitle className="flex justify-end">
           <div>
-            <MdClose onClick={closepopup} className="w-[25px] cursor-pointer h-[25px] hover:text-red-500 transition-all duration-300 " />
+            <MdClose
+              onClick={closepopup}
+              className="w-[25px] cursor-pointer h-[25px] hover:text-red-500 transition-all duration-300 "
+            />
           </div>
         </DialogTitle>
         <DialogContent>
@@ -183,20 +186,28 @@ function OrdersCustomer({ order, refetch }) {
                     <div className="grid grid-cols-6  md:gap-4 gap-1 text-gray-800 md:text-xl text-xs font-medium bg-gray-200 py-2">
                       <div className="col-span-3">
                         {/* <h4>{`Name`}</h4> */}
-                        <h4 className="text-center" >{t("orders.orderDetails.name")}</h4>
+                        <h4 className="text-center">
+                          {t("orders.orderDetails.name")}
+                        </h4>
                       </div>
 
                       <div className="">
                         {/* <h4>{`Quantity`}</h4> */}
-                        <h4 className="text-center" >{t("orders.orderDetails.quantity")}</h4>
+                        <h4 className="text-center">
+                          {t("orders.orderDetails.quantity")}
+                        </h4>
                       </div>
                       <div className="">
                         {/* <h4>{`Price`}</h4> */}
-                        <h4 className="text-center" >{t("orders.orderDetails.price")}</h4>
+                        <h4 className="text-center">
+                          {t("orders.orderDetails.price")}
+                        </h4>
                       </div>
                       <div className="">
                         {/* <h4>{`Total Price`}</h4> */}
-                        <h4 className="text-center" >{t("orders.totalPrice")}</h4>
+                        <h4 className="text-center">
+                          {t("orders.totalPrice")}
+                        </h4>
                       </div>
                     </div>
 
@@ -211,7 +222,11 @@ function OrdersCustomer({ order, refetch }) {
                       const name = item.combination
                         ? item.product_name +
                           ` ( ${nid.join(" - ")} )` +
-                          ` [ ${item.combination?.part_number ? item.combination?.part_number : `-`} ]`
+                          ` [ ${
+                            item.combination?.part_number
+                              ? item.combination?.part_number
+                              : `-`
+                          } ]`
                         : item.product_name;
                       return (
                         <div
@@ -222,9 +237,7 @@ function OrdersCustomer({ order, refetch }) {
                             <h3 className="w-full text-center">{name}</h3>
                           </div>
                           <div className="">
-                            <h3 className="text-center">
-                              {item.quantity}
-                            </h3>
+                            <h3 className="text-center">{item.quantity}</h3>
                           </div>
                           <div className="text-center">
                             <h3>{item.price} S.P</h3>
@@ -283,7 +296,13 @@ function OrdersCustomer({ order, refetch }) {
                               ></textarea>
                               <label
                                 htmlFor="exampleFormControlTextarea13"
-                                className="peer-focus:bg-white pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary motion-reduce:transition-none "
+                                className={`peer-focus:bg-white pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] h-max leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-skin-primary motion-reduce:transition-none ${
+                                  (reasonRef?.current?.value != null ||
+                                    reasonRef?.current?.value != undefined ||
+                                    reasonRef?.current?.value?.trim().length >
+                                      0) &&
+                                  ` scale-[0.8] -translate-y-[0.9rem] bg-white`
+                                } `}
                               >
                                 {/* {`Reason`} */}
                                 {t("orders.orderDetails.reason")}

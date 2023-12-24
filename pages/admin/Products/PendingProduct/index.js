@@ -14,6 +14,9 @@ const tableheading = [
     heading: "Action",
   },
   {
+    heading: "Has-Variations",
+  },
+  {
     heading: "Name Ar",
   },
   {

@@ -16,24 +16,6 @@ import { Ring } from "@uiball/loaders";
 import Variation from "@/components/AdminVariations/Variation";
 import Option from "@/components/AdminVariations/Option";
 
-const tableheading = [
-  {
-    heading: "English Name",
-  },
-  {
-    heading: "Arabic Name",
-  },
-  {
-    heading: "Created At",
-  },
-  {
-    heading: "Updated At",
-  },
-  {
-    heading: "Action",
-  },
-];
-
 const tableheadingOptions = [
   {
     heading: "Variation Name",
@@ -71,21 +53,21 @@ function AdminVariations() {
     refetchOnWindowFocus: false,
   });
 
-  // const {
-  //   data: options,
-  //   isLoading: isLoadingOptions,
-  //   refetch: refetchOptions,
-  // } = useQuery(`options`, fetchOptions, {
-  //   staleTime: 1,
-  //   refetchOnMount: true,
-  //   refetchOnWindowFocus: false,
-  // });
+  const {
+    data: options,
+    isLoading: isLoadingOptions,
+    refetch: refetchOptions,
+  } = useQuery(`options`, fetchOptions, {
+    staleTime: 1,
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+  });
 
-  // async function fetchOptions() {
-  //   try {
-  //     return await Api.get(`/api/admin/options`);
-  //   } catch (error) {}
-  // }
+  async function fetchOptions() {
+    try {
+      return await Api.get(`/api/admin/options`);
+    } catch (error) {}
+  }
 
   async function fetchVariations() {
     try {
@@ -140,7 +122,7 @@ function AdminVariations() {
     setAddingOption(false);
   }
 
-  if (isLoadingVariations) {
+  if (isLoadingVariations || isLoadingOptions) {
     return (
       <div className="w-full h-full">
         <TawasyLoader width={400} height={400} />
@@ -152,34 +134,33 @@ function AdminVariations() {
     <div className="md:px-6">
       <div className="h-screen">
         <div className="py-5 px-5">
-          <div className="flex justify-between space-x-2 ">
-            <h1 className="text-3xl p-3">Variations :</h1>
-            <div className="flex justify-end items-center space-x-3" >
-              <div className="w-max flex justify-end ">
-                <button
-                  onClick={functionopenpopup}
-                  className="bg-skin-primary text-white py-1 px-3 rounded-md"
-                >
-                  Add a Variation
-                </button>
-              </div>
-              <div className="w-max flex justify-end ">
-                <button
-                  onClick={() => {
-                    setOpenOption(true);
-                  }}
-                  className="bg-skin-primary text-white py-1 px-3 rounded-md"
-                >
-                  Add an Option
-                </button>
-              </div>
+          <div className="flex justify-between items-center space-x-2 ">
+            <h1 className="text-3xl p-3 mt-3">Variation Options :</h1>
+
+            {/* <div className="w-max flex justify-end ">
+              <button
+                onClick={functionopenpopup}
+                className="bg-skin-primary text-white py-1 px-3 rounded-md"
+              >
+                Add a Variation
+              </button>
+            </div> */}
+            <div className="w-max flex justify-end ">
+              <button
+                onClick={() => {
+                  setOpenOption(true);
+                }}
+                className="bg-skin-primary text-white py-1 px-3 rounded-md"
+              >
+                Add an Option
+              </button>
             </div>
           </div>
         </div>
         {/* Variations */}
-        {/* <h1 className="text-3xl p-3">Variations :</h1> */}
+        {/* <h1 className="text-3xl p-3">Variations :</h1>
         {variations && (
-          <div className="w-full  overflow-x-auto ">
+          <div className="w-full max-h-[40%] overflow-x-auto ">
             {variations.data && variations.data.data.length > 0 ? (
               <table className="w-full overflow-x-auto table-auto">
                 <thead className="">
@@ -211,11 +192,11 @@ function AdminVariations() {
               <div className="w-max mx-auto"> There are no Variations. </div>
             )}
           </div>
-        )}
+        )} */}
         {/* Variation Options */}
-        {/* <h1 className="text-3xl p-3 mt-3">Variation Options :</h1>
+        {/* <h1 className="text-3xl p-3 mt-3">Variation Options :</h1> */}
         {options && (
-          <div className="w-full max-h-[40%] overflow-x-auto ">
+          <div className="w-full h-max overflow-x-auto ">
             {options.data && options.data.data.length > 0 ? (
               <table className="w-full overflow-x-auto table-auto">
                 <thead className="">
@@ -249,10 +230,10 @@ function AdminVariations() {
               </div>
             )}
           </div>
-        )} */}
+        )}
       </div>
 
-      <Dialog
+      {/* <Dialog
         open={openVariation}
         onClose={closepopup}
         fullWidth
@@ -306,7 +287,7 @@ function AdminVariations() {
         </DialogContent>
 
         <DialogActions className="grid md:grid-cols-2 grid-cols-1 "></DialogActions>
-      </Dialog>
+      </Dialog> */}
 
       <Dialog
         open={openOption}

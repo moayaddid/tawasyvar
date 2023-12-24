@@ -4,7 +4,7 @@ import { MdClose } from "react-icons/md";
 import { toast } from "react-toastify";
 import Image from "next/image";
 
-function Variations({ allVariations, allOptions , setVariants }) {
+function Variations({ allVariations, allOptions, setVariants }) {
   const [addVariation, setAddVariation] = useState(false);
   const [variations, setVariations] = useState([]);
   const [variation, setVariation] = useState();
@@ -21,7 +21,7 @@ function Variations({ allVariations, allOptions , setVariants }) {
     setOption();
     setVariationImage();
     setVariations([]);
-  } , [])
+  }, []);
 
   function addAVariation() {
     const exists = variations.some(
@@ -31,19 +31,19 @@ function Variations({ allVariations, allOptions , setVariants }) {
     // console.log(variation) ;
     // console.log(`option`);
     // console.log(option);
-      if(!variation || !option){
-        toast.error("please fill all the required fields" , {theme : "colored"});
-        return ;
-      }
+    if (!variation || !option) {
+      toast.error("please fill all the required fields", { theme: "colored" });
+      return;
+    }
     if (!exists) {
       let newVariations = [
         ...variations,
         {
           attribute_id: variation,
           option_id: option,
-          image: variationImage ? variationImage : null ,
+          image: variationImage ? variationImage : null,
         },
-      ]
+      ];
       setVariations(newVariations);
       setVariants(newVariations);
       setAddVariation(false);
@@ -52,8 +52,8 @@ function Variations({ allVariations, allOptions , setVariants }) {
       setVariationImage();
       return;
     } else {
-      toast.error("the variation already exists" , {theme : "colored"} );
-      return ;
+      toast.error("the variation already exists", { theme: "colored" });
+      return;
     }
   }
 
@@ -65,21 +65,31 @@ function Variations({ allVariations, allOptions , setVariants }) {
     setVariants(updatedVariations);
   }
 
-  function variationName (id) {
-    const targetVariation = allVariations.find(variation => { if (variation.id == id) {return variation.name_en}});
-    return targetVariation.name_en
+  function variationName(id) {
+    const targetVariation = allVariations.find((variation) => {
+      if (variation.id == id) {
+        return variation.name_en;
+      }
+    });
+    return targetVariation.name_en;
   }
 
-  function optionName (id) {
-    const targetOption = allOptions.find(option => { if (option.id == id) {return option.value_en}});
-    return targetOption.value_en
+  function optionName(id) {
+    const targetOption = allOptions.find((option) => {
+      if (option.id == id) {
+        return option.value_en;
+      }
+    });
+    return targetOption.value_en;
   }
+
+  console.log(allOptions);
 
   return (
     <div className="w-full">
       <div className="w-full flex flex-col">
         <div className="w-full flex flex-col justify-start items-start py-3 border-b border-skin-primary">
-          <p className="text-2xl select-none" >All Variations :</p>
+          <p className="text-2xl select-none">All Variations :</p>
           {variations.length > 0 ? (
             <div className="flex flex-col justify-start items-start space-y-5 py-2">
               {variations.map((vari, index) => {
@@ -91,13 +101,19 @@ function Variations({ allVariations, allOptions , setVariants }) {
                     <p className="text-xl select-none">
                       Variation : {variationName(vari.attribute_id)}
                     </p>
-                    <p className="text-xl select-none">Option : {optionName(vari.option_id)}</p>
-                    { vari.image ? <Image
-                      src={URL.createObjectURL(vari.image)}
-                      alt="variation image"
-                      width={80}
-                      height={80}
-                    /> : <i className="text-gray-500" >no image provided.</i>}
+                    <p className="text-xl select-none">
+                      Option : {optionName(vari.option_id)}
+                    </p>
+                    {vari.image ? (
+                      <Image
+                        src={URL.createObjectURL(vari.image)}
+                        alt="variation image"
+                        width={80}
+                        height={80}
+                      />
+                    ) : (
+                      <i className="text-gray-500">no image provided.</i>
+                    )}
                     <MdClose
                       onClick={() => {
                         removeVariation(vari.attribute_id, vari.option_id);
@@ -109,7 +125,7 @@ function Variations({ allVariations, allOptions , setVariants }) {
               })}
             </div>
           ) : (
-            <div className="w-max mx-auto" >There are no variations</div>
+            <div className="w-max mx-auto">There are no variations</div>
           )}
         </div>
         {addVariation && (
@@ -145,15 +161,29 @@ function Variations({ allVariations, allOptions , setVariants }) {
                 Select an Option
               </option>
               {allOptions.map((option) => {
-                return (
-                  <option
-                    key={option.id}
-                    value={option.id}
-                    className="text-black"
-                  >
-                    {option.value_en}
-                  </option>
-                );
+                if (variation) {
+                  return (
+                    option.attribute_id == variation && (
+                      <option
+                        key={option.id}
+                        value={option.id}
+                        className="text-black"
+                      >
+                        {option.value_en}
+                      </option>
+                    )
+                  );
+                }else{
+                  return (
+                      <option
+                        key={option.id}
+                        value={option.id}
+                        className="text-black"
+                      >
+                        {option.value_en}
+                      </option>
+                  );
+                }
               })}
             </select>
             <div>

@@ -434,6 +434,7 @@ function AdminProduct({ product, refetch }) {
             </button> */}
           </div>
         </td>
+        <td className={`px-4 w-[5%] ${product.has_variation ? `text-green-500` : `text-red-500`}`}>{product.has_variation ? `Yes` : `No`}</td>
         <td className=" px-4  w-[10%] ">{product.name_ar}</td>
         <td className="px-4  w-[10%]">{product.name_en}</td>
         <td className="px-4  w-[10%] ">{product.description_ar}</td>
