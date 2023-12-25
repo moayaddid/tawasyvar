@@ -448,6 +448,7 @@ const AddNewProductAdmin = () => {
                   key={index}
                   combination={combination}
                   productId={productId}
+                  refetch={() => {}}
                 />
               );
             })

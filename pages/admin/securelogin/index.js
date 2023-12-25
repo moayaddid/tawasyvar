@@ -67,6 +67,7 @@ const AdminLogin = () => {
         <input
           type="text"
           ref={emailRef}
+          autoFocus
           className="outline-none appearance-none border-b-2 border-gray-300 focus:border-[#FD6500] placeholder:text-gray-300 w-full transition-all duration-700"
           placeholder="Email"
           inputMode="email"

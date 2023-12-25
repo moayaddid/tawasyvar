@@ -339,8 +339,8 @@ function AdminProduct({ product, refetch }) {
   }
 
   async function deleteVariation() {
-    await refetchCombinations();
-    await refetchProductVariations();
+    refetchCombinations();
+    refetchProductVariations();
     setIsAdding(false);
     setIsAddingVariation(false);
   }
@@ -916,32 +916,6 @@ function AdminProduct({ product, refetch }) {
               productVariations?.data?.variations?.length > 0 ? (
                 productVariations?.data?.variations?.map((variant, index) => {
                   return (
-                    // <div
-                    //   key={index}
-                    //   className="flex w-full justify-start space-x-4 items-center py-1 border-b border-gray-300"
-                    // >
-                    //   <p>{variant.attribute} :</p>
-                    //   <p>{variant.option}</p>
-                    //   <button
-                    //     onClick={() => {
-                    //       deleteVariation(variant.id);
-                    //     }}
-                    //     disabled={deletingVariation == true}
-                    //     className="px-2 py-1 bg-red-500 text-center hover:opacity-80 rounded-lg text-white"
-                    //   >
-                    //     Delete Variation
-                    //   </button>
-                    //   {/* {deletingVariation == true && (
-                    //       <div>
-                    //         <Ring
-                    //           size={20}
-                    //           speed={2}
-                    //           lineWeight={5}
-                    //           color="#ff6600"
-                    //         />
-                    //       </div>
-                    //     )} */}
-                    // </div>
                     <AdminProductVariation
                       key={variant.id}
                       variant={variant}

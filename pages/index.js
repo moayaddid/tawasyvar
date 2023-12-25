@@ -19,6 +19,8 @@ import Link from "next/link";
 import { Ring } from "@uiball/loaders";
 import logo from "@/public/images/tawasylogo.png";
 import { NextSeo } from "next-seo";
+import Head from "next/head";
+import Script from "next/script";
 
 export async function getServerSideProps(context) {
   const { params, locale } = context;
@@ -276,6 +278,21 @@ function CustomerPage({ data }) {
         description={t("descs.home")}
         canonical="https://tawasyme.com"
       />
+      <Head>
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-BB3V9Y8M5T"
+        />
+        <Script id="google-analytics">
+          {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-BB3V9Y8M5T');
+        `}
+        </Script>
+      </Head>
       <div className="w-full h-full">
         {data && (
           <div className="relative flex flex-col justify-start items-center h-max w-full gap-4 ">
@@ -287,7 +304,11 @@ function CustomerPage({ data }) {
             )}
 
             <div
-              className={`${(data.ads && data.ads.length > 0) ? `md:top-[90px] md:absolute` : ``}  w-[80%] mx-auto justify-center items-center space-x-2 pt-5`}
+              className={`${
+                data.ads && data.ads.length > 0
+                  ? `md:top-[90px] md:absolute`
+                  : ``
+              }  w-[80%] mx-auto justify-center items-center space-x-2 pt-5`}
               dir="ltr"
             >
               <div className="flex flex-col justify-start items-center">
@@ -336,7 +357,7 @@ function CustomerPage({ data }) {
                   />
                   {searching == true ? (
                     <Ring size={25} lineWeight={5} speed={2} color="#ff6600" />
-                    ) : (
+                  ) : (
                     <MdClose
                       className={`text-red-500 ${
                         inSearch == true ? `opacity-100` : `opacity-0`
@@ -344,10 +365,12 @@ function CustomerPage({ data }) {
                       onClick={() => {
                         setInSearch(false);
                       }}
-                      />
-                      )}
+                    />
+                  )}
                 </form>
-                      <p className="block md:hidden text-center text-xs text-gray-400" >{t("home.search")}</p>
+                <p className="block md:hidden text-center text-xs text-gray-400">
+                  {t("home.search")}
+                </p>
                 {inSearch == true && searchedResults && searchType && (
                   <div className="px-4 z-10 mx-auto w-full lg:w-2/5 md:w-2/5 bg-white border border-gray-300 rounded-sm ">
                     {searchedResults}
@@ -358,7 +381,7 @@ function CustomerPage({ data }) {
 
             {/* {inSearch === false && ( */}
             <div className="flex flex-col justify-start items-center h-full w-full space-y-5">
-              <h1 className="hidden" >Tawasy Shopping</h1>
+              <h1 className="hidden">Tawasy Shopping</h1>
               <h2 className=" md:text-4xl text-2xl text-black py-5 ">
                 {/* {`Discover Oxur Store Types`} */}
                 {t("home.discover")}
@@ -398,7 +421,7 @@ function CustomerPage({ data }) {
                     alt="become a seller"
                     width={150}
                     height={150}
-                    style={{width : "150px" , height : "150px"}}
+                    style={{ width: "150px", height: "150px" }}
                     className="object-contain rounded-l-lg overflow-hidden md:w-[40%] min-w-[40%] w-[50%] h-auto "
                   />
 
@@ -422,7 +445,7 @@ function CustomerPage({ data }) {
                     alt="become a customer"
                     width={150}
                     height={150}
-                    style={{width : "150px" , height : "150px"}}
+                    style={{ width: "150px", height: "150px" }}
                     className="object-contain rounded-l-lg overflow-hidden md:w-[40%] min-w-[40%] w-[50%] h-auto "
                   />
 
@@ -455,16 +478,16 @@ function CustomerPage({ data }) {
                 <h3 className="text-3xl text-gray-600 font-medium text-center">
                   {t("home.TawasyApp")}
                 </h3>
-                <p className="text-gray-500 md:my-3 text-center">{t("home.WhatYouNeed")}</p>
-                <Link
-                href={`https://www.app.tawasyme.com`}
-                  legacyBehavior
-                >
-                  <a 
-                  target="_blank"
-                  className="border-2 border-skin-primary py-2 text-center px-5 text-skin-primary rounded-md"
-                  
-                  >{t("home.DownloadApp")}</a>
+                <p className="text-gray-500 md:my-3 text-center">
+                  {t("home.WhatYouNeed")}
+                </p>
+                <Link href={`https://www.app.tawasyme.com`} legacyBehavior>
+                  <a
+                    target="_blank"
+                    className="border-2 border-skin-primary py-2 text-center px-5 text-skin-primary rounded-md"
+                  >
+                    {t("home.DownloadApp")}
+                  </a>
                 </Link>
               </div>
             </div>

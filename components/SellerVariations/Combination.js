@@ -20,7 +20,7 @@ function Combination({ combination, productId , refetch = null }) {
         { variations: [...variation], part_number: partNumberRef.current.value }
       );
       setIsSelecting(false);
-      // refetch();
+      refetch();
       setSelected(true);
     } catch (error) {
       setIsSelecting(false);
