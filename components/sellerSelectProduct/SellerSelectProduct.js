@@ -89,28 +89,30 @@ function SellerSelectProduct({ product }) {
   const dispatch = useDispatch();
   const [openPopUp, setOpenPopUp] = useState(false);
   const [selectedVariations, setSelectedVariations] = useState([]);
+  const [isLoadingPop, setIsLoadingPop] = useState(false);
+  const [productVariations, setProductVariations] = useState();
   const storeId = Cookies.get("Sid");
-  const { data: productVariations, isLoading: loadingVariations } = useQuery(
-    ["productVariation", openPopUp],
-    fetchProductCombinations,
-    {
-      enabled: openPopUp,
-      staleTime: 1,
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-    }
-  );
+  // const { data: productVariations, isLoading: loadingVariations , isFetching  } = useQuery(
+  //   ["productVariation", openPopUp],
+  //   fetchProductCombinations,
+  //   {
+  //     enabled: openPopUp,
+  //     staleTime: 1,
+  //     refetchOnMount: false,
+  //     refetchOnWindowFocus: false,
+  //   }
+  // );
 
-  async function fetchProductCombinations() {
-    return await Api.get(`/api/seller/get-product-combination-seller/${storeId}/${product.id}`);;
-  }
+  // async function fetchProductCombinations() {
+  //   return await Api.get(`/api/seller/get-product-combination-seller/${storeId}/${product.id}`);
+  // }
 
-  const [adding, setAdding] = useState(false);
+  // const [adding, setAdding] = useState(false);
 
   async function saveProduct() {
     // console.log(product);
     if (product.has_variation == true) {
-      setOpenPopUp(true);
+      openPop();
     } else {
       setIsLoading(true);
       try {
@@ -122,6 +124,21 @@ function SellerSelectProduct({ product }) {
         // console.log(error);
       }
       setIsLoading(false);
+    }
+  }
+
+  async function openPop() {
+    setOpenPopUp(true);
+    setIsLoadingPop(true);
+    try {
+      const response = await Api.get(
+        `/api/seller/get-product-combination-seller/${storeId}/${product.id}`
+      );
+      // console.log(response);
+      setProductVariations(response);
+      setIsLoadingPop(false);
+    } catch (error) {
+      setIsLoadingPop(false);
     }
   }
 
@@ -187,33 +204,50 @@ function SellerSelectProduct({ product }) {
         open={openPopUp}
         onClose={() => {
           setOpenPopUp(false);
+          setProductVariations();
         }}
         fullWidth
         maxWidth="lg"
       >
         <DialogTitle className=" border-b-2 border-gray-200">
           <h3 className="py-2 pl-3 text-gray-600">
-          {t("seller.products.addCombinations")} : {product.name}
+            {t("seller.products.addCombinations")} : {product.name}
           </h3>
         </DialogTitle>
         <DialogContent>
           <Stack spacing={2} margin={2}>
-            {loadingVariations == true ? (
+            {isLoadingPop == true ? (
               <div className="w-full h-full flex justify-center items-center">
                 <TawasyLoader width={200} height={200} />
               </div>
-            ) : productVariations && productVariations.data.product_combination && 
-            productVariations.data.product_combination.map((combination , index) => {
-              // return <Combination combination={combination.product} productId={product.id} />
-             return  <SellerCombination key={index} product={combination.product} />
-            }) 
-          }
+            ) : productVariations &&
+              productVariations.data.product_combination &&
+              productVariations.data.product_combination.length > 0 ? (
+              productVariations.data.product_combination.map(
+                (combination, index) => {
+                  // return <Combination combination={combination.product} productId={product.id} />
+                  return (
+                    <SellerCombination
+                      key={index}
+                      product={combination.product}
+                    />
+                  );
+                }
+              )
+            ) : (
+              <div className="text-center">{t(`noCombinations`)}</div>
+            )}
           </Stack>
         </DialogContent>
 
         <DialogActions className="w=full my-3 box-border ">
-          <button onClick={() => {setOpenPopUp(false)}} className="px-2 py-1 mx-auto bg-green-500 hover:bg-green-600 rounded-lg text-white min-w-[20%] text-center">
-          {t("seller.products.action.edit.save")}
+          <button
+            onClick={() => {
+              setOpenPopUp(false);
+            }}
+            className="px-2 py-1 mx-auto bg-green-500 hover:bg-green-600 rounded-lg text-white min-w-[20%] text-center"
+          >
+            {t("seller.products.action.edit.save")}
           </button>
         </DialogActions>
       </Dialog>

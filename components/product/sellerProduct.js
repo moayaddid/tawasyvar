@@ -47,7 +47,10 @@ function SellerProduct({ product, refetch }) {
 
   const imagesArray = [];
 
-  if (product.combination?.variations && product.combination?.variations.length > 0) {
+  if (
+    product.combination?.variations &&
+    product.combination?.variations.length > 0
+  ) {
     product.combination?.variations.forEach((variation) => {
       if (variation.image) {
         imagesArray.push(variation.image);
@@ -56,9 +59,9 @@ function SellerProduct({ product, refetch }) {
   }
 
   if (imagesArray.length === 0) {
-    if(product.image){
+    if (product.image) {
       imagesArray.push(product.image);
-    }else{
+    } else {
       imagesArray.push(logo);
     }
   }
@@ -223,14 +226,20 @@ function SellerProduct({ product, refetch }) {
         </td>
         <td className="px-4 py-4">{product.category}</td>
         <td className="px-4 py-4">
-          { imagesArray && imagesArray.length > 0 && imagesArray.map(((image , i) => { return <Image
-          key={i}
-            src={image}
-            alt="photo"
-            width={100}
-            height={100}
-            className="object-contain"
-          />})) }
+          {imagesArray &&
+            imagesArray.length > 0 &&
+            imagesArray.map((image, i) => {
+              return (
+                <Image
+                  key={i}
+                  src={image}
+                  alt="photo"
+                  width={100}
+                  height={100}
+                  className="object-contain"
+                />
+              );
+            })}
         </td>
         <td onClick={handleAvailable} className="  ">
           {editingAvailability ? (
@@ -390,6 +399,7 @@ function SellerProduct({ product, refetch }) {
             ) : (
               productVariations &&
               productVariations.data.product_combination &&
+              productVariations.data.product_combination.length > 0 ?
               productVariations.data.product_combination.map(
                 (combination, index) => {
                   return (
@@ -399,7 +409,7 @@ function SellerProduct({ product, refetch }) {
                     />
                   );
                 }
-              )
+              ) : <div className="text-center" >{t("noCombinations")}</div>
             )}
           </Stack>
         </DialogContent>

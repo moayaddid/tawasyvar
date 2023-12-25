@@ -548,5 +548,6 @@
     "profile" : "Your Profile",
     "orders" : "Your Orders",
     "home" : "Elsouq Bebitak"
-  }
+  } ,
+  "noCombinations" : "There are no more available Combinations."
 }
