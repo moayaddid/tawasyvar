@@ -221,9 +221,9 @@ function StoreType() {
     setSearching(false);
   }
 
-  if(storeTypes){
-    console.log(storeTypes);
-  }
+  // if(storeTypes){
+  //   console.log(storeTypes);
+  // }
 
   if (isLoading) {
     return (

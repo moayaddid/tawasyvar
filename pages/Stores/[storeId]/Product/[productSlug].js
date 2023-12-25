@@ -195,7 +195,7 @@ function Product({ product }) {
 
   const { t } = useTranslation("");
 
-  console.log(product);
+  // console.log(product);
 
   return (
     <>
@@ -284,7 +284,7 @@ function Product({ product }) {
                               selectedCombination == combination.product.line_id
                             }
                             onChange={(e) => {
-                              console.log(e.target.value);
+                              // console.log(e.target.value);
                               setSelectedCombination(e.target.value);
                             }}
                           />

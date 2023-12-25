@@ -45,7 +45,7 @@ function Option({ option, refetch }) {
         if(newEnName.current.value.trim() != ""){
             editData.value_en = newEnName.current.value
         }
-        console.log(editData);
+        // console.log(editData);
       try {
         const respones = await Api.put(
           `/api/admin/option/update/${option.id}`,

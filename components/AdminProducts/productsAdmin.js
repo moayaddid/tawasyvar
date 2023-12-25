@@ -379,7 +379,7 @@ function AdminProduct({ product, refetch }) {
         data[`variations[${index}][option_id]`] = item.option_id;
         data[`variations[${index}][image]`] = item.image;
       });
-      console.log(data);
+      // console.log(data);
       try {
         const response = await Api.post(
           `/api/admin/add-variation/${product.id}`,

@@ -92,7 +92,7 @@ function Products({ store }) {
     } catch {}
   }
 
-  console.log(store);
+  // console.log(store);
 
   async function search(e) {
     e.preventDefault();

@@ -16,7 +16,7 @@ function Variations({ allVariations, allOptions, setVariants }) {
   }
 
   useEffect(() => {
-    console.log(`rendered`);
+    // console.log(`rendered`);
     setVariation();
     setOption();
     setVariationImage();
@@ -83,7 +83,7 @@ function Variations({ allVariations, allOptions, setVariants }) {
     return targetOption.value_en;
   }
 
-  console.log(allOptions);
+  // console.log(allOptions);
 
   return (
     <div className="w-full">

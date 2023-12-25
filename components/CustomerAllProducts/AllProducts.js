@@ -291,7 +291,7 @@ function PublicAllProduct({ product, storeId }) {
                                       combination.product.line_id
                                     }
                                     onChange={(e) => {
-                                      console.log(e.target.value);
+                                      // console.log(e.target.value);
                                       setSelectedCombination(e.target.value);
                                     }}
                                   />

@@ -96,9 +96,9 @@ const Store = () => {
     );
   }
 
-  if(sellerStoreData){
-    console.log(sellerStoreData);
-  }
+  // if(sellerStoreData){
+  //   console.log(sellerStoreData);
+  // }
 
   return (
     <div

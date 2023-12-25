@@ -130,10 +130,10 @@ function Products() {
     setLoaded(true);
   }, [router.query.type]);
 
-  if(products) {
-    console.log(products);
-    // console.log(Array.isArray(products));
-  }
+  // if(products) {
+  //   console.log(products);
+  //   // console.log(Array.isArray(products));
+  // }
 
   const closepopup = () => {
     openchange(false);

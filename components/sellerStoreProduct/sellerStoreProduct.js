@@ -82,7 +82,7 @@ function SellerStoreProduct({ product, refetch }) {
       product.variations &&
       product.variations.length > 0
     ) {
-      console.log(newPriceRef.current.value);
+      // console.log(newPriceRef.current.value);
       setSavingPrice(true);
       try {
         const response = await Api.put(
