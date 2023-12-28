@@ -19,74 +19,6 @@ import { NextSeo } from "next-seo";
 import { CarouselProduct } from "@/components/ProductCarousel/CarouselProduct";
 import Variations from "@/components/VariationsCustomer/Variations";
 
-const sizes = [
-  {
-    id: 1,
-    name: "sm",
-  },
-  {
-    id: 2,
-    name: "md",
-  },
-  {
-    id: 3,
-    name: "lg",
-  },
-  {
-    id: 4,
-    name: "xl",
-  },
-];
-
-const colors = [
-  {
-    id: 1,
-    name: "red",
-  },
-  {
-    id: 2,
-    name: "green",
-  },
-  {
-    id: 3,
-    name: "white",
-  },
-  {
-    id: 4,
-    name: "black",
-  },
-];
-
-const productVariations = {
-  success: true,
-  variations: [
-    {
-      id: 15,
-      attribute: "Size",
-      option: "Large",
-      image: null,
-    },
-    {
-      id: 16,
-      attribute: "Color",
-      option: "Blue",
-      image: null,
-    },
-    {
-      id: 17,
-      attribute: "Color",
-      option: "Red",
-      image: null,
-    },
-    {
-      id: 18,
-      attribute: "Size",
-      option: "Small",
-      image: null,
-    },
-  ],
-};
-
 export async function getServerSideProps(context) {
   const { params, locale } = context;
   const Api = createAxiosInstance();
@@ -115,14 +47,14 @@ function PublicProduct({ product }) {
   const router = useRouter();
   const { t } = useTranslation("");
 
-  const groupedVariations = {};
-  productVariations["variations"].forEach((variation) => {
-    const attribute = variation.attribute;
-    if (!groupedVariations[attribute]) {
-      groupedVariations[attribute] = [];
-    }
-    groupedVariations[attribute].push(variation);
-  });
+  // const groupedVariations = {};
+  // productVariations["variations"].forEach((variation) => {
+  //   const attribute = variation.attribute;
+  //   if (!groupedVariations[attribute]) {
+  //     groupedVariations[attribute] = [];
+  //   }
+  //   groupedVariations[attribute].push(variation);
+  // });
 
   let images = [] ; 
   if(product.variations){

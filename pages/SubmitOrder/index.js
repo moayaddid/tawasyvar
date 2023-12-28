@@ -265,12 +265,7 @@ const Order = () => {
                       ></textarea>
                       <label
                         htmlFor="exampleFormControlTextarea13"
-                        className={`peer-focus:bg-white pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] h-max leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-skin-primary motion-reduce:transition-none ${
-                          (reasonRef?.current?.value != null ||
-                            reasonRef?.current?.value != undefined ||
-                            reasonRef?.current?.value?.trim().length > 0) &&
-                          ` scale-[0.8] -translate-y-[0.9rem] bg-white`
-                        } `}
+                        className={`bg-white pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] h-max leading-[1.6] text-neutral-500 transition-all duration-200 ease-out -translate-y-[0.9rem] scale-[0.8] peer-focus:text-skin-primary  `}
                       >
                         {/* {`Note`} */}
                         {t("submitOrder.Note")}

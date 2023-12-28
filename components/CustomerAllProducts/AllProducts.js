@@ -51,7 +51,8 @@ const variation = [
   },
 ];
 
-function PublicAllProduct({ product, storeId }) {
+function 
+PublicAllProduct({ product, storeId }) {
   const { t } = useTranslation("");
   const router = useRouter();
   const dispatch = useDispatch();
@@ -62,6 +63,7 @@ function PublicAllProduct({ product, storeId }) {
   const [productCombinations, setProductCombinations] = useState();
   const [selectedCombination, setSelectedCombination] = useState();
   const [dialogAdding, setDialogAdding] = useState(false);
+  // const [proCombination , setProCombination] = useState();
 
   const functionopenpopup = async () => {
     openchange(true);
@@ -217,7 +219,8 @@ function PublicAllProduct({ product, storeId }) {
                   <div className="min-w-[20%]">
                     <CarouselProduct
                       productDialog={true}
-                      product={product}
+                      product={productCombinations}
+                      selectedCombination={selectedCombination}
                       images={productCombinations.images}
                     />
                   </div>
@@ -299,8 +302,18 @@ function PublicAllProduct({ product, storeId }) {
                                     htmlFor={` ${combination.product.line_id}combination`}
                                     className="inline-flex flex-col items-start justify-start w-full px-2 py-1 text-gray-500 bg-white border border-dashed border-gray-500 rounded-lg cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 hover:text-gray-600 hover:bg-gray-100 transition-all duration-500"
                                   >
-                                    <p className="text-base">{varis}</p>
-                                    <p className="text-xs" >{combination.product.part_number}</p>
+                                    <p className="flex flex-wrap items-center space-x-4">
+                                      <p className="text-base">{varis}</p>
+                                      { combination?.product?.hex && <div
+                                        className={`flex items-center justify-center w-[20px] h-[20px] rounded-full border border-skin-primary`}
+                                        style={{
+                                          backgroundColor: `${combination?.product?.hex}`,
+                                        }}
+                                      ></div>}
+                                    </p>
+                                    <p className="text-xs">
+                                      {combination.product.part_number}
+                                    </p>
                                     <p className="text-sm">
                                       {combination.product.price} S.P
                                     </p>
@@ -313,7 +326,12 @@ function PublicAllProduct({ product, storeId }) {
 
                       {dialogAdding == true ? (
                         <div className="text-white sm:w-[40%] bg-skin-primary flex justify-center items-center w-full hover:opacity-80 py-1 rounded-md transition-all duration-500">
-                          <Ring size={20} speed={2} lineWeight={5} color="white" />
+                          <Ring
+                            size={20}
+                            speed={2}
+                            lineWeight={5}
+                            color="white"
+                          />
                         </div>
                       ) : (
                         <button

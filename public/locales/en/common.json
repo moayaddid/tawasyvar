@@ -549,5 +549,6 @@
     "orders" : "Your Orders",
     "home" : "Elsouq Bebitak"
   } ,
-  "noCombinations" : "There are no more available Combinations."
+  "noCombinations" : "There are no more available Combinations." , 
+  "bigSize" : "Products with (*) in the cart can't be delivered using motorcycle. Upon requesting the product, we will call you to calculate delivery charges."
 }

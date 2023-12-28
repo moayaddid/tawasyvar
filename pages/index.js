@@ -278,21 +278,7 @@ function CustomerPage({ data }) {
         description={t("descs.home")}
         canonical="https://tawasyme.com"
       />
-      <head>
-        <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-BB3V9Y8M5T"
-        />
-        <Script id="google-analytics">
-          {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-        
-          gtag('config', 'G-BB3V9Y8M5T');
-        `}
-        </Script>
-      </head>
+
       <div className="w-full h-full">
         {data && (
           <div className="relative flex flex-col justify-start items-center h-max w-full gap-4 ">

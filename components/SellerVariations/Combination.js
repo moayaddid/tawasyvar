@@ -10,6 +10,7 @@ function Combination({ combination, productId , refetch = null }) {
   const router = useRouter();
   const Api = createAxiosInstance(router);
   const partNumberRef = useRef();
+  const hexRef = useRef();
   async function SelectVariation(variation) {
     // console.log(variation);
     // console.log(productId);
@@ -17,7 +18,7 @@ function Combination({ combination, productId , refetch = null }) {
     try {
       const response = await Api.post(
         `/api/admin/add-combinations/${productId}`,
-        { variations: [...variation], part_number: partNumberRef.current.value }
+        { variations: [...variation], part_number: partNumberRef.current.value , hex : hexRef.current.value }
       );
       setIsSelecting(false);
       refetch();
@@ -52,10 +53,17 @@ function Combination({ combination, productId , refetch = null }) {
               <div className="flex justify-start w-full items-center space-x-4 ">
                 <input
                   type="text"
+                  ref={hexRef}
+                  placeholder="Hex Color"
+                  maxLength={7}
+                  className="outline-none w-[50%] border-b border-gray-300 transition-all duration-500 focus:border-skin-primary"
+                />
+                <input
+                  type="text"
                   ref={partNumberRef}
                   placeholder="Part Number"
                   maxLength={30}
-                  className="outline-none w-[50%] border-b border-transparent transition-all duration-500 focus:border-skin-primary"
+                  className="outline-none w-[50%] border-b border-gray-300 transition-all duration-500 focus:border-skin-primary"
                 />
                 <button
                   onClick={() => {

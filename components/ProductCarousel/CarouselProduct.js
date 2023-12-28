@@ -19,7 +19,12 @@ import { Carousel } from "react-responsive-carousel";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 
-export function CarouselProduct({ productDialog, product , images }) {
+export function CarouselProduct({
+  productDialog,
+  product,
+  images,
+  selectedCombination,
+}) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const imageContainerRef = useRef(null);
 
@@ -39,15 +44,46 @@ export function CarouselProduct({ productDialog, product , images }) {
     );
   };
 
+  // console.log(selectedCombination)
 
   useEffect(() => {
-    const selectedImage = document.getElementById(`image-${selectedImageIndex}`);
+    if (product && selectedCombination !== undefined) {
+      console.log(product);
+      if (
+        product.product_combination &&
+        product.product_combination.length > 0
+      ) {
+        product.product_combination.map((combination) => {
+          if (combination.product.line_id == selectedCombination) {
+            let image;
+            combination.product.variations.map((variation) => {
+              if (variation.image != null) {
+                image = variation.image;
+              }
+            });
+            if (image) {
+              const imageIndex = images.findIndex(img => img == image);
+              setSelectedImageIndex(imageIndex != -1 ? imageIndex : 0);
+              return;
+            } else {
+              return;
+            }
+          }
+        });
+      }
+    }
+  }, [selectedCombination]);
+
+  useEffect(() => {
+    const selectedImage = document.getElementById(
+      `image-${selectedImageIndex}`
+    );
     const container = imageContainerRef.current;
     if (selectedImage && container) {
       selectedImage.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center',
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
         container,
       });
     }
@@ -57,7 +93,10 @@ export function CarouselProduct({ productDialog, product , images }) {
     <>
       <div className="flex md:flex-row md:justify-center items-center flex-col-reverse space-y-3 md:space-x-2 w-full h-full">
         {images?.length > 1 && (
-          <div ref={imageContainerRef} className=" flex md:flex-col flex-row md:justify-start md:items-center justify-center md:h-full md:w-[30%] mx-auto w-full py-1 h-min">
+          <div
+            ref={imageContainerRef}
+            className=" flex md:flex-col flex-row md:justify-start md:items-center justify-center md:h-full md:w-[30%] mx-auto w-full py-1 h-min"
+          >
             <button className=" md:w-full w-min " onClick={handlePrevious}>
               <BsChevronUp className="md:block hidden text-skin-primary mx-auto w-[20px]" />
               <BsChevronLeft className="md:hidden block text-skin-primary mx-auto w-[20px]" />

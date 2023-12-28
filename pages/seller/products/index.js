@@ -157,9 +157,9 @@ function Products() {
     title = t("seller.sidebar.product.all");
   }
 
-  if(products) {
-    console.log(products)
-  }
+  // if(products) {
+  //   console.log(products)
+  // }
 
   return (
     <div dir={router.locale == "ar" ? "rtl" : "ltr"} >

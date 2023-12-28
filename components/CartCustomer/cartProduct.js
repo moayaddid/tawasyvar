@@ -92,7 +92,7 @@ function CartProduct({ product, storeid, refetch }) {
     });
     // nid.join(" / ");
   }
-  const name = product.combination ? product.product.name + ` ( ${nid.join(" - ")} )` + ` [ ${product.combination?.part_number ? product.combination?.part_number : `-` } ]` : product.product.name ;
+  const name = product.combination ? product.product.name + ` ( ${nid.join(" - ")} )` + ` - ${product.combination?.part_number ? product.combination?.part_number : `-` } ` : product.product.name ;
 
   let imageAr;
 
@@ -104,28 +104,32 @@ function CartProduct({ product, storeid, refetch }) {
     });
   }
 
-  if (!imageAr && product.product.image) {
-    imagesArray.push(product.product.image);
+  if (!imageAr) {
+    if(product.product.image){
+      imageAr = product.product.image;
+    }else{
+      imageAr = logo;
+    }
   }
 
   return (
     <div className={`py-3 border-b-2 border-gray-300`}>
-      <div className="flex gap-5 h-full">
-        <div className="relative w-[20%]">
+      <div className="flex space-x-5 h-full">
+        <div className="relative w-[20%] flex justify-center items-center">
           {/* <div className="top-0 -translate-x-2.5 -translate-y-2.5 left-0 z-30  absolute bg-gray-400 border-1 text-center border-black hover:bg-red-600 w-[25px] h-[25px] rounded-full flex justify-center items-center ">
             <AiOutlineClose className="text-lg text-white " />
           </div> */}
           <Image
-            src={imageAr? imageAr : logo}
+            src={imageAr ? imageAr : logo}
             alt="product"
-            className="rounded-xl object-contain "
+            className="md:rounded-xl object-contain object-center "
             width={0}
             height={0}
             sizes="100vw"
             style={{ width: "100%", height: "auto" }}
           />
         </div>
-        <div className=" flex flex-col justify-center items-start gap-2  w-[50%]">
+        <div className=" flex flex-col justify-center items-start space-y-2  w-[50%]">
           <Link
             href={`/Products/${product.product.slug}`}
             legacyBehavior
@@ -133,9 +137,9 @@ function CartProduct({ product, storeid, refetch }) {
           >
             <a
               target="_blank"
-              className="text-gray-500 text-lg font-medium border-b-2 border-transparent hover:border-gray-500 cursor-pointer"
+              className="text-gray-500 sm:text-lg text-sm font-medium border-b-2 border-transparent hover:border-gray-500 cursor-pointer"
             >
-              {name}
+              {name} {product.product.big_size == true && " * " }
               {/* {product.product.name} */}
             </a>
           </Link>
@@ -144,13 +148,13 @@ function CartProduct({ product, storeid, refetch }) {
           </p>
         </div>
 
-        <div className=" flex flex-col justify-center items-center gap-2 w-[30%]">
-          <div className=" text-skin-primary md:flex  items-center text-base font-light">
+        <div className=" flex flex-col justify-center items-center space-y-2 w-[30%]">
+          <div className=" text-skin-primary md:flex  items-center sm:text-base text-sm font-light">
             {/* <div>{`Total Price`} :</div> */}
             <div>{t("orders.totalPrice")} :</div>
             <div>{convertMoney(product.lineTotal)} S.P</div>
           </div>
-          <div className="flex w-[70%] justify-around items-center">
+          <div className="flex w-[70%] justify-around space-x-2 items-center">
             <button>
               {isReducing == true ? (
                 <Ring size={20} lineWeight={5} speed={2} color="#ff6600" />
@@ -174,7 +178,7 @@ function CartProduct({ product, storeid, refetch }) {
                 />
               )}
             </button>
-            <span className=" font-medium text-gray-500 border-b-2 border-gray-500 px-2 ">
+            <span className=" font-medium text-gray-500 border border-gray-500 px-2 ">
               {quantity}
             </span>
             <button>
@@ -182,7 +186,7 @@ function CartProduct({ product, storeid, refetch }) {
                 <Ring size={20} lineWeight={5} speed={2} color="#ff6600" />
               ) : (
                 <AiOutlinePlus
-                  className={`w-[24px] h-[24px] text-gray-500  transition-all duration-800 ${
+                  className={`sm:w-[20px] w-[24px] outline-none sm:h-[20px] h-[24px] text-gray-500  transition-all duration-800 ${
                     isReducing
                       ? `cursor-not-allowed`
                       : `hover:text-skin-primary hover:border-b-2 hover:border-skin-primary`

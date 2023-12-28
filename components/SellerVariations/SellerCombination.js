@@ -2,7 +2,7 @@ import Image from "next/image";
 import Variation from "../AdminVariations/Variation";
 import { ResponsiveCarousel } from "../CarouselCustomer/carousel";
 import kuala from "@/public/images/kuala.jpg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import createAxiosInstance from "@/API";
 import { set } from "nprogress";
@@ -15,6 +15,15 @@ function SellerCombination({ product }) {
   const [selected, setSelected] = useState(false);
   const router = useRouter();
   const Api = createAxiosInstance(router);
+  const [hex, setHex] = useState(product.hex && product.hex);
+
+  useEffect(() => {
+    if (product) {
+      if (product.hex) {
+        setHex(product.hex);
+      }
+    }
+  }, []);
 
   let vari = [];
   const variations = product.variations.map((variation) => {
@@ -33,12 +42,14 @@ function SellerCombination({ product }) {
   }
 
   if (imagesArray.length === 0) {
-    if(product.image){
+    if (product.image) {
       imagesArray.push(product.image);
-    }else{
+    } else {
       imagesArray.push(logo);
     }
   }
+
+  // console.log(product.hex);
 
   async function selectCombination() {
     setSelecting(true);
@@ -61,12 +72,17 @@ function SellerCombination({ product }) {
     <div className="flex w-full justify-between items-center py-3 border-b-2 border-gray-300">
       <p>{product.name}</p>
       <p>{vari}</p>
+      <div
+        className={`flex items-center justify-center w-[25px] p-3 h-[25px] rounded-full border border-skin-primary`}
+        style={{ backgroundColor: `${hex && hex}` }}
+      ></div>
       <p>Part Number: {product.part_number}</p>
       <div className="max-w-[200px] overflow-x-auto ">
-        {imagesArray.map((image, i ) => {
+        {imagesArray.map((image, i) => {
           return (
             <Image
-            key={i}
+              onError={logo}
+              key={i}
               src={image}
               width={50}
               height={50}

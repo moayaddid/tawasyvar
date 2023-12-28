@@ -31,7 +31,6 @@ export async function getServerSideProps(context) {
       headers: { "Accept-Language": locale || "en" },
     }
   );
-  // console.log(response.data);
   if (!response.data) {
     return {
       notFound: true,
@@ -44,90 +43,6 @@ export async function getServerSideProps(context) {
     },
   };
 }
-
-// function Product({ product }) {
-// const product = {
-//   product_combination: [
-//     {
-//       product: {
-//         line_id: 6,
-//         product_id: 2,
-//         name: "Hurrican - Cars Wheels Polisher 1 Liter",
-//         image:
-//           "http://127.0.0.1:8000/Tawasy/public/productsimages/6213440581501.jpg",
-//         price: "88,880",
-//         part_number: "شسيشسي32323",
-//         variations: [
-//           {
-//             id: 16,
-//             attribute: "Color",
-//             option: "Blue",
-//             image: null,
-//           },
-//           {
-//             id: 17,
-//             attribute: "Color",
-//             option: "Red",
-//             image: null,
-//           },
-//         ],
-//         has_variation: 1,
-//       },
-//     },
-//     {
-//       product: {
-//         line_id: 5,
-//         product_id: 2,
-//         name: "Hurrican - Cars Wheels Polisher 1 Liter",
-//         image:
-//           "http://127.0.0.1:8000/Tawasy/public/productsimages/6213440581501.jpg",
-//         price: "20,000",
-//         part_number: "qweqwe1231246",
-//         variations: [
-//           {
-//             id: 17,
-//             attribute: "Color",
-//             option: "Red",
-//             image: null,
-//           },
-//           {
-//             id: 18,
-//             attribute: "Size",
-//             option: "Small",
-//             image: null,
-//           },
-//         ],
-//         has_variation: 1,
-//       },
-//     },
-//   ],
-//   name: "Hurrican - Cars Wheels Polisher 1 Liter",
-//   product_id: 122,
-//   images: [
-//     "http://127.0.0.1:8000/Tawasy/public/productsimages/6213440581501.jpg",
-//   ],
-//   brand: "Hurrican - هوريكان",
-//   category: "Automotive Care",
-//   description: "",
-//   store_id: 3,
-// };
-// const product = {
-//   success: true,
-//   message: "Product details retrieved successfully.",
-//   product: {
-//     id: 4,
-//     name: "SSM - Vehicle Shampoo 400 ml",
-//     description: "",
-//     image:
-//       "http://127.0.0.1:8000/Tawasy/public/productsimages/1111111111714_1.jpg",
-//     brand: "SSM - إس إس إم",
-//     category: "Automotive Care",
-//     price: "8,000",
-//     slug: "ssm-vehicle-shampoo-400-ml",
-//     has_variation: 0,
-//     store_id: 3,
-//   },
-// };
 
 function Product({ product }) {
   const [adding, setAdding] = useState(false);
@@ -195,7 +110,7 @@ function Product({ product }) {
 
   const { t } = useTranslation("");
 
-  // console.log(product);
+  // console.log(JSON.stringify(product));
 
   return (
     <>
@@ -217,6 +132,8 @@ function Product({ product }) {
           <div className="w-full flex md:flex-row flex-col md:justify-start items-center gap-4 py-2">
             <div className="sm:w-[30%] w-full">
               <CarouselProduct
+                product={product}
+                selectedCombination={selectedCombination}
                 productDialog={false}
                 images={
                   product?.product ? [product?.product?.image] : product?.images
@@ -224,7 +141,7 @@ function Product({ product }) {
               />
             </div>
 
-            <div className="w-full flex flex-col gap-2 justify-center sm:items-start items-center">
+            <div className="w-full flex flex-col space-y-2 justify-center sm:items-start items-center">
               <div className="flex justify-between w-full">
                 <h1 className=" md:text-xl sm:text-lg text-lg w-[70%] text-gray-600 capitalize">
                   {product?.product
@@ -233,26 +150,26 @@ function Product({ product }) {
                 </h1>
                 {product?.product_combination ? (
                   <p className="bg-gray-200 sm:text-lg  w-max text-sm h-max sm:flex-none flex py-2 px-2 text-black ">
-                   asdasdasdasd {price} S.P
+                    {price} S.P
                     {/* {convertMoney(product.price)} S.P */}
                   </p>
                 ) : (
                   <p className="bg-gray-200 sm:text-lg  w-max text-sm h-max sm:flex-none flex py-2 px-2 text-black ">
-                   {price} S.P
+                    {price} S.P
                     {/* {convertMoney(product.price)} S.P */}
                   </p>
                 )}
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap items-center sm:space-x-2 space-x-0 space-y-2 sm:space-y-0 py-1">
                 {(product?.product?.brand || product?.brand) && (
-                  <p className="md:text-base sm:text-base text-sm text-skin-primary border-2 border-skin-primary w-max px-5 rounded-full">
+                  <p className="md:text-base sm:text-base text-sm text-skin-primary border-2 text-center border-skin-primary px-5 rounded-full">
                     {product?.product
                       ? product?.product?.brand && product?.product?.brand
                       : product?.brand}
                   </p>
                 )}
                 {(product?.category || product?.product?.category) && (
-                  <p className=" md:text-base sm:text-base text-sm text-skin-primary border-2 border-skin-primary w-max px-5 rounded-full">
+                  <p className=" md:text-base sm:text-base text-sm text-skin-primary border-2 border-skin-primary text-center px-5 rounded-full">
                     {product?.product
                       ? product?.product?.category && product?.product?.category
                       : product?.category}
@@ -260,7 +177,7 @@ function Product({ product }) {
                 )}
               </div>
               {product?.product_combination && (
-                <div className="w-full flex space-x-2 flex-wrap">
+                <div className="w-full flex space-x-2 flex-wrap py-2">
                   {product.product_combination &&
                     product.product_combination.length > 0 &&
                     product.product_combination.map((combination, index) => {
@@ -292,12 +209,20 @@ function Product({ product }) {
                             htmlFor={` ${combination.product.line_id}combination`}
                             className="inline-flex flex-col items-start justify-start w-full px-4 py-1 text-gray-500 bg-white border border-dashed border-gray-500 rounded-lg cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 hover:text-gray-600 hover:bg-gray-100 transition-all duration-500"
                           >
-                            <div className="inline-flex justify-between items-center space-x-2">
+                            <div className="inline-flex justify-between w-full items-center space-x-2">
                               <p className="text-lg">{varis}</p>
-                              <p className="text-base">
-                                {`[ ${combination.product.part_number} ]`}
-                              </p>
+                              {combination?.product?.hex && (
+                                <div
+                                  className={`flex items-center justify-center w-[20px] h-[20px] rounded-full border border-skin-primary`}
+                                  style={{
+                                    backgroundColor: `${combination?.product?.hex}`,
+                                  }}
+                                ></div>
+                              )}
                             </div>
+                            <p className="text-sm">
+                              {`${combination.product.part_number}`}
+                            </p>
                             <p className="text-lg">
                               {combination.product.price} S.P
                             </p>

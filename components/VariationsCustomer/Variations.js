@@ -1,35 +1,5 @@
 import React, { useState } from "react";
 
-// const productVariations = {
-//   success: true,
-//   variations: [
-//     {
-//       id: 15,
-//       attribute: "Size",
-//       option: "Large",
-//       image: null,
-//     },
-//     {
-//       id: 16,
-//       attribute: "Color",
-//       option: "Blue",
-//       image: null,
-//     },
-//     {
-//       id: 17,
-//       attribute: "Color",
-//       option: "Red",
-//       image: null,
-//     },
-//     {
-//       id: 18,
-//       attribute: "Size",
-//       option: "Small",
-//       image: null,
-//     },
-//   ],
-// };
-
 function Variations({ publicProduct , productVariations  }) {
   const [selectedAttributes, setSelectedAttributes] = useState([]);
 

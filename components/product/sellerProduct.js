@@ -218,8 +218,12 @@ function SellerProduct({ product, refetch }) {
           </Link>
         </td>
         {/* <td className="px-4 py-4">{product.description}</td> */}
-        <td className="px-4 py-4">
-          {product.combination ? nid.join(" - ") : `-`}
+        <td className="px-4 py-4 flex flex-col justify-center items-center ">
+          <p>{product.combination ? nid.join(" - ") : `-`}</p>
+          { product.hex && <div
+            className={`flex items-center justify-center w-[25px] p-3 h-[25px] rounded-full border border-skin-primary`}
+            style={{ backgroundColor: `${product.combination.hex && product.combination.hex}` }}
+          ></div>}
         </td>
         <td className="px-4 py-4">
           {product.combination ? product.combination.part_number : `-`}
@@ -288,6 +292,7 @@ function SellerProduct({ product, refetch }) {
         </DialogTitle>
         <DialogContent>
           <Stack spacing={1} margin={3}>
+            <p>{t("orders.orderDetails.price")} :</p>
             <input
               className="mb-7 text-black placeholder:text-zinc-500 pl-2 outline-none border-b-2 focus:border-skin-primary transition-all duration-700"
               type="numbere"
@@ -396,10 +401,9 @@ function SellerProduct({ product, refetch }) {
               <div className="w-full h-full flex justify-center items-center">
                 <TawasyLoader width={200} height={200} />
               </div>
-            ) : (
-              productVariations &&
+            ) : productVariations &&
               productVariations.data.product_combination &&
-              productVariations.data.product_combination.length > 0 ?
+              productVariations.data.product_combination.length > 0 ? (
               productVariations.data.product_combination.map(
                 (combination, index) => {
                   return (
@@ -409,7 +413,9 @@ function SellerProduct({ product, refetch }) {
                     />
                   );
                 }
-              ) : <div className="text-center" >{t("noCombinations")}</div>
+              )
+            ) : (
+              <div className="text-center">{t("noCombinations")}</div>
             )}
           </Stack>
         </DialogContent>

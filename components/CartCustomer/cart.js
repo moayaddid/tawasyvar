@@ -89,9 +89,9 @@ const Cart = ({ onClose, show, className }) => {
     }
   }
 
-  // if(cart){
-  //   console.log(cart);
-  // }
+  if (cart) {
+    console.log(cart);
+  }
 
   return (
     <div
@@ -106,11 +106,11 @@ const Cart = ({ onClose, show, className }) => {
     >
       <div className="md:w-[60%] w-0 bg-transparent " onClick={onClose}></div>
       <div
-        className={`md:w-[40%] w-[100%] bg-white border-2 border-skin-primary`}
+        className={`2xl:w-[40%] xl:w-[50%] lg:w-[60%] w-[100%] bg-white border-2 border-skin-primary`}
         style={{
-          maxHeight: "92vh", // Set your preferred max height here
+          maxHeight: "92vh",
           overflowY: "auto",
-          paddingBottom: "40px",
+          paddingBottom: "30px",
         }}
       >
         {isLoading == true ? (
@@ -130,7 +130,7 @@ const Cart = ({ onClose, show, className }) => {
                 onClick={onClose}
               />
             </div>
-            <div className="flex flex-col justify-center items-center h-full space-y-5 " >
+            <div className="flex flex-col justify-center items-center h-full space-y-5 ">
               <Image
                 src={grayLogo}
                 alt="gray Tawasy"
@@ -162,7 +162,7 @@ const Cart = ({ onClose, show, className }) => {
               >
                 {cart &&
                   cart.data.cart?.lines &&
-                  cart.data.cart.lines.map((item , index) => (
+                  cart.data.cart.lines.map((item, index) => (
                     <CartProduct
                       key={index}
                       product={item}
@@ -243,22 +243,28 @@ const Cart = ({ onClose, show, className }) => {
                 <div className="pr-2 text-gray-600 font-medium text-lg">
                   <h4
                     style={{ marginBottom: "10px", marginTop: "10px" }}
-                    className="flex justify-start gap-2 items-center"
+                    className="flex justify-start space-x-2 items-center"
                   >
                     {/* {`Delivery Price`} : */}
-                    {t("orders.orderDetails.deliveryPrice")} :
+                    <p>{t("orders.orderDetails.deliveryPrice")} :</p>
                     <p>{cart.data.cart.delivery_price} S.P </p>
                   </h4>
                   <h4
                     style={{ marginBottom: "10px" }}
-                    className="flex justify-start gap-2 items-center"
+                    className="flex justify-start space-x-2 items-center"
                   >
                     {/* {`Discount`} : */}
-                    {t("orders.orderDetails.discount")} :
+                    <p>{t("orders.orderDetails.discount")} : </p>
                     <p>{cart.data.cart.discounted_price} S.P</p>
                   </h4>
                 </div>
               </div>
+              {cart.data.cart.bigsize && cart.data.cart.bigsize == true && (
+                <div className="w-full text-center text-white bg-red-400 mx-auto my-1">
+                  {t("bigSize")}
+                </div>
+              )}
+              <hr className="bg-gray-500" />
               <div
                 className={`flex justify-center pb-2 pt-4  transition-opacity duration-300 ease-in-out ${
                   show == false ? `opacity-0` : `opacity-100 `
