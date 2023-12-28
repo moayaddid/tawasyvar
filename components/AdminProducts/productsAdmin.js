@@ -50,6 +50,7 @@ function AdminProduct({ product, refetch }) {
   const [isDeclining, setIsDeclining] = useState(false);
   const [combinations, setCombinations] = useState();
   const [loading, setLoading] = useState(false);
+  const [bigSize , setBigSize] = useState(product.big_size ? product.big_size : false );
   const [loadingProductVariations, setLoadingProductVariations] =
     useState(false);
   // const [varis, setVaris] = useState();
@@ -113,6 +114,8 @@ function AdminProduct({ product, refetch }) {
     refetchOnMount: true,
     refetchOnWindowFocus: false,
   });
+
+  // console.log(product)
 
   async function fetchVaris() {
     try {
@@ -181,6 +184,10 @@ function AdminProduct({ product, refetch }) {
     addIfDifferent(newNameEn.current.value, "name_en");
     addIfDifferent(newdescAr.current.value, "description_ar");
     addIfDifferent(newdescEn.current.value, "description_en");
+    // addIfDifferent((bigSize == false ? 0 : 1), "big_size");
+    if(bigSize != product.big_size){
+      editData.big_size = (bigSize == true) ? 1 : 0; 
+    }
     if (category && category !== product.category) {
       editData.category_name = category;
     }
@@ -190,7 +197,7 @@ function AdminProduct({ product, refetch }) {
     addIfDifferent(newSku.current.value, "sku");
     addIfDifferent(newEanCode.current.value, "ean_code");
     addIfDifferent(newSortOrder.current.value, "sort_order");
-    if (product.status === "pending") {
+    if (product.slug) {
       addIfDifferent(status, "status");
     }
 
@@ -211,20 +218,7 @@ function AdminProduct({ product, refetch }) {
         // console.log(error);
       }
     }
-
-    // console.log(editData);
     if (Object.keys(editData).length < 1) {
-      // toast.error(`Please fill all the fields | الرجاء تعبئة جميع الحقول المطلوبة `, {
-      //   toastId: `Please fill all the fields | الرجاء تعبئة جميع الحقول المطلوبة `,
-      //       position: "top-right",
-      //       autoClose: 5000,
-      //       hideProgressBar: false,
-      //       closeOnClick: true,
-      //       pauseOnHover: true,
-      //       draggable: true,
-      //       progress: undefined,
-      //       theme: "colored",
-      // })
       setIsEditing(false);
       setIsSaving(false);
       return;
@@ -249,6 +243,7 @@ function AdminProduct({ product, refetch }) {
         setIsSaving(false);
         // setIsEditing(false);
       }
+      setIsSaving(false);
     }
   }
 
@@ -629,13 +624,14 @@ function AdminProduct({ product, refetch }) {
                   />
                 </div>
 
-                {/* { product.status == "pending" && 
+                {product.slug &&
                 <div className="flex items-center">
                   <label className="w-[30%] text-lg px-2">Status :</label>
                   <select
                     className="w-[80%] form-select outline-none bg-transparent border-b-2 border-gray-300 "
                     aria-label="Status"
                     name="Status"
+                    defaultValue={product.status}
                     onChange={
                       (e) => {
 
@@ -653,9 +649,12 @@ function AdminProduct({ product, refetch }) {
                     <option className="bg-white" value="declined">
                       Declined
                     </option>
+                    <option className="bg-white" value="pending">
+                      Pending
+                    </option>
                   </select>
                 </div>
-                 } */}
+                 } 
 
                 {/* <div className="flex items-center">
                   <label className="w-[30%] text-lg px-2">Code :</label>
@@ -688,6 +687,18 @@ function AdminProduct({ product, refetch }) {
                   />
                 </div>
               </div>
+
+                <div className="flex items-center" >
+                  <input
+                    id="big"
+                    type="checkbox"
+                    checked = {bigSize}
+                    onChange={() => {setBigSize(!bigSize)}}
+                    className="cursor-pointer"
+                  />
+                  <label htmlFor="big" className="cursor-pointer px-2"> Big Size Product </label>
+                </div>
+
               <hr className="text-gray-400" />
               <div className="w-full flex justify-center items-center">
                 <button
@@ -708,7 +719,7 @@ function AdminProduct({ product, refetch }) {
             </Stack>
           )}
         </DialogContent>
-        {product.status == "pending" && (
+        {product.status == "pending" &&  !product.slug &&(
           <DialogActions>
             <button
               type="button"

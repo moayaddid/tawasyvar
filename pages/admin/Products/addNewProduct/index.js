@@ -64,6 +64,7 @@ const AddNewProductAdmin = () => {
   const sortRef = useRef();
   const [category, setCategory] = useState();
   const [brand, setBrand] = useState();
+  const [bigSize , setBigSize] = useState(false);
   const [variants, setVariants] = useState();
   const [hasVariations, setHasVariations] = useState(false);
   const [productId, setProductId] = useState();
@@ -167,6 +168,7 @@ const AddNewProductAdmin = () => {
         data.ean_code = eanRef.current.value;
         data.sku = skuRef.current.value;
         data.brand_name = brand;
+        data.big_size = (bigSize == false) ? 0 : 1;
         variants.forEach((item, index) => {
           data[`variations[${index}][attribute_id]`] = item.attribute_id;
           data[`variations[${index}][option_id]`] = item.option_id;
@@ -208,6 +210,7 @@ const AddNewProductAdmin = () => {
             ean_code: eanRef.current.value,
             sku: skuRef.current.value,
             brand_name: brand,
+            big_size : (bigSize == false) ? 0 : 1
           },
           {
             headers: { "Content-Type": `multipart/form-data` },
@@ -370,6 +373,17 @@ const AddNewProductAdmin = () => {
                 required
               />
             </div>
+
+              <div className="px-6 py-4 " >
+                  <input
+                    id="big"
+                    type="checkbox"
+                    checked = {bigSize}
+                    onChange={() => {setBigSize(!bigSize)}}
+                    className="cursor-pointer"
+                  />
+                <label htmlFor="big" className="px-2 cursor-pointer " >Big Size Product</label>
+              </div>
 
             <div className="px-6 py-4 my-5 flex flex-col justify-start items-start box-border pl-3 w-[80%] mx-auto  ">
               <div className="w-[200px] h-[100px]">

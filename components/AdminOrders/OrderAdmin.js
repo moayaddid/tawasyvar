@@ -48,7 +48,7 @@ function OrderAdmin({ names, refetch }) {
     router.pathname == "/admin/Orders/RejectedOrders" ||
     router.pathname == "/admin/Orders/CancelledOrders";
 
-  // console.log(router);
+  console.log(names);
 
   const openGoogleMaps = (latitude, longitude) => {
     const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
@@ -249,7 +249,7 @@ function OrderAdmin({ names, refetch }) {
                       })}
                   </tbody>
                 </table>
-
+                {orderDetails.big_size && <div className="bg-red-400 text-center" > This order cant be delivered via a Motorcycle </div>}
                 <div className="w-full flex flex-wrap border-t-2 border-gray-300 gap-2 pt-5">
                   <h3 className="border-b-2 flex justify-between items-center border-skin-primary w-[50%]">
                     <div>Delivery Price :</div>

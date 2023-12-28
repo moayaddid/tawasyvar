@@ -249,6 +249,7 @@ function OrdersCustomer({ order, refetch }) {
                       );
                     })}
                   </div>
+                  { orderDetails.big_size == true && <p className="bg-red-400 text-white px-2" >{t("bigSizeOrder")}</p>}
                   <div className="my-6">
                     <div className="grid md:grid-cols-2 gap-4 font-medium text-gray-800">
                       <div>

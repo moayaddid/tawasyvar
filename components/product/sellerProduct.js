@@ -218,11 +218,11 @@ function SellerProduct({ product, refetch }) {
           </Link>
         </td>
         {/* <td className="px-4 py-4">{product.description}</td> */}
-        <td className="px-4 py-4 flex flex-col justify-center items-center ">
+        <td className="px-4 py-4 self-center ">
           <p>{product.combination ? nid.join(" - ") : `-`}</p>
-          { product.hex && <div
-            className={`flex items-center justify-center w-[25px] p-3 h-[25px] rounded-full border border-skin-primary`}
-            style={{ backgroundColor: `${product.combination.hex && product.combination.hex}` }}
+          { product.combination?.hex && <div
+            className={`flex items-center justify-center mx-auto w-[25px] p-3 h-[25px] rounded-full border border-skin-primary`}
+            style={{ backgroundColor: `${product.combination?.hex && product.combination?.hex}` }}
           ></div>}
         </td>
         <td className="px-4 py-4">
