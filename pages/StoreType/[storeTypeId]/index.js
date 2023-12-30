@@ -27,9 +27,10 @@ export async function getServerSideProps(context) {
       headers : { 'Accept-Language': locale ? locale : 'en', Authorization : `Bearer ${token}`}
     });
   }else{
-     response = await axios.get(`${url}/api/storetypes/${params.storeTypeId}` , {
-      headers : { 'Accept-Language': locale ? locale : 'en',}
+     response = await axios.get(`${url}/api/store-types/${params.storeTypeId}` , {
+      // headers : { 'Accept-Language': locale ? locale : 'en', Accept : "application/json" , "Content-Type" : 'application/json'}
     });
+    // console.log(response);
   }
     if (!response.data.data) {
       return {
@@ -94,6 +95,8 @@ const StoreType = ({ stores }) => {
     }
     setSearching(false);
   }
+
+  console.log(stores);
 
   return (
     <div>
