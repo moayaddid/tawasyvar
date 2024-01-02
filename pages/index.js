@@ -467,7 +467,7 @@ function CustomerPage({ data }) {
                 <p className="text-gray-500 md:my-3 text-center">
                   {t("home.WhatYouNeed")}
                 </p>
-                <Link href={`https://www.app.tawasyme.com`} legacyBehavior>
+                <Link href={`https://app.tawasyme.com`} legacyBehavior>
                   <a
                     target="_blank"
                     className="border-2 border-skin-primary py-2 text-center px-5 text-skin-primary rounded-md"
