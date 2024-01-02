@@ -12,8 +12,8 @@ import nProgress, { NProgress } from "nprogress";
 import { Provider } from "react-redux";
 // import { store } from "@/Store";
 import {store} from "../Store/index";
-import { GoogleTagManager } from '@next/third-parties/google' ; 
-import { GoogleAnalytics } from '@next/third-parties/google';
+import { GoogleTagManager , GoogleAnalytics } from '@next/third-parties/google' ; 
+// import { GoogleAnalytics } from '@next/third-parties/google';
 
 const tawasyFont = localfont({
   src: "../public/fonts/local/MYRIADAM.ttf",
@@ -42,7 +42,7 @@ function App({ Component, pageProps }) {
           />
           <Provider store={store} >
             <Component {...pageProps} />
-            <GoogleTagManager gtmId="GTM-5N2BFDQM" />
+            <GoogleTagManager gtmId="GTM-WJTGWG84" />
             {/* <GoogleAnalytics gaId="G-4C6MQ427TW" />  */}
           </Provider>
           <ToastContainer />
