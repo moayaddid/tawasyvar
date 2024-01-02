@@ -12,7 +12,7 @@ function MyDocument({ locale, ...props }) {
   return (
     <Html dir={dir} lang={locale}>
       <Head>
-        <NextScript id="google-tag-manager" strategy="afterInteractive">
+        {/* <NextScript id="google-tag-manager" strategy="afterInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -31,17 +31,17 @@ function MyDocument({ locale, ...props }) {
         
           gtag('config', 'GTM-5N2BFDQM');
         `}
-        </Script>
+        </Script> */}
       </Head>
       <body>
         <Main />
         <NextScript />
-        <noscript
+        {/* <noscript
           dangerouslySetInnerHTML={{
             __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WJTGWG84"
             height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
           }}
-        />
+        /> */}
       </body>
     </Html>
   );
