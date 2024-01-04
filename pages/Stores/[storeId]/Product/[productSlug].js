@@ -160,7 +160,7 @@ function Product({ product }) {
                   </p>
                 )}
               </div>
-              <div className="flex flex-wrap items-center sm:space-x-2 space-x-0 space-y-2 sm:space-y-0 py-1">
+              <div className="flex flex-wrap items-center gap-2 py-1">
                 {(product?.product?.brand || product?.brand) && (
                   <p className="md:text-base sm:text-base text-sm text-skin-primary border-2 text-center border-skin-primary px-5 rounded-full">
                     {product?.product
@@ -177,7 +177,7 @@ function Product({ product }) {
                 )}
               </div>
               {product?.product_combination && (
-                <div className="w-full flex space-x-2 flex-wrap py-2">
+                <div className="w-full flex gap-1 flex-wrap py-2">
                   {product.product_combination &&
                     product.product_combination.length > 0 &&
                     product.product_combination.map((combination, index) => {
@@ -210,7 +210,7 @@ function Product({ product }) {
                             className="inline-flex flex-col items-start justify-start w-full px-4 py-1 text-gray-500 bg-white border border-dashed border-gray-500 rounded-lg cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 hover:text-gray-600 hover:bg-gray-100 transition-all duration-500"
                           >
                             <div className="inline-flex justify-between w-full items-center space-x-2">
-                              <p className="text-lg">{varis}</p>
+                              <p className="md:text-lg sm:text-base text-sm">{varis}</p>
                               {combination?.product?.hex && (
                                 <div
                                   className={`flex items-center justify-center w-[20px] h-[20px] rounded-full border border-skin-primary`}
@@ -220,10 +220,10 @@ function Product({ product }) {
                                 ></div>
                               )}
                             </div>
-                            <p className="text-sm">
+                            { combination.product.part_number && <p className="text-xs">
                               {`${combination.product.part_number}`}
-                            </p>
-                            <p className="text-lg">
+                            </p>}
+                            <p className="md:text-lg sm:text-base text-sm">
                               {combination.product.price} S.P
                             </p>
                           </label>

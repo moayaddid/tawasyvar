@@ -89,8 +89,8 @@ const SignUp = () => {
         name: customerUserNameRef.current.value,
         phone_number: customerNumberRef.current.value,
         location: address ? address.address : null,
-        longitude: address ? address.lat : null,
-        latitude: address ? address.lng : null,
+        longitude: address ? address.lng : null,
+        latitude: address ? address.lat : null,
       });
       setIsLoading(false);
       Cookies.set("number", response.data.customer.phone_number, {
@@ -150,8 +150,8 @@ const SignUp = () => {
         name: sellerUserNameRef.current.value,
         phone_number: sellerNumberRef.current.value,
         location: sellerCity,
-        longitude: address.lat,
-        latitude: address.lng,
+        longitude: address.lng,
+        latitude: address.lat,
         city: sellerCity,
       });
       setIsLoading(false);

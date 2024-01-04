@@ -62,6 +62,10 @@ const Locations = ({ onLocation, className, defaultAddress }) => {
 
   const onMapClick = (e) => {
     const coordinates = e.latLng;
+    console.log(`lat`);
+    console.log(coordinates.lat());
+    console.log(`lng`);
+    console.log(coordinates.lng());
     setCoordinates(coordinates);
     setMarkerPosition(coordinates);
     const latitude = coordinates.lat();

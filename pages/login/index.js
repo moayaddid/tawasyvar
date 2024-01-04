@@ -25,7 +25,7 @@ export async function getServerSideProps(context) {
 const Login = () => {
   const NumberRef = useRef();
   const router = useRouter();
-  const [selectedRole, setSelectedRole] = useState(1); // 1 for customer 2 for seller
+  const [selectedRole, setSelectedRole] = useState(router.isReady && router.query.user ? (router.query.user == 'customer'  ? 1 : 2 ) : 1); // 1 for customer 2 for seller
   const [isLoading, setIsLoading] = useState(false);
   const {t} = useTranslation("");
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -170,7 +170,7 @@ const Login = () => {
                 onChange={handleRoleChange}
               />
               <label
-                for="customer"
+                htmlFor="customer"
                 className="inline-flex items-center justify-center w-full px-3 py-2 text-gray-500 bg-white border border-gray-500 rounded-lg cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 hover:text-gray-600 hover:bg-gray-100 transition-all duration-500"
               >
                   <p className="w-full block text-lg font-semibold text-center">{t("signup.customer")}</p>
@@ -188,7 +188,7 @@ const Login = () => {
                 onChange={handleRoleChange}
               />
               <label
-                for="seller"
+                htmlFor="seller"
                 className="inline-flex items-center justify-center w-full px-3 py-2 text-gray-500 bg-white border border-gray-500 rounded-lg cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 hover:text-gray-600 hover:bg-gray-100 transition-all duration-500"
               >
                   <p className="w-full block text-lg font-semibold text-center">{t("signup.seller")}</p>
