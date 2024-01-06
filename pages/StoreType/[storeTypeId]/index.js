@@ -28,7 +28,7 @@ export async function getServerSideProps(context) {
     });
   }else{
      response = await axios.get(`${url}/api/storetypes/${params.storeTypeId}` , {
-      // headers : { 'Accept-Language': locale ? locale : 'en', Accept : "application/json" , "Content-Type" : 'application/json'}
+      headers : { 'Accept-Language': locale ? locale : 'en'}
     });
     // console.log(response);
   }

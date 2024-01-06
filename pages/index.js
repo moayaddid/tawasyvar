@@ -54,47 +54,67 @@ function CustomerPage({ data }) {
   const [searchType, setSearchType] = useState(`storeType`);
   const [inSearch, setInSearch] = useState(false);
   const [searching, setSearching] = useState(false);
+  const [delayedSearch, setDelayedSearch] = useState(null);
   const { t } = useTranslation("");
-
-  // const { data, isLoading, isError, error } = useQuery(
-  //   `mainPage`,
-  //   fetchMainPage,
-  //   { refetchOnMount: true, refetchOnWindowFocus: false, staleTime: 1 }
-  // );
-
-  // let searchResult ;
-
-  async function fetchMainPage() {
-    try {
-      return await Api.get(`/api/store-types`);
-    } catch (error) {}
-  }
 
   const inputDelay = 500;
 
-  useEffect(() => {
-    let timerId;
+  const debounceSearch = () => {
+    // setSearching(true);
 
-    const delayedSearch = () => {
-      if (searchRef.current.value.trim().length > 2) {
+    if (delayedSearch) {
+      clearTimeout(delayedSearch);
+    }
+
+    setDelayedSearch(setTimeout(() => {
+      if (searchRef.current.value.length >= 3) {
         search();
+      } else {
+        setSearching(false);
+      }
+    }, 500));
+  };
+
+  const handleInputChange = () => {
+    debounceSearch();
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    debounceSearch();
+  };
+
+  useEffect(() => {
+    return () => {
+      if (delayedSearch) {
+        clearTimeout(delayedSearch);
       }
     };
+  }, [delayedSearch]);
 
-    const handleInputChange = () => {
-      clearTimeout(timerId);
-      setSearching(true);
-      timerId = setTimeout(delayedSearch, inputDelay);
-      setSearching(false);
-    };
+  // useEffect(() => {
+  //   let timerId;
 
-    searchRef.current.addEventListener("input", handleInputChange);
+  //   const delayedSearch = () => {
+  //     if (searchRef.current.value.trim().length > 2) {
+  //       search();
+  //     }
+  //   };
 
-    return () => {
-      clearTimeout(timerId);
-      // searchRef.current.removeEventListener("input", handleInputChange);
-    };
-  }, [searchType]);
+  //   const handleInputChange = () => {
+  //     clearTimeout(timerId);
+  //     setSearching(true);
+  //     timerId = setTimeout(delayedSearch, inputDelay);
+  //     setSearching(false);
+  //   };
+
+  //   searchRef.current.addEventListener("input", handleInputChange);
+
+  //   return () => {
+  //     clearTimeout(timerId);
+  //     // searchRef.current.removeEventListener("input", handleInputChange);
+  //   };
+  // }, [searchType]);
 
   async function search(e = null) {
     if (e) {
@@ -154,6 +174,7 @@ function CustomerPage({ data }) {
                 )}
               </div>
             );
+            await new Promise(resolve => setTimeout(resolve, 1000));
             setSearchedResults(components);
             setSearching(false);
           } catch (error) {
@@ -207,6 +228,7 @@ function CustomerPage({ data }) {
             );
             // console.log(`component result`);
             // console.log(components);
+            await new Promise(resolve => setTimeout(resolve, 1000));
             setSearchedResults(components);
             setSearching(false);
           } catch (error) {
@@ -259,6 +281,7 @@ function CustomerPage({ data }) {
                 )}
               </div>
             );
+            await new Promise(resolve => setTimeout(resolve, 1000));
             setSearchedResults(components);
             setSearching(false);
           } catch (error) {
@@ -299,7 +322,7 @@ function CustomerPage({ data }) {
             >
               <div className="flex flex-col justify-start items-center">
                 <form
-                  onSubmit={search}
+                  onSubmit={handleFormSubmit}
                   className="flex bg-gray-100 w-full lg:w-5/12 md:w-5/12 items-center rounded-sm px-2 border-2 border-transparent focus-within:border-skin-primary transition-all duration-700 mx-auto "
                 >
                   <select
@@ -335,6 +358,7 @@ function CustomerPage({ data }) {
                     type="text"
                     ref={searchRef}
                     dir={router.locale == "ar" ? "rtl" : "ltr"}
+                    onChange={handleInputChange}
                     // placeholder={`Search`}
                     placeholder={t("home.search")}
                     onClick={() => {

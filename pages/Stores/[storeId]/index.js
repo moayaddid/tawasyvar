@@ -325,7 +325,7 @@ function Products({ store }) {
                   selectedCategoryData &&
                   selectedCategoryData.products.map((product , index) => (
                     // <ProductCustomer key={product.id} product={product} />
-                    <PublicAllProduct key={index} product={product} storeId={store.store.id} />
+                    <PublicAllProduct key={`${product.name ? product.name : product.slug} ${index}`} product={product} storeId={store.store.id} />
                   ))}
               </div>
             </div>

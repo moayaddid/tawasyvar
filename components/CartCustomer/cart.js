@@ -89,9 +89,9 @@ const Cart = ({ onClose, show, className }) => {
     }
   }
 
-  if (cart) {
-    console.log(cart);
-  }
+  // if (cart) {
+  //   console.log(cart);
+  // }
 
   return (
     <div

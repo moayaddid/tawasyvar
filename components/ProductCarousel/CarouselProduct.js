@@ -48,7 +48,7 @@ export function CarouselProduct({
 
   useEffect(() => {
     if (product && selectedCombination !== undefined) {
-      console.log(product);
+      // console.log(product);
       if (
         product.product_combination &&
         product.product_combination.length > 0
