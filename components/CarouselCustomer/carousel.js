@@ -5,7 +5,7 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import logo from "@/public/images/tawasylogo.png"
 
-export function ResponsiveCarousel({ ads }) {
+export default function ResponsiveCarousel({ ads }) {
 
   const [currentSlide, setCurrentSlide] = useState(0);
 

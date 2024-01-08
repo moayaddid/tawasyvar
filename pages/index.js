@@ -1,26 +1,19 @@
-import TiltCard from "@/components/UI/TileCard";
-import TawasyLoader from "@/components/UI/tawasyLoader";
-import image from "@/public/images/app_view_iphone_en.png";
-import images from "@/public/images/12084790_20943943.jpg";
-import imagee from "@/public/images/6163184_2502.jpg";
-import StoreComponent from "@/components/customerCommponents/StoreComponent";
+import images from "@/public/images/1.jpg";
+import imagee from "@/public/images/2.jpg";
 import StoreTypeComponent from "@/components/customerCommponents/StoreTypeComponent/StoreTypeComponent";
 import Image from "next/image";
-import { ResponsiveCarousel } from "@/components/CarouselCustomer/carousel";
+import  ResponsiveCarousel  from "@/components/CarouselCustomer/carousel";
 import withLayoutCustomer from "@/components/wrapping components/WrappingCustomerLayout";
 import { useRouter } from "next/router";
 import createAxiosInstance from "@/API";
 import { useEffect, useRef, useState } from "react";
-import { MdArrowForward, MdClose } from "react-icons/md";
+import { MdClose } from "react-icons/md";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-import { FadingCarousel } from "@/components/FadingCarouselCustomer/FadinCarousel";
 import Link from "next/link";
 import { Ring } from "@uiball/loaders";
 import logo from "@/public/images/tawasylogo.png";
 import { NextSeo } from "next-seo";
-import Head from "next/head";
-import Script from "next/script";
 
 export async function getServerSideProps(context) {
   const { params, locale } = context;
@@ -30,7 +23,6 @@ export async function getServerSideProps(context) {
     "Content-Type": "application/json",
     Accept: "application/json",
   });
-  // console.log(response);
   if (!response.data) {
     return {
       notFound: true,
@@ -49,7 +41,6 @@ function CustomerPage({ data }) {
   const router = useRouter();
   const Api = createAxiosInstance(router);
   const searchRef = useRef();
-  // const [searchedProducts, setSearchedProducts] = useState();
   const [searchedResults, setSearchedResults] = useState();
   const [searchType, setSearchType] = useState(`storeType`);
   const [inSearch, setInSearch] = useState(false);
@@ -91,30 +82,6 @@ function CustomerPage({ data }) {
       }
     };
   }, [delayedSearch]);
-
-  // useEffect(() => {
-  //   let timerId;
-
-  //   const delayedSearch = () => {
-  //     if (searchRef.current.value.trim().length > 2) {
-  //       search();
-  //     }
-  //   };
-
-  //   const handleInputChange = () => {
-  //     clearTimeout(timerId);
-  //     setSearching(true);
-  //     timerId = setTimeout(delayedSearch, inputDelay);
-  //     setSearching(false);
-  //   };
-
-  //   searchRef.current.addEventListener("input", handleInputChange);
-
-  //   return () => {
-  //     clearTimeout(timerId);
-  //     // searchRef.current.removeEventListener("input", handleInputChange);
-  //   };
-  // }, [searchType]);
 
   async function search(e = null) {
     if (e) {
@@ -307,7 +274,6 @@ function CustomerPage({ data }) {
           <div className="relative flex flex-col justify-start items-center h-max w-full gap-4 ">
             {data && data.ads && (
               <div className="mx-auto w-full pb-3 " dir="ltr">
-                {/* <FadingCarousel ads={data.ads} /> */}
                 <ResponsiveCarousel ads={data.ads} />
               </div>
             )}
@@ -335,9 +301,6 @@ function CustomerPage({ data }) {
                     <option value="storeType">{t("home.storeType")}</option>
                     <option value="category">{t("home.category")}</option>
                     <option value="brand">{t("home.brand")}</option>
-                    {/* <option value="storeType">{`Store Type`}</option>
-                  <option value="category">{`Category`}</option>
-                  <option value="brand">{`Brand`}</option> */}
                   </select>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -359,7 +322,6 @@ function CustomerPage({ data }) {
                     ref={searchRef}
                     dir={router.locale == "ar" ? "rtl" : "ltr"}
                     onChange={handleInputChange}
-                    // placeholder={`Search`}
                     placeholder={t("home.search")}
                     onClick={() => {
                       setInSearch(true);
@@ -389,11 +351,9 @@ function CustomerPage({ data }) {
               </div>
             </div>
 
-            {/* {inSearch === false && ( */}
             <div className="flex flex-col justify-start items-center h-full w-full space-y-5">
               <h1 className="hidden">Tawasy Shopping</h1>
               <h2 className=" md:text-4xl text-2xl text-black py-5 ">
-                {/* {`Discover Oxur Store Types`} */}
                 {t("home.discover")}
               </h2>
               {data && data.data ? (
@@ -424,7 +384,7 @@ function CustomerPage({ data }) {
               <div className="flex lg:flex-row flex-col justify-center items-center mx-auto my-auto lg:space-x-4  ">
                 <Link
                   href="/signup?user=seller"
-                  className="lg:w-[40%] md:w-[60%] w-[70%] lg:my-0 my-2  flex flex-row space-x-2 rounded-md border-2 border-gray-300 hover:border-skin-primary shadow-md"
+                  className="lg:w-[40%] md:w-[60%] w-[70%] lg:my-0 my-2  flex flex-row space-x-2 rounded-md border-2 border-gray-300 hover:border-skin-primary transition-all duration-500 shadow-md"
                 >
                   <Image
                     src={imagee}
@@ -448,7 +408,7 @@ function CustomerPage({ data }) {
 
                 <Link
                   href="/signup?user=customer"
-                  className="lg:w-[40%] md:w-[60%] w-[70%] lg:my-0 my-2  flex flex-row space-x-2 rounded-md border-2 border-gray-300 hover:border-skin-primary shadow-md"
+                  className="lg:w-[40%] md:w-[60%] w-[70%] lg:my-0 my-2  flex flex-row space-x-2 rounded-md border-2 border-gray-300 hover:border-skin-primary transition-all duration-500 shadow-md"
                 >
                   <Image
                     src={images}
@@ -473,17 +433,6 @@ function CustomerPage({ data }) {
             </div>
 
             <div className="flex md:flex-row overflow-clip flex-col-reverse w-[70%] md:space-x-3 space-y-[12px] items-center justify-center py-6 ">
-              {/* <div className="lg:w-[35%] md:w-[45%] sm:w-[70%] w-auto  h-auto">
-                <Image
-                  src={image}
-                  // className="w-full object-contain object-center transform transition duration-1000 "
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  style={{ width: "auto", height: "auto" }}
-                  className=" object-cover "
-                />
-              </div> */}
               <div className="flex flex-col space-y-2 md:mx-7 mx-2 md:my-0 my-2">
                 <h3 className="text-3xl text-gray-600 font-medium text-center">
                   {t("home.TawasyApp")}
@@ -509,11 +458,3 @@ function CustomerPage({ data }) {
 }
 
 export default withLayoutCustomer(CustomerPage);
-
-// export async function getStaticProps({ locale }) {
-//   return {
-//     props: {
-//       ...(await serverSideTranslations(locale, ["common"])),
-//     },
-//   };
-// }

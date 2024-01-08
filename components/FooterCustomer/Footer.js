@@ -74,14 +74,14 @@ const Footer = () => {
               <div className="mt-4">
                 <ul className="flex justify-center">
                   <li className="mr-2">
-                    <Link href="https://t.me/tawasyshopping" legacyBehavior>
+                    <Link href="https://t.me/tawasyshopping" legacyBehavior aria-label="tawasy telegram">
                       <a target="_blank">
                         <FaTelegram className="w-[20px] h-[20px] hover:text-skin-primary" />
                       </a>
                     </Link>
                   </li>
                   <li className="mr-2">
-                    <Link href="tel:+963987000888" legacyBehavior>
+                    <Link href="tel:+963987000888" legacyBehavior aria-label="contact with tawasy">
                       <a target="_blank">
                         <BsFillTelephoneFill className="w-[20px] h-[20px] hover:text-skin-primary" />
                       </a>
@@ -91,6 +91,7 @@ const Footer = () => {
                     <Link
                       href="https://www.facebook.com/tawasyshop"
                       legacyBehavior
+                      aria-label="tawasy facebook"
                     >
                       <a target="_blank">
                         <BsFacebook className="w-[20px] h-[20px] hover:text-skin-primary" />
@@ -101,6 +102,7 @@ const Footer = () => {
                     <Link
                       href="https://www.instagram.com/tawasyshopping/"
                       legacyBehavior
+                      aria-label="tawasy instagram"
                     >
                       <a target="_blank">
                         <BsInstagram className="w-[20px] h-[20px] hover:text-skin-primary" />
@@ -108,7 +110,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li className="mr-2">
-                    <Link href="https://wa.me/+963987000888" legacyBehavior>
+                    <Link href="https://wa.me/+963987000888" legacyBehavior aria-label="tawasy whatsapp">
                       <a target="_blank">
                         <BsWhatsapp className="w-[20px] h-[20px] hover:text-skin-primary" />
                       </a>

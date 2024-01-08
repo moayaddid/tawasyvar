@@ -9,14 +9,7 @@ import { useRouter } from "next/router";
 import LocaleSwitcher from "../UI/localeSwitcher/localeSwitcher";
 import { useTranslation } from "next-i18next";
 import { IoCartOutline } from "react-icons/io5";
-// import {
-//   useTranslation,
-//   useLanguageQuery,
-//   LanguageSwitcher,
-// } from "next-export-i18n";
 import Cookies from "js-cookie";
-import createAxiosInstance from "@/API";
-import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { cartActions } from "@/Store/CartSlice";
 
@@ -27,23 +20,6 @@ function Navbar() {
   const { t } = useTranslation("");
   const addedProduct = useSelector((state) => state.cart.addedProduct);
   const dispatch = useDispatch();
-  // const addedProduct = 
-  // const { t } = useTranslation();
-  // const [query] = useLanguageQuery();
-  const Api = createAxiosInstance(router);
-  // const { data: cart } = useQuery([`cart`, isLoggedIn], fetchCartData, {
-  //   staleTime: 1,
-  //   refetchOnMount: true,
-  //   enabled: isLoggedIn == true,
-  //   refetchOnWindowFocus: false,
-  // });
-  // // // console.log(query);
-
-  // async function fetchCartData() {
-  //   try {
-  //     return await Api.get(`/api/customer/cart/show`);
-  //   } catch (error) {}
-  // }
 
   useEffect(() => {
     const token = Cookies.get("AT");
@@ -56,11 +32,9 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
-    // Apply overflow-y: hidden; to the body when the cart is open
     if (showCartSidebar) {
       document.body.style.overflowY = "hidden";
     } else {
-      // Remove overflow-y: hidden; when the cart is closed
       document.body.style.overflowY = "auto";
     }
   }, [showCartSidebar]);
@@ -70,16 +44,12 @@ function Navbar() {
     let lang = router.locale == "ar" ? "ar" : "en";
     document.querySelector("html").setAttribute("dir", dir);
     document.querySelector("html").setAttribute("lang", lang);
-    // router.reload();
   }, [router.locale]);
 
   const handleCartButtonClick = () => {
     dispatch(cartActions.openCart());
     setShowCartSidebar(true);
   };
-
-  // console.log(router);
-  // console.log(addedProduct);
 
   return (
     <>
@@ -112,11 +82,9 @@ function Navbar() {
               {router.pathname != `/SubmitOrder` && (
                 <button onClick={handleCartButtonClick} className="relative">
                   <IoCartOutline className="text-white w-[40px] h-[20px]  " />
-                  {/* {cart?.data?.cart?.lines &&
-                    cart?.data?.cart?.lines?.length > 0 && ( */}
-                       { addedProduct == true && <div className="w-[7px] h-[7px] absolute rounded-full bg-gray-300 top-0 right-1"></div>}
-                    {/* // )} */}
-                  {/* <BsFillBagFill className="text-white w-[40px] h-[20px]  " /> */}
+                  {addedProduct == true && (
+                    <div className="w-[7px] h-[7px] absolute rounded-full bg-gray-300 top-0 right-1"></div>
+                  )}
                 </button>
               )}
 
@@ -130,19 +98,8 @@ function Navbar() {
               </button>
             </div>
           )}
-          { (router.pathname == "/" || router.pathname == "/ContactUs" || router.pathname == "/AboutUs" || router.pathname == "/Orders" || router.pathname == "/MyProfile" ) && <LocaleSwitcher />}
-          {/* <div className="flex px-3 py-1 gap-2 text-white " >
-            <LanguageSwitcher lang="ar">ar</LanguageSwitcher> |{" "}
-            <LanguageSwitcher lang="en">en</LanguageSwitcher>
-          </div> */}
-          {/* <Link className="text-white md:mr-6 mr-2 mt-[10px]" href="#">
-            Become A Seller
-          </Link> */}
-          {/* <button className="text-white border-white px-3 py-1 rounded-sm mr-3">
-              Become A Seller
-            </button> */}
           {isLoggedIn == false && (
-            <div className="flex space-x-1" >
+            <div className="flex space-x-1">
               <Link
                 href={"/login"}
                 // href={{ pathname :"/login" , query : query}}
@@ -160,6 +117,11 @@ function Navbar() {
               </Link>
             </div>
           )}
+          {(router.pathname == "/" ||
+            router.pathname == "/ContactUs" ||
+            router.pathname == "/AboutUs" ||
+            router.pathname == "/Orders" ||
+            router.pathname == "/MyProfile") && <LocaleSwitcher />}
         </div>
       </div>
       <Cart show={showCartSidebar} onClose={() => setShowCartSidebar(false)} />

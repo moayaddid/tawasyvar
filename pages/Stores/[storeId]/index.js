@@ -112,8 +112,8 @@ function Products({ store }) {
           <div className="w-max mx-auto">{response.data.message}</div>
         ) : (
           <div className=" w-[90%] grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 gap-y-7 mx-auto">
-            {response.data.data.map((product) => {
-              return <PublicAllProduct key={product.id} product={product} storeId={store.store.id} />;
+            {response.data.data.map((product , index) => {
+              return <PublicAllProduct key={` ${product.name} ${product.id} ${index}`} product={product} storeId={store.store.id} />;
             })}
           </div>
         );
@@ -148,9 +148,9 @@ function Products({ store }) {
   const beforeDays = JSON.parse(store.store.opening_days);
   days = beforeDays.join(" - ")
   // if (store) {
-  //   console.log(store.data);
-  //   console.log(`asdasd`);
-  //   console.log(JSON.parse(store.data.store.opening_days));
+  //   console.log(store);
+    // console.log(`asdasd`);
+    // console.log(JSON.parse(store.data.store.opening_days));
   // }
 
   return (

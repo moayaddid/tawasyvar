@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import withLayoutCustomer from "@/components/wrapping components/WrappingCustomerLayout";
-import { ResponsiveCarousel } from "@/components/CarouselCustomer/carousel";
+import  ResponsiveCarousel  from "@/components/CarouselCustomer/carousel";
 import StoreComponent from "@/components/customerCommponents/StoreComponent";
 import { useRouter } from "next/router";
 import createAxiosInstance from "@/API";
@@ -96,7 +96,7 @@ const StoreType = ({ stores }) => {
     setSearching(false);
   }
 
-  console.log(stores);
+  // console.log(stores);
 
   return (
     <div>
