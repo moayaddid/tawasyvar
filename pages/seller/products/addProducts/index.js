@@ -25,7 +25,7 @@ import { useTranslation } from "next-i18next";
 
 export async function getServerSideProps(context) {
   const { locale } = context;
-  
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
@@ -38,7 +38,7 @@ function AddProducts() {
   const Api = createAxiosInstance(router);
   const [currentPage, setCurrentPage] = useState(1);
   const searchRef = useRef();
-  const {t} = useTranslation("");
+  const { t } = useTranslation("");
   const { data, isLoading, isError, error, isFetching } = useQuery(
     ["sharedProducts", currentPage],
     () => fetchSharedProducts(currentPage),
@@ -59,7 +59,9 @@ function AddProducts() {
   const [searchedProducts, setSearchedProducts] = useState();
   const [inSearch, setInSearch] = useState(false);
   const [searching, setSearching] = useState(false);
-  const selectedProduct = useSelector((state) => state.selected.selectedProduct);
+  const selectedProduct = useSelector(
+    (state) => state.selected.selectedProduct
+  );
   const [open, openchange] = useState(false);
   const dispatch = useDispatch();
 
@@ -106,6 +108,10 @@ function AddProducts() {
     setInSearch(false);
   }
 
+  function scroll(id) {
+    document.querySelector(`#${id}`).scrollIntoView({ behavior: "smooth" });
+  }
+
   async function search(e) {
     e.preventDefault();
     setSearching(true);
@@ -134,7 +140,10 @@ function AddProducts() {
 
   return (
     <div className="md:px-16 px-5">
-      <div className="flex md:flex-row flex-col md:gap-0 gap-2 justify-between my-10 pt-10 pb-5 border-b-2 border-skin-primary ">
+      <div
+        className="flex md:flex-row flex-col md:gap-0 gap-2 justify-between my-10 pt-10 pb-5 border-b-2 border-skin-primary "
+        id="top"
+      >
         <div className="w-[50%] flex justify-start items-center gap-2 ">
           <form
             onSubmit={search}
@@ -163,7 +172,7 @@ function AddProducts() {
                 setInSearch(true);
               }}
             />
-            <button type="submit" >
+            <button type="submit">
               <MdArrowForward className="hover:border-b-2 border-skin-primary cursor-pointer" />
             </button>
           </form>
@@ -175,13 +184,15 @@ function AddProducts() {
           )}
         </div>
         <div className="w-[50%] flex justify-center items-center">
-          <p className="text-gray-500 pr-2">{t("seller.addProduct.cantFind")}</p>
-        <Link
-          href={"/seller/products/addNewProduct"}
-          className="bg-[#ff6600] px-3 py-3 text-white text-center md:w-auto w-[100%] "
-        >
-          {t("seller.products.addNewProduct")}
-        </Link>
+          <p className="text-gray-500 pr-2">
+            {t("seller.addProduct.cantFind")}
+          </p>
+          <Link
+            href={"/seller/products/addNewProduct"}
+            className="bg-[#ff6600] px-3 py-3 text-white text-center md:w-auto w-[100%] "
+          >
+            {t("seller.products.addNewProduct")}
+          </Link>
         </div>
       </div>
       {/* <select
@@ -204,7 +215,9 @@ function AddProducts() {
               {data.data.approvedProducts.length > 0 ? (
                 <div class="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 grid-col-1 gap-4 ">
                   {data.data.approvedProducts.map((curElem) => {
-                    return <SellerSelectProduct key={curElem.id} product={curElem} />;
+                    return (
+                      <SellerSelectProduct key={curElem.id} product={curElem} />
+                    );
                     // return <AddProduct key={curElem.id} addproduct={curElem} />;
                   })}
                 </div>
@@ -220,7 +233,9 @@ function AddProducts() {
             (searchedProducts.transformedProducts.length > 0 ? (
               <div class="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 grid-col-1 gap-4 ">
                 {searchedProducts.transformedProducts.map((curElem) => {
-                  return <SellerSelectProduct key={curElem.id} product={curElem} />;
+                  return (
+                    <SellerSelectProduct key={curElem.id} product={curElem} />
+                  );
                 })}
               </div>
             ) : (
@@ -229,39 +244,44 @@ function AddProducts() {
               </div>
             ))}
 
-          {data && data.data.pagination && data.data.approvedProducts.length > 0 && inSearch == false && (
-            <div className="w-[50%] mx-auto flex justify-center items-center py-5 gap-4 ">
-              <button
-                className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-[20%]"
-                onClick={() => {
-                  setCurrentPage(data.data.pagination.current_page - 1);
-                  // setCurrentPage(data.data.pagination.previousPage);
-                }}
-                disabled={
-                  data.data.pagination.current_page ===
-                  data.data.pagination.from
-                }
-              >
-                {t("seller.addProduct.previousPage")}
-              </button>
-              {isFetching && (
-                <Ring size={20} lineWeight={5} speed={2} color="#ff6600" />
-              )}
-              <button
-                className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-[20%]"
-                onClick={() => {
-                  setCurrentPage(data.data.pagination.current_page + 1);
-                  // setCurrentPage(data.data.pagination.nextPage);
-                }}
-                disabled={
-                  data.data.pagination.current_page ===
-                  data.data.pagination.last_page
-                }
-              >
-                {t("seller.addProduct.nextPage")}
-              </button>
-            </div>
-          )}
+          {data &&
+            data.data.pagination &&
+            data.data.approvedProducts.length > 0 &&
+            inSearch == false && (
+              <div className="w-[50%] mx-auto flex justify-center items-center py-5 gap-4 ">
+                <button
+                  className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-[20%]"
+                  onClick={() => {
+                    setCurrentPage(data.data.pagination.current_page - 1);
+                    scroll("top");
+                    // setCurrentPage(data.data.pagination.previousPage);
+                  }}
+                  disabled={
+                    data.data.pagination.current_page ===
+                    data.data.pagination.from
+                  }
+                >
+                  {t("seller.addProduct.previousPage")}
+                </button>
+                {isFetching && (
+                  <Ring size={20} lineWeight={5} speed={2} color="#ff6600" />
+                )}
+                <button
+                  className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-[20%]"
+                  onClick={() => {
+                    setCurrentPage(data.data.pagination.current_page + 1);
+                    scroll(`top`);
+                    // setCurrentPage(data.data.pagination.nextPage);
+                  }}
+                  disabled={
+                    data.data.pagination.current_page ===
+                    data.data.pagination.last_page
+                  }
+                >
+                  {t("seller.addProduct.nextPage")}
+                </button>
+              </div>
+            )}
           <Dialog
             disableAutoFocus
             disableRestoreFocus
@@ -272,7 +292,10 @@ function AddProducts() {
             onClose={closepopup}
           >
             <DialogTitle className="flex justify-between">
-              <h4 className="sm:text-2xl text-sm "> {t("seller.addProduct.selectedProducts.selectedProducts")}:</h4>
+              <h4 className="sm:text-2xl text-sm ">
+                {" "}
+                {t("seller.addProduct.selectedProducts.selectedProducts")}:
+              </h4>
               <MdClose
                 onClick={closepopup}
                 className="w-[35px] h-[35px] cursor-pointer "
@@ -289,14 +312,40 @@ function AddProducts() {
                           <thead className="md:text-xl text-base ">
                             <tr>
                               <th className="pb-4 md:px-0 px-4">
-                                {t("seller.addProduct.selectedProducts.table.productName")}
+                                {t(
+                                  "seller.addProduct.selectedProducts.table.productName"
+                                )}
                               </th>
-                              <th className="pb-4 md:px-0 px-4">{t("seller.addProduct.selectedProducts.table.variations")}</th>
-                              <th className="pb-4 md:px-0 px-4">{t("seller.addProduct.selectedProducts.table.brand")}</th>
-                              <th className="pb-4 md:px-0 px-4">{t("seller.addProduct.selectedProducts.table.category")}</th>
-                              <th className="pb-4 md:px-0 px-4">{t("seller.addProduct.selectedProducts.table.publish")}</th>
-                              <th className="pb-4 md:px-0 px-4">{t("seller.addProduct.selectedProducts.table.image")}</th>
-                              <th className="pb-4 md:px-0 px-4">{t("seller.addProduct.selectedProducts.table.price")} </th>
+                              <th className="pb-4 md:px-0 px-4">
+                                {t(
+                                  "seller.addProduct.selectedProducts.table.variations"
+                                )}
+                              </th>
+                              <th className="pb-4 md:px-0 px-4">
+                                {t(
+                                  "seller.addProduct.selectedProducts.table.brand"
+                                )}
+                              </th>
+                              <th className="pb-4 md:px-0 px-4">
+                                {t(
+                                  "seller.addProduct.selectedProducts.table.category"
+                                )}
+                              </th>
+                              <th className="pb-4 md:px-0 px-4">
+                                {t(
+                                  "seller.addProduct.selectedProducts.table.publish"
+                                )}
+                              </th>
+                              <th className="pb-4 md:px-0 px-4">
+                                {t(
+                                  "seller.addProduct.selectedProducts.table.image"
+                                )}
+                              </th>
+                              <th className="pb-4 md:px-0 px-4">
+                                {t(
+                                  "seller.addProduct.selectedProducts.table.price"
+                                )}{" "}
+                              </th>
                               <th className="pb-4 md:px-0 px-4"> </th>
                             </tr>
                           </thead>
@@ -316,14 +365,14 @@ function AddProducts() {
                     ) : (
                       <div className="w-full h-full flex justify-center items-center text-center">
                         <p>
-                        {t("seller.addProduct.selectedProducts.noProducts")}
+                          {t("seller.addProduct.selectedProducts.noProducts")}
                         </p>
                       </div>
                     )
                   ) : (
                     <div className="w-full h-full flex justify-center items-center text-center">
                       <p>
-                      {t("seller.addProduct.selectedProducts.noProducts")}
+                        {t("seller.addProduct.selectedProducts.noProducts")}
                       </p>
                     </div>
                   )}
@@ -354,12 +403,11 @@ function AddProducts() {
             right: "10px",
           }}
         >
-          <div className="relative" >
-
-          { selectedProduct && <div className="w-[15px] h-[15px] absolute top-0.5 right-0 rounded-full bg-green-400 " ></div>}
-          <TfiShoppingCartFull className="bg-gray-400 w-[60px] h-[60px] rounded-[50%] p-[15px]" >
-
-          </TfiShoppingCartFull>
+          <div className="relative">
+            {selectedProduct && (
+              <div className="w-[15px] h-[15px] absolute top-0.5 right-0 rounded-full bg-green-400 "></div>
+            )}
+            <TfiShoppingCartFull className="bg-gray-400 w-[60px] h-[60px] rounded-[50%] p-[15px]"></TfiShoppingCartFull>
           </div>
         </div>
       </button>
