@@ -44,7 +44,7 @@ function SellerOrders({ orders, refetch }) {
     setIsLoading(true);
     try {
       const response = await Api.get(`/api/seller/order/${orders.order_id}`);
-      // console.log(response.data.order);
+      console.log(response.data.order);
       setOrderDetails(response.data.order);
       setIsLoading(false);
     } catch (error) {}
@@ -102,6 +102,8 @@ function SellerOrders({ orders, refetch }) {
     setRejecting(false);
     // openchange(false);
   }
+
+  // console.log(orders);
 
   return (
     <>
@@ -179,7 +181,7 @@ function SellerOrders({ orders, refetch }) {
                   </tr>
                 </thead>
                 <tbody className="text-center md:text-xl text-sm">
-                  {orderDetails?.order_details.map((product , index) => {
+                  { orderDetails?.order_details.map((product , index) => {
                     const nid = [];
                     if (product.combination) {
                       product?.combination?.variations.map((vari) => {
@@ -191,7 +193,7 @@ function SellerOrders({ orders, refetch }) {
                     return (
                       <tr key={index} className="text-center grid grid-cols-7">
                         <td className="pb-2 pt-2 col-span-3">{name}</td>
-                        <td className="pb-2 pt-2">{product.combination.part_number ? product.combination.part_number : `-`}</td>
+                        <td className="pb-2 pt-2">{product.combination?.part_number ? product.combination?.part_number : `-`}</td>
                         <td className="pb-2 pt-2">{product.quantity}</td>
                         <td className="pb-2 pt-2">{product.price}</td>
                         <td className="pb-2 pt-2">{product.line_total}</td>
