@@ -8,15 +8,14 @@ function PublicStoreCard({ store }) {
 
   return (
     <Link href={`/Stores/${store.slug}`} className="shadow-xl flex flex-col lg:h-[250px] md:h-[200px] h-[175px] ">
-      <div className="bg-cover overflow-hidden flex justify-center items-center w-auto h-[50%] ">
+      <div className=" overflow-hidden flex justify-center items-center ">
         <Image
           src={store.image ? store.image : logo}
           alt={store.name}
-          className="w-full object-contain transform transition duration-1000 "
+          className="object-contain transform transition duration-1000 "
           width={0}
           height={0}
-          sizes="100vw"
-          style={{ width: "auto", height: "auto" }}
+          style={{ width: "auto", height: "100%" }}
         />
       </div>
       <div className="flex justify-between items-center w-[90%] mx-auto py-3">
