@@ -59,7 +59,8 @@ const Footer = () => {
                 <p>{t("footer.syria")}</p>
               </li>
               <li className="mb-2">
-                <Link href={`https://sellers.tawasyme.com/advertise-with-us`} target="_blank" className="hover:text-skin-primary text-base" >{t("footer.Advertise")}</Link>
+                <p className="hover:text-skin-primary text-base cursor-pointer select-none" >{t("footer.Advertise")}</p>
+                {/* <Link href={`https://sellers.tawasyme.com/advertise-with-us`} target="_blank" className="hover:text-skin-primary text-base" >{t("footer.Advertise")}</Link> */}
               </li>
               <li className="mb-2">
                 <Link href="mailto:sales@tawasyme.com" legacyBehavior>
