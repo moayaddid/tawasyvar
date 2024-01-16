@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 function FilterCategories({ categories, selectedCategory, onSelectCategory }) {
 
   return (
-    <div className="flex gap-4 w-max ">
+    <div className="flex px-2 justify-start items-center space-x-4 w-max ">
       {categories.map((category) => (
         <button
           key={category.name}

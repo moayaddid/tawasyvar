@@ -48,10 +48,10 @@ function OrderAdmin({ names, refetch }) {
     router.pathname == "/admin/Orders/RejectedOrders" ||
     router.pathname == "/admin/Orders/CancelledOrders";
 
-  console.log(names);
+  // console.log(names);
 
-  const openGoogleMaps = (latitude, longitude) => {
-    const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
+  const openGoogleMaps = (latitude, longitude , desLat , desLon) => {
+    const url = `https://www.google.com/maps/dir/?api=1&origin=${latitude},${longitude}&destination=${desLat},${desLon}`;
     window.open(url, "_blank");
   };
 
@@ -133,7 +133,7 @@ function OrderAdmin({ names, refetch }) {
           <td className="py-5">{names.reason ? names.reason : "None Given"}</td>
         )}
         <td className="py-5">{names.shipping_address}</td>
-        <td className="py-5">{convertDateStringToDate(names.date)}</td>
+        <td className="py-5">{convertDateStringToDate(names.created_at)}</td>
         {/* <td className="pb-5">{names.created}</td> */}
         <td className="py-5">{convertDateStringToDate(names.updated_at)}</td>
         <td className="py-5">
@@ -150,25 +150,36 @@ function OrderAdmin({ names, refetch }) {
         {orderDetails && (
           <DialogTitle className=" border-b-2 border-gray-200">
             <div className="md:mx-5">
-              <div className="flex justify-between mx-auto">
-                <h4 className="text-xl text-gray-600" >
+              <div className="flex flex-wrap justify-between mx-auto">
+                <h4 className="text-xl text-gray-600">
                   Order ID : {orderDetails.order_id}
                 </h4>
                 <h4 className="text-xl text-gray-600">
                   Store name: {orderDetails.store_name}
                 </h4>
-                <h4>Date : {convertDateStringToDate(names.date)}</h4> 
-                <MdClose className="text-gray-600 cursor-pointer hover:text-red-500 w-[30px] h-[30px] " onClick={closepopup} />
+                <h4>Date : {convertDateStringToDate(names.date)}</h4>
+                <MdClose
+                  className="text-gray-600 cursor-pointer hover:text-red-500 w-[30px] h-[30px] "
+                  onClick={closepopup}
+                />
               </div>
-              <div className="grid grid-cols-3 mx-auto text-lg text-gray-400 font-light gap-3">
+              <div className="grid grid-cols-3 mx-auto text-lg text-gray-400 font-light gap-3 py-2">
                 <h6>Status : {orderDetails.status} </h6>
                 {/* <h4>Phone : 0964328926</h4> */}
-                <h6 className="text-lg text-gray-400 font-light">
-                  Shipping Address :{" "}
-                  {orderDetails.shipping_address
-                    ? orderDetails.shipping_address
-                    : "None"}
-                </h6>
+                {/* <div className="text-lg text-gray-400 font-light">
+                  Store Adress :
+                  <button
+                    onClick={() =>
+                      openGoogleMaps(
+                        orderDetails.store_lat,
+                        orderDetails.store_long
+                      )
+                    }
+                    className="text-gray-400 hover:text-skin-primary w-max "
+                  >
+                    Show on google maps
+                  </button>
+                </div> */}
                 {/* <h6 className="text-lg text-gray-400 font-light">
                   Shipping Address / Longitude : {orderDetails.longitude}
                 </h6>
@@ -178,13 +189,15 @@ function OrderAdmin({ names, refetch }) {
                 <button
                   onClick={() =>
                     openGoogleMaps(
+                      orderDetails.store_lat,
+                      orderDetails.store_long,
                       orderDetails.latitude,
-                      orderDetails.longitude
+                      orderDetails.longitude 
                     )
                   }
                   className="text-gray-400 hover:text-skin-primary w-max "
                 >
-                  Show on google maps
+                  Show adress on google maps
                 </button>
                 <p>
                   Order Note :
@@ -193,8 +206,18 @@ function OrderAdmin({ names, refetch }) {
                     : "( None given )"}
                 </p>
               </div>
-              <p className="text-gray-400" >Customer Name : {orderDetails.customer_name && orderDetails.customer_name }</p>
-              <p className="text-gray-400" >Customer Number : {orderDetails.customer_phone && orderDetails.customer_phone }</p>
+              <p className="text-gray-400">
+                    Seller Number : {orderDetails.seller_phone_number ? orderDetails.seller_phone_number : `-` }
+              </p>
+              
+              <p className="text-gray-400">
+                Customer Name :{" "}
+                {orderDetails.customer_name && orderDetails.customer_name}
+              </p>
+              <p className="text-gray-400">
+                Customer Number :{" "}
+                {orderDetails.customer_phone && orderDetails.customer_phone}
+              </p>
             </div>
           </DialogTitle>
         )}
@@ -219,25 +242,27 @@ function OrderAdmin({ names, refetch }) {
                   <tbody className="text-lg font-normal text-gray-700 text-center">
                     {orderDetails &&
                       orderDetails.order_details &&
-                      orderDetails.order_details.map((product , index) => {
+                      orderDetails.order_details.map((product, index) => {
                         const nid = [];
-                    if (product.combination) {
-                      product?.combination?.variations.map((vari) => {
-                        nid.push(vari.option);
-                      });
-                      // nid.join(" / ");
-                    }
-                    const name = product.combination ? product.product_name + ` ( ${nid.join(" - ")} )` : product.product_name ;
+                        if (product.combination) {
+                          product?.combination?.variations.map((vari) => {
+                            nid.push(vari.option);
+                          });
+                          // nid.join(" / ");
+                        }
+                        const name = product.combination
+                          ? product.product_name + ` ( ${nid.join(" - ")} )`
+                          : product.product_name;
                         return (
                           <tr
                             key={index}
                             className="even:bg-zinc-200 odd:bg-zinc-50 text-center "
                           >
+                            <td className="pb-5 pt-5">{name}</td>
                             <td className="pb-5 pt-5">
-                              {name}
-                            </td>
-                            <td className="pb-5 pt-5">
-                              {product.combination?.part_number ? product.combination?.part_number : `-`}
+                              {product.combination?.part_number
+                                ? product.combination?.part_number
+                                : `-`}
                             </td>
                             <td className="pb-5 pt-5 flex justify-center">
                               {product.price}
@@ -249,7 +274,12 @@ function OrderAdmin({ names, refetch }) {
                       })}
                   </tbody>
                 </table>
-                {orderDetails.big_size && <div className="bg-red-400 text-center" > This order cant be delivered via a Motorcycle </div>}
+                {orderDetails.big_size && (
+                  <div className="bg-red-400 text-center">
+                    {" "}
+                    This order cant be delivered via a Motorcycle{" "}
+                  </div>
+                )}
                 <div className="w-full flex flex-wrap border-t-2 border-gray-300 gap-2 pt-5">
                   <h3 className="border-b-2 flex justify-between items-center border-skin-primary w-[50%]">
                     <div>Delivery Price :</div>
@@ -277,7 +307,8 @@ function OrderAdmin({ names, refetch }) {
           )}
         </DialogContent>
 
-        {orderDetails && isLoading == false &&
+        {orderDetails &&
+          isLoading == false &&
           (orderDetails.status === "pending" ||
             orderDetails.status === "accepted") && (
             <DialogActions className="grid md:grid-cols-2 grid-cols-1 ">
@@ -309,20 +340,22 @@ function OrderAdmin({ names, refetch }) {
                   `Order Delivered`
                 )}
               </button>
-              { orderDetails.status !== "accepted" &&  <button
-                type="button"
-                className="bg-green-400 w-[20%] text-white px-14 py-2"
-                data-dismiss="modal"
-                onClick={Accepted}
-              >
-                {isAccepting ? (
-                  <div className="w-full flex justify-center items-center">
-                    <Ring size={20} lineWeight={5} speed={2} color="white" />
-                  </div>
-                ) : (
-                  `Accept Order`
-                )}
-              </button>}
+              {orderDetails.status !== "accepted" && (
+                <button
+                  type="button"
+                  className="bg-green-400 w-[20%] text-white px-14 py-2"
+                  data-dismiss="modal"
+                  onClick={Accepted}
+                >
+                  {isAccepting ? (
+                    <div className="w-full flex justify-center items-center">
+                      <Ring size={20} lineWeight={5} speed={2} color="white" />
+                    </div>
+                  ) : (
+                    `Accept Order`
+                  )}
+                </button>
+              )}
             </DialogActions>
           )}
       </Dialog>

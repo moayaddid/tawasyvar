@@ -128,6 +128,7 @@ function Product({ product }) {
         canonical={`https://tawasyme.com/store/${router.query.storeId}/Product/${router.query.productSlug}`}
       />
       <div className="w-full h-full flex justify-center">
+        <button className="text-3xl text-black"  >Back</button>
         <div className="sm:w-[70%] w-[90%] shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] px-6 py-6 md:my-14 my-2">
           <div className="w-full flex md:flex-row flex-col md:justify-start items-center gap-4 py-2">
             <div className="sm:w-[30%] w-full">

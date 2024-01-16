@@ -60,6 +60,9 @@ function Products() {
       heading: t("seller.products.table.action"),
     },
     {
+      heading: t("seller.products.table.price"),
+    },
+    {
       heading: t("seller.products.table.name"),
     },
     {
@@ -79,9 +82,6 @@ function Products() {
     },
     {
       heading: t("seller.products.table.brand"),
-    },
-    {
-      heading: t("seller.products.table.price"),
     },
     
   ];

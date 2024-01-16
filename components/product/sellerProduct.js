@@ -207,6 +207,7 @@ function SellerProduct({ product, refetch }) {
             )}
           </div>
         </td>
+        <td className="px-4 py-4">{price}</td>
         <td className="px-4 py-4">
           <Link href={`/Products/${product.slug}`} legacyBehavior>
             <a
@@ -220,10 +221,16 @@ function SellerProduct({ product, refetch }) {
         {/* <td className="px-4 py-4">{product.description}</td> */}
         <td className="px-4 py-4 self-center ">
           <p>{product.combination ? nid.join(" - ") : `-`}</p>
-          { product.combination?.hex && <div
-            className={`flex items-center justify-center mx-auto w-[25px] p-3 h-[25px] rounded-full border border-skin-primary`}
-            style={{ backgroundColor: `${product.combination?.hex && product.combination?.hex}` }}
-          ></div>}
+          {product.combination?.hex && (
+            <div
+              className={`flex items-center justify-center mx-auto w-[25px] p-3 h-[25px] rounded-full border border-skin-primary`}
+              style={{
+                backgroundColor: `${
+                  product.combination?.hex && product.combination?.hex
+                }`,
+              }}
+            ></div>
+          )}
         </td>
         <td className="px-4 py-4">
           {product.combination ? product.combination.part_number : `-`}
@@ -274,7 +281,6 @@ function SellerProduct({ product, refetch }) {
         </td>
         <td className="px-4 py-4">{product.brand && product.brand.name}</td>
         {/* <td className="px-4 py-4">{product.sold_quantity}</td> */}
-        <td className="px-4 py-4">{price}</td>
       </tr>
 
       <Dialog
@@ -296,7 +302,8 @@ function SellerProduct({ product, refetch }) {
             <input
               className="mb-7 text-black placeholder:text-zinc-500 pl-2 outline-none border-b-2 focus:border-skin-primary transition-all duration-700"
               type="numbere"
-              placeholder={price}
+              defaultValue={price}
+              // placeholder={price}
               ref={newPrice}
               required
             />

@@ -192,7 +192,7 @@ const Store = () => {
       </div>
 
       <div className="flex justify-center bg-gray-200 w-full py-3 mb-10  ">
-        <ul className="flex md:justify-center justify-start md:items-center items-start md:w-full w-[80%] mx-auto gap-6 md:overflow-auto overflow-x-scroll">
+        <ul className="grid md:w-full w-[80%] mx-auto gap-6 md:overflow-auto overflow-x-scroll">
           {sellerStoreData && (
             <FilterCategories
               categories={sellerStoreData?.categories}

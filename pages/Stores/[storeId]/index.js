@@ -20,6 +20,7 @@ import logo from "@/public/images/tawasylogo.png";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import PublicAllProduct from "@/components/CustomerAllProducts/AllProducts";
+import Cookies from "js-cookie";
 
 export async function getServerSideProps(context) {
   const { params, locale } = context;
@@ -70,6 +71,7 @@ function Products({ store }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const onSelectCategory = (categoryName) => {
+    Cookies.set( `ctg` , categoryName);
     setSelectedCategory(categoryName);
   };
 
@@ -81,7 +83,23 @@ function Products({ store }) {
   }, [router.query.storeId]);
 
   useEffect(() => {
+    const category = Cookies.get(`ctg`);
     if (store && store.categories.length > 0) {
+      if(category){
+        // console.log(`category`);
+        // console.log(category);
+        // console.log(store.categories);
+        const cat = store.categories.find((catego) => catego.name == category);
+        // console.log(cat);
+        if(cat){
+          // console.log(cat);
+          setSelectedCategory(cat.name);
+          return ;
+        }else{
+          setSelectedCategory(store.categories[0].name);  
+          return; 
+        }
+      }
       setSelectedCategory(store.categories[0].name);
     }
   }, [store]);
@@ -308,7 +326,7 @@ function Products({ store }) {
         {inSearch == false && (
           <div className="w-full">
             <div className="flex justify-center bg-gray-200 w-full py-3 mb-10  ">
-              <ul className="flex md:justify-center justify-start md:items-center items-start md:w-full w-[90%] mx-auto gap-6 md:overflow-auto overflow-x-scroll">
+              <ul className="grid md:w-max w-[90%] mx-auto gap-6 md:overflow-auto overflow-x-scroll">
                 {store && (
                   <FilterCategories
                     categories={store.categories}
