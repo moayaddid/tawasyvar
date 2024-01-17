@@ -19,8 +19,9 @@ import {
 import TawasyLoader from "../UI/tawasyLoader";
 import SellerCombination from "../SellerVariations/SellerCombination";
 import Cookies from "js-cookie";
+import { vendorActions } from "@/Store/VendorSlice";
 
-function SellerSelectProduct({ product }) {
+function VendorSharedProduct({ product }) {
   const { t } = useTranslation("");
   const router = useRouter();
   const Api = createAxiosInstance(router);
@@ -35,15 +36,17 @@ function SellerSelectProduct({ product }) {
     if (product.has_variation == true) {
       openPop();
     } else {
-      setIsLoading(true);
-      try {
-        const response = await Api.post(
-          `/api/seller/select-product/${product.id}`
-        );
-        dispatch(selectedActions.selectProduct());
-      } catch (error) {
-      }
-      setIsLoading(false);
+    //   setIsLoading(true);
+    //   try {
+    //     const response = await Api.post(
+    //       `/api/seller/select-product/${product.id}`
+    //     );
+    //     dispatch(selectedActions.selectProduct());
+    //   } catch (error) {
+    //   }
+    //   setIsLoading(false);
+    dispatch(vendorActions.selectProduct(product));
+    console.log(`vendor selected a product`);
     }
   }
 
@@ -173,4 +176,4 @@ function SellerSelectProduct({ product }) {
   );
 }
 
-export default SellerSelectProduct;
+export default VendorSharedProduct;
