@@ -44,7 +44,7 @@ function SellerOrders({ orders, refetch }) {
     setIsLoading(true);
     try {
       const response = await Api.get(`/api/seller/order/${orders.order_id}`);
-      console.log(response.data.order);
+      // console.log(response.data.order);
       setOrderDetails(response.data.order);
       setIsLoading(false);
     } catch (error) {}

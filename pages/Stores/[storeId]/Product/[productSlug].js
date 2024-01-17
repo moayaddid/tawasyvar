@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import images from "@/public/images/kuala.jpg";
 import withLayoutCustomer from "@/components/wrapping components/WrappingCustomerLayout";
@@ -52,6 +52,7 @@ function Product({ product }) {
   const [price, setPrice] = useState();
   const [selectedCombination, setSelectedCombination] = useState();
   const isButtonEnabled = selectedCombination ? true : false;
+  const combinationsRef = useRef();
 
   useEffect(() => {
     if (product) {
@@ -110,7 +111,44 @@ function Product({ product }) {
 
   const { t } = useTranslation("");
 
-  // console.log(JSON.stringify(product));
+  // console.log(product);
+  
+
+  function getselectedImage(data) {
+    // console.log(`selected image`);
+    // console.log(data);
+    if (product.product_combination) {
+      // const combi = product?.product_combination.find((combination) => combination.product?.image == data);
+      // console.log(combi);
+      const combi = product?.product_combination.find(
+        (combination) =>
+          data ==
+          combination?.product?.variations?.map((variation) => {
+            return variation.image;
+          })
+      );
+      if(combi){
+        // console.log(combi);
+        setPrice(combi.product.price);
+        setSelectedCombination(combi.product.line_id);
+      }
+    }
+  }
+
+  useEffect(() => {
+    const selectedComb = document.getElementById(
+      `${selectedCombination}`
+    );
+    const container = combinationsRef.current;
+    if (selectedComb && container) {
+      selectedComb.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+        container,
+      });
+    }
+  }, [selectedCombination]);
 
   return (
     <>
@@ -128,21 +166,21 @@ function Product({ product }) {
         canonical={`https://tawasyme.com/store/${router.query.storeId}/Product/${router.query.productSlug}`}
       />
       <div className="w-full h-full flex justify-center">
-        <button className="text-3xl text-black"  >Back</button>
         <div className="sm:w-[70%] w-[90%] shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] px-6 py-6 md:my-14 my-2">
           <div className="w-full flex md:flex-row flex-col md:justify-start items-center gap-4 py-2">
-            <div className="sm:w-[30%] w-full">
+            <div className="sm:w-[40%] w-full justify-self-start">
               <CarouselProduct
                 product={product}
                 selectedCombination={selectedCombination}
                 productDialog={false}
+                onSelectImage={(data) => getselectedImage(data)}
                 images={
                   product?.product ? [product?.product?.image] : product?.images
                 }
               />
             </div>
 
-            <div className="w-full flex flex-col space-y-2 justify-center sm:items-start items-center">
+            <div className="w-full h-full flex flex-col space-y-2 justify-center sm:items-start items-center">
               <div className="flex justify-between w-full">
                 <h1 className=" md:text-xl sm:text-lg text-lg w-[70%] text-gray-600 capitalize">
                   {product?.product
@@ -178,7 +216,7 @@ function Product({ product }) {
                 )}
               </div>
               {product?.product_combination && (
-                <div className="w-full flex gap-1 flex-wrap py-2">
+                <div ref={combinationsRef} className=" w-[90%] grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-2 gap-2 overflow-y-scroll max-h-[200px] py-1">
                   {product.product_combination &&
                     product.product_combination.length > 0 &&
                     product.product_combination.map((combination, index) => {
@@ -190,7 +228,7 @@ function Product({ product }) {
                       );
                       varis = varis.join(" - ");
                       return (
-                        <div key={combination.product.line_id}>
+                        <div key={combination.product.line_id} id={`${combination.product.line_id}`} >
                           <input
                             type="radio"
                             id={` ${combination.product.line_id}combination`}
@@ -204,6 +242,7 @@ function Product({ product }) {
                             onChange={(e) => {
                               // console.log(e.target.value);
                               setSelectedCombination(e.target.value);
+                              setPrice(combination.product.price);
                             }}
                           />
                           <label
@@ -211,7 +250,9 @@ function Product({ product }) {
                             className="inline-flex flex-col items-start justify-start w-full px-4 py-1 text-gray-500 bg-white border border-dashed border-gray-500 rounded-lg cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 hover:text-gray-600 hover:bg-gray-100 transition-all duration-500"
                           >
                             <div className="inline-flex justify-between w-full items-center space-x-2">
-                              <p className="md:text-lg sm:text-base text-sm">{varis}</p>
+                              <p className="md:text-lg sm:text-base text-sm">
+                                {varis}
+                              </p>
                               {combination?.product?.hex && (
                                 <div
                                   className={`flex items-center justify-center w-[20px] h-[20px] rounded-full border border-skin-primary`}
@@ -221,9 +262,11 @@ function Product({ product }) {
                                 ></div>
                               )}
                             </div>
-                            { combination.product.part_number && <p className="text-xs">
-                              {`${combination.product.part_number}`}
-                            </p>}
+                            {combination.product.part_number && (
+                              <p className="text-xs">
+                                {`${combination.product.part_number}`}
+                              </p>
+                            )}
                             <p className="md:text-lg sm:text-base text-sm">
                               {combination.product.price} S.P
                             </p>

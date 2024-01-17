@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import kuala from "@/public/images/kuala.jpg";
 import { useTranslation } from "next-i18next";
 import logo from "@/public/images/tawasylogo.png";
@@ -51,8 +51,7 @@ const variation = [
   },
 ];
 
-function 
-PublicAllProduct({ product, storeId }) {
+function PublicAllProduct({ product, storeId }) {
   const { t } = useTranslation("");
   const router = useRouter();
   const dispatch = useDispatch();
@@ -63,6 +62,7 @@ PublicAllProduct({ product, storeId }) {
   const [productCombinations, setProductCombinations] = useState();
   const [selectedCombination, setSelectedCombination] = useState();
   const [dialogAdding, setDialogAdding] = useState(false);
+  const combinationsRef = useRef();
   // const [proCombination , setProCombination] = useState();
 
   const functionopenpopup = async () => {
@@ -84,12 +84,6 @@ PublicAllProduct({ product, storeId }) {
     setSelectedCombination();
   };
 
-  // const [selectedOption, setSelectedOption] = useState("");
-
-  // const handleOptionChange = (e) => {
-  //   setSelectedOption(e.target.value);
-  // };
-
   const isButtonEnabled = selectedCombination ? true : false;
 
   async function addToCart() {
@@ -98,7 +92,6 @@ PublicAllProduct({ product, storeId }) {
       return;
     } else {
       setAdding(true);
-      // console.log(product.id);
       try {
         const response = await Api.post(`/api/customer/cart/add`, {
           product_id: product.id,
@@ -131,7 +124,33 @@ PublicAllProduct({ product, storeId }) {
     setDialogAdding(false);
   }
 
-  // console.log(product);
+  function getselectedImage(data) {
+    if (productCombinations) {
+      const combi = productCombinations?.product_combination.find(
+        (combination) =>
+          data ==
+          combination?.product?.variations?.map((variation) => {
+            return variation.image;
+          })
+      );
+      if (combi) {
+        setSelectedCombination(combi.product.line_id);
+      }
+    }
+  }
+
+  useEffect(() => {
+    const selectedComb = document.getElementById(`${selectedCombination}`);
+    const container = combinationsRef.current;
+    if (selectedComb && container) {
+      selectedComb.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+        container,
+      });
+    }
+  }, [selectedCombination]);
 
   return (
     <>
@@ -222,6 +241,9 @@ PublicAllProduct({ product, storeId }) {
                       product={productCombinations}
                       selectedCombination={selectedCombination}
                       images={productCombinations.images}
+                      onSelectImage={(data) => {
+                        getselectedImage(data);
+                      }}
                     />
                   </div>
                   <div className="sm:w-[80%] w-full">
@@ -268,7 +290,10 @@ PublicAllProduct({ product, storeId }) {
                             ))}
                           </select> */}
 
-                      <div className="w-full flex space-x-2 flex-wrap">
+                      <div
+                        ref={combinationsRef}
+                        className="w-full grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-2 gap-2 overflow-y-scroll max-h-[200px] py-1"
+                      >
                         {productCombinations.product_combination &&
                           productCombinations.product_combination.length > 0 &&
                           productCombinations.product_combination.map(
@@ -281,7 +306,10 @@ PublicAllProduct({ product, storeId }) {
                               );
                               varis = varis.join(" - ");
                               return (
-                                <div key={combination.product.line_id}>
+                                <div
+                                  key={combination.product.line_id}
+                                  id={`${combination.product.line_id}`}
+                                >
                                   <input
                                     type="radio"
                                     id={` ${combination.product.line_id}combination`}
@@ -294,7 +322,6 @@ PublicAllProduct({ product, storeId }) {
                                       combination.product.line_id
                                     }
                                     onChange={(e) => {
-                                      // console.log(e.target.value);
                                       setSelectedCombination(e.target.value);
                                     }}
                                   />
@@ -304,12 +331,14 @@ PublicAllProduct({ product, storeId }) {
                                   >
                                     <p className="flex flex-wrap items-center space-x-4">
                                       <p className="text-base">{varis}</p>
-                                      { combination?.product?.hex && <div
-                                        className={`flex items-center justify-center w-[20px] h-[20px] rounded-full border border-skin-primary`}
-                                        style={{
-                                          backgroundColor: `${combination?.product?.hex}`,
-                                        }}
-                                      ></div>}
+                                      {combination?.product?.hex && (
+                                        <div
+                                          className={`flex items-center justify-center w-[20px] h-[20px] rounded-full border border-skin-primary`}
+                                          style={{
+                                            backgroundColor: `${combination?.product?.hex}`,
+                                          }}
+                                        ></div>
+                                      )}
                                     </p>
                                     <p className="text-xs">
                                       {combination.product.part_number}

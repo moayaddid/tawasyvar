@@ -24,6 +24,7 @@ export function CarouselProduct({
   product,
   images,
   selectedCombination,
+  onSelectImage ,
 }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const imageContainerRef = useRef(null);
@@ -118,7 +119,7 @@ export function CarouselProduct({
                   width={100}
                   height={100}
                   src={data}
-                  onClick={() => handleImageClick(i)}
+                  onClick={() => {handleImageClick(i) ; onSelectImage(data) ; }}
                   style={{ width: "100px", height: "100px" }}
                 />
               ))}
