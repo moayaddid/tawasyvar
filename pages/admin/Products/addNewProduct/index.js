@@ -248,7 +248,7 @@ const AddNewProductAdmin = () => {
           </h2>
         </div>
         <form
-          className=" w-[80%] flex flex-col justify-center mx-auto "
+          className=" w-[80%] flex flex-col justify-center mx-auto gap-3 h-max "
           onSubmit={createNewProduct}
         >
           {/* <div className="items-center"> */}
@@ -385,8 +385,8 @@ const AddNewProductAdmin = () => {
                 <label htmlFor="big" className="px-2 cursor-pointer " >Big Size Product</label>
               </div>
 
-            <div className="px-6 py-4 my-5 flex flex-col justify-start items-start box-border pl-3 w-[80%] mx-auto  ">
-              <div className="w-[200px] h-[100px]">
+            <div className="px-6 pl-3 w-[80%]  h-max  ">
+              <div className="h-max">
                 <ImageUpload
                   onSelectImage={handleStoreImage}
                   width={150}
@@ -408,7 +408,7 @@ const AddNewProductAdmin = () => {
             </div>
           </div>
           {variations && options && (
-            <div className="w-full p-6">
+            <div className="w-full px-6 ">
               {hasVariations && (
                 <Variations
                   setVariants={(data) => {
@@ -423,7 +423,7 @@ const AddNewProductAdmin = () => {
 
           {/* <div className="w-full flex justify-center "> */}
           <button
-            className="bg-[#ff6600] text-white md:w-[400px] py-2 rounded-lg hover:bg-[#ff8800] "
+            className="bg-[#ff6600] text-white md:w-[400px] py-2 rounded-lg hover:bg-[#ff8800]"
             type="submit"
           >
             {saving == true ? (

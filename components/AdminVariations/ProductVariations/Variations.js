@@ -86,7 +86,7 @@ function Variations({ allVariations, allOptions, setVariants }) {
   // console.log(allOptions);
 
   return (
-    <div className="w-full">
+    <div className="w-full my-4">
       <div className="w-full flex flex-col">
         <div className="w-full flex flex-col justify-start items-start py-3 border-b border-skin-primary">
           <p className="text-2xl select-none">All Variations :</p>
