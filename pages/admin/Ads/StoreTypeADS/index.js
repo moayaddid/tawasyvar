@@ -351,18 +351,18 @@ function StoreTypeADS() {
                 </div>
               </div>
               <div className="flex justify-start">
-                <button
-                  className="bg-skin-primary w-[20%] rounded-md text-white px-8 py-2"
-                  type="submit"
-                >
-                  {addingWebsite == true ? (
-                    <div className="w-full h-full flex justify-center items-center">
-                      <Ring size={20} lineWeight={5} speed={2} color="white" />
-                    </div>
-                  ) : (
-                    `Save`
-                  )}
-                </button>
+                {addingWebsite == true ? (
+                  <div className="w-full h-full flex justify-center items-center">
+                    <Ring size={20} lineWeight={5} speed={2} color="#ff6600" />
+                  </div>
+                ) : (
+                  <button
+                    className="bg-skin-primary w-[20%] rounded-md text-white px-8 py-2"
+                    type="submit"
+                  >
+                    Save
+                  </button>
+                )}
               </div>
             </form>
           </Stack>
@@ -412,18 +412,18 @@ function StoreTypeADS() {
                 </div>
               </div>
               <div className="flex justify-start">
-                <button
-                  className="bg-skin-primary w-[20%] rounded-md text-white px-8 py-2"
-                  type="submit"
-                >
-                  {addingMobile == true ? (
-                    <div className="w-full h-full flex justify-center items-center">
-                      <Ring size={20} lineWeight={5} speed={2} color="white" />
-                    </div>
-                  ) : (
-                    `Save`
-                  )}
-                </button>
+                {addingMobile == true ? (
+                  <div className="w-full h-full flex justify-center items-center">
+                    <Ring size={20} lineWeight={5} speed={2} color="white" />
+                  </div>
+                ) : (
+                  <button
+                    className="bg-skin-primary w-[20%] rounded-md text-white px-8 py-2"
+                    type="submit"
+                  >
+                    Save
+                  </button>
+                )}
               </div>
             </form>
           </Stack>

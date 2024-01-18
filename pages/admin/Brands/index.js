@@ -154,18 +154,18 @@ function Brands() {
                 </div>
               </div>
               <div className="flex justify-start pt-6">
-                <button
-                  className="bg-skin-primary rounded-md text-white px-8 py-2"
-                  type="submit"
-                >
-                  {adding == true ? (
-                    <div className="w-full flex justify-center">
-                      <Ring size={20} speed={2} lineWeight={5} color="white" />
-                    </div>
-                  ) : (
-                    `Add Brand`
-                  )}
-                </button>
+                {adding == true ? (
+                  <div className="w-full flex justify-center">
+                    <Ring size={20} speed={2} lineWeight={5} color="white" />
+                  </div>
+                ) : (
+                  <button
+                    className="bg-skin-primary rounded-md text-white px-8 py-2"
+                    type="submit"
+                  >
+                    Add Brand
+                  </button>
+                )}
               </div>
             </form>
           </Stack>

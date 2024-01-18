@@ -310,18 +310,18 @@ function Categories() {
                 </div>
               </div>
               <div className="flex justify-start pt-6">
-                <button
-                  className="bg-skin-primary w-[20%] rounded-md text-white px-8 py-2"
-                  type="submit"
-                >
-                  {loading == true ? (
-                    <div className="w-full flex justify-center">
-                      <Ring size={20} speed={2} lineWeight={5} color="white" />
-                    </div>
-                  ) : (
-                    `Add Category`
-                  )}
-                </button>
+                {loading == true ? (
+                  <div className="w-full flex justify-center">
+                    <Ring size={20} speed={2} lineWeight={5} color="#ff6600" />
+                  </div>
+                ) : (
+                  <button
+                    className="bg-skin-primary w-[20%] rounded-md text-white px-8 py-2"
+                    type="submit"
+                  >
+                    Add Category
+                  </button>
+                )}
               </div>
             </form>
           </Stack>

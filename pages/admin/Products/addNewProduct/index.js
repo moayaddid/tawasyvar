@@ -64,7 +64,7 @@ const AddNewProductAdmin = () => {
   const sortRef = useRef();
   const [category, setCategory] = useState();
   const [brand, setBrand] = useState();
-  const [bigSize , setBigSize] = useState(false);
+  const [bigSize, setBigSize] = useState(false);
   const [variants, setVariants] = useState();
   const [hasVariations, setHasVariations] = useState(false);
   const [productId, setProductId] = useState();
@@ -168,7 +168,7 @@ const AddNewProductAdmin = () => {
         data.ean_code = eanRef.current.value;
         data.sku = skuRef.current.value;
         data.brand_name = brand;
-        data.big_size = (bigSize == false) ? 0 : 1;
+        data.big_size = bigSize == false ? 0 : 1;
         variants.forEach((item, index) => {
           data[`variations[${index}][attribute_id]`] = item.attribute_id;
           data[`variations[${index}][option_id]`] = item.option_id;
@@ -210,7 +210,7 @@ const AddNewProductAdmin = () => {
             ean_code: eanRef.current.value,
             sku: skuRef.current.value,
             brand_name: brand,
-            big_size : (bigSize == false) ? 0 : 1
+            big_size: bigSize == false ? 0 : 1,
           },
           {
             headers: { "Content-Type": `multipart/form-data` },
@@ -374,16 +374,20 @@ const AddNewProductAdmin = () => {
               />
             </div>
 
-              <div className="px-6 py-4 " >
-                  <input
-                    id="big"
-                    type="checkbox"
-                    checked = {bigSize}
-                    onChange={() => {setBigSize(!bigSize)}}
-                    className="cursor-pointer"
-                  />
-                <label htmlFor="big" className="px-2 cursor-pointer " >Big Size Product</label>
-              </div>
+            <div className="px-6 py-4 ">
+              <input
+                id="big"
+                type="checkbox"
+                checked={bigSize}
+                onChange={() => {
+                  setBigSize(!bigSize);
+                }}
+                className="cursor-pointer"
+              />
+              <label htmlFor="big" className="px-2 cursor-pointer ">
+                Big Size Product
+              </label>
+            </div>
 
             <div className="px-6 pl-3 w-[80%]  h-max  ">
               <div className="h-max">
@@ -422,18 +426,18 @@ const AddNewProductAdmin = () => {
           )}
 
           {/* <div className="w-full flex justify-center "> */}
-          <button
-            className="bg-[#ff6600] text-white md:w-[400px] py-2 rounded-lg hover:bg-[#ff8800]"
-            type="submit"
-          >
-            {saving == true ? (
-              <div className="w-full flex justify-center">
-                <Ring size={20} speed={2} lineWeight={5} color="white" />
-              </div>
-            ) : (
-              `Add Product`
-            )}
-          </button>
+          {saving == true ? (
+            <div className="w-full flex justify-center">
+              <Ring size={20} speed={2} lineWeight={5} color="white" />
+            </div>
+          ) : (
+            <button
+              className="bg-[#ff6600] text-white md:w-[400px] py-2 rounded-lg hover:bg-[#ff8800]"
+              type="submit"
+            >
+              Add Product
+            </button>
+          )}
           {/* </div> */}
           {/* </div> */}
         </form>
@@ -472,7 +476,7 @@ const AddNewProductAdmin = () => {
           <button
             onClick={() => {
               setOpenPopUp(false);
-              router.push("/admin/Products/AllProducts"); 
+              router.push("/admin/Products/AllProducts");
             }}
             className="w-[10%] px-2 py-1 bg-green-500 text-white rounded-lg hover:bg-green-600 hover:cursor-pointer"
           >

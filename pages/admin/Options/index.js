@@ -352,18 +352,16 @@ function AdminVariations() {
                 </div>
               </div>
               <div className="flex justify-start pt-6">
-                <button
+                { addingOption == true ? (
+                    <div className="w-full flex justify-center">
+                      <Ring size={25} speed={2} lineWeight={5} color="#ff6600" />
+                    </div>
+                  ) : ( <button
                   className="bg-skin-primary rounded-md text-white px-8 py-2"
                   type="submit"
                 >
-                  {addingOption == true ? (
-                    <div className="w-full flex justify-center">
-                      <Ring size={20} speed={2} lineWeight={5} color="white" />
-                    </div>
-                  ) : (
-                    `Save`
-                  )}
-                </button>
+                    Save
+                </button>)}
               </div>
             </form>
           </Stack>

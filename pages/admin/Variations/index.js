@@ -154,7 +154,7 @@ function AdminVariations() {
         <div className="py-5 px-5">
           <div className="flex justify-between space-x-2 ">
             <h1 className="text-3xl p-3">Variations :</h1>
-            <div className="flex justify-end items-center space-x-3" >
+            <div className="flex justify-end items-center space-x-3">
               <div className="w-max flex justify-end ">
                 <button
                   onClick={functionopenpopup}
@@ -371,18 +371,18 @@ function AdminVariations() {
                 </div>
               </div>
               <div className="flex justify-start pt-6">
-                <button
-                  className="bg-skin-primary rounded-md text-white px-8 py-2"
-                  type="submit"
-                >
-                  {addingOption == true ? (
-                    <div className="w-full flex justify-center">
-                      <Ring size={20} speed={2} lineWeight={5} color="white" />
-                    </div>
-                  ) : (
-                    `Save`
-                  )}
-                </button>
+                {addingOption == true ? (
+                  <div className="w-full flex justify-center">
+                    <Ring size={25} speed={2} lineWeight={5} color="#ff6600" />
+                  </div>
+                ) : (
+                  <button
+                    className="bg-skin-primary rounded-md text-white px-8 py-2"
+                    type="submit"
+                  >
+                    Save
+                  </button>
+                )}
               </div>
             </form>
           </Stack>

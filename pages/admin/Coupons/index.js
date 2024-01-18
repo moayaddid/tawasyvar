@@ -38,7 +38,6 @@ const tableheading = [
   },
 ];
 
-
 function Coupons() {
   const [open, openchange] = useState(false);
   const router = useRouter();
@@ -216,18 +215,18 @@ function Coupons() {
               </div>
 
               <div className="flex justify-start pt-6">
-                <button
-                  className="bg-skin-primary rounded-md text-white px-8 py-2"
-                  type="submit"
-                >
-                  {isAdding == true ? (
-                    <div className="w-full flex justify-center">
-                      <Ring size={20} speed={2} lineWeight={5} color="white" />
-                    </div>
-                  ) : (
-                    `Add Coupons`
-                  )}
-                </button>
+                {isAdding == true ? (
+                  <div className="w-full flex justify-center">
+                    <Ring size={20} speed={2} lineWeight={5} color="#ff6600" />
+                  </div>
+                ) : (
+                  <button
+                    className="bg-skin-primary rounded-md text-white px-8 py-2"
+                    type="submit"
+                  >
+                    Add Coupons
+                  </button>
+                )}
               </div>
             </form>
           </Stack>
