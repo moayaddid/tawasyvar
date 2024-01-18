@@ -7,7 +7,7 @@ import createAxiosInstance from "@/API";
 import { Ring } from "@uiball/loaders";
 import Link from "next/link";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectedActions } from "@/Store/SelectedSlice";
 import {
   Dialog,
@@ -31,22 +31,38 @@ function VendorSharedProduct({ product }) {
   const [isLoadingPop, setIsLoadingPop] = useState(false);
   const [productVariations, setProductVariations] = useState();
   const storeId = Cookies.get("Sid");
+  const selectedProducts = useSelector((state) => state.vendor.products);
+  // const [isSelected, setIsSelected] = useState(
+  //   selectedProducts && selectedProducts?.length > 0
+  //     ? selectedProducts.map((prod) => {if(prod.id == product.id) return true})
+  //     : false
+  // );
+
+  console.log(selectedProducts);
+
+  const [isSelected, setIsSelected] = useState(
+    selectedProducts && selectedProducts?.length > 0
+      ? selectedProducts.find((prod) => {prod.id === product.id}) ? true : false
+      : 
+      false
+  );
 
   async function saveProduct() {
     if (product.has_variation == true) {
       openPop();
     } else {
-    //   setIsLoading(true);
-    //   try {
-    //     const response = await Api.post(
-    //       `/api/seller/select-product/${product.id}`
-    //     );
-    //     dispatch(selectedActions.selectProduct());
-    //   } catch (error) {
-    //   }
-    //   setIsLoading(false);
-    dispatch(vendorActions.selectProduct(product));
-    console.log(`vendor selected a product`);
+      //   setIsLoading(true);
+      //   try {
+      //     const response = await Api.post(
+      //       `/api/seller/select-product/${product.id}`
+      //     );
+      //     dispatch(selectedActions.selectProduct());
+      //   } catch (error) {
+      //   }
+      //   setIsLoading(false);
+      dispatch(vendorActions.selectProduct(product));
+      setIsSelected((prev) => !prev)
+      console.log(`vendor selected a product`);
     }
   }
 
@@ -108,12 +124,22 @@ function VendorSharedProduct({ product }) {
               {t("seller.addProduct.selectedProducts.notCompatible")}
             </div>
           ) : !isLoading ? (
-            <button
-              onClick={saveProduct}
-              className="cursor-pointer border-2 border-gray-400 text-gray-600 hover:border-skin-primary hover:text-skin-primary px-4 rounded-full text-base transform duration-500 "
-            >
-              {t("seller.addProduct.selectProduct")}
-            </button>
+            isSelected ? (
+              <button
+                onClick={saveProduct}
+                className="cursor-pointer border-2 border-gray-400 text-gray-600 hover:border-skin-primary hover:text-skin-primary px-4 rounded-full text-base transform duration-500 "
+              >
+                {t("seller.addProduct.selectProduct")}
+              </button>
+            ) : (
+              <button
+                // onClick={saveProduct}
+                className="cursor-default bg-gray-600 text-white px-4 rounded-full text-base transform duration-500 "
+              >
+                {/* {t("seller.addProduct.selectProduct")} */}
+                Selected
+              </button>
+            )
           ) : (
             <div className="bg-skin-primary py-1 flex justify-center items-center rounded-full">
               <Ring size={23} lineWeight={5} speed={2} color="white" />

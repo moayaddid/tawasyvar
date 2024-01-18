@@ -11,7 +11,6 @@ import TotalAddProduct from "@/components/product/SellerTotalAddProduct/TotalAdd
 import { Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
 import { MdArrowForward, MdClose } from "react-icons/md";
 import { Ring } from "@uiball/loaders";
-import SellerSelectProduct from "@/components/sellerSelectProduct/SellerSelectProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { selectedActions } from "@/Store/SelectedSlice";
 import { useRef, useState } from "react";
@@ -48,30 +47,31 @@ function addProducts() {
     return await Api.get(`api/seller/approved-products?page=${pageNumber}`);
   }
 
-  const [selectedProducts, setSelectedProducts] = useState();
+  // const [selectedProducts, setSelectedProducts] = useState();
   const [loadingSelected, setLoadingSelected] = useState(false);
   const [searchedProducts, setSearchedProducts] = useState();
   const [inSearch, setInSearch] = useState(false);
   const [searching, setSearching] = useState(false);
-  const selectedProduct = useSelector(
-    (state) => state.selected.selectedProduct
-  );
+  // const selectedProduct = useSelector(
+  //   (state) => state.selected.selectedProduct
+  // );
+  const selectedProducts = useSelector((state) => state.vendor.products);
   const [open, openchange] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  async function fetchSelectedProducts() {
-    setLoadingSelected(true);
-    try {
-      const response = await Api.get(`api/seller/selected-products`);
-      setSelectedProducts(response.data.selected_products);
-      setLoadingSelected(false);
-    } catch (error) {}
-  }
+  // async function fetchSelectedProducts() {
+  //   setLoadingSelected(true);
+  //   try {
+  //     const response = await Api.get(`api/seller/selected-products`);
+  //     setSelectedProducts(response.data.selected_products);
+  //     setLoadingSelected(false);
+  //   } catch (error) {}
+  // }
 
   const functionopenpopup = async () => {
     openchange(true);
     dispatch(selectedActions.openselected());
-    await fetchSelectedProducts();
+    // await fetchSelectedProducts();
   };
 
   const closepopup = () => {
@@ -367,9 +367,9 @@ function addProducts() {
           }}
         >
           <div className="relative">
-            {selectedProduct && (
+            {/* {selectedProduct && (
               <div className="w-[15px] h-[15px] absolute top-0.5 right-0 rounded-full bg-green-400 "></div>
-            )}
+            )} */}
             <TfiShoppingCartFull className="bg-gray-400 w-[60px] h-[60px] rounded-[50%] p-[15px]"></TfiShoppingCartFull>
           </div>
         </div>
