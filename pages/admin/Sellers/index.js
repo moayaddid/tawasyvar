@@ -53,7 +53,7 @@ function AllCustomer() {
   const searchRef = useRef();
   const [inSearch, setInSearch] = useState(false);
   const [searching, setSearching] = useState(false);
-  const { data: sellers, isLoading } = useQuery(`customers`, fetchSellers, {
+  const { data: sellers, isLoading , refetch } = useQuery(`sellers`, fetchSellers, {
     staleTime: 1,
     refetchOnMount: true,
     refetchOnWindowFocus: false,
@@ -181,8 +181,8 @@ function AllCustomer() {
               <thead className="">
                 <tr className="text-sm font-semibold text-center border-b-2 border-gray-400 uppercase">
                   <th>Id</th>
-                  {tableheading.map((index) => (
-                    <th className="px-4 " key={index.id}>
+                  {tableheading.map((index , i) => (
+                    <th className="px-4 " key={i}>
                       {index.heading}
                     </th>
                   ))}
@@ -190,11 +190,11 @@ function AllCustomer() {
               </thead>
               <tbody className="text-lg font-normal text-gray-700 text-center">
                 {sellers &&
-                  sellers.data.data.map((customer) => {
+                  sellers.data.data.map((customer , index) => {
                     return (
                       <SellersAdmin
                         names={customer}
-                        key={customer.id}
+                        key={index}
                         refetch={() => {
                           refetch();
                         }}
