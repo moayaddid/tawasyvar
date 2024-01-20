@@ -81,7 +81,7 @@ function PublicProduct({ product }) {
         <div className="md:w-[80%] w-[90%] shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)]  md:my-5 my-2">
           <div className="w-[90%] mx-auto flex sm:flex-row flex-col sm:space-x-4 space-y-4 py-2">
             <div className="sm:h-full h-[40%]">
-              <CarouselProduct images={images} />
+              <CarouselProduct images={images} onSelectImage={() => {}} />
             </div>
 
             <div className="w-full flex flex-col space-y-2 justify-center">
@@ -96,7 +96,7 @@ function PublicProduct({ product }) {
                 </p>
               )}
 
-              { product.variations && <Variations publicProduct={true} productVariations={product?.variations?.original} />}
+              {/* { product.variations && <Variations publicProduct={true} productVariations={product?.variations?.original} />} */}
 
               <p className="text-gray-500 text-base border-t-2 border-gray-200 py-3 my-2">
                 {product.productDetails.decription && product.productDetails.description}

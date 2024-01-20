@@ -119,7 +119,7 @@ export function CarouselProduct({
                   width={100}
                   height={100}
                   src={data}
-                  onClick={() => {handleImageClick(i) ; onSelectImage(data) ; }}
+                  onClick={() => {handleImageClick(i) ; if(onSelectImage){onSelectImage(data)} ; }}
                   style={{ width: "100px", height: "100px" }}
                 />
               ))}
