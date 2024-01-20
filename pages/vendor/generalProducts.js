@@ -47,26 +47,12 @@ function addProducts() {
     return await Api.get(`api/seller/approved-products?page=${pageNumber}`);
   }
 
-  // const [selectedProducts, setSelectedProducts] = useState();
   const [loadingSelected, setLoadingSelected] = useState(false);
   const [searchedProducts, setSearchedProducts] = useState();
   const [inSearch, setInSearch] = useState(false);
   const [searching, setSearching] = useState(false);
-  // const selectedProduct = useSelector(
-  //   (state) => state.selected.selectedProduct
-  // );
   const selectedProducts = useSelector((state) => state.vendor.products);
   const [open, openchange] = useState(false);
-  // const dispatch = useDispatch();
-
-  // async function fetchSelectedProducts() {
-  //   setLoadingSelected(true);
-  //   try {
-  //     const response = await Api.get(`api/seller/selected-products`);
-  //     setSelectedProducts(response.data.selected_products);
-  //     setLoadingSelected(false);
-  //   } catch (error) {}
-  // }
 
   const functionopenpopup = async () => {
     openchange(true);
@@ -181,9 +167,9 @@ function addProducts() {
             <div className="w-full h-full">
               {data.data.approvedProducts.length > 0 ? (
                 <div class="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 grid-col-1 gap-4 ">
-                  {data.data.approvedProducts.map((curElem) => {
+                  {data.data.approvedProducts.map((curElem , index) => {
                     return (
-                      <VendorSharedProduct key={curElem.id} product={curElem} />
+                      <VendorSharedProduct key={index} product={curElem} />
                     );
                   })}
                 </div>

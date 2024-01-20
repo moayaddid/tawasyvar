@@ -12,16 +12,16 @@ const vendorSlice = createSlice({
         (product) => product.id == action.payload.id
       );
       if (old || old != undefined) {
-        toast.error(`This product is already selected `, {
-          theme: "colored",
-          autoClose: "1000",
-        });
+        // toast.error(`This product is already selected `, {
+        //   theme: "colored",
+        //   autoClose: "1000",
+        // });
       } else {
         state.products.push(action.payload);
-        toast.success("the product was selected successfuly", {
-          theme: "colored",
-          autoClose: "1000",
-        });
+        // toast.success("the product was selected successfuly", {
+        //   theme: "colored",
+        //   autoClose: "1000",
+        // });
       }
     },
     openselected(state) {

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "next-i18next";
 import logo from "@/public/images/tawasylogo.png";
 import { useRouter } from "next/router";
@@ -38,28 +38,25 @@ function VendorSharedProduct({ product }) {
   //     : false
   // );
 
-  console.log(selectedProducts);
+  // console.log(selectedProducts);
+  const [isSelected, setIsSelected] = useState(false);
 
-  const [isSelected, setIsSelected] = useState(
-    selectedProducts && selectedProducts?.length > 0
-      ? selectedProducts.find((prod) => {prod.id === product.id}) ? true : false
-      : 
-      false
-  );
+  useEffect(() => {
+    if(selectedProducts){
+      const ISS = selectedProducts.find((prod) => {prod.id === product.id});
+      if(ISS){
+        setIsSelected(true);
+      }else{
+        setIsSelected(false);
+      }
+    }
+  } , [selectedProducts]);
+
 
   async function saveProduct() {
     if (product.has_variation == true) {
       openPop();
     } else {
-      //   setIsLoading(true);
-      //   try {
-      //     const response = await Api.post(
-      //       `/api/seller/select-product/${product.id}`
-      //     );
-      //     dispatch(selectedActions.selectProduct());
-      //   } catch (error) {
-      //   }
-      //   setIsLoading(false);
       dispatch(vendorActions.selectProduct(product));
       setIsSelected((prev) => !prev)
       console.log(`vendor selected a product`);
@@ -124,7 +121,7 @@ function VendorSharedProduct({ product }) {
               {t("seller.addProduct.selectedProducts.notCompatible")}
             </div>
           ) : !isLoading ? (
-            isSelected ? (
+            isSelected == false ? (
               <button
                 onClick={saveProduct}
                 className="cursor-pointer border-2 border-gray-400 text-gray-600 hover:border-skin-primary hover:text-skin-primary px-4 rounded-full text-base transform duration-500 "
