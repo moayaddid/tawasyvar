@@ -239,7 +239,7 @@ const SignUp = () => {
                   type="checkbox"
                   checked={isChecked}
                   onChange={() => setIsChecked(!isChecked)}
-                  className="accent-white"
+                  className="accent-slate-400"
                   required
                 />
                 <span className="text-white sm:text-base text-sm flex justify-start flex-wrap items-center space-x-1 ">
@@ -415,41 +415,41 @@ const SignUp = () => {
                 />
               </div>
 
-              <label className="flex items-center space-x-2">
+              <label className="flex items-center space-x-2" >
                 <input
                   type="checkbox"
                   checked={isChecked}
                   onChange={() => setIsChecked(!isChecked)}
-                  className="accent-white"
+                  className="accent-slate-400"
                 />
-                <span className="text-white sm:text-base text-sm flex justify-start flex-wrap items-center space-x-1 ">
-                  <p>{t("signup.ia")}</p>
+                <span className="text-white sm:text-base text-sm flex justify-start flex-wrap items-center space-x-1  ">
+                  <p className="select-none" >{t("signup.ia")}</p>
                   <Link
                     legacyBehavior
                     href={"/TermsAndConditions"}
-                    className=""
+                    className="select-none"
                   >
                     <a
                       target="_blank"
-                      className="text-sky-300 border-b-2 border-sky-300 hover:text-sky-500 hover:border-sky-500"
+                      className="text-sky-300 border-b-2 border-sky-300 hover:text-sky-500 select-none hover:border-sky-500"
                     >
                       {t("signup.terms")}
                     </a>
                   </Link>
-                  <p>{t("signup.andThe")}</p>
+                  <p className="select-none" >{t("signup.andThe")}</p>
                   <Link
                     legacyBehavior
                     href={"/PrivacyPolicy"}
-                    className="text-sky-300 border-b-2 border-sky-300 hover:text-sky-500 hover:border-sky-500"
+                    className="text-sky-300 select-none border-b-2 border-sky-300 hover:text-sky-500 hover:border-sky-500"
                   >
                     <a
                       target="_blank"
-                      className="text-sky-300 border-b-2 border-sky-300 hover:text-sky-500 hover:border-sky-500"
+                      className="text-sky-300 select-none border-b-2 border-sky-300 hover:text-sky-500 hover:border-sky-500"
                     >
-                      <p>{t("signup.privacy")}</p>
+                      <p className="select-none" >{t("signup.privacy")}</p>
                     </a>
                   </Link>
-                  <p>{t("signup.ofTawasy")}.</p>
+                  <p className="select-none" >{t("signup.ofTawasy")}.</p>
                 </span>
               </label>
 

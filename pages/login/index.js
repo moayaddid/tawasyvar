@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 import url from "@/URL";
-import Logo from "../../public/images/tawasylogo.png";
+import Logo from "@/public/images/tawasylogoorange.png";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-toastify";
