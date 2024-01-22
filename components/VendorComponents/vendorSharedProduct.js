@@ -32,36 +32,28 @@ function VendorSharedProduct({ product }) {
   const [productVariations, setProductVariations] = useState();
   const storeId = Cookies.get("Sid");
   const selectedProducts = useSelector((state) => state.vendor.products);
-  // const [isSelected, setIsSelected] = useState(
-  //   selectedProducts && selectedProducts?.length > 0
-  //     ? selectedProducts.map((prod) => {if(prod.id == product.id) return true})
-  //     : false
-  // );
+  
+  function isSelected () {
+    if(selectedProducts){
+      console.log(selectedProducts);
+      return selectedProducts.some((prod) => prod.id === product.id)
+    }
+  }
 
   // console.log(selectedProducts);
-  const [isSelected, setIsSelected] = useState(false);
 
-  useEffect(() => {
-    if(selectedProducts){
-      const ISS = selectedProducts.find((prod) => {prod.id === product.id});
-      if(ISS){
-        setIsSelected(true);
-      }else{
-        setIsSelected(false);
-      }
-    }
-  } , [selectedProducts]);
-
-
-  async function saveProduct() {
+   function saveProduct() {
     if (product.has_variation == true) {
       openPop();
     } else {
       dispatch(vendorActions.selectProduct(product));
-      setIsSelected((prev) => !prev)
+      // setIsSelected((prev) => !prev)
       console.log(`vendor selected a product`);
     }
   }
+    function unSelectProduct () {
+      dispatch(vendorActions.unSelectProduct(product));
+    }
 
   async function openPop() {
     setOpenPopUp(true);
@@ -121,7 +113,7 @@ function VendorSharedProduct({ product }) {
               {t("seller.addProduct.selectedProducts.notCompatible")}
             </div>
           ) : !isLoading ? (
-            isSelected == false ? (
+            isSelected() == false ? (
               <button
                 onClick={saveProduct}
                 className="cursor-pointer border-2 border-gray-400 text-gray-600 hover:border-skin-primary hover:text-skin-primary px-4 rounded-full text-base transform duration-500 "
@@ -130,7 +122,7 @@ function VendorSharedProduct({ product }) {
               </button>
             ) : (
               <button
-                // onClick={saveProduct}
+                onClick={unSelectProduct}
                 className="cursor-default bg-gray-600 text-white px-4 rounded-full text-base transform duration-500 "
               >
                 {/* {t("seller.addProduct.selectProduct")} */}

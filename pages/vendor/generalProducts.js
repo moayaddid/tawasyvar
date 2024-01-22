@@ -13,8 +13,9 @@ import { MdArrowForward, MdClose } from "react-icons/md";
 import { Ring } from "@uiball/loaders";
 import { useDispatch, useSelector } from "react-redux";
 import { selectedActions } from "@/Store/SelectedSlice";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import VendorSharedProduct from "@/components/VendorComponents/vendorSharedProduct";
+import { getCookiesProducts } from "@/Store/VendorSlice";
 
 export async function getServerSideProps(context) {
   const { locale } = context;
@@ -31,6 +32,7 @@ function addProducts() {
   const Api = createAxiosInstance(router);
   const [currentPage, setCurrentPage] = useState(1);
   const searchRef = useRef();
+  const dispatch = useDispatch();
   const { t } = useTranslation("");
   const { data, isLoading, isFetching } = useQuery(
     ["sharedProducts", currentPage],
@@ -53,6 +55,10 @@ function addProducts() {
   const [searching, setSearching] = useState(false);
   const selectedProducts = useSelector((state) => state.vendor.products);
   const [open, openchange] = useState(false);
+
+  useEffect(() => {
+    dispatch(getCookiesProducts());
+  } , [])
 
   const functionopenpopup = async () => {
     openchange(true);
@@ -100,6 +106,7 @@ function addProducts() {
     }
   }
 
+  
   return (
     <div className="md:px-16 px-5">
       <div
@@ -232,7 +239,7 @@ function addProducts() {
                 </button>
               </div>
             )}
-          <Dialog
+          {/* <Dialog
             disableAutoFocus
             disableRestoreFocus
             className="h-full"
@@ -333,7 +340,7 @@ function addProducts() {
                 </div>
               )}
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
         </div>
       )}
 
