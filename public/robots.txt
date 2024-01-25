@@ -6,4 +6,8 @@ Allow: /
 Host: https://tawasyme.com
 
 # Sitemaps
-Sitemap: https://tawasyme.com/sitemap.xml
+Sitemap: https://tawasyme.com/sitemap-0.xml
+
+# Allow all crawlers
+User-agent: *
+Allow: /
