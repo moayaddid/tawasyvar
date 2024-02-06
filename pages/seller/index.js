@@ -107,7 +107,7 @@ const Home = () => {
   if (isLoading == true || dataLoading == true) {
     return (
       <div className="w-full h-full">
-        <TawasyLoader />
+        <TawasyLoader width = {400} height = {400} />
       </div>
     );
   }

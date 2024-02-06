@@ -203,7 +203,7 @@ const AddNewProduct = () => {
                 <label className=" border-b-2 border-skin-primary my-2  ">
                   {t("seller.addNewProduct.productImage")}
                 </label>
-                <div className="w-[200px] h-[100px]">
+                <div className="w-[200px] h-max">
                   <ImageUpload
                     onSelectImage={handleStoreImage}
                     width={150}
@@ -214,7 +214,7 @@ const AddNewProduct = () => {
 
               <div className="px-6 py-4">
                 <button
-                  className="bg-[#ff6600] text-white md:w-[400px] py-2 rounded-lg hover:bg-[#ff8800] "
+                  className="bg-[#ff6600] text-white md:w-[400px] py-2 px-2 rounded-lg hover:bg-[#ff8800] "
                   type="submit"
                 >
                   {isSubmitting == true ? (

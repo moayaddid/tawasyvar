@@ -13,7 +13,7 @@ import { SiAdminer, SiSellfy } from "react-icons/si";
 import { FiChevronDown, FiChevronRight, FiSettings } from "react-icons/fi";
 import { BsCartCheckFill, BsBox, BsColumns } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
-import { MdPendingActions, MdOutlineDisabledVisible } from "react-icons/md";
+import { MdPendingActions, MdOutlineDisabledVisible, MdOutlineManageAccounts } from "react-icons/md";
 import { useRouter } from "next/router";
 import { TbBrandShopee, TbCategory2, TbGitBranch, TbTruckDelivery } from "react-icons/tb";
 import { RiCoupon2Line } from "react-icons/ri";
@@ -22,6 +22,8 @@ import Cookies from "js-cookie";
 import createAxiosInstance from "@/API";
 import { Ring } from "@uiball/loaders";
 import { IoMdGitNetwork } from "react-icons/io";
+import { FaRegHandshake } from "react-icons/fa6";
+import { VscArchive } from "react-icons/vsc";
 
 export default function SidebarAdmin(props) {
   const [open, setOpen] = useState(false);
@@ -175,6 +177,68 @@ export default function SidebarAdmin(props) {
                       >
                         <BsBox className="block text-[20px] text-white " />
                         <p className="hidden md:block">All Orders</p>
+                      </button>
+                    </li>
+                  </ul>
+                </AccordionItem>
+              </Accordion>
+
+              <label
+                htmlFor="productsbreaker"
+                className="text-white w-max mx-auto"
+              >
+                Vendors 
+              </label>
+              <hr id="vendorsbreaker"></hr>
+
+              <Accordion showDivider={false} className="w-full">
+                <AccordionItem
+                  startContent={
+                    <FaRegHandshake
+                      style={{
+                        marginRight: "30px",
+                        width: "25px",
+                        height: "25px",
+                      }}
+                    />
+                  }
+                  className={`text-zinc-100 outline-none mb-3`}
+                  key="9"
+                  aria-label="vendors"
+                  title="Vendors"
+                  indicator={({ isOpen }) =>
+                    isOpen ? (
+                      <FiChevronDown className={`text-zinc-100`} />
+                    ) : (
+                      <FiChevronRight className={`text-zinc-100`} />
+                    )
+                  }
+                >
+                  <ul>
+                    <li className={``}>
+                      <button
+                        className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
+                        onClick={() => {
+                          router.push({
+                            pathname: "/admin/Vendors",
+                          });
+                        }}
+                      >
+                        <MdOutlineManageAccounts  className="block text-[25px] text-white " />
+                        <p className="hidden md:block">Vendors Managment</p>
+                      </button>
+                    </li>
+                    <li className={`pt-3`}>
+                      <button
+                        className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
+                        onClick={() => {
+                          router.push({
+                            pathname: "/admin/Vendors/ProductsRequests",
+                          });
+                        }}
+                      >
+                        <VscArchive className="block text-[20px] text-white " />
+                        <p className="hidden md:block">Vendors Product Requests</p>
                       </button>
                     </li>
                   </ul>

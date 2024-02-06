@@ -21,7 +21,7 @@ export async function getServerSideProps(context) {
 function addProducts () {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [brands, setBrands] = useState();
     const [categories, setCategories] = useState();
     const router = useRouter();
@@ -45,13 +45,13 @@ function addProducts () {
       async function fetchBrandsCategories() {
         setIsLoading(true);
         try {
-          const response = await Api.get(`api/seller/brands`);
+          const response = await Api.get(`api/vendor/brands`);
           setBrands(response.data.brands);
         } catch (error) {
           console.log(error);
         }
         try {
-          const response2 = await Api.get(`api/seller/categories`);
+          const response2 = await Api.get(`api/vendor/categories`);
           // console.log(`store categories`);
           // console.log(response2);
           setCategories(response2.data.categories);
@@ -79,7 +79,7 @@ function addProducts () {
       e.preventDefault();
       setIsSubmitting(true);
       try {
-        const response = await Api.post(`api/seller/product`, {
+        const response = await Api.post(`api/vendor/add-product`, {
           name_ar: ArNameRef.current.value,
           name_en: EnNameRef.current.value,
           description_ar: ArDescRef.current.value,
@@ -92,7 +92,7 @@ function addProducts () {
           headers: { "Content-Type": `multipart/form-data` },
         });
         // console.log(response);
-        router.push("/seller/products/addProducts");
+        router.push("/vendor/generalProducts");
       } catch (error) {
         console.log(error);
       }
@@ -200,7 +200,7 @@ function addProducts () {
                   <label className=" border-b-2 border-skin-primary my-2  ">
                     {t("seller.addNewProduct.productImage")}
                   </label>
-                  <div className="w-[200px] h-[100px]">
+                  <div className="w-[200px] h-max">
                     <ImageUpload
                       onSelectImage={handleStoreImage}
                       width={150}
@@ -211,7 +211,7 @@ function addProducts () {
   
                 <div className="px-6 py-4">
                   <button
-                    className="bg-[#ff6600] text-white md:w-[400px] py-2 rounded-lg hover:bg-[#ff8800] "
+                    className="bg-[#ff6600] text-white md:w-[400px] py-2 px-2 rounded-lg hover:bg-[#ff8800] "
                     type="submit"
                   >
                     {isSubmitting == true ? (

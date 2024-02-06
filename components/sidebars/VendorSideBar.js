@@ -13,7 +13,8 @@ import { FiChevronDown, FiChevronRight, FiSettings } from "react-icons/fi";
 import { BsCartCheckFill, BsBox, BsColumns } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
 import { IoMdAdd } from "react-icons/io";
-import { MdPendingActions, MdOutlineDisabledVisible } from "react-icons/md";
+import { VscArchive } from "react-icons/vsc";
+import { MdPendingActions, MdOutlineDisabledVisible, MdDataset, MdRequestPage, MdRequestQuote } from "react-icons/md";
 import { useRouter } from "next/router";
 import { IoSettingsSharp, IoStorefrontSharp } from "react-icons/io5";
 import Cookies from "js-cookie";
@@ -28,7 +29,8 @@ export default function VendorSidebar(props) {
   function logOut() {
     Cookies.remove("AT");
     Cookies.remove("user");
-    router.replace("/login");
+    Cookies.remove("vendorSelectedProducts");
+    router.replace("/vendor/login");
   }
 
   return (
@@ -42,8 +44,8 @@ export default function VendorSidebar(props) {
             <Image src={Logo} className="items-center pt-6 pb-3 md:w-44 w-10" />
           </div>
 
-          <LocaleSwitcher />
-          <div className="flex-1">
+          {/* <LocaleSwitcher /> */}
+          <div className="flex-1 pt-16">
             <ul className="pt-2 pb-4 space-y-1 text-lg font-normal">
               <li className="rounded-sm pb-3">
                 <Link
@@ -57,7 +59,7 @@ export default function VendorSidebar(props) {
                 </Link>
               </li>
 
-              <Accordion showDivider={false} className="w-full">
+              <Accordion showDivider={false} className="w-full" >
                 <AccordionItem
                   startContent={
                     <BsBox
@@ -68,6 +70,7 @@ export default function VendorSidebar(props) {
                       }}
                     />
                   }
+                  itemScope = {true}
                   className={`text-zinc-100 outline-none mb-4`}
                   key="2"
                   aria-label="Products"
@@ -83,32 +86,48 @@ export default function VendorSidebar(props) {
                   <ul>
                     <li className={`pt-3`}>
                       <button
-                        className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
+                        className="flex items-center justify-start p-2 space-x-3 rounded-md text-gray-100"
                         onClick={() => {
                           router.push({
                             pathname: "/vendor/generalProducts",
                           });
                         }}
                       >
-                        <IoMdAdd className="block text-[20px] text-white mt-1" />
+                        <MdDataset className="block text-[23px] text-white mt-1" />
                         <p className="hidden md:block">
-                          {t("seller.sidebar.product.add")}
+                          General Products
                         </p>
                       </button>
                     </li>
 
                     <li className={`pt-3`}>
                       <button
-                        className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
+                        className="flex items-center p-2 space-x-4 rounded-md text-gray-100"
                         onClick={() => {
                           router.push({
                             pathname: "/vendor/myProducts",
                           });
                         }}
                       >
-                        <BsBox className="block text-[20px] text-white " />
+                        <BsBox className="block text-[19px] text-white " />
                         <p className="hidden md:block">
-                          {t("seller.sidebar.product.all")}
+                          My Products
+                        </p>
+                      </button>
+                    </li>
+
+                    <li className={`pt-3`}>
+                      <button
+                        className="flex items-center p-2 space-x-4 rounded-md text-gray-100"
+                        onClick={() => {
+                          router.push({
+                            pathname: "/vendor/productsPricing",
+                          });
+                        }}
+                      >
+                        <VscArchive className="block text-[19px] text-white " />
+                        <p className="hidden md:block">
+                          Requested Products
                         </p>
                       </button>
                     </li>

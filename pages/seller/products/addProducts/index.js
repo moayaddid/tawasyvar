@@ -309,7 +309,7 @@ function AddProducts() {
                     selectedProducts.length > 0 ? (
                       <div className=" mt-5">
                         <table className="table w-full" border={4}>
-                          <thead className="md:text-xl text-base ">
+                          <thead className="md:text-xl text-sm ">
                             <tr>
                               <th className="pb-4 md:px-0 px-4">
                                 {t(
@@ -339,6 +339,11 @@ function AddProducts() {
                               <th className="pb-4 md:px-0 px-4">
                                 {t(
                                   "seller.addProduct.selectedProducts.table.image"
+                                )}
+                              </th>
+                              <th className="pb-4 md:px-0 px-4">
+                                {t(
+                                  "seller.addProduct.selectedProducts.table.vendor"
                                 )}
                               </th>
                               <th className="pb-4 md:px-0 px-4">

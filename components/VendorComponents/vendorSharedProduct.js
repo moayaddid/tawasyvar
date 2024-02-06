@@ -20,6 +20,8 @@ import TawasyLoader from "../UI/tawasyLoader";
 import SellerCombination from "../SellerVariations/SellerCombination";
 import Cookies from "js-cookie";
 import { vendorActions } from "@/Store/VendorSlice";
+import VendorProductCombination from "./vendorProductCombination";
+import { MdClose } from "react-icons/md";
 
 function VendorSharedProduct({ product }) {
   const { t } = useTranslation("");
@@ -32,40 +34,44 @@ function VendorSharedProduct({ product }) {
   const [productVariations, setProductVariations] = useState();
   const storeId = Cookies.get("Sid");
   const selectedProducts = useSelector((state) => state.vendor.products);
-  
-  function isSelected () {
-    if(selectedProducts){
-      console.log(selectedProducts);
-      return selectedProducts.some((prod) => prod.id === product.id)
+
+  function isSelected() {
+    if (selectedProducts) {
+      // console.log(selectedProducts);
+      return selectedProducts.some((prod) => prod.id === product.id);
     }
   }
 
   // console.log(selectedProducts);
 
-   function saveProduct() {
+  function saveProduct() {
     if (product.has_variation == true) {
       openPop();
     } else {
       dispatch(vendorActions.selectProduct(product));
       // setIsSelected((prev) => !prev)
-      console.log(`vendor selected a product`);
+      // console.log(`vendor selected a product`);
     }
   }
-    function unSelectProduct () {
-      dispatch(vendorActions.unSelectProduct(product));
-    }
+  function unSelectProduct() {
+    dispatch(vendorActions.unSelectProduct(product));
+  }
 
   async function openPop() {
-    setOpenPopUp(true);
-    setIsLoadingPop(true);
-    try {
-      const response = await Api.get(
-        `/api/seller/get-product-combination-seller/${storeId}/${product.id}`
-      );
-      setProductVariations(response);
-      setIsLoadingPop(false);
-    } catch (error) {
-      setIsLoadingPop(false);
+    if (product.has_variation == true) {
+      setOpenPopUp(true);
+      setIsLoadingPop(true);
+      try {
+        const response = await Api.get(
+          `/api/vendor/get-product-combination-vendor/${product.id}`
+        );
+        // console.log(`combinations`);
+        // console.log(response);
+        setProductVariations(response);
+        setIsLoadingPop(false);
+      } catch (error) {
+        setIsLoadingPop(false);
+      }
     }
   }
 
@@ -122,7 +128,7 @@ function VendorSharedProduct({ product }) {
               </button>
             ) : (
               <button
-                onClick={unSelectProduct}
+                onClick={openPop}
                 className="cursor-default bg-gray-600 text-white px-4 rounded-full text-base transform duration-500 "
               >
                 {/* {t("seller.addProduct.selectProduct")} */}
@@ -146,10 +152,16 @@ function VendorSharedProduct({ product }) {
         fullWidth
         maxWidth="lg"
       >
-        <DialogTitle className=" border-b-2 border-gray-200">
-          <h3 className="py-2 pl-3 text-gray-600">
+        <DialogTitle className=" flex justify-between items-center border-b-2 border-gray-200">
+          <h3 className="py-2 pl-3 text-gray-600 ">
             {t("seller.products.addCombinations")} : {product.name}
           </h3>
+          <MdClose
+            className="text-red-500 hover:text-red-600 cursor-pointer w-[25px] h-[25px] "
+            onClick={() => {
+              setOpenPopUp(false);
+            }}
+          />
         </DialogTitle>
         <DialogContent>
           <Stack spacing={2} margin={2}>
@@ -163,7 +175,7 @@ function VendorSharedProduct({ product }) {
               productVariations.data.product_combination.map(
                 (combination, index) => {
                   return (
-                    <SellerCombination
+                    <VendorProductCombination
                       key={index}
                       product={combination.product}
                     />
@@ -176,7 +188,7 @@ function VendorSharedProduct({ product }) {
           </Stack>
         </DialogContent>
 
-        <DialogActions className="w=full my-3 box-border ">
+        {/* <DialogActions className="w=full my-3 box-border ">
           <button
             onClick={() => {
               setOpenPopUp(false);
@@ -185,7 +197,7 @@ function VendorSharedProduct({ product }) {
           >
             {t("seller.products.action.edit.save")}
           </button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
     </>
   );

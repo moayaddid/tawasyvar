@@ -95,12 +95,12 @@ const Code = () => {
         });
         Cookies.remove("number");
         Cookies.set("AT", response.data.token, { expires: 365 * 10 });
-        // if (url) {
-        //   router.replace(formerUrl);
-        //   Cookies.remove("url");
-        // } else {
+        if (formerUrl) {
+          router.replace(formerUrl);
+          Cookies.remove("url");
+        } else {
           router.replace("/");
-        // }
+        }
         setIsLoading(false);
         if (response.status !== 200) {
           throw new Error(response);
