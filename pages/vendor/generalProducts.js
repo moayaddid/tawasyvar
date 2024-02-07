@@ -1,27 +1,30 @@
-import withLayout from "@/components/wrapping components/WrappingSellerLayout";
-import React, { useState, useEffect, useRef } from "react";
-import AddProduct from "@/components/product/AddProduct/AddSellerProduct";
+import withVendorLayout from "@/components/wrapping components/WrappingVendorLayout";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 import { TfiShoppingCartFull } from "react-icons/tfi";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import createAxiosInstance from "@/API";
 import { useQuery } from "react-query";
 import TawasyLoader from "@/components/UI/tawasyLoader";
-import TotalAddProduct from "@/components/product/SellerTotalAddProduct/TotalAddProduct";
-import { Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
+// import TotalAddProduct from "@/components/product/SellerTotalAddProduct/TotalAddProduct";
 import {
-  MdArrowForward,
-  MdClose,
-  MdRemove,
-  MdRemoveCircleOutline,
-  MdRemoveDone,
-} from "react-icons/md";
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Stack,
+} from "@mui/material";
+import { MdArrowForward, MdClose } from "react-icons/md";
 import { Ring } from "@uiball/loaders";
-import SellerSelectProduct from "@/components/sellerSelectProduct/SellerSelectProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { selectedActions } from "@/Store/SelectedSlice";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
+import { useEffect, useRef, useState } from "react";
+import VendorSharedProduct from "@/components/VendorComponents/vendorSharedProduct";
+import { getCookiesProducts, vendorActions } from "@/Store/VendorSlice";
+import VendorSelectedProduct from "@/components/VendorComponents/vendorSelectedProduct";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 export async function getServerSideProps(context) {
   const { locale } = context;
@@ -33,13 +36,14 @@ export async function getServerSideProps(context) {
   };
 }
 
-function AddProducts() {
+function addProducts() {
   const router = useRouter();
   const Api = createAxiosInstance(router);
   const [currentPage, setCurrentPage] = useState(1);
   const searchRef = useRef();
+  const dispatch = useDispatch();
   const { t } = useTranslation("");
-  const { data, isLoading, isError, error, isFetching } = useQuery(
+  const { data, isLoading, isFetching , refetch } = useQuery(
     ["sharedProducts", currentPage],
     () => fetchSharedProducts(currentPage),
     {
@@ -51,45 +55,31 @@ function AddProducts() {
   );
 
   async function fetchSharedProducts(pageNumber) {
-    return await Api.get(`api/seller/approved-products?page=${pageNumber}`);
+    return await Api.get(`/api/vendor/brand-products?page=${pageNumber}`);
   }
 
-  const [selectedProducts, setSelectedProducts] = useState();
   const [loadingSelected, setLoadingSelected] = useState(false);
   const [searchedProducts, setSearchedProducts] = useState();
   const [inSearch, setInSearch] = useState(false);
   const [searching, setSearching] = useState(false);
-  const selectedProduct = useSelector(
-    (state) => state.selected.selectedProduct
-  );
+  const selectedProducts = useSelector((state) => state.vendor.products);
+  const isOpened = useSelector((state) => state.vendor.selectedProduct);
   const [open, openchange] = useState(false);
-  const dispatch = useDispatch();
+  const [isRequesting, setIsRequesting] = useState(false);
 
-  async function fetchSelectedProducts() {
-    setLoadingSelected(true);
-    try {
-      const response = await Api.get(`api/seller/selected-products`);
-      // console.log(response);
-      setSelectedProducts(response.data.selected_products);
-      setLoadingSelected(false);
-    } catch (error) {}
-  }
+  useEffect(() => {
+    dispatch(getCookiesProducts());
+  }, []);
 
   const functionopenpopup = async () => {
+    dispatch(vendorActions.openselected());
     openchange(true);
-    dispatch(selectedActions.openselected());
-    await fetchSelectedProducts();
+    // await fetchSelectedProducts();
   };
 
   const closepopup = () => {
     openchange(false);
   };
-  // const transitionBuilder = (animationValues) => {
-  //   const translateX = animationValues.animationProgress * 100;
-  //   return {
-  //     transform: `translateX(${translateX}%)`,
-  //   };
-  // };
 
   if (isLoading == true) {
     return (
@@ -98,11 +88,6 @@ function AddProducts() {
       </div>
     );
   }
-
-  // if (selectedProducts) {
-  //   console.log(`shared products`);
-  //   console.log(selectedProducts);
-  // }
 
   function closeSearch() {
     setInSearch(false);
@@ -125,8 +110,6 @@ function AddProducts() {
           noSuccessToast: true,
         }
       );
-      // console.log(`search response`);
-      // console.log(response);
       setSearchedProducts(response.data);
       setSearching(false);
     } catch (error) {
@@ -134,8 +117,41 @@ function AddProducts() {
     }
   }
 
-  // if(data){
-  //   console.log(data);
+  async function requestProducts() {
+    setIsRequesting(true);
+    const prods = selectedProducts;
+    const data = [];
+    prods.map((product) => {
+      let rawData = {
+        id: product.id,
+        variation: product.line_id ? product.line_id : null,
+      };
+      data.push(rawData);
+    });
+    // console.log(data);
+    try {
+      const response = await Api.post(`/api/vendor/select-products` , {
+        products : data
+      });
+      refetch();
+      setIsRequesting(false);
+      openchange(false);
+      dispatch(vendorActions.setProducts([]));
+      Cookies.remove("vendorSelectedProducts");
+    } catch (error) {
+      setIsRequesting(false);
+      const arr = [] ;
+      const str = `these products already exist :` ;
+      arr.push(str) ;
+      error?.response?.data?.existing_products.map((productName) => {
+        arr.push(productName);
+      }) ;
+      console.log(arr);
+      toast.error( arr.join(" ") , {theme  : `colored` , autoClose : 4000})
+    }
+  }
+  // if (selectedProducts) {
+  //   console.log(selectedProducts);
   // }
 
   return (
@@ -188,37 +204,27 @@ function AddProducts() {
             {t("seller.addProduct.cantFind")}
           </p>
           <Link
-            href={"/seller/products/addNewProduct"}
+            href={"/vendor/customProduct"}
             className="bg-[#ff6600] px-3 py-3 text-white text-center md:w-auto w-[100%] "
           >
             {t("seller.products.addNewProduct")}
           </Link>
         </div>
       </div>
-      {/* <select
-        className="border mb-6 border-gray-300 rounded-md text-gray-600 px-2 pl-2 pr-8 bg-white hover:border-gray-400 focus:outline-none text-xs
-           focus:ring-0 h-10"
-      >
-        <option>Filter by</option>
-        <option></option>
-        <option></option>
-      </select> */}
-
       {searching == true ? (
         <div className="w-full h-full">
           <TawasyLoader width={300} height={300} />
         </div>
       ) : (
         <div className="container">
-          {data && data.data.approvedProducts && inSearch == false && (
+          {data && data.data.products && inSearch == false && (
             <div className="w-full h-full">
-              {data.data.approvedProducts.length > 0 ? (
+              {data.data.products.length > 0 ? (
                 <div class="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 grid-col-1 gap-4 ">
-                  {data.data.approvedProducts.map((curElem) => {
+                  {data.data.products.map((curElem, index) => {
                     return (
-                      <SellerSelectProduct key={curElem.id} product={curElem} />
+                      <VendorSharedProduct key={index} product={curElem} />
                     );
-                    // return <AddProduct key={curElem.id} addproduct={curElem} />;
                   })}
                 </div>
               ) : (
@@ -234,7 +240,7 @@ function AddProducts() {
               <div class="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 grid-col-1 gap-4 ">
                 {searchedProducts.transformedProducts.map((curElem) => {
                   return (
-                    <SellerSelectProduct key={curElem.id} product={curElem} />
+                    <VendorSharedProduct key={curElem.id} product={curElem} />
                   );
                 })}
               </div>
@@ -246,7 +252,7 @@ function AddProducts() {
 
           {data &&
             data.data.pagination &&
-            data.data.approvedProducts.length > 0 &&
+            data.data.products.length > 0 &&
             inSearch == false && (
               <div className="w-[50%] mx-auto flex justify-center items-center py-5 gap-4 ">
                 <button
@@ -254,7 +260,6 @@ function AddProducts() {
                   onClick={() => {
                     setCurrentPage(data.data.pagination.current_page - 1);
                     scroll("top");
-                    // setCurrentPage(data.data.pagination.previousPage);
                   }}
                   disabled={
                     data.data.pagination.current_page ===
@@ -271,7 +276,6 @@ function AddProducts() {
                   onClick={() => {
                     setCurrentPage(data.data.pagination.current_page + 1);
                     scroll(`top`);
-                    // setCurrentPage(data.data.pagination.nextPage);
                   }}
                   disabled={
                     data.data.pagination.current_page ===
@@ -304,12 +308,12 @@ function AddProducts() {
             <hr />
             <DialogContent>
               {loadingSelected == false ? (
-                <Stack spacing={2} margin={2}>
+                <Stack spacing={2} margin={0}>
                   {selectedProducts && !selectedProducts.message ? (
                     selectedProducts.length > 0 ? (
                       <div className=" mt-5">
                         <table className="table w-full" border={4}>
-                          <thead className="md:text-xl text-sm ">
+                          <thead className="md:text-xl text-base ">
                             <tr>
                               <th className="pb-4 md:px-0 px-4">
                                 {t(
@@ -323,45 +327,17 @@ function AddProducts() {
                               </th>
                               <th className="pb-4 md:px-0 px-4">
                                 {t(
-                                  "seller.addProduct.selectedProducts.table.brand"
-                                )}
-                              </th>
-                              <th className="pb-4 md:px-0 px-4">
-                                {t(
-                                  "seller.addProduct.selectedProducts.table.category"
-                                )}
-                              </th>
-                              <th className="pb-4 md:px-0 px-4">
-                                {t(
-                                  "seller.addProduct.selectedProducts.table.publish"
-                                )}
-                              </th>
-                              <th className="pb-4 md:px-0 px-4">
-                                {t(
                                   "seller.addProduct.selectedProducts.table.image"
                                 )}
                               </th>
-                              <th className="pb-4 md:px-0 px-4">
-                                {t(
-                                  "seller.addProduct.selectedProducts.table.vendor"
-                                )}
-                              </th>
-                              <th className="pb-4 md:px-0 px-4">
-                                {t(
-                                  "seller.addProduct.selectedProducts.table.price"
-                                )}{" "}
-                              </th>
-                              <th className="pb-4 md:px-0 px-4"> </th>
+                              <th className="pb-4 md:px-0 px-4"></th>
                             </tr>
                           </thead>
                           <tbody className="text-lg font-normal text-gray-700 text-center">
-                            {selectedProducts.map((curElem) => (
-                              <TotalAddProduct
-                                key={curElem.product_id}
+                            {selectedProducts.map((curElem, i) => (
+                              <VendorSelectedProduct
+                                key={i}
                                 selectproduct={curElem}
-                                refetch={async () => {
-                                  await fetchSelectedProducts();
-                                }}
                               />
                             ))}
                           </tbody>
@@ -388,13 +364,26 @@ function AddProducts() {
                 </div>
               )}
             </DialogContent>
+            {selectedProducts && selectedProducts.length > 0 && (
+              <DialogActions className="py-1">
+                { isRequesting == true ? 
+                  <div className="bg-green-600 px-2 py-1 rounded-lg flex justify-center items-center text-white w-[10%] mx-auto my-auto" >
+                    <Ring size={20} speed={2} lineWeight={5} color="white" />
+                  </div>
+                : <button
+                  onClick={requestProducts}
+                  className="bg-green-600 hover:bg-green-600 px-2 py-1 rounded-lg text-white w-[10%] mx-auto my-auto"
+                >
+                  Request
+                </button>}
+              </DialogActions>
+            )}
           </Dialog>
         </div>
       )}
 
       <button
         onClick={() => {
-          // e.preventDefault();
           functionopenpopup();
         }}
       >
@@ -408,17 +397,26 @@ function AddProducts() {
             right: "10px",
           }}
         >
-          <div className="relative">
-            {selectedProduct && (
-              <div className="w-[15px] h-[15px] absolute top-0.5 right-0 rounded-full bg-green-400 "></div>
-            )}
-            <TfiShoppingCartFull className="bg-gray-400 w-[60px] h-[60px] rounded-[50%] p-[15px]"></TfiShoppingCartFull>
+          <div className="relative transition-all duration-500" >
+            {/* {isOpened && ( */}
+            { selectedProducts && selectedProducts.length > 0 && <div
+              className={`absolute top-0 left-0 px-2 rounded-full ${
+                isOpened == true ? ` bg-[#238b2d] ` : ` bg-[#a7a9a7]`
+              } transition-all duration-500`}
+            >
+              {selectedProducts.length}
+            </div>}
+            {/* // )} */}
+            <TfiShoppingCartFull
+              className={` w-[60px] h-[60px] rounded-[50%] p-[15px] ${
+                isOpened == true ? ` bg-green-600 ` : ` bg-gray-400 `
+              } transition-all duration-500 `}
+            ></TfiShoppingCartFull>
           </div>
         </div>
       </button>
-      {/* </div> */}
     </div>
   );
 }
 
-export default withLayout(AddProducts);
+export default withVendorLayout(addProducts);

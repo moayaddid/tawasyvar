@@ -465,7 +465,8 @@
           "publish" : "Publish/Unpublish" ,
           "category" : "Category" ,
           "brand" : "Brand" ,
-          "productName" : "Product Name"
+          "productName" : "Product Name" ,
+          "vendor" : "Vendor"
         }
       }
     },
@@ -551,5 +552,19 @@
   } ,
   "noCombinations" : "There are no more available Combinations." , 
   "bigSize" : "Products with (*) in the cart can't be delivered using motorcycle. Upon requesting the product, we will call you to calculate delivery charges.",
-  "bigSizeOrder" : "Some Products in the cart can't be delivered using motorcycle. Upon requesting the product, we will call you to calculate delivery charges."
+  "bigSizeOrder" : "Some Products in the cart can't be delivered using motorcycle. Upon requesting the product, we will call you to calculate delivery charges.",
+  "noVendors" : "This product does not belong to any vendor",
+  "followVendor" : "Follow a Vendor's pricing.",
+  "selectVendor" : "Select a Vendor",
+  "noVendorsFound" : "No Vendors found.",
+  "editVendorsPrice" : "Edit the vendor's price ",
+  "finalEditedPrice" : "Final Price ( Rounded to the nearest 50 * )" ,
+  "saveEdits" : "Save my edits",
+  "follow" : "Follow",
+  "unfollow" : "unFollow" , 
+  "resetEdits" : "Reset me Edits",
+  "hasVendors" : "*This Product has 1 or more vendors which you can follow the price of.",
+  "followingOf" : "You are following the price of :",
+  "isVendor" : "Product has Vendor ?",
+  "finalPrice" : "Final Price"
 }

@@ -9,13 +9,17 @@ import { set } from "nprogress";
 import { MdCheck } from "react-icons/md";
 import { Ring } from "@uiball/loaders";
 import logo from "@/public/images/tawasylogo.png";
+import { useDispatch, useSelector } from "react-redux";
+import { vendorActions } from "@/Store/VendorSlice";
 
-function SellerCombination({ product }) {
+function VendorProductCombination({ product }) {
   const [selecting, setSelecting] = useState(false);
   const [selected, setSelected] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
   const Api = createAxiosInstance(router);
   const [hex, setHex] = useState(product.hex && product.hex);
+  const selectedProducts = useSelector((state) => state.vendor.products);
 
   useEffect(() => {
     if (product) {
@@ -52,20 +56,34 @@ function SellerCombination({ product }) {
   // console.log(product.hex);
 
   async function selectCombination() {
-    setSelecting(true);
-    try {
-      const response = await Api.post(
-        `/api/seller/select-product/${product.id}`,
-        {
-          variation: product.line_id,
+    // setSelecting(true);
+    // try {
+    //   const response = await Api.post(
+    //     `/api/seller/select-product/${product.id}`,
+    //     {
+    //       variation: product.line_id,
+    //     }
+    //   );
+    //   setSelecting(false);
+    //   setSelected(true);
+    // } catch (error) {
+    //   setSelecting(false);
+    // }
+    // setSelecting(false);
+    dispatch(vendorActions.selectProduct(product));
+  }
+
+  function isSelected() {
+    if (selectedProducts) {
+      // console.log(selectedProducts);
+      return selectedProducts.some((prod) => {
+        if (prod.line_id) {
+          return prod.line_id === product.line_id;
+        } else {
+          return prod.id === product.id;
         }
-      );
-      setSelecting(false);
-      setSelected(true);
-    } catch (error) {
-      setSelecting(false);
+      });
     }
-    setSelecting(false);
   }
 
   return (
@@ -92,15 +110,19 @@ function SellerCombination({ product }) {
           );
         })}
       </div>
-      {selected == true ? (
-        <div className="text-center">
-          <MdCheck className=" text-green-400 w-[25px] h-[25px]" />
-        </div>
-      ) : selecting == true ? (
-        <div>
-          <Ring size={2} speed={2} lineWeight={5} color="#ff6600" />
+      {isSelected() == true ? (
+        <div
+        //   onClick={selectCombination}
+          className="px-2 py-1 bg-gray-500 rounded-lg text-white text-center"
+        >
+          Selected
         </div>
       ) : (
+        //   : selecting == true ? (
+        //     <div>
+        //       <Ring size={2} speed={2} lineWeight={5} color="#ff6600" />
+        //     </div>
+        //   )
         <button
           onClick={selectCombination}
           className="px-2 py-1 bg-skin-primary rounded-lg text-white text-center hover:opacity-70"
@@ -112,4 +134,4 @@ function SellerCombination({ product }) {
   );
 }
 
-export default SellerCombination;
+export default VendorProductCombination;

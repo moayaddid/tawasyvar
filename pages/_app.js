@@ -11,8 +11,11 @@ import { useEffect } from "react";
 import nProgress, { NProgress } from "nprogress";
 import { Provider } from "react-redux";
 // import { store } from "@/Store";
-import {store} from "../Store/index";
+// import {store} from "../Store/index";
 import { GoogleTagManager , GoogleAnalytics } from '@next/third-parties/google' ; 
+import cartSlice from "@/Store/CartSlice";
+import selectedSlice from "@/Store/SelectedSlice";
+import vendorSlice from "@/Store/VendorSlice";
 // import { GoogleAnalytics } from '@next/third-parties/google';
 
 const tawasyFont = localfont({
@@ -30,6 +33,16 @@ function App({ Component, pageProps }) {
     router.events.on("routeChangeComplete", () => nProgress.done());
     router.events.on("routeChangeError", () => nProgress.done());
   }, []);
+
+  const { configureStore } = require("@reduxjs/toolkit");
+
+const store = configureStore({
+    reducer : {
+        cart : cartSlice.reducer,
+        selected : selectedSlice.reducer,
+        vendor : vendorSlice.reducer,
+    }
+}) ; 
 
   return (
     <>

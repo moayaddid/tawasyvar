@@ -48,7 +48,7 @@ const createAxiosInstance = (router) => {
         toast.success(response.data.message || "Request successful \b نفّذ الطلب بنجاح ", {
           toastId: response.data.message,
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -79,10 +79,16 @@ const createAxiosInstance = (router) => {
           const isAdmin =
             error.config.url && error.config.url.includes("/admin/");
 
+          const isVendor = error.config.url && error.config.url.includes("/vendor");
+
           if (isAdmin == true) {
             router.push(`/admin/securelogin`);
-          } else {
-            Cookies.set("url" , router.asPath , { expires: 365 * 10 });
+          } else if (isVendor == true) {
+              router.push(`/vendor/login`);
+          }else {
+            if(error.config.url && !(error.config.url.includes("/seller"))){
+              Cookies.set("url" , router.asPath , { expires: 365 * 10 });
+            }
             router.push(`/login`);
           }
         } else {
@@ -93,7 +99,7 @@ const createAxiosInstance = (router) => {
             {
               toastId: error.response.data.message || error.response.data.error,
               position: "top-right",
-              autoClose: 5000,
+              autoClose: 3000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
@@ -107,7 +113,7 @@ const createAxiosInstance = (router) => {
         toast.error(`Please check your connection \bالرجاء التأكد من الاتصال`, {
           toastId: "Request failed",
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,

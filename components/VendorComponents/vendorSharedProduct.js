@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "next-i18next";
 import logo from "@/public/images/tawasylogo.png";
 import { useRouter } from "next/router";
@@ -7,7 +7,7 @@ import createAxiosInstance from "@/API";
 import { Ring } from "@uiball/loaders";
 import Link from "next/link";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectedActions } from "@/Store/SelectedSlice";
 import {
   Dialog,
@@ -19,8 +19,11 @@ import {
 import TawasyLoader from "../UI/tawasyLoader";
 import SellerCombination from "../SellerVariations/SellerCombination";
 import Cookies from "js-cookie";
+import { vendorActions } from "@/Store/VendorSlice";
+import VendorProductCombination from "./vendorProductCombination";
+import { MdClose } from "react-icons/md";
 
-function SellerSelectProduct({ product }) {
+function VendorSharedProduct({ product }) {
   const { t } = useTranslation("");
   const router = useRouter();
   const Api = createAxiosInstance(router);
@@ -30,34 +33,45 @@ function SellerSelectProduct({ product }) {
   const [isLoadingPop, setIsLoadingPop] = useState(false);
   const [productVariations, setProductVariations] = useState();
   const storeId = Cookies.get("Sid");
+  const selectedProducts = useSelector((state) => state.vendor.products);
 
-  async function saveProduct() {
-    if (product.has_variation == true) {
-      openPop();
-    } else {
-      setIsLoading(true);
-      try {
-        const response = await Api.post(
-          `/api/seller/select-product/${product.id}`
-        );
-        dispatch(selectedActions.selectProduct());
-      } catch (error) {
-      }
-      setIsLoading(false);
+  function isSelected() {
+    if (selectedProducts) {
+      // console.log(selectedProducts);
+      return selectedProducts.some((prod) => prod.id === product.id);
     }
   }
 
+  // console.log(selectedProducts);
+
+  function saveProduct() {
+    if (product.has_variation == true) {
+      openPop();
+    } else {
+      dispatch(vendorActions.selectProduct(product));
+      // setIsSelected((prev) => !prev)
+      // console.log(`vendor selected a product`);
+    }
+  }
+  function unSelectProduct() {
+    dispatch(vendorActions.unSelectProduct(product));
+  }
+
   async function openPop() {
-    setOpenPopUp(true);
-    setIsLoadingPop(true);
-    try {
-      const response = await Api.get(
-        `/api/seller/get-product-combination-seller/${storeId}/${product.id}`
-      );
-      setProductVariations(response);
-      setIsLoadingPop(false);
-    } catch (error) {
-      setIsLoadingPop(false);
+    if (product.has_variation == true) {
+      setOpenPopUp(true);
+      setIsLoadingPop(true);
+      try {
+        const response = await Api.get(
+          `/api/vendor/get-product-combination-vendor/${product.id}`
+        );
+        // console.log(`combinations`);
+        // console.log(response);
+        setProductVariations(response);
+        setIsLoadingPop(false);
+      } catch (error) {
+        setIsLoadingPop(false);
+      }
     }
   }
 
@@ -105,12 +119,22 @@ function SellerSelectProduct({ product }) {
               {t("seller.addProduct.selectedProducts.notCompatible")}
             </div>
           ) : !isLoading ? (
-            <button
-              onClick={saveProduct}
-              className="cursor-pointer border-2 border-gray-400 text-gray-600 hover:border-skin-primary hover:text-skin-primary px-4 rounded-full text-base transform duration-500 "
-            >
-              {t("seller.addProduct.selectProduct")}
-            </button>
+            isSelected() == false ? (
+              <button
+                onClick={saveProduct}
+                className="cursor-pointer border-2 border-gray-400 text-gray-600 hover:border-skin-primary hover:text-skin-primary px-4 rounded-full text-base transform duration-500 "
+              >
+                {t("seller.addProduct.selectProduct")}
+              </button>
+            ) : (
+              <button
+                onClick={openPop}
+                className="cursor-default bg-gray-600 text-white px-4 rounded-full text-base transform duration-500 "
+              >
+                {/* {t("seller.addProduct.selectProduct")} */}
+                Selected
+              </button>
+            )
           ) : (
             <div className="bg-skin-primary py-1 flex justify-center items-center rounded-full">
               <Ring size={23} lineWeight={5} speed={2} color="white" />
@@ -128,10 +152,16 @@ function SellerSelectProduct({ product }) {
         fullWidth
         maxWidth="lg"
       >
-        <DialogTitle className=" border-b-2 border-gray-200">
-          <h3 className="py-2 pl-3 text-gray-600">
+        <DialogTitle className=" flex justify-between items-center border-b-2 border-gray-200">
+          <h3 className="py-2 pl-3 text-gray-600 ">
             {t("seller.products.addCombinations")} : {product.name}
           </h3>
+          <MdClose
+            className="text-red-500 hover:text-red-600 cursor-pointer w-[25px] h-[25px] "
+            onClick={() => {
+              setOpenPopUp(false);
+            }}
+          />
         </DialogTitle>
         <DialogContent>
           <Stack spacing={2} margin={2}>
@@ -145,7 +175,7 @@ function SellerSelectProduct({ product }) {
               productVariations.data.product_combination.map(
                 (combination, index) => {
                   return (
-                    <SellerCombination
+                    <VendorProductCombination
                       key={index}
                       product={combination.product}
                     />
@@ -158,7 +188,7 @@ function SellerSelectProduct({ product }) {
           </Stack>
         </DialogContent>
 
-        <DialogActions className="w=full my-3 box-border ">
+        {/* <DialogActions className="w=full my-3 box-border ">
           <button
             onClick={() => {
               setOpenPopUp(false);
@@ -167,10 +197,10 @@ function SellerSelectProduct({ product }) {
           >
             {t("seller.products.action.edit.save")}
           </button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
     </>
   );
 }
 
-export default SellerSelectProduct;
+export default VendorSharedProduct;
