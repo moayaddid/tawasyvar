@@ -252,6 +252,20 @@ export default function SidebarAdmin(props) {
                         <p className="hidden md:block">All Products</p>
                       </button>
                     </li>
+                    <li className={`pt-3`}>
+                      <Link
+                        className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
+                        href={`/admin/Products/newStoreProducts`}
+                        // onClick={() => {
+                        //   router.push({
+                        //     pathname: "/admin/Products/AllProducts",
+                        //   });
+                        // }}
+                      >
+                        <BsBox className="block text-[20px] text-white " />
+                        <p className="hidden md:block">New Store Products</p>
+                      </Link>
+                    </li>
                   </ul>
                 </AccordionItem>
 
