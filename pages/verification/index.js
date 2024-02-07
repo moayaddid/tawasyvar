@@ -2,7 +2,7 @@ import React, { Fragment, useRef, useState } from "react";
 import VerificationInput from "react-verification-input";
 import { RiGitRepositoryPrivateLine } from "react-icons/ri";
 import styles from "../../components/componentsStyling/sellerStyles.module.css";
-import Logo from "../../public/images/tawasylogo.png";
+import Logo from "@/public/images/tawasylogoorange.png";
 import Image from "next/image";
 import axios from "axios";
 import url from "@/URL";
