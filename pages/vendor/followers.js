@@ -201,8 +201,8 @@ function MyFollowers() {
                     details && (
                       <div className="w-full flex flex-col justify-start items-start">
                         {details &&
-                          details.map((product) => (
-                            <div className="w-full">
+                          details.map((product , i) => (
+                            <div className="w-full" key={i}>
                               <div className="w-[90%] flex justify-around space-x-10 items-center py-2 ">
                                 {/* <Image
                                 src={product.image ? product.image : logo}
@@ -229,8 +229,7 @@ function MyFollowers() {
             ))
           ) : (
             <div className="text-lg text-center">
-              {" "}
-              You have no follower stores yet.{" "}
+              You have no follower stores yet.
             </div>
           )}
           {/* <Accordion

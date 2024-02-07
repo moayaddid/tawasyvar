@@ -96,8 +96,10 @@ const Code = () => {
         Cookies.remove("number");
         Cookies.set("AT", response.data.token, { expires: 365 * 10 });
         if (formerUrl) {
-          router.replace(formerUrl);
-          Cookies.remove("url");
+          if(!formerUrl.includes("/seller")){
+            router.replace(formerUrl);
+            Cookies.remove("url");
+          }
         } else {
           router.replace("/");
         }

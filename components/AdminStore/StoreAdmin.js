@@ -43,6 +43,7 @@ function StoreAdmin({ names, refetch }) {
     names.store_type && names.store_type
   );
   const [status, setStatus] = useState(names.status && names.status);
+  const [published, setPublished] = useState(names.publish ? Number(names.publish) : 0);
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const newNameAr = useRef();
@@ -138,6 +139,9 @@ function StoreAdmin({ names, refetch }) {
     if (status !== names.status) {
       editData.status = status;
     }
+    if(published !== names.publish){
+      editData.publish = published
+    }
     if (address) {
       addIfDifferent(address.address, "address");
       editData.longitude = address.lng;
@@ -195,6 +199,7 @@ function StoreAdmin({ names, refetch }) {
       setIsSaving(false);
       return;
     }else{
+      console.log(editData);
       try {
         const response = await Api.put(
           `/api/admin/edit-store/${names.id}`,
@@ -445,6 +450,34 @@ function StoreAdmin({ names, refetch }) {
                 </div>
 
                 <div className="flex items-center">
+                  <label className="w-[30%] text-lg px-2">Published :</label>
+                  <select
+                    className="w-[80%] form-select outline-none bg-transparent border-b-2 border-gray-300 "
+                    aria-label="Status"
+                    name="Status"
+                    defaultValue={published}
+                    onChange={(e) => {
+                      setPublished(e.target.value);
+                    }}
+                  >
+                    <option
+                      className="bg-white text-center "
+                      disabled
+                      selected
+                      value
+                    >
+                      Select a publish state
+                    </option>
+                    <option className="bg-white" value={1}>
+                      Published
+                    </option>
+                    <option className="bg-white" value={0}>
+                      Coming Soon
+                    </option>
+                  </select>
+                </div>
+
+                <div className="flex items-center">
                   <label className="w-[30%] text-lg px-2">Address :</label>
                   <Locations
                     onLocation={handlesAddress}
@@ -474,6 +507,8 @@ function StoreAdmin({ names, refetch }) {
                     required
                   />
                 </div>
+                  
+                  <div></div>
 
                 <div className="flex items-center">
                   <label>Store Image</label>

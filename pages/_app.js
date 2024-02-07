@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import nProgress, { NProgress } from "nprogress";
 import { Provider } from "react-redux";
+import { Analytics } from '@vercel/analytics/react';
 // import { store } from "@/Store";
 // import {store} from "../Store/index";
 import { GoogleTagManager , GoogleAnalytics } from '@next/third-parties/google' ; 
@@ -55,6 +56,7 @@ const store = configureStore({
           />
           <Provider store={store} >
             <Component {...pageProps} />
+            <Analytics/>
             <GoogleTagManager gtmId="GTM-WJTGWG84" />
             {/* <GoogleAnalytics gaId="G-4C6MQ427TW" />  */}
           </Provider>

@@ -78,7 +78,7 @@ function PublicStore() {
             })}
           </div> : <div className="w-max mx-auto" >{t("stores.noStores")}</div>}
           {stores && stores.data.stores && stores.data.stores.length > 0 && stores.data.pagination && (
-                <div className="w-fit mx-auto flex justify-center items-center h-max gap-4 py-4 ">
+                <div className="w-fit mx-auto flex justify-center items-center h-max space-x-4 py-4 ">
                   <button
                     className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-max"
                     onClick={() => {

@@ -566,5 +566,7 @@
   "hasVendors" : "*This Product has 1 or more vendors which you can follow the price of.",
   "followingOf" : "You are following the price of :",
   "isVendor" : "Product has Vendor ?",
-  "finalPrice" : "Final Price"
+  "finalPrice" : "Final Price",
+  "noProductsFound" : "There are no products found for your search term.",
+  "soon" : "Coming Soon"
 }

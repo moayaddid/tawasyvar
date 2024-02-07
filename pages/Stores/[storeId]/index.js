@@ -162,9 +162,10 @@ function Products({ store }) {
     // console.log(selectedCategoryData);
   }
   let days = [] ;
-
-  const beforeDays = JSON.parse(store.store.opening_days);
-  days = beforeDays.join(" - ")
+  if(store && store.store){
+    const beforeDays = JSON.parse(store.store.opening_days);
+    days = beforeDays.join(" - ")
+  }
   // if (store) {
   //   console.log(store);
     // console.log(`asdasd`);
@@ -180,7 +181,7 @@ function Products({ store }) {
       />
       <div className="">
         {store && (
-          <div className=" relative lg:h-[400px] md:h-[300px] sm:h-[200px] bg-gray-200 h-[100px] w-full box-border ">
+          <div className=" relative lg:max-h-[475px] lg:h-[475px] bg-gray-200 max-h-auto h-auto w-full box-border ">
             <Image
             priority
               src={store.store.image ? store.store.image : Logo}
@@ -253,7 +254,7 @@ function Products({ store }) {
           {store && (
             <div className="flex flex-col md:items-end items-center my-3  ">
               <div>
-                <h2 className="md:text-xl text-lg text-gray-600 font-medium sm:my-2">
+                <h2 className="md:text-xl sm:text-lg text-sm text-gray-600 font-medium sm:my-2">
                   {/* {`Opening Time`} : */}
                   {`${t("store.openingTime")} : `}
                   <span className="text-gray-400 md:text-xl sm:text-lg text-sm px-1 ">

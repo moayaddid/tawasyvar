@@ -18,7 +18,7 @@ export async function getServerSideProps(context) {
     };
   }
 
-function addProducts () {
+function CustomProduct () {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -232,4 +232,4 @@ function addProducts () {
 
 }
 
-export default withVendorLayout(addProducts) ;
+export default withVendorLayout(CustomProduct) ;

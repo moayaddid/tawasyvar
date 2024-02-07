@@ -36,7 +36,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-function addProducts() {
+function GeneralProducts() {
   const router = useRouter();
   const Api = createAxiosInstance(router);
   const [currentPage, setCurrentPage] = useState(1);
@@ -102,9 +102,9 @@ function addProducts() {
     setSearching(true);
     try {
       const response = await Api.post(
-        `/api/seller/search-approved-products`,
+        `/api/vendor/search-product`,
         {
-          search_term: searchRef.current.value,
+          search: searchRef.current.value,
         },
         {
           noSuccessToast: true,
@@ -236,9 +236,9 @@ function addProducts() {
           )}
           {inSearch == true &&
             searchedProducts &&
-            (searchedProducts.transformedProducts.length > 0 ? (
+            (searchedProducts.products.length > 0 ? (
               <div class="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 grid-col-1 gap-4 ">
-                {searchedProducts.transformedProducts.map((curElem) => {
+                {searchedProducts.products.map((curElem) => {
                   return (
                     <VendorSharedProduct key={curElem.id} product={curElem} />
                   );
@@ -246,7 +246,7 @@ function addProducts() {
               </div>
             ) : (
               <div className="w-full text-center text-lg ">
-                {searchedProducts.message}
+                {t("noProductsFound")}
               </div>
             ))}
 
@@ -419,4 +419,4 @@ function addProducts() {
   );
 }
 
-export default withVendorLayout(addProducts);
+export default withVendorLayout(GeneralProducts);

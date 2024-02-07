@@ -300,7 +300,7 @@ export default function SidebarAdmin(props) {
                         }}
                       >
                         <AiTwotoneEye className="block text-[20px] text-white " />
-                        <p className="hidden md:block">Share Products</p>
+                        <p className="hidden md:block">Shared Products</p>
                       </button>
                     </li>
                     <li className={`pt-3`}>

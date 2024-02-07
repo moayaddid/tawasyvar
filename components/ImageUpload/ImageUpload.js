@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const ImageUpload = (props) => {
   const inputRef = useRef(null);
-  const [imag, setimage] = useState(props.defaultImage ? props.defaultImage :"");
+  const [imag, setimage] = useState(props.defaultImage ? props.defaultImage : null);
 
   const handleImageClick = () => {
     inputRef.current.click();
