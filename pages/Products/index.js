@@ -74,18 +74,15 @@ function AllProducts() {
         }
       );
       // console.log(`sadndsaknjdsnkj`);
-      const component =
-        !response.data.products ? (
-          <div className="w-max mx-auto text-black ">
-            {response.data.message}
-          </div>
-        ) : (
-          <div className=" w-[90%] grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 gap-y-7 mx-auto">
-            {response.data.products.map((product) => {
-              return <PublicAllProduct key={product.id} product={product} />;
-            })}
-          </div>
-        );
+      const component = !response.data.products ? (
+        <div className="w-max mx-auto text-black ">{response.data.message}</div>
+      ) : (
+        <div className=" w-[90%] grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 gap-y-7 mx-auto">
+          {response.data.products.map((product) => {
+            return <PublicAllProduct key={product.id} product={product} />;
+          })}
+        </div>
+      );
       // console.log(`component`);
       // console.log(searchedResults);
       setSearchedResults(component);
@@ -112,11 +109,11 @@ function AllProducts() {
 
   return (
     <>
-    <NextSeo
-      title={`${t("titles.allProducts")} | ${t("titles.home")} `}
-      description={t("descs.allProducts")}
-      canonical="https://tawasyme.com/Products"
-    />
+      <NextSeo
+        title={`${t("titles.allProducts")} | ${t("titles.home")} `}
+        description={t("descs.allProducts")}
+        canonical="https://tawasyme.com/Products"
+      />
       <div>
         <div className="bg-gray-100 w-full py-3" id="top">
           <h1 className="text-3xl text-gray-600 font-medium w-[90%] mx-auto">
@@ -128,8 +125,8 @@ function AllProducts() {
           dir="ltr"
         >
           <form
-           dir={router.locale == "ar" ? "rtl" : "ltr"}
-           onSubmit={search}
+            dir={router.locale == "ar" ? "rtl" : "ltr"}
+            onSubmit={search}
             className="flex bg-gray-100 w-full sm:w-2/5 items-center rounded-lg px-2 border-2 border-transparent focus-within:border-skin-primary transition-all duration-700 "
           >
             <svg
@@ -175,7 +172,9 @@ function AllProducts() {
 
         {inSearch == false && (
           <div className="w-[90%] mx-auto py-5">
-            {products && products.data.products && products.data.products.length > 0 ? (
+            {products &&
+            products.data.products &&
+            products.data.products.length > 0 ? (
               <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 gap-y-7 mx-auto  ">
                 {products.data.products &&
                   products.data.products.map((product) => (
@@ -199,7 +198,7 @@ function AllProducts() {
                     products.data.pagination.from
                   }
                 >
-                  Previous Page
+                  {t("stores.previousPage")}
                 </button>
                 {isFetching && (
                   <Ring size={20} lineWeight={5} speed={2} color="#222222" />
@@ -216,7 +215,7 @@ function AllProducts() {
                     products.data.pagination.last_page
                   }
                 >
-                  Next Page
+                  {t("stores.nextPage")}
                 </button>
               </div>
             )}

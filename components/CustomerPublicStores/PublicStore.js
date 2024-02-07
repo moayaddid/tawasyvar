@@ -16,7 +16,7 @@ function PublicStoreCard({ store }) {
           href={`/Stores/${store.slug}`}
           className="shadow-xl flex flex-col lg:h-[250px] md:h-[200px] h-[225px] "
         >
-          <div className=" overflow-hidden flex justify-center items-center min-h-[144.5px] ">
+          <div className=" overflow-hidden flex justify-center items-center min-h-[144.5px] max-h-[144.5px] ">
             <Image
               src={store.image ? store.image : logo}
               alt={store.name}
@@ -46,9 +46,9 @@ function PublicStoreCard({ store }) {
         </Link>
       ) : (
         <div
-          className="shadow-xl  flex flex-col lg:h-[250px] md:h-[200px] h-[225px] "
+          className="shadow-xl  flex flex-col h-auto "
         >
-          <div className=" opacity-40 overflow-hidden flex justify-center items-center min-h-[144.5px] ">
+          <div className=" opacity-40 overflow-hidden flex justify-center items-center min-h-[144.5px] max-h-[144.5px] ">
             <Image
               src={store.image ? store.image : logo}
               alt={store.name}

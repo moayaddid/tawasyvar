@@ -99,6 +99,9 @@ const Code = () => {
           if(!formerUrl.includes("/seller")){
             router.replace(formerUrl);
             Cookies.remove("url");
+          }else{
+            Cookies.remove("url");
+            router.replace("/")
           }
         } else {
           router.replace("/");
