@@ -99,4 +99,4 @@ Host: https://tawasyme.com
 
 # Sitemaps
 Sitemap: https://tawasyme.com/sitemap.xml
-Sitemap: https://tawasyme.com/server-sitemap.xml
+
