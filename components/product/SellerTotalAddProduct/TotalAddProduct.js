@@ -216,8 +216,8 @@ function TotalAddProduct({ selectproduct, refetch }) {
             amount:
               isPercentage === "percentage"
                 ? Number(
-                    `${percentageRef.current.valueOf() || 0}.${
-                      percentageDecimalRef.current.valueOf() || 0
+                    `${percentageRef.current || 0}.${
+                      percentageDecimalRef.current || 0
                     }`
                   )
                 : amount.current,
@@ -229,6 +229,7 @@ function TotalAddProduct({ selectproduct, refetch }) {
         setIsDone(true);
         setSavingEdited(false);
       } catch (error) {
+        console.log(error);
         setSavingEdited(false);
       }
       setSavingEdited(false);
@@ -249,8 +250,8 @@ function TotalAddProduct({ selectproduct, refetch }) {
             amount:
               isPercentage === "percentage"
                 ? Number(
-                    `${percentageRef.current?.valueOf() || 0}.${
-                      percentageDecimalRef.current?.valueOf() || 0
+                    `${percentageRef.current || 0}.${
+                      percentageDecimalRef.current || 0
                     }`
                   )
                 : amount.current,
@@ -742,12 +743,12 @@ function TotalAddProduct({ selectproduct, refetch }) {
           ) : (
             <button
               disabled={
-                isEditingVendorPrice == true
-                  ? !finalPrice ||
-                    !isPercentage ||
-                    !increase ||
-                    (isPercentage === `amount` && !amount.current) ||
-                    (isPercentage === `percentage` && !percentageRef.current)
+                (isEditingVendorPrice == true)
+                  ? (!finalPrice) ||
+                    (!isPercentage) ||
+                    (!increase) ||
+                    ((isPercentage === `amount`) && !amount.current) ||
+                    ((isPercentage === `percentage`) && !percentageRef.current)
                   : false
               }
               onClick={saveEditedProduct}
