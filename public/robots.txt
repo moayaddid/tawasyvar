@@ -1,5 +1,97 @@
 # *
 User-agent: *
+Disallow: /admin
+
+# *
+User-agent: *
+Disallow: /admin/*
+
+# *
+User-agent: *
+Disallow: /seller/*
+
+# *
+User-agent: *
+Disallow: /seller
+
+# *
+User-agent: *
+Disallow: /ar/seller/*
+
+# *
+User-agent: *
+Disallow: /ar/seller
+
+# *
+User-agent: *
+Disallow: /login
+
+# *
+User-agent: *
+Disallow: /TradeMarksPolicy
+
+# *
+User-agent: *
+Disallow: /TermsAndConditions
+
+# *
+User-agent: *
+Disallow: /PrivacyPolicy
+
+# *
+User-agent: *
+Disallow: /ar/TradeMarksPolicy
+
+# *
+User-agent: *
+Disallow: /ar/TermsAndConditions
+
+# *
+User-agent: *
+Disallow: /ar/PrivacyPolicy
+
+# *
+User-agent: *
+Disallow: /SubmitOrder
+
+# *
+User-agent: *
+Disallow: /MyProfile
+
+# *
+User-agent: *
+Disallow: /Orders
+
+# *
+User-agent: *
+Disallow: /signup
+
+# *
+User-agent: *
+Disallow: /verification
+
+# *
+User-agent: *
+Disallow: /ar/404
+
+# *
+User-agent: *
+Disallow: /404
+
+# *
+User-agent: *
+Disallow: /ar/Orders
+
+# *
+User-agent: *
+Disallow: /ar/MyProfile
+
+# *
+User-agent: *
+Disallow: /ar/SubmitOrder
+
+# *
+User-agent: *
 Allow: /
 
 # Host
@@ -7,3 +99,4 @@ Host: https://tawasyme.com
 
 # Sitemaps
 Sitemap: https://tawasyme.com/sitemap.xml
+Sitemap: https://tawasyme.com/server-sitemap.xml

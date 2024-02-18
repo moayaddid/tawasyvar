@@ -355,9 +355,9 @@ function AddProducts() {
                             </tr>
                           </thead>
                           <tbody className="text-lg font-normal text-gray-700 text-center">
-                            {selectedProducts.map((curElem) => (
+                            {selectedProducts.map((curElem , i) => (
                               <TotalAddProduct
-                                key={curElem.product_id}
+                                key={`${curElem.product_id} - ${i}`}
                                 selectproduct={curElem}
                                 refetch={async () => {
                                   await fetchSelectedProducts();

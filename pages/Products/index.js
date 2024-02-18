@@ -14,17 +14,37 @@ import TawasyLoader from "@/components/UI/tawasyLoader";
 import { Ring } from "@uiball/loaders";
 import { useRef } from "react";
 import { NextSeo } from "next-seo";
+import axios from "axios";
+import url from "@/URL";
+import Link from "next/link";
 
 export async function getServerSideProps(context) {
-  const { locale } = context;
+  const { locale, query } = context;
+  const response = await axios.get(
+    `${url}/api/allproducts?page=${
+      query?.page && query?.page !== null && query?.page !== undefined && query?.page > 0
+        ? query?.page
+        : 1
+    }`,
+    {
+      headers: { "Accept-Language": locale ? locale : "en" },
+    }
+  );
+  // console.log(response);
+  if(!response.data){
+    return {
+      notFound : true ,
+    }
+  }
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+      products: response.data,
     },
   };
 }
 
-function AllProducts() {
+function AllProducts({ products }) {
   const { t } = useTranslation("");
   const router = useRouter();
   const Api = createAxiosInstance(router);
@@ -33,26 +53,26 @@ function AllProducts() {
   const [searching, setSearching] = useState(false);
   const [searchedResults, setSearchedResults] = useState();
   const searchRef = useRef();
-  const {
-    data: products,
-    isLoading,
-    isFetching,
-  } = useQuery(
-    [`allProducts`, currentPage],
-    () => fetchAllProducts(currentPage),
-    {
-      staleTime: 1,
-      refetchOnMount: true,
-      refetchOnWindowFocus: false,
-      keepPreviousData: true,
-    }
-  );
+  // const {
+  //   data: products,
+  //   isLoading,
+  //   isFetching,
+  // } = useQuery(
+  //   [`allProducts`, currentPage],
+  //   () => fetchAllProducts(currentPage),
+  //   {
+  //     staleTime: 1,
+  //     refetchOnMount: true,
+  //     refetchOnWindowFocus: false,
+  //     keepPreviousData: true,
+  //   }
+  // );
 
-  async function fetchAllProducts(currentPage) {
-    try {
-      return await Api.get(`/api/allproducts?page=${currentPage}`);
-    } catch (error) {}
-  }
+  // async function fetchAllProducts(currentPage) {
+  //   try {
+  //     return await Api.get(`/api/allproducts?page=${currentPage}`);
+  //   } catch (error) {}
+  // }
 
   function scroll(id) {
     document.querySelector(`#${id}`).scrollIntoView({ behavior: "smooth" });
@@ -99,13 +119,13 @@ function AllProducts() {
   //   console.log(products);
   // }
 
-  if (isLoading) {
-    return (
-      <div className="w-full h-full">
-        <TawasyLoader width={500} height={500} />
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="w-full h-full">
+  //       <TawasyLoader width={500} height={500} />
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
@@ -172,51 +192,93 @@ function AllProducts() {
 
         {inSearch == false && (
           <div className="w-[90%] mx-auto py-5">
-            {products &&
-            products.data.products &&
-            products.data.products.length > 0 ? (
+            {products && products.products && products.products.length > 0 ? (
               <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 gap-y-7 mx-auto  ">
-                {products.data.products &&
-                  products.data.products.map((product) => (
+                {products.products &&
+                  products.products.map((product) => (
                     <PublicAllProduct key={product.id} product={product} />
                   ))}
               </div>
             ) : (
-              <div> There are no products . </div>
+              <div className="text-center" > There are no products . </div>
             )}
-            {products && products.data.pagination && (
+            {products && products.pagination && (
               <div className="w-fit mx-auto flex justify-center items-center h-max gap-4 py-4 ">
-                <button
+                {/* <button
                   className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-max"
                   onClick={() => {
-                    setCurrentPage(products.data.pagination.current_page - 1);
+                    setCurrentPage(products.pagination.current_page - 1);
                     scroll(`top`);
                     // setCurrentPage(data.data.pagination.previousPage);
                   }}
                   disabled={
-                    products.data.pagination.current_page ===
-                    products.data.pagination.from
+                    products.pagination.current_page ===
+                    products.pagination.from
                   }
                 >
                   {t("stores.previousPage")}
-                </button>
-                {isFetching && (
+                </button> */}
+                <Link
+                  className={`px-2 py-1 ${
+                    products.pagination.current_page ===
+                    products.pagination.from
+                      ? `pointer-events-none opacity-50 cursor-not-allowed`
+                      : `pointer-events-auto`
+                  } bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] select-none w-max`}
+                  href={`/Products?page=${
+                    products.pagination.current_page - 1
+                  }`}
+                  // onClick={() => {
+                  //   setCurrentPage(products.pagination.current_page - 1);
+                  //   scroll(`top`);
+                  //   // setCurrentPage(data.data.pagination.previousPage);
+                  // }}
+                  // disabled={
+                  //   products.pagination.current_page ===
+                  //   products.pagination.from
+                  // }
+                >
+                  {t("stores.previousPage")}
+                </Link>
+                {/* {isFetching && (
                   <Ring size={20} lineWeight={5} speed={2} color="#222222" />
-                )}
-                <button
+                )} */}
+                {/* <button
                   className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-max"
                   onClick={() => {
-                    setCurrentPage(products.data.pagination.current_page + 1);
+                    setCurrentPage(products.pagination.current_page + 1);
                     scroll(`top`);
                     // setCurrentPage(data.data.pagination.nextPage);
                   }}
                   disabled={
-                    products.data.pagination.current_page ===
-                    products.data.pagination.last_page
+                    products.pagination.current_page ===
+                    products.pagination.last_page
                   }
                 >
                   {t("stores.nextPage")}
-                </button>
+                </button> */}
+                <Link
+                  className={`px-2 py-1 ${
+                    products.pagination.current_page ===
+                    products.pagination.last_page
+                      ? `pointer-events-none opacity-50 cursor-not-allowed`
+                      : `pointer-events-auto`
+                  } bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] select-none w-max`}
+                  href={`/Products?page=${
+                    products.pagination.current_page + 1
+                  }`}
+                  // onClick={() => {
+                  //   setCurrentPage(products.pagination.current_page + 1);
+                  //   scroll(`top`);
+                  //   // setCurrentPage(data.data.pagination.nextPage);
+                  // }}
+                  disabled={
+                    products.pagination.current_page ===
+                    products.pagination.last_page
+                  }
+                >
+                  {t("stores.nextPage")}
+                </Link>
               </div>
             )}
           </div>

@@ -512,7 +512,7 @@ function SellerProduct({ product, refetch }) {
           </div>
         </td>
         { price && <td className="px-4 py-4">{convertMoney(Number(price))}</td>}
-        <td className="px-4 py-4">{convertMoney(Number(product.final_price))}</td>
+        <td className="px-4 py-4">{product.final_price ? convertMoney(Number(product.final_price)) : `-`}</td>
         <td className="px-4 py-4">
           <Link href={`/Products/${product.slug}`} legacyBehavior>
             <a
@@ -565,7 +565,7 @@ function SellerProduct({ product, refetch }) {
                   alt="photo"
                   width={100}
                   height={100}
-                  className="object-contain"
+                  className="object-contain max-h-[100px] min-h-[100px]"
                 />
               );
             })}

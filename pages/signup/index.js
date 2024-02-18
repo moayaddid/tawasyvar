@@ -197,9 +197,61 @@ const SignUp = () => {
               height={290}
               className="mx-3"
             />
-            <p className="text-white text-2xl font-semibold">
+            <p className="text-white text-3xl border-b-2 border-white font-semibold">
             {t("signup.customerRegister")}
             </p>
+
+            <div className="flex flex-col justify-start items-start space-y-2 w-full">
+                <label
+                  htmlFor="login"
+                  className=" text-lg text-white font-medium "
+                >
+                  {t("signup.signupAs")}
+                </label>
+                <ul className="grid w-full gap-6 md:grid-cols-2 mx-auto ">
+                  <li>
+                    <input
+                      type="radio"
+                      id="customer"
+                      name="hosting"
+                      value={1}
+                      className="hidden peer"
+                      required
+                      checked={registeree === 1}
+                      onChange={handleRoleChange}
+                    />
+                    <label
+                      for="customer"
+                      className="inline-flex items-center justify-center text-center w-full px-3 py-2 text-skin-primary bg-white border border-white rounded-lg cursor-pointer peer-checked:border-skin-primary peer-checked:text-skin-primary hover:text-gray-600 hover:bg-gray-100 transition-all duration-500"
+                    >
+                      <p className="w-full block text-lg font-semibold">
+                      {t("signup.customer")}
+                      </p>
+                    </label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      id="seller"
+                      name="hosting"
+                      value={2}
+                      className="hidden peer"
+                      required
+                      checked={registeree === 2}
+                      onChange={handleRoleChange}
+                    />
+                    <label
+                      for="seller"
+                      className="inline-flex items-center justify-center text-center w-full px-3 py-2 text-white bg-transparent border border-white rounded-lg cursor-pointer peer-checked:border-skin-primary peer-checked:text-skin-primary hover:text-skin-primary hover:bg-gray-100 transition-all duration-500"
+                    >
+                      <p className="w-full block text-lg font-semibold">
+                      {t("signup.seller")}
+                      </p>
+                    </label>
+                  </li>
+                </ul>
+              </div>
+
             <form
               onSubmit={customerSubmit}
               className="w-full flex flex-col space-y-6"
@@ -273,56 +325,7 @@ const SignUp = () => {
                 </span>
               </label>
 
-              <div className="flex flex-col justify-start items-start gap-2 w-full">
-                <label
-                  htmlFor="login"
-                  className=" text-lg text-white font-medium "
-                >
-                  {t("signup.signupAs")}
-                </label>
-                <ul className="grid w-full gap-6 md:grid-cols-2 mx-auto ">
-                  <li>
-                    <input
-                      type="radio"
-                      id="customer"
-                      name="hosting"
-                      value={1}
-                      className="hidden peer"
-                      required
-                      checked={registeree === 1}
-                      onChange={handleRoleChange}
-                    />
-                    <label
-                      for="customer"
-                      className="inline-flex items-center justify-center text-center w-full px-3 py-2 text-white-500 bg-white border border-white rounded-lg cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 hover:text-gray-600 hover:bg-gray-100 transition-all duration-500"
-                    >
-                      <p className="w-full block text-lg font-semibold">
-                      {t("signup.customer")}
-                      </p>
-                    </label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      id="seller"
-                      name="hosting"
-                      value={2}
-                      className="hidden peer"
-                      required
-                      checked={registeree === 2}
-                      onChange={handleRoleChange}
-                    />
-                    <label
-                      for="seller"
-                      className="inline-flex items-center justify-center text-center w-full px-3 py-2 text-white bg-transparent border border-white rounded-lg cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 hover:text-skin-primary hover:bg-gray-100 transition-all duration-500"
-                    >
-                      <p className="w-full block text-lg font-semibold">
-                      {t("signup.seller")}
-                      </p>
-                    </label>
-                  </li>
-                </ul>
-              </div>
+              
 
               <button
                 className="px-2 py-1 border-2 bg-white text-skin-primary rounded-lg hover:bg-gray-200 "
@@ -361,9 +364,61 @@ const SignUp = () => {
               height={290}
               className="mx-3"
             />
-            <p className="text-white text-2xl font-semibold">
+            <p className="text-white text-3xl border-b-2 border-white font-semibold">
             {t("signup.sellerRegister")}
             </p>
+
+            <div className="flex flex-col justify-start items-start space-y-2 w-full">
+                <label
+                  htmlFor="login"
+                  className=" text-lg text-white font-medium "
+                >
+                  {t("signup.signupAs")}
+                </label>
+                <ul className="grid w-full gap-6 md:grid-cols-2 mx-auto ">
+                  <li>
+                    <input
+                      type="radio"
+                      id="customer"
+                      name="hosting"
+                      value={1}
+                      className="hidden peer"
+                      required
+                      checked={registeree === 1}
+                      onChange={handleRoleChange}
+                    />
+                    <label
+                      for="customer"
+                      className="inline-flex items-center justify-center text-center w-full px-3 py-2 text-white bg-transparent border border-white rounded-lg cursor-pointer peer-checked:border-skin-primary peer-checked:text-skin-primary hover:text-skin-primary hover:bg-gray-100 transition-all duration-500"
+                    >
+                      <p className="w-full block text-lg font-semibold">
+                      {t("signup.customer")}
+                      </p>
+                    </label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      id="seller"
+                      name="hosting"
+                      value={2}
+                      className="hidden peer"
+                      required
+                      checked={registeree === 2}
+                      onChange={handleRoleChange}
+                    />
+                    <label
+                      for="seller"
+                      className="inline-flex items-center justify-center text-center w-full px-3 py-2 text-white bg-transparent border border-white rounded-lg cursor-pointer peer-checked:border-skin-primary peer-checked:text-skin-primary peer-checked:bg-white hover:text-skin-primary hover:bg-gray-100 transition-all duration-500"
+                    >
+                      <p className="w-full block text-lg font-semibold">
+                      {t("signup.seller")}
+                      </p>
+                    </label>
+                  </li>
+                </ul>
+              </div>
+
             <form
               onSubmit={sellerSubmit}
               className="w-full flex flex-col space-y-6"
@@ -453,56 +508,7 @@ const SignUp = () => {
                 </span>
               </label>
 
-              <div className="flex flex-col justify-start items-start gap-2 w-full">
-                <label
-                  htmlFor="login"
-                  className=" text-lg text-white font-medium "
-                >
-                  {t("signup.signupAs")}
-                </label>
-                <ul className="grid w-full gap-6 md:grid-cols-2 mx-auto ">
-                  <li>
-                    <input
-                      type="radio"
-                      id="customer"
-                      name="hosting"
-                      value={1}
-                      className="hidden peer"
-                      required
-                      checked={registeree === 1}
-                      onChange={handleRoleChange}
-                    />
-                    <label
-                      for="customer"
-                      className="inline-flex items-center justify-center text-center w-full px-3 py-2 text-white bg-transparent border border-white rounded-lg cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 hover:text-skin-primary hover:bg-gray-100 transition-all duration-500"
-                    >
-                      <p className="w-full block text-lg font-semibold">
-                      {t("signup.customer")}
-                      </p>
-                    </label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      id="seller"
-                      name="hosting"
-                      value={2}
-                      className="hidden peer"
-                      required
-                      checked={registeree === 2}
-                      onChange={handleRoleChange}
-                    />
-                    <label
-                      for="seller"
-                      className="inline-flex items-center justify-center text-center w-full px-3 py-2 text-white bg-transparent border border-white rounded-lg cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 peer-checked:bg-white hover:text-skin-primary hover:bg-gray-100 transition-all duration-500"
-                    >
-                      <p className="w-full block text-lg font-semibold">
-                      {t("signup.seller")}
-                      </p>
-                    </label>
-                  </li>
-                </ul>
-              </div>
+              
 
               <button
                 className="px-2 py-1 border-2 bg-white text-skin-primary rounded-lg hover:bg-gray-200 "

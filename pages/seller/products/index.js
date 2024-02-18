@@ -195,7 +195,7 @@ function Products() {
             </div>
           ) : products && Array.isArray(products) && products.length > 0 ? (
             <div className="mt-6 overflow-x-auto  ">
-              <table className="w-full overflow-x-auto table-auto">
+              <table className="w-max overflow-x-auto table-auto">
                 <thead className="sticky top-0">
                   <tr className="text-sm font-semibold text-center border-b-2 border-blue-500 capitalize">
                     <th>{t("seller.products.table.id")}</th>

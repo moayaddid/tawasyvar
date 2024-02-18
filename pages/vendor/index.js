@@ -40,11 +40,11 @@ function VendorHome() {
 
   return (
     <div className="w-[90%] h-full mx-auto">
-      <p className="text-3xl py-10 px-7 ">Stores following my Pricing :</p>
+      <p className="text-3xl py-10 px-7 ">Main Dashboard :</p>
       <hr className="h-px bg-gray-700 mb-10" />
       {isLoading == true ? (
         <div className="w-full h-full flex justify-center items-center">
-          <TawasyLoader width={300} height={300} />{" "}
+          <TawasyLoader width={300} height={300} />
         </div>
       ) : (
         data && data.data &&

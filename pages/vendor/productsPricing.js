@@ -76,6 +76,87 @@ const dummyData = [
     image: lego,
     price: null,
   },
+  {
+    id: 4,
+    name: `product 1`,
+    variation: `Red / big`,
+    partNumber: `HFDY544`,
+    category: `automotives`,
+    brand: `Cars Brand`,
+    image: lego,
+    price: null,
+  },
+  {
+    id: 5,
+    name: `product 2`,
+    category: `automotives`,
+    brand: `Cars Brand`,
+    image: lego,
+    price: null,
+  },
+  {
+    id: 6,
+    name: `product 3`,
+    variation: `Red / big`,
+    category: `automotives`,
+    brand: `Cars Brand`,
+    image: lego,
+    price: null,
+  },
+  {
+    id: 7,
+    name: `product 1`,
+    variation: `Red / big`,
+    partNumber: `HFDY544`,
+    category: `automotives`,
+    brand: `Cars Brand`,
+    image: lego,
+    price: null,
+  },
+  {
+    id: 8,
+    name: `product 2`,
+    category: `automotives`,
+    brand: `Cars Brand`,
+    image: lego,
+    price: null,
+  },
+  {
+    id: 9,
+    name: `product 3`,
+    variation: `Red / big`,
+    category: `automotives`,
+    brand: `Cars Brand`,
+    image: lego,
+    price: null,
+  },
+  {
+    id: 11,
+    name: `product 1`,
+    variation: `Red / big`,
+    partNumber: `HFDY544`,
+    category: `automotives`,
+    brand: `Cars Brand`,
+    image: lego,
+    price: null,
+  },
+  {
+    id: 12,
+    name: `product 2`,
+    category: `automotives`,
+    brand: `Cars Brand`,
+    image: lego,
+    price: null,
+  },
+  {
+    id: 13,
+    name: `product 3`,
+    variation: `Red / big`,
+    category: `automotives`,
+    brand: `Cars Brand`,
+    image: lego,
+    price: null,
+  },
 ];
 
 function ProductsPricingPage() {
@@ -100,15 +181,15 @@ function ProductsPricingPage() {
     } catch (error) {}
   }
 
- async function setProducts (){
-  // if (products && products.data.selected_products) {
+  async function setProducts() {
+    // if (products && products.data.selected_products) {
     let pros = [];
     products?.data?.selected_products?.map((product) =>
       pros.push({ ...product, price: null })
     );
-    console.log(pros);
+    // console.log(pros);
     setAllProducts(pros);
-  // }
+    // }
   }
 
   useEffect(() => {
@@ -151,17 +232,19 @@ function ProductsPricingPage() {
       }
     });
     // console.log(data);
-    if(data?.length < 1 ){
-      toast.error(`you did not add a price to any product` , {theme : "colored"})
-    }else{
-      try{
-        const response = await Api.post(`/api/vendor/price-products` , {
-          products : data
+    if (data?.length < 1) {
+      toast.error(`You did not add a price to any product`, {
+        theme: "colored",
+      });
+    } else {
+      try {
+        const response = await Api.post(`/api/vendor/price-products`, {
+          products: data,
         });
         setIsSaving(false);
         refetch();
         setProducts();
-      }catch(error){
+      } catch (error) {
         setIsSaving(false);
       }
     }
@@ -169,19 +252,21 @@ function ProductsPricingPage() {
   }
 
   return (
-    <div className="w-full h-full">
-      <div className="px-5 py-10 text-3xl ">Requested Products Pricing :</div>
+    <div className="w-full h-screen flex flex-col justify-start items-start space-y-2">
+      <div className="px-5 py-10 text-3xl h-[10%] ">
+        Requested Products Pricing :
+      </div>
       <hr />
       {isLoading == true || isFetching == true ? (
         <div className="py-5 px-5 w-full h-full">
           <TawasyLoader width={300} height={300} />
         </div>
       ) : (
-        <div className="py-5 px-5 w-full h-full ">
+        <div className="px-5 w-full h-[80%]  ">
           {allProducts && allProducts.length > 0 ? (
-            <div className=" flex flex-col justify-between w-full h-full space-y-4">
-              <table className="w-full overflow-x-auto overflow-y-auto table-auto">
-                <thead className="">
+            <div className=" flex flex-col justify-between w-full h-full space-y-4 overflow-scroll">
+              <table className="w-full overflow-x-auto table relative">
+                <thead className="sticky top-0 bg-white">
                   <tr className="text-lg font-semibold text-center border-b-2 border-blue-500 capitalize">
                     {tableheading.map((index) => (
                       <th key={index.heading}>{index.heading}</th>
@@ -192,7 +277,12 @@ function ProductsPricingPage() {
                   {allProducts &&
                     allProducts.map((product, i) => {
                       return (
-                        <tr className="" key={`${i} - ${product.product_id} - ${product.line_id || 'null'}`}>
+                        <tr
+                          className=""
+                          key={`${i} - ${product.product_id} - ${
+                            product.line_id || "null"
+                          }`}
+                        >
                           <td className="py-6">{product.product_id}</td>
                           <td>{product.name}</td>
                           <td>
@@ -244,23 +334,6 @@ function ProductsPricingPage() {
                     })}
                 </tbody>
               </table>
-              <div className="w-full flex justify-center items-center">
-               { isSaving == true ? 
-                <div
-                className="w-[10%] flex justify-center items-center bg-green-500 rounded-lg px-2 py-1 text-center text-white hover:opacity-80 transition-all duration-500 "
-              >
-                <Ring size={25} speed={3} lineWeight={5} color="white" />
-              </div>
-               : <button
-                  // disabled={allProducts.some(
-                  //   (product) => product.price != null
-                  // )}
-                  onClick={saveProducts}
-                  className="w-[10%] disabled:bg-gray-400 disabled:opacity-80 disabled:cursor-not-allowed bg-green-500 rounded-lg px-2 py-1 text-center text-white hover:opacity-80 transition-all duration-500 "
-                >
-                  Save Prodcuts
-                </button>}
-              </div>
             </div>
           ) : (
             <p className="text-center text-xl">
@@ -269,6 +342,23 @@ function ProductsPricingPage() {
           )}
         </div>
       )}
+      { (allProducts && allProducts.length > 0) && <div className="w-full flex justify-center items-center h-[10%]">
+        {isSaving == true ? (
+          <div className="w-[10%] flex justify-center items-center bg-green-500 rounded-lg px-2 py-1 text-center text-white hover:opacity-80 transition-all duration-500 ">
+            <Ring size={25} speed={3} lineWeight={5} color="white" />
+          </div>
+        ) : (
+          <button
+            // disabled={allProducts.some(
+            //   (product) => product.price != null
+            // )}
+            onClick={saveProducts}
+            className="w-[10%] disabled:bg-gray-400 disabled:opacity-80 disabled:cursor-not-allowed bg-green-500 rounded-lg px-2 py-1 text-center text-white hover:opacity-80 transition-all duration-500 "
+          >
+            Save Prodcuts
+          </button>
+        )}
+      </div>}
     </div>
   );
 }

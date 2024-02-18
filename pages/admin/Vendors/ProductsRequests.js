@@ -26,14 +26,6 @@ function VendorsProductRequests() {
     <div className="w-[90%] mx-auto  h-full my-auto ">
       <div className="w-full flex justify-start items-center">
         <p className="text-3xl py-10 "> Vendors Products Requests :</p>
-        {/* <button
-            onClick={() => {
-              setOpenVendorAdd(true);
-            }}
-            className="bg-skin-primary rounded-lg px-2 py-1 hover:opacity-80 text-white "
-          >
-            Add a new Vendor
-          </button> */}
       </div>
       <hr className="pb-5" />
       {isLoading == true ? (
@@ -59,14 +51,6 @@ function VendorsProductRequests() {
               There are no Products Requests
             </div>
           )}
-          {/* {data.map((request) => {
-            return (
-              <AdminVendorProductRequest
-                request={request}
-                refetch={() => refetch()}
-              />
-            );
-          })} */}
         </div>
       )}
     </div>

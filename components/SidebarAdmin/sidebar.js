@@ -9,6 +9,8 @@ import {
   AiTwotoneEye,
   AiOutlineUser,
 } from "react-icons/ai";
+import { FaCompressArrowsAlt } from "react-icons/fa";
+import { FaCompressAlt } from "react-icons/fa";
 import { SiAdminer, SiSellfy } from "react-icons/si";
 import { FiChevronDown, FiChevronRight, FiSettings } from "react-icons/fi";
 import { BsCartCheckFill, BsBox, BsColumns } from "react-icons/bs";
@@ -328,6 +330,24 @@ export default function SidebarAdmin(props) {
                       >
                         <BsBox className="block text-[20px] text-white " />
                         <p className="hidden md:block">New Store Products</p>
+                      </Link>
+                    </li>
+                    <li className={`pt-3`}>
+                      <Link
+                        className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
+                        href={`/admin/Products/AttachableProducts`}
+                      >
+                        <FaCompressArrowsAlt className="block text-[20px] text-white " />
+                        <p className="hidden md:block">Attachable Products</p>
+                      </Link>
+                    </li>
+                    <li className={`pt-3`}>
+                      <Link
+                        className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
+                        href={`/admin/Products/AttachedProducts`}
+                      >
+                        <FaCompressAlt className="block text-[20px] text-white " />
+                        <p className="hidden md:block">Attached Products</p>
                       </Link>
                     </li>
                   </ul>

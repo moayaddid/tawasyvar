@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import createAxiosInstance from "@/API";
 import Link from "next/link";
 import { MdCheck, MdClose } from "react-icons/md";
+import { RxCrossCircled } from "react-icons/rx";
 import {
   Dialog,
   DialogActions,
@@ -18,6 +19,7 @@ import {
 import { toast } from "react-toastify";
 import { convertMoney } from "@/components/SellerOrders/sellerOrder";
 import { useTranslation } from "react-i18next";
+import { FaRegCircleCheck } from "react-icons/fa6";
 
 function TotalAddProduct({ selectproduct, refetch }) {
   const [isSaving, setIsSaving] = useState(false);
@@ -30,7 +32,9 @@ function TotalAddProduct({ selectproduct, refetch }) {
   const priceRef = useRef();
   const router = useRouter();
   const Api = createAxiosInstance(router);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+  const [isDone, setIsDone] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const [openEdit, setOpenEdit] = useState(false);
   const [savingEdited, setSavingEdited] = useState(false);
@@ -159,7 +163,8 @@ function TotalAddProduct({ selectproduct, refetch }) {
                 vendor_id: selectedVendor || null,
               }
             );
-            refetch();
+            // refetch();
+            setIsDone(true);
             setIsSaving(false);
           } catch (error) {
             // console.log(error);
@@ -177,7 +182,8 @@ function TotalAddProduct({ selectproduct, refetch }) {
                 vendor_id: selectedVendor || null,
               }
             );
-            refetch();
+            // refetch();
+            setIsDone(true);
             setIsSaving(false);
           } catch (error) {
             // console.log(error);
@@ -215,11 +221,12 @@ function TotalAddProduct({ selectproduct, refetch }) {
                     }`
                   )
                 : amount.current,
-            final_price: finalPrice,
+            final_price: finalPrice ? finalPrice : priceRef.current.value,
           }
         );
         setOpenEdit(false);
-        refetch();
+        // refetch();
+        setIsDone(true);
         setSavingEdited(false);
       } catch (error) {
         setSavingEdited(false);
@@ -228,7 +235,7 @@ function TotalAddProduct({ selectproduct, refetch }) {
     } else {
       console.log(`none variation save`);
       try {
-        console.log(`in try`)
+        console.log(`in try`);
         const response = await Api.post(
           `/api/seller/add-products-to-store/${selectproduct.product_id}`,
           {
@@ -247,11 +254,12 @@ function TotalAddProduct({ selectproduct, refetch }) {
                     }`
                   )
                 : amount.current,
-            final_price: finalPrice,
+            final_price: finalPrice ? finalPrice : priceRef.current.value,
           }
         );
         setOpenEdit(false);
-        refetch();
+        // refetch();
+        setIsDone(true);
         setSavingEdited(false);
       } catch (error) {
         console.log(error);
@@ -270,7 +278,8 @@ function TotalAddProduct({ selectproduct, refetch }) {
             variation: selectproduct.line_id,
           }
         );
-        refetch();
+        // refetch();
+        setIsDeleted(true);
         setIsDeleting(false);
       } catch (error) {
         setIsDeleting(false);
@@ -282,7 +291,8 @@ function TotalAddProduct({ selectproduct, refetch }) {
         const response = await Api.post(
           `/api/seller/unselect-product/${selectproduct.product_id}`
         );
-        refetch();
+        // refetch();
+        setIsDeleted(true);
         setIsDeleting(false);
       } catch (error) {
         setIsDeleting(false);
@@ -361,7 +371,8 @@ function TotalAddProduct({ selectproduct, refetch }) {
     <>
       <tr
         key={selectproduct.product_id}
-        className="even:bg-zinc-150 odd:bg-zinc-50 text-center md:text-base text-sm py-1 border-b-2 border-slate-300"
+        aria-disabled={isDone == true || isDeleted == true}
+        className={`even:bg-zinc-150 odd:bg-zinc-50 text-center md:text-base text-sm aria-disabled:pointer-events-none py-1 border-b-2 border-slate-300 aria-disabled:opacity-40 `}
       >
         <td>
           <Link href={`/Products/${selectproduct.slug}`} legacyBehavior>
@@ -434,7 +445,7 @@ function TotalAddProduct({ selectproduct, refetch }) {
             })}
         </td>
         <td className=" px-3 ">
-          {(selectproduct.has_vendor && selectproduct.has_vendor === 1) ? (
+          {selectproduct.has_vendor && selectproduct.has_vendor === 1 ? (
             <div>
               <label
                 htmlFor={`${selectproduct.product_id} - ${
@@ -515,30 +526,40 @@ function TotalAddProduct({ selectproduct, refetch }) {
           />
         </td>
         <td className="">
-          <div className="h-full w-full flex justify-center items-center gap-2">
-            {!isDeleting ? (
-              <MdClose
-                onClick={unSelectProduct}
-                style={{
-                  width: "26px",
-                  height: "26px",
-                  color: "rgb(171, 5, 5)",
-                }}
-                className="cursor-pointer"
-              />
-            ) : (
-              <Ring size={20} lineWeight={4} speed={2} color="#ff6600" />
-            )}
-            {!isSaving ? (
-              <MdCheck
-                onClick={saveProduct}
-                style={{ width: "26px", height: "26px", color: "#005500" }}
-                className="cursor-pointer"
-              />
-            ) : (
-              <Ring size={20} lineWeight={4} speed={2} color="#ff6600" />
-            )}
-          </div>
+          {isDone == true ? (
+            <div className="flex justify-center items-center">
+              <FaRegCircleCheck className="w-[26px] h-[26px] text-green-500 " />
+            </div>
+          ) : isDeleted == true ? (
+            <div className="flex justify-center items-center">
+              <RxCrossCircled className="w-[28px] h-[28px] text-red-700 " />
+            </div>
+          ) : (
+            <div className="h-full w-full flex justify-center items-center gap-2">
+              {!isDeleting ? (
+                <MdClose
+                  onClick={unSelectProduct}
+                  style={{
+                    width: "26px",
+                    height: "26px",
+                    color: "rgb(171, 5, 5)",
+                  }}
+                  className="cursor-pointer border-b-2 border-transparent hover:border-[#ab0505] transition-all duration-500"
+                />
+              ) : (
+                <Ring size={20} lineWeight={4} speed={2} color="#ff6600" />
+              )}
+              {!isSaving ? (
+                <MdCheck
+                  onClick={saveProduct}
+                  style={{ width: "26px", height: "26px", color: "#005500" }}
+                  className="cursor-pointer border-b-2 border-transparent hover:border-[#005500] transition-all duration-500"
+                />
+              ) : (
+                <Ring size={20} lineWeight={4} speed={2} color="#ff6600" />
+              )}
+            </div>
+          )}
         </td>
       </tr>
 
@@ -704,9 +725,7 @@ function TotalAddProduct({ selectproduct, refetch }) {
         </DialogContent>
         <DialogActions className="w-full flex justify-end items-center space-x-3">
           {savingEdited == true ? (
-            <div
-              className="w-[15%] flex justify-center items-center rounded-lg px-2 py-1 text-center text-white bg-green-500 hover:opacity-80"
-            >
+            <div className="w-[15%] flex justify-center items-center rounded-lg px-2 py-1 text-center text-white bg-green-500 hover:opacity-80">
               <Ring size={25} speed={3} lineWeight={5} color="white" />
             </div>
           ) : (
