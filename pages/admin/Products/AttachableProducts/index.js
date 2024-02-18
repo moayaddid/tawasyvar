@@ -62,9 +62,9 @@ function AttachableProducts() {
     } catch (error) {}
   }
 
-  useEffect(() => {
-    console.log(attachableProducts);
-  }, [attachableProducts, selectedStore, currentPage]);
+  // useEffect(() => {
+  //   // console.log(attachableProducts);
+  // }, [attachableProducts, selectedStore, currentPage]);
 
   return (
     <div className="w-[90%] mx-auto py-12 flex flex-col space-y-4 h-screen ">

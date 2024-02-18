@@ -197,9 +197,9 @@ function TotalAddProduct({ selectproduct, refetch }) {
   async function saveEditedProduct() {
     calculateFinalPrice();
     setSavingEdited(true);
-    console.log(`in save edoted`);
+    // console.log(`in save edoted`);
     if (selectproduct.variations && selectproduct.variations.length > 0) {
-      console.log(`has variation save`);
+      // console.log(`has variation save`);
       // setIsSaving(true);
       try {
         const response = await Api.post(
@@ -233,9 +233,9 @@ function TotalAddProduct({ selectproduct, refetch }) {
       }
       setSavingEdited(false);
     } else {
-      console.log(`none variation save`);
+      // console.log(`none variation save`);
       try {
-        console.log(`in try`);
+        // console.log(`in try`);
         const response = await Api.post(
           `/api/seller/add-products-to-store/${selectproduct.product_id}`,
           {
@@ -324,6 +324,16 @@ function TotalAddProduct({ selectproduct, refetch }) {
       setFetchingVendors(false);
     }
     setFetchingVendors(false);
+  }
+
+  function findPrice (id) {
+    if(vendors){
+     vendors.map((v) => {
+      if(v.vendor_id == id){
+        priceRef.current.value = v.vendor_price ;
+      }
+     });
+    }
   }
 
   // console.log(selectproduct);
@@ -480,6 +490,7 @@ function TotalAddProduct({ selectproduct, refetch }) {
                       <select
                         className="bg-transparent"
                         onChange={(e) => {
+                          findPrice(e.target.value);
                           setSelectedVendor(e.target.value);
                           // priceRef.current.value = e.target.value.price
                         }}
@@ -491,9 +502,9 @@ function TotalAddProduct({ selectproduct, refetch }) {
                           vendors.map((vendor, i) => {
                             return (
                               <option
-                                onClick={() => {
-                                  priceRef.current.value = vendor.vendor_price;
-                                }}
+                                // onClick={() => {
+                                //   priceRef.current.value = vendor.vendor_price;
+                                // }}
                                 key={i}
                                 id={vendor.vendor_id}
                                 value={vendor.vendor_id}

@@ -568,5 +568,6 @@
   "isVendor" : "Product has Vendor ?",
   "finalPrice" : "Final Price",
   "noProductsFound" : "There are no products found for your search term.",
-  "soon" : "Coming Soon"
+  "soon" : "Coming Soon" , 
+  "productManagment" : "Product Managment"
 }

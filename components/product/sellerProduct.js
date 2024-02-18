@@ -455,6 +455,16 @@ function SellerProduct({ product, refetch }) {
     }
   }
 
+  function findPrice (id) {
+    if(vendors){
+     vendors.map((v) => {
+      if(v.vendor_id == id){
+        priceRef.current.value = v.vendor_price ;
+      }
+     });
+    }
+  }
+
   useEffect(() => {
     if (follow == true) {
       fetchVendors();
@@ -665,6 +675,7 @@ function SellerProduct({ product, refetch }) {
                                     className="bg-transparent"
                                     onChange={(e) => {
                                       setSelectedVendor(e.target.value);
+                                      findPrice(e.target.value);
                                       // priceRef.current.value = e.target.value.price
                                     }}
                                     // defaultValue={product.is_edited === 1 && }
@@ -676,10 +687,10 @@ function SellerProduct({ product, refetch }) {
                                       vendors.map((vendor, i) => {
                                         return (
                                           <option
-                                            onClick={() => {
-                                              priceRef.current.value =
-                                                vendor.vendor_price;
-                                            }}
+                                            // onClick={() => {
+                                            //   priceRef.current.value =
+                                            //     vendor.vendor_price;
+                                            // }}
                                             key={i}
                                             id={vendor.vendor_id}
                                             value={vendor.vendor_id}
