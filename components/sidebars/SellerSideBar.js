@@ -9,6 +9,7 @@ import {
   AiOutlineCarryOut,
   AiTwotoneEye,
 } from "react-icons/ai";
+import { LuClipboardEdit } from "react-icons/lu";
 import { FiChevronDown, FiChevronRight, FiSettings } from "react-icons/fi";
 import { BsCartCheckFill, BsBox, BsColumns } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
@@ -222,6 +223,16 @@ export default function Sidebar(props) {
                         <IoMdAdd className="block text-[20px] text-white mt-1" />
                         <p className="hidden md:block">{t("seller.sidebar.product.add")}</p>
                       </button>
+                    </li>
+
+                    <li className={`pt-3`}>
+                      <Link
+                        className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
+                        href={'/seller/products/productsManagment'}
+                      >
+                        <LuClipboardEdit className="block text-[20px] text-white " />
+                        <p className="hidden md:block">{t("productManagment")}</p>
+                      </Link>
                     </li>
 
                     <li className={`pt-3`}>

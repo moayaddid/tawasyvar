@@ -20,6 +20,7 @@ import { IoSettingsSharp, IoStorefrontSharp } from "react-icons/io5";
 import Cookies from "js-cookie";
 import LocaleSwitcher from "../UI/localeSwitcher/localeSwitcher";
 import { useTranslation } from "next-i18next";
+import { LuClipboardEdit } from "react-icons/lu";
 
 export default function VendorSidebar(props) {
   const [open, setOpen] = useState(false);
@@ -114,6 +115,16 @@ export default function VendorSidebar(props) {
                           My Products
                         </p>
                       </button>
+                    </li>
+
+                    <li className={`pt-3`}>
+                      <Link
+                        className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
+                        href={'/vendor/productsManagment'}
+                      >
+                        <LuClipboardEdit className="block text-[20px] text-white " />
+                        <p className="hidden md:block">{t("productManagment")}</p>
+                      </Link>
                     </li>
 
                     <li className={`pt-3`}>

@@ -231,7 +231,7 @@ function AddProducts() {
           {inSearch == true &&
             searchedProducts &&
             (searchedProducts.transformedProducts.length > 0 ? (
-              <div class="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 grid-col-1 gap-4 ">
+              <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 grid-col-1 gap-4 ">
                 {searchedProducts.transformedProducts.map((curElem) => {
                   return (
                     <SellerSelectProduct key={curElem.id} product={curElem} />
