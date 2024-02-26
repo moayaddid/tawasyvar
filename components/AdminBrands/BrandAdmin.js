@@ -14,6 +14,9 @@ import { useRef } from "react";
 import { convertDateStringToDate } from "../AdminOrders/OrderAdmin";
 import { useRouter } from "next/router";
 import createAxiosInstance from "@/API";
+import Image from "next/image";
+import logo from "@/public/images/tawasylogo.png";
+import ImageUpload from "../ImageUpload/ImageUpload";
 
 function BrandAdmin({ names, refetch }) {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -22,35 +25,103 @@ function BrandAdmin({ names, refetch }) {
   const router = useRouter();
   const Api = createAxiosInstance(router);
   const newName = useRef();
+  const newNameEn = useRef();
+  const newNameAr = useRef();
+  const newDescEn = useRef();
+  const newDescAr = useRef();
+  const [brandLogo, setBrandLogo] = useState();
+  const [brandBanner, setBrandBanner] = useState();
   const [editing, setEditing] = useState(false);
 
-  async function editBrand() {
+  async function saveEdits() {
     setEditing(true);
-    try {
-      const respones = await Api.put(`/api/admin/brand/update/${names.id}`, {
-        name: newName.current.value,
-      });
-      refetch();
-      setEditing(false);
+    let editData = {};
+    const addIfDifferent = (fieldValue, fieldName) => {
+      const originalValue = names[fieldName];
+      // console.log(fieldValue);
+      if (
+        fieldValue !== undefined &&
+        fieldValue.trim() !== "" &&
+        fieldValue !== originalValue
+      ) {
+        editData[fieldName] = fieldValue;
+      }
+    };
+    addIfDifferent(newNameAr.current.value, "name_ar");
+    addIfDifferent(newName.current.value, "name");
+    addIfDifferent(newNameEn.current.value, "name_en");
+    addIfDifferent(newDescAr.current.value, "description_ar");
+    addIfDifferent(newDescEn.current.value, "description_en");
+    if (brandLogo) {
+      // editData.image = logoImage;
+      try {
+        const response2 = await Api.post(
+          `/api/admin/brand-logo/${names.id}`,
+          {
+            logo: brandLogo,
+          },
+          {
+            headers: { "Content-Type": `multipart/form-data` },
+          }
+        );
+        setBrandLogo();
+      } catch (error) {
+        // console.log(error);
+      }
+    }
+    if (brandBanner) {
+      // editData.image = logoImage;
+      try {
+        const response2 = await Api.post(
+          `/api/admin/brand-image/${names.id}`,
+          {
+            image: brandBanner,
+          },
+          {
+            headers: { "Content-Type": `multipart/form-data` },
+          }
+        );
+        setBrandBanner();
+      } catch (error) {
+        // console.log(error);
+      }
+    }
+    if (Object.keys(editData).length < 1) {
       setIsEditing(false);
-    } catch (error) {
+      setEditing(false);
+      return;
+    } else {
+      try {
+        const response = await Api.put(
+          `/api/admin/brand/update/${names.id}`,
+          editData
+        );
+        refetch();
+        setEditing(false);
+        setIsEditing(false);
+      } catch (error) {
+        setEditing(false);
+      } finally {
+        setEditing(false);
+      }
       setEditing(false);
     }
-    setEditing(false);
   }
 
-  async function deleteBrand () {
+  async function deleteBrand() {
     setDeleting(true);
-    try{
+    try {
       const response = await Api.delete(`/api/admin/brand/delete/${names.id}`);
       refetch();
-    setDeleting(false);
-    setIsDeleting(false);
-    }catch(error){
-    setDeleting(false);
+      setDeleting(false);
+      setIsDeleting(false);
+    } catch (error) {
+      setDeleting(false);
     }
     setDeleting(false);
   }
+
+  // console.log(names);
 
   return (
     <>
@@ -60,6 +131,17 @@ function BrandAdmin({ names, refetch }) {
       >
         <td className="px-4 py-4">{names.id}</td>
         <td className="px-4 py-4">{names.name}</td>
+        <td className="px-4 py-4">{names.name_en ?? ` - `}</td>
+        <td className="px-4 py-4">{names.name_ar ?? ` - `}</td>
+        <td className="px-4 py-4">
+          <Image
+            src={names.image ?? logo}
+            alt={names.name}
+            width={100}
+            height={100}
+            className="object-contain min-w-[100px] min-h-[100px] object-center"
+          />
+        </td>
         <td className="px-4 py-4  " width={`10%`}>
           {convertDateStringToDate(names.created_at)}
         </td>
@@ -91,6 +173,9 @@ function BrandAdmin({ names, refetch }) {
         onClose={() => {
           setIsEditing(false);
         }}
+        disableAutoFocus
+        disableEnforceFocus
+        disableRestoreFocus
         fullWidth
         maxWidth="md"
       >
@@ -102,16 +187,106 @@ function BrandAdmin({ names, refetch }) {
         <DialogContent>
           <Stack spacing={1} margin={3}>
             <div className="w-full">
-              <div className="flex w-full items-center">
+              <div className="flex flex-col justify-start w-full items-center space-y-2">
                 {/* <form onSubmit={editBrand}> */}
-                <label className="text-lg w-[20%] px-2">Brand Name :</label>
-                <input
-                  className="my-3 w-[80%] text-black placeholder:text-zinc-500 pl-2 outline-none border-b-2 focus:border-skin-primary transition-all duration-700"
-                  type="text"
-                  defaultValue={names.name}
-                  ref={newName}
-                  required
-                />
+                <div className="w-full flex flex-wrap items-center space-x-2 space-y-2">
+                  <label htmlFor="name" className="text-lg px-2">
+                    Brand Name :
+                  </label>
+                  <input
+                    id="name"
+                    className="my-3 w-[80%] text-black placeholder:text-zinc-500 pl-2 outline-none border-b-2 focus:border-skin-primary transition-all duration-700"
+                    type="text"
+                    defaultValue={names.name}
+                    ref={newName}
+                  />
+                </div>
+                <div className="w-full flex flex-wrap items-center space-x-2 space-y-2">
+                  <label htmlFor="nameen" className="text-lg  px-2">
+                    Brand English Name :
+                  </label>
+                  <input
+                    id="nameen"
+                    type="text"
+                    className="outline-none appearance-none border-b-2 border-gray-300 focus:border-[#FD6500] w-full transition-all duration-700"
+                    placeholder="Brand English Name  "
+                    inputMode="text"
+                    defaultValue={names.name_en}
+                    ref={newNameEn}
+                  />
+                </div>
+                <div className="w-full flex flex-wrap items-center space-x-2 space-y-2 ">
+                  <label htmlFor="namear" className="text-lg  px-2">
+                    Brand Arabic Name :
+                  </label>
+                  <input
+                    id="namear"
+                    type="text"
+                    className="outline-none appearance-none border-b-2 border-gray-300 focus:border-[#FD6500] w-full transition-all duration-700"
+                    placeholder="Brand Arabic Name"
+                    inputMode="text"
+                    defaultValue={names.name_ar}
+                    ref={newNameAr}
+                  />
+                </div>
+                <div className="w-full flex flex-wrap items-center space-x-2 space-y-2">
+                  <label htmlFor="descen" className="text-lg  px-2">
+                    English Description :
+                  </label>
+                  <textarea
+                    id="descen"
+                    type="text"
+                    className="outline-none appearance-none border-b-2 border-gray-300 focus:border-[#FD6500] w-full transition-all duration-700"
+                    placeholder="Brand English Description "
+                    inputMode="text"
+                    defaultValue={names.description_en}
+                    ref={newDescEn}
+                  />
+                </div>
+                <div className="w-full flex flex-wrap items-center space-x-2 space-y-2">
+                  <label htmlFor="descar" className="text-lg  px-2">
+                    Arabic Description :
+                  </label>
+                  <textarea
+                    id="descar"
+                    type="text"
+                    className="outline-none appearance-none border-b-2 border-gray-300 focus:border-[#FD6500] w-full transition-all duration-700"
+                    placeholder="Brand Arabic Description "
+                    inputMode="text"
+                    defaultValue={names.description_ar}
+                    ref={newDescAr}
+                  />
+                </div>
+                <div className="w-full flex flex-wrap justify-around items-center space-x-2 ">
+                  <div className="w-max flex flex-wrap items-center space-x-2">
+                    <label htmlFor="brandlogo">
+                      Brand Logo :
+                      <ImageUpload
+                        id="brandlogo"
+                        defaultImage={names.logo}
+                        onSelectImage={(image) => {
+                          setBrandLogo(image);
+                        }}
+                        width={100}
+                        height={100}
+                      />
+                    </label>
+                  </div>
+                  <div className="w-max flex flex-wrap items-center space-x-2">
+                    <label htmlFor="brandbanner">
+                      Brand Banner :
+                      <ImageUpload
+                        id="brandbanner"
+                        defaultImage={names.image}
+                        onSelectImage={(image) => {
+                          setBrandBanner(image);
+                        }}
+                        width={100}
+                        height={100}
+                      />
+                    </label>
+                  </div>
+                </div>
                 {/* </form> */}
               </div>
             </div>
@@ -122,7 +297,7 @@ function BrandAdmin({ names, refetch }) {
             type="button"
             className="bg-lime-950 px-8 py-3 text-white rounded-lg "
             data-dismiss="modal"
-            onClick={editBrand}
+            onClick={saveEdits}
           >
             {editing == true ? (
               <div className="w-full flex justify-center">
