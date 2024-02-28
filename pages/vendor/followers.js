@@ -11,7 +11,7 @@ import {
   AccordionHeader,
 } from "@material-tailwind/react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import createAxiosInstance from "@/API";
 import { Ring } from "@uiball/loaders";
 import { useQuery } from "react-query";

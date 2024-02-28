@@ -160,7 +160,7 @@ function ShareProductsAdmin() {
                 }}
                 disabled={
                   sharedProducts.data.pagination.current_page ===
-                  sharedProducts.data.pagination.from
+                  1
                 }
               >
                 Previous Page

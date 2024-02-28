@@ -2,7 +2,7 @@ import createAxiosInstance from "@/API";
 import AdminVendorProductRequest from "@/components/AdminVendor/AdminVendorProductRequest";
 import withLayoutAdmin from "@/components/UI/adminLayout";
 import TawasyLoader from "@/components/UI/tawasyLoader";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
 function VendorsProductRequests() {

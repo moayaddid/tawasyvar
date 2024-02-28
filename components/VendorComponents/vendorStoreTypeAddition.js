@@ -1,5 +1,5 @@
 import createAxiosInstance from "@/API";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { MdAdd, MdClose } from "react-icons/md";
 import AdminVendorBrand from "../AdminVendor/AdminVendorBrand";

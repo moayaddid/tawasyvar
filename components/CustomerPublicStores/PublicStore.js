@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 import logo from "@/public/images/tawasylogo.png";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 
 function PublicStoreCard({ store }) {
   // console.log(store);

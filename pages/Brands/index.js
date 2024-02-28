@@ -1,27 +1,26 @@
 import withLayoutCustomer from "@/components/wrapping components/WrappingCustomerLayout";
 import React from "react";
 import { MdArrowForward, MdClose } from "react-icons/md";
-import test from "@/public/images/flowers.jpeg";
 import PublicAllProduct from "@/components/CustomerAllProducts/AllProducts";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import products from "@/pages/seller/products";
 import createAxiosInstance from "@/API";
 import { useState } from "react";
-import { useQuery } from "react-query";
 import TawasyLoader from "@/components/UI/tawasyLoader";
-import { Ring } from "@uiball/loaders";
 import { useRef } from "react";
 import { NextSeo } from "next-seo";
+import Link from "next/link";
+import lego from "@/public/images/lego.png";
+import Image from "next/image";
+import BrandCustomer from "@/components/customerCommponents/CustomerBrand/BrandCustomer";
 import axios from "axios";
 import url from "@/URL";
-import Link from "next/link";
 
 export async function getServerSideProps(context) {
   const { locale, query } = context;
   const response = await axios.get(
-    `${url}/api/allproducts?page=${
+    `${url}/api/brands?page=${
       query?.page && query?.page !== null && query?.page !== undefined && query?.page > 0
         ? query?.page
         : 1
@@ -39,13 +38,13 @@ export async function getServerSideProps(context) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      products: response.data,
+      brands: response.data,
     },
   };
 }
 
-function AllProducts({ products }) {
-  const { t } = useTranslation("");
+function AllProducts({ brands }) {
+    const { t } = useTranslation("");
   const router = useRouter();
   const Api = createAxiosInstance(router);
   const [currentPage, setCurrentPage] = useState(1);
@@ -53,6 +52,7 @@ function AllProducts({ products }) {
   const [searching, setSearching] = useState(false);
   const [searchedResults, setSearchedResults] = useState();
   const searchRef = useRef();
+
 
   function scroll(id) {
     document.querySelector(`#${id}`).scrollIntoView({ behavior: "smooth" });
@@ -65,7 +65,7 @@ function AllProducts({ products }) {
     try {
       // console.log(`in try`);
       const response = await Api.post(
-        `api/allProducts/search`,
+        `api/search-brand`,
         {
           query: searchRef.current.value,
         },
@@ -78,8 +78,8 @@ function AllProducts({ products }) {
         <div className="w-max mx-auto text-black ">{response.data.message}</div>
       ) : (
         <div className=" w-[90%] grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 gap-y-7 mx-auto">
-          {response.data.products.map((product) => {
-            return <PublicAllProduct key={product.id} product={product} />;
+          {response.data.brands.map((brand , i) => {
+            return <BrandCustomer key={i} brand={brand} />;
           })}
         </div>
       );
@@ -95,9 +95,9 @@ function AllProducts({ products }) {
     setSearching(false);
   }
 
-  if (products) {
-    console.log(products);
-  }
+    if (brands) {
+        console.log(brands);
+    }
 
   // if (isLoading) {
   //   return (
@@ -117,7 +117,7 @@ function AllProducts({ products }) {
       <div>
         <div className="bg-gray-100 w-full py-3" id="top">
           <h1 className="text-3xl text-gray-600 font-medium w-[90%] mx-auto">
-            {t("products.ALLProducts")}
+            {t("allBrands")}
           </h1>
         </div>
         <div
@@ -148,7 +148,7 @@ function AllProducts({ products }) {
               type="text"
               ref={searchRef}
               // placeholder={`Search`}
-              placeholder={t("store.search")}
+              //   placeholder={t("store.search")}
               onClick={() => {
                 setInSearch(true);
               }}
@@ -172,17 +172,20 @@ function AllProducts({ products }) {
 
         {inSearch == false && (
           <div className="w-[90%] mx-auto py-5">
-            {products && products.products && products.products.length > 0 ? (
-              <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 gap-y-7 mx-auto  ">
-                {products.products &&
+            {brands && brands.brands && brands.brands.length > 0 ? (
+            <div className="grid 2xl:grid-cols-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 gap-y-7 mx-auto  ">
+              {/* {products.products &&
                   products.products.map((product) => (
                     <PublicAllProduct key={product.id} product={product} />
-                  ))}
-              </div>
+                  ))} */}
+              {brands?.brands?.map((brand , i) => {
+                return <BrandCustomer key={i} brand={brand} />
+              })}
+            </div>
             ) : (
-              <div className="text-center" > There are no products . </div>
-            )}
-            {products && products.pagination && (
+              <div className="text-center" > {t("noBrands")} . </div>
+            )} 
+            {brands && brands.pagination && (
               <div className="w-fit mx-auto flex justify-center items-center h-max gap-4 py-4 ">
                 {/* <button
                   className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-max"
@@ -200,64 +203,35 @@ function AllProducts({ products }) {
                 </button> */}
                 <Link
                   className={`px-2 py-1 ${
-                    products.pagination.current_page ==
+                    brands.pagination.current_page ===
                     1
                       ? `pointer-events-none opacity-50 cursor-not-allowed`
                       : `pointer-events-auto`
                   } bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] select-none w-max`}
-                  href={`/Products?page=${
-                    products.pagination.current_page - 1
+                  href={`/Brands?page=${
+                    brands.pagination.current_page - 1
                   }`}
-                  // onClick={() => {
-                  //   setCurrentPage(products.pagination.current_page - 1);
-                  //   scroll(`top`);
-                  //   // setCurrentPage(data.data.pagination.previousPage);
-                  // }}
-                  // disabled={
-                  //   products.pagination.current_page ===
-                  //   products.pagination.from
-                  // }
                 >
                   {t("stores.previousPage")}
+                  {/* prev */}
                 </Link>
-                {/* {isFetching && (
-                  <Ring size={20} lineWeight={5} speed={2} color="#222222" />
-                )} */}
-                {/* <button
-                  className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-max"
-                  onClick={() => {
-                    setCurrentPage(products.pagination.current_page + 1);
-                    scroll(`top`);
-                    // setCurrentPage(data.data.pagination.nextPage);
-                  }}
-                  disabled={
-                    products.pagination.current_page ===
-                    products.pagination.last_page
-                  }
-                >
-                  {t("stores.nextPage")}
-                </button> */}
                 <Link
                   className={`px-2 py-1 ${
-                    products.pagination.current_page ===
-                    products.pagination.last_page
+                    brands.pagination.current_page ===
+                    brands.pagination.last_page
                       ? `pointer-events-none opacity-50 cursor-not-allowed`
                       : `pointer-events-auto`
                   } bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] select-none w-max`}
-                  href={`/Products?page=${
-                    products.pagination.current_page + 1
+                  href={`/Brands?page=${
+                    brands.pagination.current_page + 1
                   }`}
-                  // onClick={() => {
-                  //   setCurrentPage(products.pagination.current_page + 1);
-                  //   scroll(`top`);
-                  //   // setCurrentPage(data.data.pagination.nextPage);
-                  // }}
-                  disabled={
-                    products.pagination.current_page ===
-                    products.pagination.last_page
-                  }
+                  // disabled={
+                  //   brands.pagination.current_page ===
+                  //   brands.pagination.last_page
+                  // }
                 >
                   {t("stores.nextPage")}
+                  {/* next */}
                 </Link>
               </div>
             )}

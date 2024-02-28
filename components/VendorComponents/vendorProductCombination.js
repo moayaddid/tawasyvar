@@ -3,7 +3,7 @@ import Variation from "../AdminVariations/Variation";
 import { ResponsiveCarousel } from "../CarouselCustomer/carousel";
 import kuala from "@/public/images/kuala.jpg";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import createAxiosInstance from "@/API";
 import { set } from "nprogress";
 import { MdCheck } from "react-icons/md";

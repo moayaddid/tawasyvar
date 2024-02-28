@@ -262,8 +262,8 @@ function GeneralProducts() {
                     scroll("top");
                   }}
                   disabled={
-                    data.data.pagination.current_page ===
-                    data.data.pagination.from
+                    data.data.pagination.current_page ==
+                    1
                   }
                 >
                   {t("seller.addProduct.previousPage")}

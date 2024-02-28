@@ -258,7 +258,7 @@ function AddProducts() {
                   }}
                   disabled={
                     data.data.pagination.current_page ===
-                    data.data.pagination.from
+                    1
                   }
                 >
                   {t("seller.addProduct.previousPage")}

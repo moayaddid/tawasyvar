@@ -49,6 +49,12 @@ const Footer = () => {
             >
               {t("footer.ALLStores")}
             </Link>
+            <Link
+              href="/Brands"
+              className="border-2 text-center border-white text-white py-1 w-[40%] rounded-lg"
+            >
+              {t("footer.AllBrands")}
+            </Link>
           </div>
 
           <div className="text-white flex justify-center space-x-7 items-center text-center">

@@ -12,7 +12,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { MdArrowLeft, MdClose, MdOutlineArrowDropDown } from "react-icons/md";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import createAxiosInstance from "@/API";
 import { Ring } from "@uiball/loaders";
 import { Accordion, AccordionItem } from "@nextui-org/react";

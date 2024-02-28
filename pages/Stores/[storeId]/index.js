@@ -16,7 +16,6 @@ import { MdArrowForward, MdClose } from "react-icons/md";
 import { useRef } from "react";
 import { NextSeo } from "next-seo";
 import logo from "@/public/images/tawasylogo.png";
-// import { notFound } from "next/navigation";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import PublicAllProduct from "@/components/CustomerAllProducts/AllProducts";

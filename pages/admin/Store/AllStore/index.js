@@ -248,8 +248,8 @@ function AllStoreAdmin() {
                   setCurrentPage(stores.data.pagination.current_page - 1);
                 }}
                 disabled={
-                  stores.data.pagination.current_page ===
-                  stores.data.pagination.from
+                  stores.data.pagination.current_page ==
+                  1
                 }
               >
                 Previous Page

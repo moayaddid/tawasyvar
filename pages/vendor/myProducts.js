@@ -4,7 +4,7 @@ import TawasyLoader from "@/components/UI/tawasyLoader";
 import VendorProduct from "@/components/VendorComponents/vendorProduct";
 import withVendorLayout from "@/components/wrapping components/WrappingVendorLayout";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useDispatch } from "react-redux";

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import logo from "@/public/images/tawasylogo.png";
 import { FiEdit } from "react-icons/fi";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import createAxiosInstance from "@/API";
 import { useState } from "react";
 // import logo from "@/public/images/tawasylogo.png"

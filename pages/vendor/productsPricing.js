@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import logo from "@/public/images/tawasylogo.png";
 import Image from "next/image";
 import createAxiosInstance from "@/API";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import TawasyLoader from "@/components/UI/tawasyLoader";
 import { Ring } from "@uiball/loaders";
@@ -22,9 +22,9 @@ export async function getServerSideProps(context) {
 }
 
 const tableheading = [
-  {
-    heading: `id`,
-  },
+  // {
+  //   heading: `id`,
+  // },
   {
     heading: `product name`,
   },
@@ -217,7 +217,7 @@ function ProductsPricingPage() {
     setIsSaving(true);
     let data = [];
     allProducts.map((product) => {
-      if (product.price != null) {
+      if (product.price != null && product.price != "" && product.price != undefined) {
         data.push({
           id: product.product_id,
           variation: product.line_id || null,
@@ -249,7 +249,7 @@ function ProductsPricingPage() {
       <div className="px-5 py-10 text-3xl h-[10%] ">
         Requested Products Pricing :
       </div>
-      { (allProducts && allProducts.length > 0) && <div className="px-5 py-5 flex flex-col justify-start items-start space-y-5">
+       <div className="px-5 py-5 flex flex-col justify-start items-start space-y-5">
         <button
           onClick={() => {
             settoggleFilters((prev) => !prev);
@@ -388,7 +388,7 @@ function ProductsPricingPage() {
             </div>
           )}
         </div>
-      </div>}
+      </div>
       <hr />
       {isLoading == true || isFetching == true ? (
         <div className="py-5 px-5 w-full h-full">
@@ -416,7 +416,7 @@ function ProductsPricingPage() {
                             product.line_id || "null"
                           }`}
                         >
-                          <td className="py-6">{product.product_id}</td>
+                          {/* <td className="py-6">{product.product_id}</td> */}
                           <td>{product.name}</td>
                           <td>
                             {product.combiantion
@@ -450,7 +450,8 @@ function ProductsPricingPage() {
                           <td>
                             <input
                               placeholder="Price"
-                              type="number"
+                              type="text"
+                              inputMode="numeric"
                               className="outline-none border-b border-transparent focus:border-skin-primary transition-all duration-500"
                               onChange={(e) => {
                                 changePrice(

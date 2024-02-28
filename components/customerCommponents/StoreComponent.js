@@ -3,7 +3,7 @@ import lego from "../../public/images/lego.png";
 import image from "../../public/images/burger.jpeg";
 import Link from "next/link";
 import logo from "@/public/images/tawasylogo.png";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 function StoreComponent({ store }) {
 

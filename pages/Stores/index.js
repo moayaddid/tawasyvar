@@ -87,8 +87,8 @@ function PublicStore() {
                       // setCurrentPage(data.data.pagination.previousPage);
                     }}
                     disabled={
-                      stores.data.pagination.current_page ===
-                      stores.data.pagination.from
+                      stores.data.pagination.current_page ==
+                      1
                     }
                   >
                     {t("stores.previousPage")}

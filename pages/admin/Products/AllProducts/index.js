@@ -267,8 +267,8 @@ function ProductsAdmin() {
                       // setCurrentPage(data.data.pagination.previousPage);
                     }}
                     disabled={
-                      allProduct.data.pagination.current_page ===
-                      allProduct.data.pagination.from
+                      allProduct.data.pagination.current_page ==
+                      1
                     }
                   >
                     Previous Page

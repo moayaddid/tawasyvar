@@ -12,7 +12,8 @@ import {
 import { Ring } from "@uiball/loaders";
 import Cookies from "js-cookie";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
+import Router from "next/router";
 import { useEffect, useRef, useState } from "react";
 import {
   MdArrowBack,
@@ -22,6 +23,8 @@ import {
   MdClose,
 } from "react-icons/md";
 import { useQuery } from "react-query";
+import { useTranslation } from "next-i18next";
+
 
 export async function getServerSideProps(context) {
   const { locale } = context;
@@ -56,7 +59,7 @@ function ProductsManagment() {
   const [searchedResults, setSearchedResults] = useState();
   const searchRef = useRef();
   const [showSelected, setShowSelected] = useState(false);
-
+  const {t} = useTranslation("");
   const {
     data: allProducts,
     isLoading,
@@ -72,24 +75,29 @@ function ProductsManagment() {
   );
 
   async function fetchAllProducts(categoriesF, brandsF) {
-    const StoreId = Cookies.get("Sid");
-    try {
-      let newC = [];
-      let newB = [];
-      categoriesF.map((category) => {
-        newC.push({ category_id: category });
-      });
-      brandsF.map((brand) => {
-        newB.push({ brand_id: brand });
-      });
-      return await Api.get(`/api/seller/filtered-data/${StoreId}`, {
-        params: {
-          brands: newB,
-          categories: newC,
-        },
-      });
-    } catch (error) {
-      console.log(error);
+    if (Router.isReady) {
+      const StoreId = Cookies.get("Sid");
+      try {
+        let newC = [];
+        let newB = [];
+        categoriesF.map((category) => {
+          newC.push({ category_id: category });
+        });
+        brandsF.map((brand) => {
+          newB.push({ brand_id: brand });
+        });
+        return await Api.get(`/api/seller/filtered-data/${StoreId}`, {
+          params: {
+            brands: newB,
+            categories: newC,
+          },
+          headers: {
+            "Accept-Language": router.locale,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
@@ -195,7 +203,7 @@ function ProductsManagment() {
 
   function selectProduct(productStore) {
     setSelectedProducts((prev) => {
-      if (prev && !prev.some(obj => obj.id === productStore.id)) {
+      if (prev && !prev.some((obj) => obj.id === productStore.id)) {
         return [...prev, productStore];
       } else {
         // return [...prev];
@@ -310,14 +318,13 @@ function ProductsManagment() {
     <>
       <div className="w-[90%] mx-auto h-screen">
         <div className="w-full pt-10">
-          <p className="text-3xl py-7 ">Products Managment Page</p>
+          <p className="text-3xl py-7 ">{t("productManagment")}</p>
           <hr className="py-1" />
         </div>
         <div className="my-6 w-full ">
           <div className="w-full flex flex-col space-y-4 h-max transition-all duration-300">
             <div className="w-full flex flex-wrap justify-start items-center space-x-4">
               <form
-                dir={router.locale == "ar" ? "rtl" : "ltr"}
                 onSubmit={search}
                 className="flex bg-gray-100 w-full sm:w-2/5 items-center rounded-lg px-2 border-2 border-transparent focus-within:border-skin-primary transition-all duration-700 "
               >
@@ -352,7 +359,7 @@ function ProductsManagment() {
                 }}
                 className="flex justify-around items-center"
               >
-                <p className="px-1">Filters</p>
+                <p className="px-1">{t("filter")}</p>
                 <MdArrowDropDown
                   className={` transition-all duration-300 text-[22px] ${
                     toggleFilters == true && `rotate-90`
@@ -371,13 +378,13 @@ function ProductsManagment() {
                 </div>
               ) : (
                 <div className="flex flex-wrap justify-start items-center space-x-4">
-                  {toggleFilters == true && <p>Filter by :</p>}
+                  {toggleFilters == true && <p>{t("filterBy")} :</p>}
                   {toggleFilters == true && categories && (
                     <label
                       htmlFor="categories px-1 "
                       className="border border-skin-primary px-2 py-1 select-none rounded-lg "
                     >
-                      Filter by Categories :
+                      {t("filterByCat")} :
                       <select
                         id="categories"
                         className="bg-transparent box-content px-2 w-min hover:bg-gray-100 cursor-pointer "
@@ -392,7 +399,7 @@ function ProductsManagment() {
                           className="box-content"
                           value={1}
                         >
-                          Select a category
+                          {t("selectCat")}
                         </option>
                         {categories &&
                           categories
@@ -416,7 +423,7 @@ function ProductsManagment() {
                       htmlFor="brands "
                       className="border border-skin-primary px-2 py-1 select-none rounded-lg "
                     >
-                      Filter by Brands :
+                      {t("filterByBra")} :
                       <select
                         id="brands"
                         className="bg-transparent px-2 hover:bg-gray-100 cursor-pointer py-1 "
@@ -426,7 +433,7 @@ function ProductsManagment() {
                         value={1}
                       >
                         <option disabled selected value={1}>
-                          Select a Brand
+                        {t("selectBra")}
                         </option>
                         {brands &&
                           brands.map((brand) => {
@@ -446,12 +453,12 @@ function ProductsManagment() {
                 </div>
               )}
             </div>
-            <div className="flex flex-wrap gap-2 items-center">
-              <p>Applied Filters :</p>
+            <div className="flex flex-wrap sapce-x-2 items-center">
+              <p>{t("appliedFilters")} :</p>
               {categoryFilters?.length < 1 && brandFilters?.length < 1 ? (
-                <p>( None )</p>
+                <p className="px-2" >( {t("none")} )</p>
               ) : (
-                <div className="flex flex-wrap gap-2 items-center">
+                <div className="flex flex-wrap space-x-2 items-center px-2">
                   {categoryFilters?.length > 0 &&
                     categoryFilters?.map((filterId, i) => {
                       return (
@@ -499,12 +506,12 @@ function ProductsManagment() {
                   }}
                   className="px-3 py-1 bg-sky-500 text-white rounded-lg"
                 >
-                  Select All
+                  {t("selectAll")}
                 </button>
               </div>
             )}
             <div className="w-full flex justify-start items-center space-x-3">
-              <p className="text-xl">{`( Products Selected : ${selectedProducts?.length} )`}</p>
+              <p className="text-xl px-2 ">{`( ${t("productsSelected")} : ${selectedProducts?.length} )`}</p>
               <button
                 onClick={() => {
                   setOpenActions(true);
@@ -512,7 +519,7 @@ function ProductsManagment() {
                 disabled={selectedProducts?.length < 1}
                 className="px-2 py-1 text-center rounded-lg disabled:cursor-not-allowed text-white bg-sky-500 disabled:bg-gray-400 transition-all duration-500 "
               >
-                Action
+                {t("action")}
               </button>
               <button
                 onClick={() => {
@@ -521,7 +528,7 @@ function ProductsManagment() {
                 disabled={selectedProducts?.length < 1}
                 className="px-2 py-1 text-center rounded-lg disabled:cursor-not-allowed text-white bg-red-500 disabled:bg-gray-400 transition-all duration-500"
               >
-                Clear Selected
+                {t("clear")}
               </button>
               <button
                 onClick={() => {
@@ -530,7 +537,7 @@ function ProductsManagment() {
                 disabled={selectedProducts?.length < 1}
                 className="px-2 py-1 text-center rounded-lg disabled:cursor-not-allowed text-white bg-yellow-500 disabled:bg-gray-400 transition-all duration-500"
               >
-                Show Selected
+                {t("show")}
               </button>
             </div>
           </div>
@@ -584,7 +591,7 @@ function ProductsManagment() {
             </div>
           )
         ) : (
-          <p className="text-lg text-center ">There are no Products.</p>
+          <p className="text-lg text-center ">{t("seller.products.noProducts")}</p>
         )}
       </div>
 
@@ -598,11 +605,11 @@ function ProductsManagment() {
       >
         <DialogTitle className="flex justify-between items-center">
           <div className="flex justify-start items-center space-x-2">
-            <p>Choose what you want to do with</p>
+            <p className="px-2" >{t("chooseWhat")}</p>
             <p className="text-xl text-skin-primary border-b-2 border-skin-primary">
               {allProductsSelected && allProductsSelected == true
-                ? ` All of your Products`
-                : ` the selected Products`}
+                ? ` ${t("allProducts")}`
+                : ` ${t("selectedProducts")}`}
             </p>
             <p>:</p>
           </div>
@@ -613,7 +620,7 @@ function ProductsManagment() {
         </DialogTitle>
         <DialogContent className="flex flex-col justify-start items-center space-y-3">
           <div className="w-full flex justify-center items-center space-x-5">
-            <div>
+            <div className="px-2" >
               <input
                 type="radio"
                 id="price"
@@ -630,11 +637,11 @@ function ProductsManagment() {
                 className="inline-flex items-center justify-center w-max px-3 py-2 text-gray-500 bg-white border-b border-gray-500 cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 hover:text-gray-600 hover:bg-gray-100 transition-all duration-500"
               >
                 <p className="w-full block text-lg select-none font-semibold text-center">
-                  Pricing
+                  {t("pricing")}
                 </p>
               </label>
             </div>
-            <div>
+            <div className="px-2" >
               <input
                 type="radio"
                 id="availability"
@@ -651,7 +658,7 @@ function ProductsManagment() {
                 className="inline-flex items-center justify-center w-max px-3 py-2 text-gray-500 bg-white border-b border-gray-500 cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 hover:text-gray-600 hover:bg-gray-100 transition-all duration-500"
               >
                 <p className="w-full block text-lg select-none font-semibold text-center">
-                  Availability
+                {t("availability")}
                 </p>
               </label>
             </div>
@@ -664,9 +671,9 @@ function ProductsManagment() {
                 : `opacity-0 translate-x-96  overflow-hidden max-h-[0px]`
             } transition-all duration-500 flex flex-wrap space-x-3 w-full justify-center items-center `}
           >
-            <p>Edit the pricing of the products :</p>
+            <p>{t("editPricing")} :</p>
             {/* <div className="flex w-full flex-wrap space-x-2"> */}
-            <label htmlFor="inc">
+            <label htmlFor="inc" className="px-2" >
               <select
                 id="inc"
                 className="bg-transparent px-2 py-1 border border-skin-primary rounded-md box-content"
@@ -676,7 +683,7 @@ function ProductsManagment() {
                 defaultValue={null}
               >
                 <option disabled selected value={null}>
-                  increase or decrease
+                {t("incdec")}
                 </option>
                 <option className="box-content" value={1}>
                   +
@@ -711,7 +718,7 @@ function ProductsManagment() {
                 onClick={applyPrice}
                 className="px-2 py-1 bg-green-400 rounded-lg w-[10%] disabled:bg-gray-400 disabled:cursor-not-allowed hover:opacity-70 transition-all duration-300 text-white"
               >
-                Apply
+                {t("apply")}
               </button>
             )}
             {/* </label> */}
@@ -725,7 +732,7 @@ function ProductsManagment() {
             } transition-all duration-500 flex flex-wrap space-x-3 w-full justify-center items-center `}
           >
             <div className="w-full flex flex-wrap justify-center items-center space-x-2">
-              <p>Status of the selected Products : </p>
+              <p className="px-2" >{t("statusOfSelected")} : </p>
               <select
                 onChange={(e) => {
                   setStatus(e.target.value);
@@ -733,10 +740,10 @@ function ProductsManagment() {
                 className="bg-transparent px-2 py-1 border border-skin-primary rounded-md box-content"
               >
                 <option selected disabled value={null}>
-                  Select Status
+                {t("selectStatus")}
                 </option>
-                <option value={1}>Available</option>
-                <option value={0}>UnAvailable </option>
+                <option value={1}>{t("avail")}</option>
+                <option value={0}>{t("unavailable")} </option>
               </select>
               {loadingAvailability == true ? (
                 <div className="px-2 py-1 rounded-lg w-[10%] bg-green-500 flex justify-center items-center text-white">
@@ -748,7 +755,7 @@ function ProductsManagment() {
                   onClick={applyAvailability}
                   className="px-2 py-1 rounded-lg w-[10%] bg-green-500 hover:opacity-80 disabled:bg-gray-400 disabled:opacity-80 disabled:cursor-not-allowed text-white"
                 >
-                  Apply
+                  {t("apply")}
                 </button>
               )}
             </div>
@@ -768,7 +775,7 @@ function ProductsManagment() {
       >
         <DialogTitle className="flex justify-between items-center">
           <div className="flex justify-start items-center space-x-2">
-            <p>My Selected Products</p>
+            <p>{t("mySelected")}</p>
             <p>:</p>
           </div>
           <MdClose
@@ -783,15 +790,15 @@ function ProductsManagment() {
             <table className=" w-full overflow-x-auto table-auto">
               <thead className="sticky top-0">
                 <tr className="text-sm font-semibold text-center border-b-2 border-blue-500 capitalize">
-                  <th>Name</th>
-                  <th>Combination</th>
-                  <th>Price</th>
-                  <th>Availability</th>
+                  <th>{t("name")}</th>
+                  <th>{t("combination")}</th>
+                  <th>{t("price")}</th>
+                  <th>{t("availability")}</th>
                 </tr>
               </thead>
               <tbody className=" odd:bg-gray-100 even:bg-gray-200 text-lg font-normal text-gray-700 text-center">
                 {selectedProducts?.length > 0 &&
-                  selectedProducts?.map((product , i) => {
+                  selectedProducts?.map((product, i) => {
                     let varis = [];
                     if (product?.combination?.variations) {
                       product?.combination?.variations.map((variation) => {
@@ -803,7 +810,7 @@ function ProductsManagment() {
 
                     return (
                       <tr key={i} className="">
-                        <td className="px-2 py-2" >{product.name}</td>
+                        <td className="px-2 py-2">{product.name}</td>
                         <td className="text-red-500">
                           {product?.combination ? varis.join(" - ") : ` - `}
                         </td>
@@ -816,8 +823,8 @@ function ProductsManagment() {
                           }
                         >
                           {product.availability === 1
-                            ? `Available`
-                            : `Unavailable`}
+                            ? `${t("available")}`
+                            : `${t("unavailable")}`}
                         </td>
                       </tr>
                     );
@@ -828,8 +835,13 @@ function ProductsManagment() {
           <hr />
         </DialogContent>
         <DialogActions className="flex justify-center items-center">
-          <button onClick={() => {setShowSelected(false)}} className=" text-lg px-2 py-1 text-center rounded-lg text-white bg-sky-500 transition-all duration-500">
-            Done
+          <button
+            onClick={() => {
+              setShowSelected(false);
+            }}
+            className=" text-lg px-2 py-1 text-center rounded-lg text-white bg-sky-500 transition-all duration-500"
+          >
+            {t("done")}
           </button>
         </DialogActions>
       </Dialog>

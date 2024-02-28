@@ -11,7 +11,7 @@ import {
 import { Ring } from "@uiball/loaders";
 import { useRef, useState } from "react";
 import createAxiosInstance from "@/API";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import TawasyLoader from "../UI/tawasyLoader";
 import VendorBrandAddition from "../VendorComponents/vendorBrandAddition";
 import { useQuery } from "react-query";

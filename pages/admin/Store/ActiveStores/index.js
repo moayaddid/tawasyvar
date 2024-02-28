@@ -131,8 +131,8 @@ function ActiveStoreAdmin() {
                   setCurrentPage(activeStores.data.pagination.current_page - 1);
                 }}
                 disabled={
-                  activeStores.data.pagination.current_page ===
-                  activeStores.data.pagination.from
+                  activeStores.data.pagination.current_page ==
+                  1
                 }
               >
                 Previous Page

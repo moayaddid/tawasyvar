@@ -2,16 +2,16 @@ import Image from "next/image";
 import logo from "@/public/images/tawasylogo.png";
 import { convertMoney } from "../SellerOrders/sellerOrder";
 import { useState } from "react";
+import { useTranslation } from "next-i18next";
 
 function SellerSelecteableProduct({
   product,
   selectedProducts,
   selectProduct,
 }) {
-
-
+  const {t} = useTranslation("") ;
   function isSelected() {
-    if (selectedProducts.some(obj => obj.id === product.store_product_id)) {
+    if (selectedProducts.some((obj) => obj.id === product.store_product_id)) {
       return true;
     } else {
       return false;
@@ -60,13 +60,20 @@ function SellerSelecteableProduct({
             <p>{product?.combination.part_number}</p>
           </div>
         )}
-        <p
+        { product?.availability === 0 && <p
           className={
-            product?.availability === 1 ? `text-green-500` : `text-red-500`
+             `text-red-500`
           }
         >
-          {product?.availability === 1 ? `Available` : `Unavailable`}
-        </p>
+          {t("unavailable")}
+        </p>}
+        { product?.availability === 1 && <p
+          className={
+             `text-green-500`
+          }
+        >
+          {t("avail")}
+        </p>}
         <div className="flex flex-wrap gap-2 w-[70%] ">
           {product.brand_id && (
             <div className=" px-2 bg-white border-2 flex flex-wrap space-x-2 text-center w-max border-skin-primary rounded-2xl text-skin-primary  ">
@@ -90,9 +97,9 @@ function SellerSelecteableProduct({
             }}
             className={`${
               isSelected() == true ? `bg-red-500` : `bg-green-500`
-            } hover:opacity-80 text-white w-min px-3 py-1 transition-all duration-500 rounded-lg text-center `}
+            } hover:opacity-80 text-white w-max px-3 py-1 transition-all duration-500 rounded-lg text-center `}
           >
-            {isSelected() == true ? `Unselect` : `Select`}
+            {isSelected() == true ? `${t("unselect")}` : `${t("select")}`}
           </button>
         </div>
       </div>

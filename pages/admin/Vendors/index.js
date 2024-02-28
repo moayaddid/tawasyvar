@@ -4,7 +4,7 @@ import withLayoutAdmin from "@/components/UI/adminLayout";
 import TawasyLoader from "@/components/UI/tawasyLoader";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { Ring } from "@uiball/loaders";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { useQuery } from "react-query";

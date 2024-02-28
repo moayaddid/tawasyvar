@@ -1,6 +1,6 @@
 import createAxiosInstance from "@/API";
 import { Ring } from "@uiball/loaders";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { MdCheck } from "react-icons/md";
 

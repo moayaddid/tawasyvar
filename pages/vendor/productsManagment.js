@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Ring } from "@uiball/loaders";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import {
   MdArrowDropDown,

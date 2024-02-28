@@ -7,7 +7,7 @@ import {
   DialogTitle,
   Stack,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import createAxiosInstance from "@/API";
 import { FiEdit } from "react-icons/fi";
 import { Ring } from "@uiball/loaders";

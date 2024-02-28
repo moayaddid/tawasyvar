@@ -3,7 +3,7 @@ import TawasyLoader from "@/components/UI/tawasyLoader";
 import withVendorLayout from "@/components/wrapping components/WrappingVendorLayout";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Link  from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { BsBox } from "react-icons/bs";
 import { FaUsersBetweenLines } from "react-icons/fa6";

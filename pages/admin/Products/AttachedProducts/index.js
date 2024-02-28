@@ -4,7 +4,7 @@ import AdminAttachedProduct from "@/components/AdminComponents/AdminAttachedProd
 import withLayoutAdmin from "@/components/UI/adminLayout";
 import TawasyLoader from "@/components/UI/tawasyLoader";
 import { Ring } from "@uiball/loaders";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
@@ -113,8 +113,8 @@ function AttachedProducts() {
                 // setCurrentPage(data.data.pagination.previousPage);
               }}
               disabled={
-                attachedProducts.data.pagination.current_page ===
-                attachedProducts.data.pagination.from
+                attachedProducts.data.pagination.current_page ==
+                1
               }
             >
               {`Previous Page`}
