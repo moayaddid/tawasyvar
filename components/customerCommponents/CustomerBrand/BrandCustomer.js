@@ -10,7 +10,7 @@ function BrandCustomer({brand}) {
     >
       <div className="bg-cover overflow-hidden flex justify-center items-center min-w-[230px]  min-h-[170px] max-h-[170px]  ">
         <Image
-          src={brand.image ? brand.image : logo}
+          src={brand.logo ? brand.logo : logo}
           alt={brand.name}
           className="w-full transform transition duration-1000 object-contain object-center"
           width={0}

@@ -64,20 +64,20 @@ function AllProducts({ brands }) {
     // console.log(`before try`);
     try {
       // console.log(`in try`);
-      const response = await Api.post(
+      const response = await Api.get(
         `api/search-brand`,
         {
-          query: searchRef.current.value,
+          params :  { query : searchRef.current.value},
         },
         {
           noSuccessToast: true,
         }
       );
-      // console.log(`sadndsaknjdsnkj`);
-      const component = !response.data.products ? (
+      // console.log(response);
+      const component = !response.data.brands ? (
         <div className="w-max mx-auto text-black ">{response.data.message}</div>
       ) : (
-        <div className=" w-[90%] grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 gap-y-7 mx-auto">
+        <div className=" grid 2xl:grid-cols-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 gap-y-7 mx-auto ">
           {response.data.brands.map((brand , i) => {
             return <BrandCustomer key={i} brand={brand} />;
           })}
@@ -95,9 +95,9 @@ function AllProducts({ brands }) {
     setSearching(false);
   }
 
-    if (brands) {
-        console.log(brands);
-    }
+    // if (brands) {
+    //     console.log(brands);
+    // }
 
   // if (isLoading) {
   //   return (
@@ -243,7 +243,7 @@ function AllProducts({ brands }) {
               <TawasyLoader width={300} height={300} />
             </div>
           ) : (
-            <div className="w-full flex justify-center min-h-[500px]">
+            <div className="w-[90%] mx-auto pb-5">
               {searchedResults && searchedResults}
             </div>
           ))}

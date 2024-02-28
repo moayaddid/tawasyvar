@@ -30,7 +30,7 @@ export async function getServerSideProps(context) {
 }
 
 function BrandPage({ brand }) {
-  console.log(brand);
+  // console.log(brand);
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories , setCategories] = useState() ;
@@ -39,12 +39,12 @@ function BrandPage({ brand }) {
   const onSelectCategory = (categoryName) => {
     Cookies.set( `brandctg` , categoryName);
     setSelectedCategory(categoryName);
-    console.log(`category selected`) ;
-    console.log(categories);
+    // console.log(`category selected`) ;
+    // console.log(categories);
     const cat = brand?.categories_with_products.find((catego) => catego.category_name == categoryName);
         if(cat){
-          console.log(`cat found`) ;
-          console.log(cat);
+          // console.log(`cat found`) ;
+          // console.log(cat);
           // setSelectedCategory(cat.category_name);
           setCategoryProducts(cat.products);
           return ;

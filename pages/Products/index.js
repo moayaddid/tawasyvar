@@ -95,9 +95,9 @@ function AllProducts({ products }) {
     setSearching(false);
   }
 
-  if (products) {
-    console.log(products);
-  }
+  // if (products) {
+  //   console.log(products);
+  // }
 
   // if (isLoading) {
   //   return (
