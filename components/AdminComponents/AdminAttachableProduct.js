@@ -21,7 +21,6 @@ function AdminAttachableProduct({
   product,
   selectedStoreId,
   refetch,
-  AttachedStore,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [OpenAttach, setOpenAttach] = useState(false);
@@ -210,12 +209,11 @@ function AdminAttachableProduct({
     setIsAttaching(true);
     try {
       const response = await Api.post(
-        `/api/admin/attach-product-waffer/${AttachedStore.id}`,
+        `/api/admin/attach-product-waffer`,
         {
           product_id: selectedProduct.productId,
-          product_combination_id: selectedProduct.combinationId,
-          product_api_id: product.id,
-          api: selectedStoreId,
+          product_combination_id: selectedProduct.combinationId ?? null,
+          product_api_id: product.item_id,
         }
       );
       refetch();
@@ -233,7 +231,7 @@ function AdminAttachableProduct({
         key={product.id}
         className="py-10 px-0 bg-gray-100 hover:bg-gray-200 font-medium"
       >
-        <td className="px-4 py-4">{product.id}</td>
+        <td className="px-4 py-4">{product.item_id}</td>
         <td class="px-4 py-4">
           <div class="flex md:flex-wrap flex-col items-center space-y-3 lg:space-y-1">
             <button
@@ -245,18 +243,6 @@ function AdminAttachableProduct({
           </div>
         </td>
         <td className="px-4 py-4">{product.name}</td>
-        <td
-          className={`px-4 py-4 ${
-            product.status && product.status === 1
-              ? `text-green-600`
-              : `text-red-600`
-          } `}
-        >
-          {product.status && product.status === 1 ? `Yes` : `No`}
-        </td>
-        <td className="px-4 py-4">
-          {product.price ? convertMoney(Number(product.price)) : `-`}
-        </td>
         <td className="px-4 py-4 flex justify-center items-center ">
           <Image
             src={product.image ? product.image : logo}
@@ -279,7 +265,6 @@ function AdminAttachableProduct({
         <DialogTitle className="flex justify-between items-center">
           <div className="flex justify-start items-center space-x-3" >
             <p>Attach Product : {product.name}</p>
-            <p>To Store : {AttachedStore.name_en}</p>
           </div>
           <MdClose
             onClick={closeAttachment}

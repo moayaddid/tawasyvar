@@ -14,7 +14,7 @@ import {
 import { MdClose } from "react-icons/md";
 import { Ring } from "@uiball/loaders";
 
-function AdminAttachedProduct({ product, refetch, selectedStoreId }) {
+function AdminAttachedProduct({ product, refetch }) {
   const router = useRouter();
   const Api = createAxiosInstance(router);
   const [open, setOpen] = useState(false);
@@ -33,16 +33,16 @@ function AdminAttachedProduct({ product, refetch, selectedStoreId }) {
     setIsDettaching(true);
     try {
       const response = await Api.post(
-        `/api/admin/detach-product-waffer/${product.store_id}`
+        `/api/admin/detach-product-waffer`
         // `/api/admin/detach-product-waffer/${storeId}` 
         , {
           attached_id : product.attached_id ,
-          api : selectedStoreId
         }
       );
       refetch();
       setIsDettaching(false);
       setOpenDettach(false);
+      setOpen(false);
     } catch (error) {
       setIsDettaching(false);
     }
@@ -62,7 +62,7 @@ function AdminAttachedProduct({ product, refetch, selectedStoreId }) {
   return (
     <>
       <tr
-        key={product.id}
+        key={product.item_id}
         className="py-3 px-0 bg-gray-100 hover:bg-gray-200 font-medium  "
       >
         <td class="px-4 py-4">

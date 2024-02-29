@@ -26,7 +26,7 @@ const tableheading = [
 function AttachedProducts() {
   const router = useRouter();
   const Api = createAxiosInstance(router);
-  const [selectedStore, setSelectedStore] = useState();
+  // const [selectedStore, setSelectedStore] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const {
     data: attachedProducts,
@@ -35,8 +35,8 @@ function AttachedProducts() {
     isFetching,
     isRefetching,
   } = useQuery(
-    [`AttachedProducts`, selectedStore, currentPage],
-    () => fetchAttachedProducts(selectedStore, currentPage),
+    [`AttachedProducts`, currentPage],
+    () => fetchAttachedProducts( currentPage),
     {
       staleTime: 1,
       refetchOnWindowFocus: false,
@@ -48,26 +48,16 @@ function AttachedProducts() {
     document.querySelector(`#${id}`).scrollIntoView({ behavior: "smooth" });
   }
 
-  async function fetchAttachedProducts(selectedStore, selectedPage) {
-    // console.log(`in fetching function`)
+  async function fetchAttachedProducts(selectedPage) {
     try {
       let storeId ;
-      // switch(selectedStore){
-      //   case 1 :
-      //     storeId = 62 
-      // }
-      if (selectedStore && selectedPage) {
+      // if (selectedStore && selectedPage) {
         return await Api.get(
-          `/api/admin/products-in-store/9/api/${selectedStore}?page=${selectedPage}`
+          `/api/admin/attached-products/?page=${selectedPage}`
         );
-        // console.log(response);
-      }
+      // }
     } catch (error) {}
   }
-
-  // useEffect(() => {
-  //   console.log(attachedProducts);
-  // }, [attachedProducts, selectedStore, currentPage]);
 
   return (
     <div className="w-[90%] mx-auto py-12 flex flex-col space-y-4 h-screen ">
@@ -75,32 +65,6 @@ function AttachedProducts() {
         Attached Products
       </div>
       <div className="flex justify-start space-x-6 items-center">
-        <label htmlFor="store" className="">
-          Store Address :
-          <select
-            id="store"
-            onChange={(e) => {
-              setSelectedStore(e.target.value);
-              setCurrentPage(1);
-            }}
-            defaultValue={selectedStore ? selectedStore : null}
-            className="bg-transparent px-2 text-center cursor-pointer "
-          >
-            <option value={null} selected disabled>
-              Select Store
-            </option>
-            <option value={1} className="cursor-pointer">
-              شارع بغداد
-            </option>
-            <option value={2} className="cursor-pointer">
-              قزاز
-            </option>
-            <option value={3} className="cursor-pointer">
-              صحنايا
-            </option>
-          </select>
-        </label>
-        {attachedProducts && attachedProducts?.data?.pagination && <p>-</p>}
         {attachedProducts && attachedProducts?.data?.pagination && (
           <div className="w-fit mx-auto flex justify-center items-center h-max gap-4 py-4 ">
             <button
@@ -165,7 +129,7 @@ function AttachedProducts() {
                     return (
                       <AdminAttachedProduct
                         product={prod}
-                        selectedStoreId = {selectedStore}
+                        // selectedStoreId = {selectedStore}
                         key={`${i} - ${prod.name} - ${prod.attached_id}`}
                         refetch={() => {
                           refetch();
