@@ -326,6 +326,9 @@ function AdminAttachableProduct({
             ) : (
               <div>You did not select a product yet .</div>
             )}
+            <div className="w-full" >
+            <Image src={product.image ?? logo} alt={product.name} width={0} height={0} className="object-contain w-[35%] h-auto " />
+            </div>
           </div>
         </DialogContent>
         <DialogActions className="w-full flex justify-center items-center">
