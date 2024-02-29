@@ -36,8 +36,8 @@ function AttachableProducts() {
     isFetching,
     isRefetching,
   } = useQuery(
-    [`AttachableProducts`, selectedStore, currentPage],
-    () => fectAttachableProducts(selectedStore, currentPage),
+    [`AttachableProducts`, currentPage],
+    () => fectAttachableProducts(currentPage),
     {
       staleTime: 1,
       refetchOnWindowFocus: false,
@@ -102,9 +102,11 @@ function AttachableProducts() {
 
   async function fectAttachableProducts(selectedPage) {
     try {
-      return await Api.get(
-        `/api/admin/get-waffer-products/?page=${selectedPage}`
-      );
+      if (selectedPage) {
+        return await Api.get(
+          `/api/admin/get-waffer-products?page=${selectedPage}`
+        );
+      }
     } catch (error) {}
   }
 

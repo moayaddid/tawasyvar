@@ -51,11 +51,11 @@ function AttachedProducts() {
   async function fetchAttachedProducts(selectedPage) {
     try {
       let storeId ;
-      // if (selectedStore && selectedPage) {
+      if (selectedPage) {
         return await Api.get(
-          `/api/admin/attached-products/?page=${selectedPage}`
+          `/api/admin/attached-products?page=${selectedPage}`
         );
-      // }
+      }
     } catch (error) {}
   }
 
