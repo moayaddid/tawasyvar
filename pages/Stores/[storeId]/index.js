@@ -176,7 +176,7 @@ function Products({ store }) {
       <NextSeo
       title={`${store.store.name} | ${t("titles.home")}`}
       description={store.store.name}
-        canonical={`https://tawasyme.com/store/${router.query.storeId}`}
+        canonical={ router.locale == `en` ? `https://tawasyme.com/store/${router.query.storeId}` : `https://tawasyme.com/ar/store/${router.query.storeId}`}
       />
       <div className="">
         {store && (

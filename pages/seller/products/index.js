@@ -173,7 +173,7 @@ function Products() {
         <div className="w-full h-full mx-auto">
           <div className="flex sm:flex-row flex-col  justify-between w-full px-4 py-2 items-center">
             <div className="text-xl font-bold">{title}</div>
-            <div>
+            <div className="flex sm:flex-row sm:space-y-0 space-y-3 flex-col justify-between sm:py-0 py-3" >
             <Link
               href={"/seller/products/addProducts"}
               className="px-4 py-2 mx-1 text-white bg-[#ff6600] rounded-md hover:bg-[#ff6600] focus:outline-none"

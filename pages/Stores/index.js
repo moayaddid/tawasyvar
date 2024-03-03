@@ -64,7 +64,7 @@ function PublicStore() {
     <NextSeo 
       title={`${t("titles.allStores")} | ${t("titles.home")}`}
       description={t("descs.allStores")}
-      canonical="https://tawasyme.com/Stores"
+      canonical={ router.locale == `en` ? `https://tawasyme.com/Stores` : `https://tawasyme.com/ar/Stores`}
     />
       <div className="">
         <div className="bg-gray-100 w-full px-5 py-3" id="top" >

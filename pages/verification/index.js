@@ -44,6 +44,7 @@ const Code = () => {
         });
         Cookies.remove("number");
         Cookies.set("AT", response.data.token, { expires: 365 * 10 });
+        Cookies.set("SName" , response.data.seller.name , {expires : 365 * 10});
         try {
           const response2 = await Api.get(`/api/seller/store/status`);
           // console.log(`response in verification status`);

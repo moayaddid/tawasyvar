@@ -112,7 +112,7 @@ function AllProducts({ products }) {
       <NextSeo
         title={`${t("titles.allProducts")} | ${t("titles.home")} `}
         description={t("descs.allProducts")}
-        canonical="https://tawasyme.com/Products"
+        canonical={ router.locale == `en` ? `https://tawasyme.com/Products` : `https://tawasyme.com/ar/Products`}
       />
       <div>
         <div className="bg-gray-100 w-full py-3" id="top">

@@ -29,7 +29,6 @@ export async function getServerSideProps(context) {
       headers: { "Accept-Language": locale ? locale : "en" },
     }
   );
-  // console.log(response);
   if(!response.data){
     return {
       notFound : true ,
@@ -61,9 +60,7 @@ function AllProducts({ brands }) {
   async function search(e) {
     e.preventDefault();
     setSearching(true);
-    // console.log(`before try`);
     try {
-      // console.log(`in try`);
       const response = await Api.get(
         `api/search-brand`,
         {
@@ -73,7 +70,6 @@ function AllProducts({ brands }) {
           noSuccessToast: true,
         }
       );
-      // console.log(response);
       const component = !response.data.brands ? (
         <div className="w-max mx-auto text-black ">{response.data.message}</div>
       ) : (
@@ -83,36 +79,20 @@ function AllProducts({ brands }) {
           })}
         </div>
       );
-      // console.log(`component`);
-      // console.log(searchedResults);
       setSearchedResults(component);
       setSearching(false);
-      // console.log(`product search`);
-      // console.log(response.data.data);
     } catch (error) {
       setSearching(false);
     }
     setSearching(false);
   }
 
-    // if (brands) {
-    //     console.log(brands);
-    // }
-
-  // if (isLoading) {
-  //   return (
-  //     <div className="w-full h-full">
-  //       <TawasyLoader width={500} height={500} />
-  //     </div>
-  //   );
-  // }
-
   return (
     <>
       <NextSeo
-        title={`${t("titles.allProducts")} | ${t("titles.home")} `}
-        description={t("descs.allProducts")}
-        canonical="https://tawasyme.com/Products"
+        title={`${t("titles.allBrands")} | ${t("titles.home")} `}
+        description={t("descs.allBrands")}
+        canonical={ router.locale == `en` ? `https://tawasyme.com/Brands` : `https://tawasyme.com/ar/Brands`}
       />
       <div>
         <div className="bg-gray-100 w-full py-3" id="top">
@@ -147,8 +127,6 @@ function AllProducts({ brands }) {
               className="w-full bg-gray-100 outline-none rounded-lg text-sm h-10  "
               type="text"
               ref={searchRef}
-              // placeholder={`Search`}
-              //   placeholder={t("store.search")}
               onClick={() => {
                 setInSearch(true);
               }}
@@ -174,10 +152,6 @@ function AllProducts({ brands }) {
           <div className="w-[90%] mx-auto py-5">
             {brands && brands.brands && brands.brands.length > 0 ? (
             <div className="grid 2xl:grid-cols-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 gap-y-7 mx-auto  ">
-              {/* {products.products &&
-                  products.products.map((product) => (
-                    <PublicAllProduct key={product.id} product={product} />
-                  ))} */}
               {brands?.brands?.map((brand , i) => {
                 return <BrandCustomer key={i} brand={brand} />
               })}
@@ -187,20 +161,6 @@ function AllProducts({ brands }) {
             )} 
             {brands && brands.pagination && (
               <div className="w-fit mx-auto flex justify-center items-center h-max gap-4 py-4 ">
-                {/* <button
-                  className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-max"
-                  onClick={() => {
-                    setCurrentPage(products.pagination.current_page - 1);
-                    scroll(`top`);
-                    // setCurrentPage(data.data.pagination.previousPage);
-                  }}
-                  disabled={
-                    products.pagination.current_page ===
-                    products.pagination.from
-                  }
-                >
-                  {t("stores.previousPage")}
-                </button> */}
                 <Link
                   className={`px-2 py-1 ${
                     brands.pagination.current_page ===
@@ -213,7 +173,6 @@ function AllProducts({ brands }) {
                   }`}
                 >
                   {t("stores.previousPage")}
-                  {/* prev */}
                 </Link>
                 <Link
                   className={`px-2 py-1 ${
@@ -225,13 +184,8 @@ function AllProducts({ brands }) {
                   href={`/Brands?page=${
                     brands.pagination.current_page + 1
                   }`}
-                  // disabled={
-                  //   brands.pagination.current_page ===
-                  //   brands.pagination.last_page
-                  // }
                 >
                   {t("stores.nextPage")}
-                  {/* next */}
                 </Link>
               </div>
             )}

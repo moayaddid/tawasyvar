@@ -42,7 +42,7 @@ const Orders = () => {
     <NextSeo
         title={t("titles.orders")}
         description={t("descs.orders")}
-        canonical="https://tawasyme.com/Orders"
+        canonical={ router.locale == `en` ? `https://tawasyme.com/Orders` : `https://tawasyme.com/ar/Orders`}
       />
       <div className="md:px-28 px-3 py-4">
         <div>

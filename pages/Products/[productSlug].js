@@ -56,26 +56,30 @@ function PublicProduct({ product }) {
   //   groupedVariations[attribute].push(variation);
   // });
 
-  let images = [] ; 
-  if(product.variations){
-    for (const vari of product.variations.original.variations){
-      if(vari.image != null){
+  let images = [];
+  if (product.variations) {
+    for (const vari of product.variations.original.variations) {
+      if (vari.image != null) {
         images.push(vari.image);
       }
     }
-    if(images.length < 1){
+    if (images.length < 1) {
       images.push(product.productDetails.image);
     }
-  }else{
+  } else {
     images.push(product.productDetails.image);
   }
 
   return (
     <>
       <NextSeo
-        title={` ${product .productDetails.name} | ${t("titles.home")}`}
+        title={` ${product.productDetails.name} | ${t("titles.home")}`}
         description={product.productDetails.name}
-        canonical={`https://tawasyme.com/Products/${router.query.productSlug}`}
+        canonical={
+          router.locale == `en`
+            ? `https://tawasyme.com/Products/${router.query.productSlug}`
+            : `https://tawasyme.com/ar/Products/${router.query.productSlug}`
+        }
       />
       <div className="w-full h-full flex flex-col items-center justify-center space-y-4 md:py-20 py-10 ">
         <div className="md:w-[80%] w-[90%] shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)]  md:my-5 my-2">
@@ -99,20 +103,22 @@ function PublicProduct({ product }) {
               {/* { product.variations && <Variations publicProduct={true} productVariations={product?.variations?.original} />} */}
 
               <p className="text-gray-500 text-base border-t-2 border-gray-200 py-3 my-2">
-                {product.productDetails.decription && product.productDetails.description}
+                {product.productDetails.decription &&
+                  product.productDetails.description}
               </p>
             </div>
           </div>
         </div>
         <div className="w-full flex flex-col space-y-4">
-          {product.productDetails.stores && product.productDetails.stores.length > 0 ? (
+          {product.productDetails.stores &&
+          product.productDetails.stores.length > 0 ? (
             <div className="w-full flex flex-col space-y-4 ">
               <h2 className="text-2xl w-max mx-auto ">
                 {t("product.storeSellers")} :
               </h2>
               <div className="grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-y-6 w-[90%] mx-auto ">
                 {product.productDetails.stores &&
-                  product.productDetails.stores.map((store , index) => {
+                  product.productDetails.stores.map((store, index) => {
                     return <StoreComponent store={store} key={index} />;
                   })}
               </div>

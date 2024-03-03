@@ -22,6 +22,7 @@ import SellerCombination from "../SellerVariations/SellerCombination";
 import TawasyLoader from "../UI/tawasyLoader";
 import VendorProductCombination from "./vendorProductCombination";
 import { MdClose } from "react-icons/md";
+import { convertMoney } from "../SellerOrders/sellerOrder";
 
 function VendorProduct({ product, refetch }) {
   const [isToggled, setIsToggled] = useState(product.availability);
@@ -166,7 +167,7 @@ function VendorProduct({ product, refetch }) {
             )}
           </div>
         </td>
-        <td className="px-4 py-4">{price}</td>
+        <td className="px-4 py-4">{convertMoney(price)}</td>
         <td className="px-4 py-4">{product.name}</td>
         <td className="px-4 py-4 self-center ">
           <p>{product.combination ? nid.join(" - ") : `-`}</p>

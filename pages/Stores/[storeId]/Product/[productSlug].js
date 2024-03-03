@@ -163,7 +163,7 @@ function Product({ product }) {
             ? product.product.name && product.product.name
             : product.name
         }
-        canonical={`https://tawasyme.com/store/${router.query.storeId}/Product/${router.query.productSlug}`}
+        canonical={ router.locale == `en` ? `https://tawasyme.com/store/${router.query.storeId}/Product/${router.query.productSlug}` : `https://tawasyme.com/ar/store/${router.query.storeId}/Product/${router.query.productSlug}`}
       />
       <div className="w-full h-full flex justify-center">
         <div className="sm:w-[70%] w-[90%] shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] px-6 py-6 md:my-14 my-2">

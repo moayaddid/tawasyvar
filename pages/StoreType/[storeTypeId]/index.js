@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import withLayoutCustomer from "@/components/wrapping components/WrappingCustomerLayout";
-import  ResponsiveCarousel  from "@/components/CarouselCustomer/carousel";
+import ResponsiveCarousel from "@/components/CarouselCustomer/carousel";
 import StoreComponent from "@/components/customerCommponents/StoreComponent";
 import { useRouter } from "next/router";
 import createAxiosInstance from "@/API";
@@ -14,35 +14,41 @@ import axios from "axios";
 import url from "@/URL";
 
 export async function getServerSideProps(context) {
-  const { params , locale , req } = context;
+  const { params, locale, req } = context;
   const Api = createAxiosInstance(`asdasd`);
-  const token  = req.cookies.AT;
+  const token = req.cookies.AT;
   const user = req.cookies.user;
-  let mainResponse ;
-  let response ;
-  if(token && user && user === "customer"){
+  let mainResponse;
+  let response;
+  if (token && user && user === "customer") {
     // console.log(`authenticated`);
-    response = await axios.get(`${url}/api/customer/store-types/${params.storeTypeId}` , {
-      withCredentials : true ,
-      headers : { 'Accept-Language': locale ? locale : 'en', Authorization : `Bearer ${token}`}
-    });
-  }else{
-     response = await axios.get(`${url}/api/storetypes/${params.storeTypeId}` , {
-      headers : { 'Accept-Language': locale ? locale : 'en'}
+    response = await axios.get(
+      `${url}/api/customer/store-types/${params.storeTypeId}`,
+      {
+        withCredentials: true,
+        headers: {
+          "Accept-Language": locale ? locale : "en",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } else {
+    response = await axios.get(`${url}/api/storetypes/${params.storeTypeId}`, {
+      headers: { "Accept-Language": locale ? locale : "en" },
     });
     // console.log(response);
   }
-    if (!response.data.data) {
-      return {
-        notFound: true,
-      };
-    }
+  if (!response.data.data) {
     return {
-      props: {
-        ...(await serverSideTranslations(locale, ["common"])),
-        stores: response.data,
-      },
+      notFound: true,
     };
+  }
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+      stores: response.data,
+    },
+  };
 }
 
 const StoreType = ({ stores }) => {
@@ -103,7 +109,11 @@ const StoreType = ({ stores }) => {
       <NextSeo
         title={`${stores.data.store_type.name} | ${t("titles.home")}`}
         description={stores.data.store_type.name}
-        canonical={`https://tawasyme.com/StoreType/${router.query.storeTypeId}`}
+        canonical={
+          router.locale == `en`
+            ? `https://tawasyme.com/StoreType/${router.query.storeTypeId}`
+            : `https://tawasyme.com/ar/StoreType/${router.query.storeTypeId}`
+        }
       />
       {/* { stores && <NextSeo
         title={`Tawasy Shopping - ${stores.data.store_type.name}`}
@@ -215,6 +225,4 @@ const StoreType = ({ stores }) => {
   );
 };
 
-
 export default withLayoutCustomer(StoreType);
-

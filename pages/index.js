@@ -266,7 +266,7 @@ function CustomerPage({ data }) {
       <NextSeo
         title={t("titles.home")}
         description={t("descs.home")}
-        canonical="https://tawasyme.com"
+        canonical={router.locale == `en` ? `https://tawasyme.com` : `https://tawasyme.com/ar` }
       />
 
       <div className="w-full h-full">

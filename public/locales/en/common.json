@@ -542,11 +542,13 @@
     "allStores" : "All Stores",
     "allProducts" : "All Products",
     "profile" : "Profile",
-    "orders" : "Orders"
+    "orders" : "Orders",
+    "allBrands" : "Brands"
   } ,
   "descs" : {
     "allStores" : "Browse all our stores",
     "allProducts" : "Browse all our Products",
+    "allBrands" : "Browse all our Brands",
     "profile" : "Your Profile",
     "orders" : "Your Orders",
     "home" : "Elsouq Bebitak"
@@ -605,5 +607,20 @@
    "selectBra" : "Select a Brand" ,
    "none" : "none" , 
    "noBrands" : "There are no Brands " ,
-   "allBrand" : "All Brands"
+   "allBrand" : "All Brands" ,
+   "vendors" : "Vendors" ,
+   "allVendors" : "All Vendors" ,
+   "myVendorOrders" : "My Vendor Orders",
+   "viewVendor" : "View Vendor" ,
+   "showSelectedProducts" : "Show Selected Products" ,
+   "unselectAll" : "Unselect Selected Products" ,
+   "quantity" : "Quantity" ,
+   "noteForVendor" : "Note for the vendor with te order" ,
+   "note" : "Note" ,
+   "sendOrder" : "Submit Order" ,
+   "brands" : "Brands that this vendor Provides" ,
+   "orderId" : "Order Id",
+   "welcome" : "Welcome" , 
+   "noVendorOrders" : "You did not make any orders yet.",
+   "vendor" : "Vendor"
 }
