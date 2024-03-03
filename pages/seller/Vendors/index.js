@@ -62,7 +62,7 @@ function SellerVendors() {
               </div>
             );
           })}
-        </div> : <p className="w-full text-center" >{t("noVendorsfound")} .</p>
+        </div> : <p className="w-full text-center" >{t("noVendorsFound")} </p>
       )}
     </div>
   );
