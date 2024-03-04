@@ -39,7 +39,7 @@ function SellerVendorOrder({ order }) {
     <>
       <div
         onClick={openOrder}
-        className="bg-gray-100 rounded-md my-2 mx-2 px-4 cursor-pointer border-2 border-white hover:border-skin-primary transition-all duration-700 w-[20%] "
+        className="bg-gray-100 rounded-md my-2 mx-2 px-4 cursor-pointer border-2 border-white hover:border-skin-primary transition-all duration-700 min-w-[20%] "
       >
         <div>
           <div className="flex justify-end">
@@ -47,12 +47,12 @@ function SellerVendorOrder({ order }) {
               {convertDateStringToDate(order.date)}
             </h2>
           </div>
-          <div className="pb-5">
-            <h3 className="font-medium text-xl flex items-center gap-2 text-gray-500 mb-2">
+          <div className="pb-5  ">
+            <h3 className="font-medium text-xl flex items-center gap-2 text-gray-500 mb-2 mx-1">
               <div>Id : </div>
               <div>{order.id}</div>
             </h3>
-            <h3 className="font-medium text-xl flex items-center gap-2 text-gray-500 mb-2">
+            <h3 className="font-medium text-xl  gap-2 text-gray-500 mb-2 mx-1 flex flex-wrap justify-start items-center ">
               <div>{t("vendor")} : </div>
               <div>{order.vendor}</div>
             </h3>
