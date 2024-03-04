@@ -83,18 +83,18 @@ function BrandPage({ brand }) {
           return;
         } else {
           setSelectedCategory(
-            brand?.categories_with_products[0].categories_name
+            brand?.categories_with_products[0].category_name
           );
           setCategoryProducts(brand?.categories_with_products[0].products);
           return;
         }
       }
-      setSelectedCategory(brand?.categories_with_products[0].categories_name);
+      setSelectedCategory(brand?.categories_with_products[0].category_name);
       setCategoryProducts(brand?.categories_with_products[0].products);
     }
   }, [brand, categories]);
 
-  const { t } = useTranslation;
+  const { t } = useTranslation("");
   return (
     <>
       <NextSeo
