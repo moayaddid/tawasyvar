@@ -20,7 +20,7 @@ import { IoSettingsSharp, IoStorefrontSharp } from "react-icons/io5";
 import Cookies from "js-cookie";
 import LocaleSwitcher from "../UI/localeSwitcher/localeSwitcher";
 import { useTranslation } from "next-i18next";
-import { LuClipboardEdit } from "react-icons/lu";
+import { LuClipboardCopy, LuClipboardEdit } from "react-icons/lu";
 
 export default function VendorSidebar(props) {
   const [open, setOpen] = useState(false);
@@ -157,6 +157,19 @@ export default function VendorSidebar(props) {
                   </p>
                 </Link>
               </li>
+
+              <li className="rounded-sm pb-3">
+                <Link
+                  href="/vendor/sellersOrders"
+                  className="flex items-center pl-2 space-x-3 pt-2 rounded-md text-gray-100"
+                >
+                  <LuClipboardCopy className="block text-[20px] text-white " />
+                  <p className="hidden md:block" style={{ marginLeft: "43px" }}>
+                    Sellers Order Requests
+                  </p>
+                </Link>
+              </li>
+
               <li className="rounded-sm pb-3">
                 <button
                   className="flex items-center pl-2 pt-3 space-x-3 rounded-md text-gray-100"
