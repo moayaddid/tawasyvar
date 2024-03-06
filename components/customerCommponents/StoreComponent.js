@@ -10,7 +10,8 @@ function StoreComponent({ store }) {
   const us = Cookies.get("user");
   const delivery = store.free_delivery === 1 ? true : false;
   const withinRange =
-    tk && us &&
+    tk &&
+    us &&
     us === "customer" &&
     store.is_within_delivery_range &&
     store.is_within_delivery_range === true
@@ -41,16 +42,17 @@ function StoreComponent({ store }) {
             >
               {store.name}
             </div>
-            {delivery === true && withinRange === true ? (
-              <div className="px-1 sm:py-1 py-[3px] bg-green-500 rounded-lg text-center text-xs text-white">
-                {" "}
-                {t("freetoYou")}{" "}
-              </div>
-            ) : (
-              <div className="px-1 sm:py-1 py-[2px] bg-green-500 rounded-lg text-center sm:text-sm text-xs text-white ">
-                {t("freeOut")} {store.radius} {t("meter")}
-              </div>
-            )}
+            {delivery === true &&
+              (withinRange === true ? (
+                <div className="px-1 sm:py-1 py-[3px] bg-green-500 rounded-lg text-center text-xs text-white">
+                  {" "}
+                  {t("freetoYou")}{" "}
+                </div>
+              ) : (
+                <div className="px-1 sm:py-1 py-[2px] bg-green-500 rounded-lg text-center sm:text-sm text-xs text-white ">
+                  {t("freeOut")} {store.radius} {t("meter")}
+                </div>
+              ))}
           </div>
         </Link>
       ) : (

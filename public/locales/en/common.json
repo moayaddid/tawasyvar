@@ -626,5 +626,6 @@
    "freeDelivery" : "This Store Provides Free delivery in Range of",
    "meter" : "meters",
    "freeOut" : "Free Delivery within",
-   "freetoYou" : "Free Delivery to your location"
+   "freetoYou" : "Free Delivery to your location",
+   "storeDelivery" : "Delivery provided by store"
 }

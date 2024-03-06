@@ -50,7 +50,7 @@ function OrderAdmin({ names, refetch }) {
 
   // console.log(names);
 
-  const openGoogleMaps = (latitude, longitude , desLat , desLon) => {
+  const openGoogleMaps = (latitude, longitude, desLat, desLon) => {
     const url = `https://www.google.com/maps/dir/?api=1&origin=${latitude},${longitude}&destination=${desLat},${desLon}`;
     window.open(url, "_blank");
   };
@@ -192,7 +192,7 @@ function OrderAdmin({ names, refetch }) {
                       orderDetails.store_lat,
                       orderDetails.store_long,
                       orderDetails.latitude,
-                      orderDetails.longitude 
+                      orderDetails.longitude
                     )
                   }
                   className="text-gray-400 hover:text-skin-primary w-max "
@@ -207,9 +207,12 @@ function OrderAdmin({ names, refetch }) {
                 </p>
               </div>
               <p className="text-gray-400">
-                    Seller Number : {orderDetails.seller_phone_number ? orderDetails.seller_phone_number : `-` }
+                Seller Number :{" "}
+                {orderDetails.seller_phone_number
+                  ? orderDetails.seller_phone_number
+                  : `-`}
               </p>
-              
+
               <p className="text-gray-400">
                 Customer Name :{" "}
                 {orderDetails.customer_name && orderDetails.customer_name}
@@ -301,6 +304,11 @@ function OrderAdmin({ names, refetch }) {
                     <div>Final Price :</div>
                     <div>{orderDetails.final_price}</div>
                   </h3>
+                  {orderDetails?.is_free_delivery === 1 && (
+                    <p className="px-2 py-1 bg-yellow-500 text-white rounded-lg text-base">
+                      Delivery provided by store
+                    </p>
+                  )}
                 </div>
               </Stack>
             )

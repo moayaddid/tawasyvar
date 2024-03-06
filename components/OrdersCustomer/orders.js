@@ -29,12 +29,13 @@ function OrdersCustomer({ order, refetch }) {
 
   const [open, openchange] = useState(false);
 
+  const [free, setFree] = useState(false);
+
   const functionopenpopup = async () => {
     openchange(true);
     setIsLoading(true);
     try {
       const response = await Api.get(`/api/customer/order/${order.order_id}`);
-      // console.log(response);
       setOrderDetails(response.data.order);
       setIsLoading(false);
     } catch (error) {
@@ -44,6 +45,7 @@ function OrdersCustomer({ order, refetch }) {
   };
   const closepopup = () => {
     openchange(false);
+    setFree(false);
   };
 
   async function cancelOrder() {
@@ -249,7 +251,11 @@ function OrdersCustomer({ order, refetch }) {
                       );
                     })}
                   </div>
-                  { orderDetails.big_size == true && <p className="bg-red-400 text-white px-2" >{t("bigSizeOrder")}</p>}
+                  {orderDetails.big_size == true && (
+                    <p className="bg-red-400 text-white px-2">
+                      {t("bigSizeOrder")}
+                    </p>
+                  )}
                   <div className="my-6">
                     <div className="grid md:grid-cols-2 gap-4 font-medium text-gray-800">
                       <div>
@@ -278,6 +284,11 @@ function OrdersCustomer({ order, refetch }) {
                           {t("orders.orderDetails.finalPrice")}:
                           <p>{orderDetails.final_price} S.P</p>
                         </div>
+                        {orderDetails?.is_free_delivery === 1 && (
+                          <p className="px-2 py-1 my-1 bg-yellow-500 text-white rounded-lg text-base">
+                            {t("storeDelivery")}
+                          </p>
+                        )}
                       </div>
                       {orderDetails.status &&
                         (orderDetails.status == `pending` ||

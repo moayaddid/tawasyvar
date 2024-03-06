@@ -38,7 +38,7 @@ function SellerOrders({ orders, refetch }) {
   const [accepting, setAccepting] = useState(false);
   const reasonRef = useRef();
   const { t } = useTranslation("");
-  const [proName , setProName] = useState();
+  const [proName, setProName] = useState();
 
   async function fetchOrderDetails() {
     setIsLoading(true);
@@ -150,13 +150,30 @@ function SellerOrders({ orders, refetch }) {
         </td>
       </tr>
 
-      <Dialog open={open} onClose={closepopup} fullWidth maxWidth="lg" dir={router.locale == "ar" ? "rtl" : "ltr"}>
+      <Dialog
+        open={open}
+        onClose={closepopup}
+        fullWidth
+        maxWidth="lg"
+        dir={router.locale == "ar" ? "rtl" : "ltr"}
+      >
         {isLoading !== true && orderDetails && (
           <DialogTitle className="md:flex justify-between mx-auto border-b-2 border-skin-primary ">
-            <span className="md:text-lg text-sm" >{t("seller.orders.orderDetails.storeName")}: {orderDetails.store_name} </span>
-            <span className="md:text-lg text-sm">{t("seller.orders.orderDetails.orderStatus")}: {orderDetails.status} </span>
-            <span className="md:text-lg text-sm" >{t("seller.orders.orderDetails.orderDate")}: {convertDate(orderDetails.date)}</span>
-            <span className="md:text-lg text-sm" >{t("seller.orders.orderDetails.orderId")}: {orderDetails.order_id}</span>
+            <span className="md:text-lg text-sm">
+              {t("seller.orders.orderDetails.storeName")}:{" "}
+              {orderDetails.store_name}{" "}
+            </span>
+            <span className="md:text-lg text-sm">
+              {t("seller.orders.orderDetails.orderStatus")}:{" "}
+              {orderDetails.status}{" "}
+            </span>
+            <span className="md:text-lg text-sm">
+              {t("seller.orders.orderDetails.orderDate")}:{" "}
+              {convertDate(orderDetails.date)}
+            </span>
+            <span className="md:text-lg text-sm">
+              {t("seller.orders.orderDetails.orderId")}: {orderDetails.order_id}
+            </span>
           </DialogTitle>
         )}
         <DialogContent
@@ -173,15 +190,25 @@ function SellerOrders({ orders, refetch }) {
               <table className=" w-full border-b-2 border-gray-300">
                 <thead className="bg-zinc-200 h-8 py-2">
                   <tr className="md:text-xl grid grid-cols-7 text-sm">
-                    <th className="pb-2 pt-2 col-span-3 ">{t("seller.orders.orderDetails.productName")}</th>
-                    <th className="pb-2 pt-2">{t("seller.products.table.partNumber")}</th>
-                    <th className="pb-2 pt-2">{t("seller.orders.orderDetails.quantity")}</th>
-                    <th className="pb-2 pt-2">{t("seller.orders.orderDetails.price")}</th>
-                    <th className="pb-2 pt-2">{t("seller.orders.orderDetails.total")}</th>
+                    <th className="pb-2 pt-2 col-span-3 ">
+                      {t("seller.orders.orderDetails.productName")}
+                    </th>
+                    <th className="pb-2 pt-2">
+                      {t("seller.products.table.partNumber")}
+                    </th>
+                    <th className="pb-2 pt-2">
+                      {t("seller.orders.orderDetails.quantity")}
+                    </th>
+                    <th className="pb-2 pt-2">
+                      {t("seller.orders.orderDetails.price")}
+                    </th>
+                    <th className="pb-2 pt-2">
+                      {t("seller.orders.orderDetails.total")}
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="text-center md:text-xl text-sm">
-                  { orderDetails?.order_details.map((product , index) => {
+                  {orderDetails?.order_details.map((product, index) => {
                     const nid = [];
                     if (product.combination) {
                       product?.combination?.variations.map((vari) => {
@@ -189,11 +216,17 @@ function SellerOrders({ orders, refetch }) {
                       });
                       // nid.join(" / ");
                     }
-                    const name = product.combination ? product.product_name + ` ( ${nid.join(" - ")} )` : product.product_name ;
+                    const name = product.combination
+                      ? product.product_name + ` ( ${nid.join(" - ")} )`
+                      : product.product_name;
                     return (
                       <tr key={index} className="text-center grid grid-cols-7">
                         <td className="pb-2 pt-2 col-span-3">{name}</td>
-                        <td className="pb-2 pt-2">{product.combination?.part_number ? product.combination?.part_number : `-`}</td>
+                        <td className="pb-2 pt-2">
+                          {product.combination?.part_number
+                            ? product.combination?.part_number
+                            : `-`}
+                        </td>
                         <td className="pb-2 pt-2">{product.quantity}</td>
                         <td className="pb-2 pt-2">{product.price}</td>
                         <td className="pb-2 pt-2">{product.line_total}</td>
@@ -226,33 +259,39 @@ function SellerOrders({ orders, refetch }) {
                     </p>
                   </p>
                   <p className="py-1 border-b-2 border-skin-primary flex justify-between items-center">
-                  {t("seller.orders.orderDetails.totalQuantity")} :
+                    {t("seller.orders.orderDetails.totalQuantity")} :
                     <p className="pr-5">{orderDetails?.total_quantity}</p>
                   </p>
                   <p className="py-1 border-b-2 border-skin-primary flex justify-between items-center">
-                  {t("seller.orders.orderDetails.discount")} :<p className="pr-5">{orderDetails?.discount}</p>
+                    {t("seller.orders.orderDetails.discount")} :
+                    <p className="pr-5">{orderDetails?.discount}</p>
                   </p>
                   <p className="py-1 border-b-2 border-skin-primary flex justify-between items-center">
-                  {t("seller.orders.orderDetails.totalPrice")} :
+                    {t("seller.orders.orderDetails.totalPrice")} :
                     <p className="pr-5">{orderDetails?.total_price}</p>
                   </p>
                   <p className="py-1 border-b-2 border-skin-primary flex justify-between items-center">
-                  {t("seller.orders.orderDetails.deliveryFee")} :
+                    {t("seller.orders.orderDetails.deliveryFee")} :
                     <p className="pr-5">{orderDetails?.delivery_price}</p>
                   </p>
                   <p className="py-1 border-b-2 border-skin-primary flex justify-between items-center">
-                  {t("seller.orders.orderDetails.finalPrice")} :
+                    {t("seller.orders.orderDetails.finalPrice")} :
                     <p className="pr-5">{orderDetails?.final_price}</p>
                   </p>
                 </div>
                 <p className="w-[50%]">
-                {t("seller.orders.orderDetails.notes")} :{" "}
+                  {t("seller.orders.orderDetails.notes")} :{" "}
                   {orderDetails?.note
                     ? `( ${orderDetails?.note} )`
                     : router.locale == "ar"
                     ? "(لا يوجد اي ملاحظات)"
                     : "( None Given )"}
                 </p>
+                {orderDetails?.is_free_delivery === 1 && (
+                  <p className="px-2 py-1 bg-yellow-500 text-white rounded-lg text-base">
+                    {t("storeDelivery")}
+                  </p>
+                )}
               </div>
             </div>
             // {/* </Stack> */}
@@ -288,8 +327,10 @@ function SellerOrders({ orders, refetch }) {
                     <div className="flex justify-center items-center">
                       <Ring size={25} lineWeight={5} speed={2} color="white" />
                     </div>
+                  ) : router.locale == "ar" ? (
+                    "أرفض الطلب"
                   ) : (
-                    router.locale == "ar" ? "أرفض الطلب" : "Reject Order"
+                    "Reject Order"
                   )}
                 </button>
                 <button
@@ -302,8 +343,10 @@ function SellerOrders({ orders, refetch }) {
                     <div className="flex justify-center items-center">
                       <Ring size={25} lineWeight={5} speed={2} color="white" />
                     </div>
+                  ) : router.locale == "ar" ? (
+                    "اقبل الطلب"
                   ) : (
-                    router.locale == "ar" ? "اقبل الطلب" : "Accept Order"
+                    "Accept Order"
                   )}
                 </button>
               </div>
