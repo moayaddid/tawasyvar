@@ -14,21 +14,45 @@ import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 
 export async function getServerSideProps(context) {
-  const { locale, query } = context;
-  const response = await axios.get(`${url}/api/brand/${query.brandSlug}`, {
-    headers: { "Accept-Language": locale ? locale : "en" },
-  });
-  if (!response.data) {
+  const { locale, query , res } = context;
+  try {
+    const response = await axios.get(`${url}/api/brand/${query.brandSlug}`, {
+      headers: { "Accept-Language": locale ? locale : "en" },
+    });
     return {
-      notFound: true,
+      props: {
+        ...(await serverSideTranslations(locale, ["common"])),
+        brand: response.data,
+      },
     };
+  } catch (error) {
+    console.log(error.response.data);
+    if (error.response.status) {
+      if (error.response.status == 500) {
+        if (error?.response?.data?.lang && error?.response?.data?.slug) {
+          if (error?.response?.data?.lang == "ar") {
+            res.writeHead(301, {
+              Location: `/ar/Brands/${encodeURIComponent(
+                error.response.data.slug
+              )}`,
+            });
+            res.end();
+            return true;
+          } else {
+            res.writeHead(301, {
+              Location: `/Brands/${error.response.data.slug}`,
+            });
+            res.end();
+            return true;
+          }
+        }
+      } else {
+        return {
+          notFound: true,
+        };
+      }
+    }
   }
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["common"])),
-      brand: response.data,
-    },
-  };
 }
 
 function BrandPage({ brand }) {
@@ -40,7 +64,7 @@ function BrandPage({ brand }) {
   const router = useRouter();
 
   const onSelectCategory = (categoryName) => {
-    Cookies.set(`brandctg`, categoryName);
+    Cookies.set(`ctg`, categoryName);
     setSelectedCategory(categoryName);
     // console.log(`category selected`) ;
     // console.log(categories);
@@ -71,7 +95,7 @@ function BrandPage({ brand }) {
   }, [brand]);
 
   useEffect(() => {
-    const category = Cookies.get(`brandctg`);
+    const category = Cookies.get(`ctg`);
     if (brand && categories?.length > 0) {
       if (category) {
         const cat = brand?.categories_with_products.find(
@@ -82,9 +106,7 @@ function BrandPage({ brand }) {
           setCategoryProducts(cat.products);
           return;
         } else {
-          setSelectedCategory(
-            brand?.categories_with_products[0].category_name
-          );
+          setSelectedCategory(brand?.categories_with_products[0].category_name);
           setCategoryProducts(brand?.categories_with_products[0].products);
           return;
         }
@@ -98,7 +120,7 @@ function BrandPage({ brand }) {
   return (
     <>
       <NextSeo
-        title={`${t("titles.allBrands")} | ${t("titles.home")} `}
+        title={`${brand?.brand_details?.brand_name} | ${t("titles.home")} `}
         description={t("descs.allBrands")}
         canonical={
           router.locale == `en`

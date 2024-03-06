@@ -20,24 +20,46 @@ import { CarouselProduct } from "@/components/ProductCarousel/CarouselProduct";
 import Variations from "@/components/VariationsCustomer/Variations";
 
 export async function getServerSideProps(context) {
-  const { params, locale } = context;
+  const { params, locale , res } = context;
   const Api = createAxiosInstance();
-  const response = await Api.get(`/api/product/${params.productSlug}`, {
-    headers: { "Accept-Language": locale || "en" },
-  });
   // console.log(response);
-  if (!response.data[`productDetails`]) {
+  try {
+    const response = await Api.get(`/api/product/${params.productSlug}`, {
+      headers: { "Accept-Language": locale || "en" },
+    });
     return {
-      notFound: true,
+      props: {
+        ...(await serverSideTranslations(locale, ["common"])),
+        product: response.data,
+      },
     };
+  } catch (error) {
+     if (error.response.status) {
+      if (error.response.status == 500) {
+        if (error?.response?.data?.lang && error?.response?.data?.slug) {
+          if (error?.response?.data?.lang == "ar") {
+            res.writeHead(301, {
+              Location: `/ar/Products/${encodeURIComponent(
+                error.response.data.slug
+              )}`,
+            });
+            res.end();
+            return true;
+          } else {
+            res.writeHead(301, {
+              Location: `/Products/${error.response.data.slug}`,
+            });
+            res.end();
+            return true;
+          }
+        }
+      } else {
+        return {
+          notFound: true,
+        };
+      }
+    }
   }
-
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["common"])),
-      product: response.data,
-    },
-  };
 }
 
 function PublicProduct({ product }) {

@@ -117,11 +117,14 @@ function Navbar() {
               </Link>
             </div>
           )}
-          {(router.pathname == "/" ||
+          {/* {(router.pathname == "/" ||
             router.pathname == "/ContactUs" ||
             router.pathname == "/AboutUs" ||
             router.pathname == "/Orders" ||
-            router.pathname == "/MyProfile") && <LocaleSwitcher />}
+            router.pathname == "/Products" ||
+            router.pathname == "/MyProfile") &&  */}
+            <LocaleSwitcher />
+            {/* } */}
         </div>
       </div>
       <Cart show={showCartSidebar} onClose={() => setShowCartSidebar(false)} />

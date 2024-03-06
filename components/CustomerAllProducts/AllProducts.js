@@ -199,6 +199,7 @@ function PublicAllProduct({ product, storeId }) {
           {product.price && (
             <button
               onClick={addToCart}
+              title="This Product has variation"
               className="capitalize md:h-[20%] border-2 border-skin-primary px-4 rounded-full justify-self-end  text-base transform duration-500"
             >
               {adding == true ? (

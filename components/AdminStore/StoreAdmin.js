@@ -42,16 +42,22 @@ function StoreAdmin({ names, refetch }) {
   const [storeType, setStoreType] = useState(
     names.store_type && names.store_type
   );
+  const [freeDelivery, setFreeDelivery] = useState(
+    Number(names.free_delivery) ?? 0
+  );
   const [status, setStatus] = useState(names.status && names.status);
-  const [published, setPublished] = useState(names.publish ? Number(names.publish) : 0);
+  const [published, setPublished] = useState(
+    names.publish ? Number(names.publish) : 0
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const newNameAr = useRef();
-  const newNameEn = useRef();
-  const NewopeningTime = useRef();
-  const newClosingTime = useRef();
-  const newStreet = useRef();
-  const newArea = useRef();
+  const newNameAr = useRef("");
+  const newNameEn = useRef("");
+  const NewopeningTime = useRef("");
+  const newClosingTime = useRef("");
+  const newStreet = useRef("");
+  const newArea = useRef("");
+  const radius = useRef();
   const router = useRouter();
   const Api = createAxiosInstance(router);
 
@@ -84,10 +90,10 @@ function StoreAdmin({ names, refetch }) {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setLogoImage();
     setStoreImage();
-  },[])
+  }, []);
 
   async function openEdit() {
     setIsEditing(true);
@@ -139,8 +145,8 @@ function StoreAdmin({ names, refetch }) {
     if (status !== names.status) {
       editData.status = status;
     }
-    if(published !== names.publish){
-      editData.publish = published
+    if (published !== names.publish) {
+      editData.publish = published;
     }
     if (address) {
       addIfDifferent(address.address, "address");
@@ -150,21 +156,32 @@ function StoreAdmin({ names, refetch }) {
     if (!arraysAreEqual(capitalizedDaysArray, checkedDays)) {
       editData[`opening_days`] = checkedDays;
     }
+    if(freeDelivery !== names.free_delivery){
+      editData.free_delivery = freeDelivery ;
+      if( radius?.current?.value && radius.current.value != names.radius ){
+        editData.radius = radius.current.value ;
+      }
+    }else{
+      if(radius.current.value != names.radius ){
+        editData.radius = radius.current.value ;
+      }
+    }
 
     if (logoImage) {
-     try{ const response = await Api.post(
-        `/api/admin/update-store-logo/${names.id}`,
-        {
-          new_logo: logoImage ? logoImage : null,
-        },
-        {
-          headers: { "Content-Type": `multipart/form-data` },
-        }
-      );
-      setLogoImage();
-    }catch(error){
-      setIsSaving(false);
-        return ;
+      try {
+        const response = await Api.post(
+          `/api/admin/update-store-logo/${names.id}`,
+          {
+            new_logo: logoImage ? logoImage : null,
+          },
+          {
+            headers: { "Content-Type": `multipart/form-data` },
+          }
+        );
+        setLogoImage();
+      } catch (error) {
+        setIsSaving(false);
+        return;
       }
     }
 
@@ -180,10 +197,13 @@ function StoreAdmin({ names, refetch }) {
           }
         );
         setStoreImage();
-      } catch (error) {}
+      } catch (error) {
+        setIsSaving(false);
+
+      }
     }
 
-    if(Object.keys(editData).length < 1) {
+    if (Object.keys(editData).length < 1) {
       // toast.error(`Please fill all the fields | الرجاء تعبئة جميع الحقول المطلوبة `, {
       //   toastId: `Please fill all the fields | الرجاء تعبئة جميع الحقول المطلوبة `,
       //       position: "top-right",
@@ -198,21 +218,21 @@ function StoreAdmin({ names, refetch }) {
       setIsEditing(false);
       setIsSaving(false);
       return;
-    }else{
+    } else {
       console.log(editData);
       try {
         const response = await Api.put(
           `/api/admin/edit-store/${names.id}`,
           editData
-          );
-          refetch();
-          setIsSaving(false);
-          setIsEditing(false);
-        } catch (error) {
-          setIsSaving(false);
-        }
+        );
+        refetch();
+        setIsSaving(false);
+        setIsEditing(false);
+      } catch (error) {
         setIsSaving(false);
       }
+      setIsSaving(false);
+    }
 
     // console.log(editData);
   }
@@ -290,7 +310,6 @@ function StoreAdmin({ names, refetch }) {
         <td>{names.area}</td>
         <td>{convertDateStringToDate(names.created_at)}</td>
         <td>{convertDateStringToDate(names.updated_at)}</td>
-        
       </tr>
 
       <Dialog
@@ -507,8 +526,41 @@ function StoreAdmin({ names, refetch }) {
                     required
                   />
                 </div>
-                  
-                  <div></div>
+
+                <div className="flex flex-col justify-start items-start ">
+                  <div className="flex items-center w-full justify-start ">
+                    <label className="w-[30%] text-lg px-2">
+                      Free Delivery :
+                    </label>
+                    <input
+                      className="my-3  text-black placeholder:text-zinc-500 pl-2 outline-none border-b-2 focus:border-skin-primary transition-all duration-700"
+                      type="checkbox"
+                      checked={freeDelivery}
+                      onChange={() => {
+                        setFreeDelivery((prev) => {
+                          if (prev == 1) {
+                            return 0;
+                          } else {
+                            return 1;
+                          }
+                        });
+                      }}
+                      required
+                    />
+                  </div>
+                  {freeDelivery == 1 && (
+                    <div className="flex items-center">
+                      <label className="w-[30%] text-lg px-2">Radius :</label>
+                      <input
+                        className="my-3 w-[70%] text-black placeholder:text-zinc-500 pl-2 outline-none border-b-2 focus:border-skin-primary transition-all duration-700"
+                        type="text"
+                        defaultValue={names.radius ?? null}
+                        ref={radius}
+                        required
+                      />
+                    </div>
+                  )}
+                </div>
 
                 <div className="flex items-center">
                   <label>Store Image</label>

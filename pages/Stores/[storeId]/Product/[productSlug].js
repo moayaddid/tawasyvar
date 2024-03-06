@@ -23,25 +23,54 @@ import { CarouselProduct } from "@/components/ProductCarousel/CarouselProduct";
 import Variations from "@/components/VariationsCustomer/Variations";
 
 export async function getServerSideProps(context) {
-  const { params, locale } = context;
+  const { params, locale , res } = context;
   const Api = createAxiosInstance();
-  const response = await Api.get(
-    `/api/stores/${params.storeId}/products/${params.productSlug}`,
-    {
-      headers: { "Accept-Language": locale || "en" },
-    }
-  );
-  if (!response.data) {
+  try {
+    const response = await Api.get(
+      `/api/stores/${params.storeId}/products/${params.productSlug}`,
+      {
+        headers: { "Accept-Language": locale || "en" },
+      }
+    );
     return {
-      notFound: true,
+      props: {
+        ...(await serverSideTranslations(locale, ["common"])),
+        product: response.data,
+      },
     };
+  } catch (error) {
+    if (error.response.status) {
+      if (error.response.status == 500) {
+        if (
+          error?.response?.data?.lang &&
+          error?.response?.data?.product_slug &&
+          error?.response?.data?.store_slug
+        ) {
+          if (error?.response?.data?.lang == "ar") {
+            res.writeHead(301, {
+              Location: `/ar/Stores/${encodeURIComponent(
+                error.response.data.store_slug
+              )}/Product/${encodeURIComponent(
+                error.response.data.product_slug
+              )}`,
+            });
+            res.end();
+            return true;
+          } else {
+            res.writeHead(301, {
+              Location: `/Stores/${error.response.data.store_slug}/Product/${error.response.data.product_slug}`,
+            });
+            res.end();
+            return true;
+          }
+        }
+      } else {
+        return {
+          notFound: true,
+        };
+      }
+    }
   }
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["common"])),
-      product: response.data,
-    },
-  };
 }
 
 function Product({ product }) {
@@ -112,7 +141,6 @@ function Product({ product }) {
   const { t } = useTranslation("");
 
   // console.log(product);
-  
 
   function getselectedImage(data) {
     // console.log(`selected image`);
@@ -127,7 +155,7 @@ function Product({ product }) {
             return variation.image;
           })
       );
-      if(combi){
+      if (combi) {
         // console.log(combi);
         setPrice(combi.product.price);
         setSelectedCombination(combi.product.line_id);
@@ -136,9 +164,7 @@ function Product({ product }) {
   }
 
   useEffect(() => {
-    const selectedComb = document.getElementById(
-      `${selectedCombination}`
-    );
+    const selectedComb = document.getElementById(`${selectedCombination}`);
     const container = combinationsRef.current;
     if (selectedComb && container) {
       selectedComb.scrollIntoView({
@@ -163,7 +189,11 @@ function Product({ product }) {
             ? product.product.name && product.product.name
             : product.name
         }
-        canonical={ router.locale == `en` ? `https://tawasyme.com/store/${router.query.storeId}/Product/${router.query.productSlug}` : `https://tawasyme.com/ar/store/${router.query.storeId}/Product/${router.query.productSlug}`}
+        canonical={
+          router.locale == `en`
+            ? `https://tawasyme.com/store/${router.query.storeId}/Product/${router.query.productSlug}`
+            : `https://tawasyme.com/ar/store/${router.query.storeId}/Product/${router.query.productSlug}`
+        }
       />
       <div className="w-full h-full flex justify-center">
         <div className="sm:w-[70%] w-[90%] shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] px-6 py-6 md:my-14 my-2">
@@ -216,7 +246,10 @@ function Product({ product }) {
                 )}
               </div>
               {product?.product_combination && (
-                <div ref={combinationsRef} className=" w-[90%] grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-2 gap-2 overflow-y-scroll max-h-[200px] py-1">
+                <div
+                  ref={combinationsRef}
+                  className=" w-[90%] grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-2 gap-2 overflow-y-scroll max-h-[200px] py-1"
+                >
                   {product.product_combination &&
                     product.product_combination.length > 0 &&
                     product.product_combination.map((combination, index) => {
@@ -228,7 +261,10 @@ function Product({ product }) {
                       );
                       varis = varis.join(" - ");
                       return (
-                        <div key={combination.product.line_id} id={`${combination.product.line_id}`} >
+                        <div
+                          key={combination.product.line_id}
+                          id={`${combination.product.line_id}`}
+                        >
                           <input
                             type="radio"
                             id={` ${combination.product.line_id}combination`}

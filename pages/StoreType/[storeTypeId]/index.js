@@ -14,41 +14,68 @@ import axios from "axios";
 import url from "@/URL";
 
 export async function getServerSideProps(context) {
-  const { params, locale, req } = context;
+  const { params, locale, req , res } = context;
   const Api = createAxiosInstance(`asdasd`);
   const token = req.cookies.AT;
   const user = req.cookies.user;
   let mainResponse;
   let response;
-  if (token && user && user === "customer") {
-    // console.log(`authenticated`);
-    response = await axios.get(
-      `${url}/api/customer/store-types/${params.storeTypeId}`,
-      {
-        withCredentials: true,
-        headers: {
-          "Accept-Language": locale ? locale : "en",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-  } else {
-    response = await axios.get(`${url}/api/storetypes/${params.storeTypeId}`, {
-      headers: { "Accept-Language": locale ? locale : "en" },
-    });
-    // console.log(response);
-  }
-  if (!response.data.data) {
+
+  try {
+    if (token && user && user === "customer") {
+      // console.log(`authenticated`);
+      response = await axios.get(
+        `${url}/api/customer/store-types/${params.storeTypeId}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Accept-Language": locale ? locale : "en",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } else {
+      response = await axios.get(
+        `${url}/api/storetypes/${params.storeTypeId}`,
+        {
+          headers: { "Accept-Language": locale ? locale : "en" },
+        }
+      );
+    }
     return {
-      notFound: true,
+      props: {
+        ...(await serverSideTranslations(locale, ["common"])),
+        stores: response.data,
+      },
     };
+  } catch (error) {
+    console.log(error.response);
+    if (error.response.status) {
+      if (error.response.status == 500) {
+        if (error?.response?.data?.lang && error?.response?.data?.slug) {
+          if (error?.response?.data?.lang == "ar") {
+            res.writeHead(301, {
+              Location: `/ar/StoreType/${encodeURIComponent(
+                error.response.data.slug
+              )}`,
+            });
+            res.end();
+            return true;
+          } else {
+            res.writeHead(301, {
+              Location: `/StoreType/${error.response.data.slug}`,
+            });
+            res.end();
+            return true;
+          }
+        }
+      } else {
+        return {
+          notFound: true,
+        };
+      }
+    }
   }
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["common"])),
-      stores: response.data,
-    },
-  };
 }
 
 const StoreType = ({ stores }) => {
@@ -101,8 +128,6 @@ const StoreType = ({ stores }) => {
     }
     setSearching(false);
   }
-
-  // console.log(stores);
 
   return (
     <div>

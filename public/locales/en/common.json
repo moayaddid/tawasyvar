@@ -622,5 +622,9 @@
    "orderId" : "Order Id",
    "welcome" : "Welcome" , 
    "noVendorOrders" : "You did not make any orders yet.",
-   "vendor" : "Vendor"
+   "vendor" : "Vendor", 
+   "freeDelivery" : "This Store Provides Free delivery in Range of",
+   "meter" : "meters",
+   "freeOut" : "Free Delivery within",
+   "freetoYou" : "Free Delivery to your location"
 }

@@ -24,6 +24,9 @@ module.exports = {
     },
   },
   plugins: [],
+  variants: {
+    space: ['responsive', 'direction'],
+  },
   // important : true ,
 }
 

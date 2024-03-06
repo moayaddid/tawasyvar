@@ -22,55 +22,63 @@ import PublicAllProduct from "@/components/CustomerAllProducts/AllProducts";
 import Cookies from "js-cookie";
 
 export async function getServerSideProps(context) {
-  const { params, locale } = context;
+  const { params, locale, res, req } = context;
   const Api = createAxiosInstance();
-  const response = await Api.get(`/api/stores-with-products/${params.storeId}` , {
-    headers : { 'Accept-Language': locale || 'en',}
-  });
-  if (!response.data.store) {
+  try {
+    const response = await Api.get(
+      `/api/stores-with-products/${params.storeId}`,
+      {
+        headers: { "Accept-Language": locale || "en" },
+      }
+    );
     return {
-      notFound: true,
+      props: {
+        ...(await serverSideTranslations(locale, ["common"])),
+        store: response.data,
+      },
     };
+  } catch (error) {
+    if (error.response.status) {
+      if (error.response.status == 500) {
+        if (error?.response?.data?.lang && error?.response?.data?.slug) {
+          if (error?.response?.data?.lang == "ar") {
+            res.writeHead(301, {
+              Location: `/ar/Stores/${encodeURIComponent(
+                error.response.data.slug
+              )}`,
+            });
+            res.end();
+            return true;
+          } else {
+            res.writeHead(301, {
+              Location: `/Stores/${error.response.data.slug}`,
+            });
+            res.end();
+            return true;
+          }
+        }
+      } else {
+        return {
+          notFound: true,
+        };
+      }
+    }
   }
-
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["common"])),
-      store: response.data,
-    },
-  };
 }
 
 function Products({ store }) {
-  // function Products({store}) {
   const router = useRouter();
   const Api = createAxiosInstance(router);
   const [storeId, setStoreId] = useState();
   const { t } = useTranslation("");
-
   const [searching, setSearching] = useState(false);
   const [inSearch, setInSearch] = useState(false);
   const [searchedResults, setSearchedResults] = useState();
   const searchRef = useRef();
-
-  // router.asPath = "nigga/nigga" ;
-  // console.log(router)
-  // console.log(router.asPath);
-  // const {
-  //   data: store,
-  //   isLoading,
-  //   isError,
-  //   error,
-  // } = useQuery([`storePage`, storeId], fetchStorePage, {
-  //   staleTime: 1,
-  //   refetchOnMount: true,
-  //   refetchOnWindowFocus: false,
-  //   enabled: Boolean(storeId) == true,
-  // });
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const onSelectCategory = (categoryName) => {
-    Cookies.set( `ctg` , categoryName);
+    Cookies.set(`ctg`, categoryName);
     setSelectedCategory(categoryName);
   };
 
@@ -84,19 +92,19 @@ function Products({ store }) {
   useEffect(() => {
     const category = Cookies.get(`ctg`);
     if (store && store.categories.length > 0) {
-      if(category){
+      if (category) {
         // console.log(`category`);
         // console.log(category);
         // console.log(store.categories);
         const cat = store.categories.find((catego) => catego.name == category);
         // console.log(cat);
-        if(cat){
+        if (cat) {
           // console.log(cat);
           setSelectedCategory(cat.name);
-          return ;
-        }else{
-          setSelectedCategory(store.categories[0].name);  
-          return; 
+          return;
+        } else {
+          setSelectedCategory(store.categories[0].name);
+          return;
         }
       }
       setSelectedCategory(store.categories[0].name);
@@ -108,8 +116,6 @@ function Products({ store }) {
       return await Api.get(`/api/stores-with-products/${storeId}`);
     } catch {}
   }
-
-  // console.log(store);
 
   async function search(e) {
     e.preventDefault();
@@ -129,8 +135,14 @@ function Products({ store }) {
           <div className="w-max mx-auto">{response.data.message}</div>
         ) : (
           <div className=" w-[90%] grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 gap-y-7 mx-auto">
-            {response.data.data.map((product , index) => {
-              return <PublicAllProduct key={` ${product.name} ${product.id} ${index}`} product={product} storeId={store.store.id} />;
+            {response.data.data.map((product, index) => {
+              return (
+                <PublicAllProduct
+                  key={` ${product.name} ${product.id} ${index}`}
+                  product={product}
+                  storeId={store.store.id}
+                />
+              );
             })}
           </div>
         );
@@ -144,45 +156,37 @@ function Products({ store }) {
     setSearching(false);
   }
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="w-full h-full">
-  //       <TawasyLoader width={400} height={400} />
-  //     </div>
-  //   );
-  // }
-
   let selectedCategoryData;
 
   if (store && selectedCategory) {
     selectedCategoryData = store.category.find(
       (category) => category.name === selectedCategory
     );
-    // console.log(selectedCategoryData);
   }
-  let days = [] ;
-  if(store && store.store){
+  let days = [];
+  if (store && store.store) {
     const beforeDays = JSON.parse(store.store.opening_days);
-    days = beforeDays.join(" - ")
+    days = beforeDays.join(" - ");
   }
-  // if (store) {
-  //   console.log(store);
-    // console.log(`asdasd`);
-    // console.log(JSON.parse(store.data.store.opening_days));
-  // }
 
   return (
     <>
-      <NextSeo
-      title={`${store.store.name} | ${t("titles.home")}`}
-      description={store.store.name}
-        canonical={ router.locale == `en` ? `https://tawasyme.com/store/${router.query.storeId}` : `https://tawasyme.com/ar/store/${router.query.storeId}`}
-      />
+      {store && (
+        <NextSeo
+          title={`${store.store.name} | ${t("titles.home")}`}
+          description={store.store.name}
+          canonical={
+            router.locale == `en`
+              ? `https://tawasyme.com/store/${router.query.storeId}`
+              : `https://tawasyme.com/ar/store/${router.query.storeId}`
+          }
+        />
+      )}
       <div className="">
         {store && (
           <div className=" relative lg:max-h-[475px] lg:h-[475px] bg-gray-200 max-h-auto h-auto w-full box-border ">
             <Image
-            priority
+              priority
               src={store.store.image ? store.store.image : Logo}
               alt="store"
               width={0}
@@ -199,7 +203,7 @@ function Products({ store }) {
             <div className="flex justify-center items-center mt-2 ">
               <div className=" md:w-[200px] w-[100px] h-auto min-h-[75px] ">
                 <Image
-                priority
+                  priority
                   className=" shadow w-full h-full object-contain rounded-md"
                   src={store.store.logo ? store.store.logo : logo}
                   alt="store"
@@ -241,7 +245,9 @@ function Products({ store }) {
                             );
                           }
                         )} */}
-                        <p className="text-gray-500" >{days && days.length > 0 && days}</p>
+                        <p className="text-gray-500">
+                          {days && days.length > 0 && days}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -270,6 +276,12 @@ function Products({ store }) {
                   </span>
                 </h2>
               </div>
+              {store.store.free_delivery == true && (
+                <div className="w-full py-1 text-center md:text-lg sm:text-base text-sm text-white bg-green-500 sm:my-3 my-1 px-2 rounded-lg ">
+                  {t("freeDelivery")}{" "}
+                  {store.store.radius} {t("meter")}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -341,9 +353,15 @@ function Products({ store }) {
               <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 gap-y-7 mx-auto ">
                 {store &&
                   selectedCategoryData &&
-                  selectedCategoryData.products.map((product , index) => (
+                  selectedCategoryData.products.map((product, index) => (
                     // <ProductCustomer key={product.id} product={product} />
-                    <PublicAllProduct key={`${product.name ? product.name : product.slug} ${index}`} product={product} storeId={store.store.id} />
+                    <PublicAllProduct
+                      key={`${
+                        product.name ? product.name : product.slug
+                      } ${index}`}
+                      product={product}
+                      storeId={store.store.id}
+                    />
                   ))}
               </div>
             </div>

@@ -119,7 +119,7 @@ const Locations = ({ onLocation, className, defaultAddress }) => {
         {address ? (
           // <p className="text-white truncate ">H9H4+6J5, Alassad Suburb, Syria H9H4+6J5, Alassad Suburb, Syria </p>
           <p
-            className={`text-white text-ellipsis truncate sm:max-w-sm ${className} max-w-[200px]`}
+            className={` text-ellipsis truncate sm:max-w-sm ${className} min-w-[200px] max-w-[200px] py-[0.12rem] `}
           >
             {address}
           </p>
