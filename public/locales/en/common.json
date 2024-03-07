@@ -630,5 +630,6 @@
    "meter" : "meters",
    "freeOut" : "Free Delivery within",
    "freetoYou" : "Free Delivery to your location",
-   "storeDelivery" : "Delivery provided by store"
+   "storeDelivery" : "Delivery provided by store",
+   "variationProduct" : "This Product has variations"
 }
