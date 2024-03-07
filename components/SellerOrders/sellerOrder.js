@@ -103,7 +103,10 @@ function SellerOrders({ orders, refetch }) {
     // openchange(false);
   }
 
-  // console.log(orders);
+  const openGoogleMaps = (latitude, longitude, desLat, desLon) => {
+    const url = `https://www.google.com/maps/dir/?api=1&origin=${latitude},${longitude}&destination=${desLat},${desLon}`;
+    window.open(url, "_blank");
+  };
 
   return (
     <>
@@ -158,22 +161,52 @@ function SellerOrders({ orders, refetch }) {
         dir={router.locale == "ar" ? "rtl" : "ltr"}
       >
         {isLoading !== true && orderDetails && (
-          <DialogTitle className="md:flex justify-between mx-auto border-b-2 border-skin-primary ">
-            <span className="md:text-lg text-sm">
+          <DialogTitle className="md:flex flex-wrap  justify-between mx-auto border-b-2 border-skin-primary ">
+            <span className="md:text-lg text-sm px-2 py-1">
               {t("seller.orders.orderDetails.storeName")}:{" "}
               {orderDetails.store_name}{" "}
             </span>
-            <span className="md:text-lg text-sm">
+            <span className="md:text-lg text-sm px-2 py-1 ">
               {t("seller.orders.orderDetails.orderStatus")}:{" "}
               {orderDetails.status}{" "}
             </span>
-            <span className="md:text-lg text-sm">
+            <span className="md:text-lg text-sm px-2 py-1 ">
               {t("seller.orders.orderDetails.orderDate")}:{" "}
               {convertDate(orderDetails.date)}
             </span>
-            <span className="md:text-lg text-sm">
+            <span className="md:text-lg text-sm px-2 py-1 ">
               {t("seller.orders.orderDetails.orderId")}: {orderDetails.order_id}
             </span>
+            {orderDetails.is_free_delivery === 1 &&
+              orderDetails.status !== "delivered" && (
+                <span className="md:text-lg text-sm px-2 py-1 ">
+                  {t("seller.orders.orderDetails.customerName")} :{" "}
+                  {orderDetails?.customer_data?.name}
+                </span>
+              )}
+            {orderDetails.is_free_delivery === 1 &&
+              orderDetails.status !== "delivered" && (
+                <span className="md:text-lg text-sm px-2 py-1 ">
+                  {t("seller.orders.orderDetails.customerNumber")} :{" "}
+                  {orderDetails?.customer_data?.phone_number}
+                </span>
+              )}
+            {orderDetails.is_free_delivery === 1 &&
+              orderDetails.status !== "delivered" && (
+                <button
+                  onClick={() =>
+                    openGoogleMaps(
+                      orderDetails.customer_data.store_latitude,
+                      orderDetails.customer_data.store_longitude,
+                      orderDetails.customer_data.latitude,
+                      orderDetails.customer_data.longitude
+                    )
+                  }
+                  className="text-gray-400 hover:text-skin-primary w-fit "
+                >
+                  {t("seller.orders.orderDetails.showMap")}
+                </button>
+              )}
           </DialogTitle>
         )}
         <DialogContent

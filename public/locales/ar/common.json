@@ -414,7 +414,11 @@
         "totalPrice" : "السعر الكلي",
         "deliveryFee" : "سعر التوصيل" ,
         "finalPrice" :"السعر النهائي" ,
-        "notes" : "ملاحظات"
+        "notes" : "ملاحظات" ,
+        "customerName" : "اسم الزبون",
+        "customerNumber" : "رقم الزبون",
+        "showMap" : "اظهر الطريق لعنوان الزبون على الخريطة"
+
       }
     }, 
     "products" : {

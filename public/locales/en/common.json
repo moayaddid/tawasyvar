@@ -414,7 +414,10 @@
         "totalPrice" : "Total Price",
         "deliveryFee" : "Delivery Fee" ,
         "finalPrice" :"Final Price" ,
-        "notes" : "Notes"
+        "notes" : "Notes" ,
+        "customerName" : "Customer Name",
+        "customerNumber" : "Customer Number" , 
+        "showMap" : "Show the way to the location of the customer on the map"
       }
     }, 
     "products" : {
