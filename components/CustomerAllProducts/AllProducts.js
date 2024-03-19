@@ -25,10 +25,6 @@ import TawasyLoader from "../UI/tawasyLoader";
 import localfont from "next/font/local";
 import { calculateOfferPercentage } from "../SellerComponents/SellerPromotion";
 
-const OfferFont = localfont({
-  src: "../../public/fonts/local/RTL-Hajar-Regular.ttf",
-});
-
 export function removeCommas(numberString) {
   var regex = /,/g;
   var result = numberString.replace(regex, "");
