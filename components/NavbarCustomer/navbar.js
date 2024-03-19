@@ -66,7 +66,7 @@ function Navbar() {
           <Image
             src={TawasyLogo}
             alt="logo"
-            className="md:w-auto w-[82px] h-auto"
+            className="md:w-auto w-[82px] h-auto object-contain"
             sizes="100vw"
           />
         </div>

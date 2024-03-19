@@ -1,6 +1,5 @@
 import Image from "next/image";
 import React, { useEffect, useRef } from "react";
-import kuala from "@/public/images/kuala.jpg";
 import { useTranslation } from "next-i18next";
 import logo from "@/public/images/tawasylogo.png";
 // import { useRouter } from "next-translate-routes";
@@ -23,33 +22,18 @@ import { CarouselProduct } from "../ProductCarousel/CarouselProduct";
 import Variations from "../VariationsCustomer/Variations";
 import { MdClose } from "react-icons/md";
 import TawasyLoader from "../UI/tawasyLoader";
+import localfont from "next/font/local";
+import { calculateOfferPercentage } from "../SellerComponents/SellerPromotion";
 
-const variation = [
-  {
-    id: 1,
-    option: "small , red",
-  },
-  {
-    id: 2,
-    option: "large , red",
-  },
-  {
-    id: 3,
-    option: "small , green",
-  },
-  {
-    id: 4,
-    option: "small , red",
-  },
-  {
-    id: 5,
-    option: "large , red",
-  },
-  {
-    id: 6,
-    option: "small , green",
-  },
-];
+const OfferFont = localfont({
+  src: "../../public/fonts/local/RTL-Hajar-Regular.ttf",
+});
+
+export function removeCommas(numberString) {
+  var regex = /,/g;
+  var result = numberString.replace(regex, "");
+  return parseFloat(result);
+}
 
 function PublicAllProduct({ product, storeId }) {
   const { t } = useTranslation("");
@@ -152,6 +136,15 @@ function PublicAllProduct({ product, storeId }) {
     }
   }, [selectedCombination]);
 
+  let percent;
+
+  if (product.has_promotion == true && product.has_variation == false) {
+    percent = Math.round(calculateOfferPercentage(
+      removeCommas(product.price),
+      removeCommas(product.promotion_price)
+    ));
+  }
+
   return (
     <>
       <div className="shadow-lg flex flex-col sm:w-fit max-w-[288px] mx-auto border-2 md:min-h-[406px] min-h-[381px] border-gray-200 rounded-md ">
@@ -161,17 +154,49 @@ function PublicAllProduct({ product, storeId }) {
               ? `/Stores/${router.query.storeId}/Product/${product.slug}`
               : `/Products/${product.slug}`
           }
-          className="bg-cover overflow-hidden flex justify-center items-center min-w-[288px]  min-h-[260px] max-h-[260px]  "
+          className=" min-w-[288px]  min-h-[260px] max-h-[260px] flex justify-center items-center "
         >
-          <Image
-            src={product.image ? product.image : logo}
-            alt={product.name}
-            className="w-full   transform transition duration-1000 object-contain object-center"
-            width={0}
-            height={0}
-            sizes="100vw"
-            style={{ width: "225px", height: "225px" }}
-          />
+          <div className="h-[225px] w-[225px] relative bg-cover flex justify-center items-center" dir="ltr">
+            <Image
+              src={product.image ? product.image : logo}
+              alt={product.name}
+              className="w-full  transform transition duration-1000 object-contain object-center"
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: "225px", height: "225px" }}
+            /> 
+            {product.has_promotion == true &&
+              product.has_variation == false && (
+                <div className="absolute md:min-w-[60%] min-w-[55%] md:h-[23%] h-[20%] bg-skin-primary bottom-0 -right-7 rounded-tl-[30px] flex justify-around items-center font-hajar ">
+                  <div className="md:min-w-[45%] min-w-[30%] h-[80%] text-[#FEE310] flex justify-center px-2 items-center self-end">
+                    <p className="h-full md:text-3xl text-xl flex justify-center items-center pl-1">
+                      {percent}
+                    </p>
+                    <div className="inline-flex flex-col justify-center items-start shrink h-min">
+                      <p className=" md:text-sm text-[8px] w-min h-[10px]">%</p>
+                      <p className=" md:text-sm text-[8px]">OFF</p>
+                    </div>
+                  </div>
+                  <div className="md:w-[55%] w-[40%] flex text-white flex-col justify-start items-center pr-2 font-medium">
+                    <div className="flex justify-start items-center space-x-1 md:text-lg text-xs h-[10px]">
+                      <span className="text-white line-through decoration-red-500 decoration-[2px]  ">
+                        {convertMoney(product.price)}
+                      </span>
+                      <p>s.p</p>
+                    </div>
+                    <p className="text-white w-max h-[10px] md:text-lg text-xs ">
+                      {convertMoney(product.promotion_price)} s.p
+                    </p>
+                  </div>
+                </div>
+              )}
+            {product.has_promotion == true && product.has_variation == true && (
+              <div className="absolute max-w-[50%] md:h-[23%] h-[20%] bg-skin-primary bottom-0 -right-7 rounded-tl-[30px] text-white flex justify-center items-center w-[90%] mx-auto text-xl  ">
+                Offer inside
+              </div>
+            )}
+          </div>
         </Link>
         <div className="w-[90%] mx-auto py-3 flex flex-col gap-2 md:h-[100%] h-auto justify-between">
           <h1
@@ -180,9 +205,14 @@ function PublicAllProduct({ product, storeId }) {
           >
             {product.name}
           </h1>
-          {product.price && (
+          {product.price && product.has_promotion == false ? (
             <h2 className="text-gray-600 text-xl md:h-[10%]">
               {convertMoney(product.price)} S.P
+            </h2>
+          ) : (
+            product.promotion_price &&
+            <h2 className="text-gray-600 text-xl md:h-[10%]">
+              {convertMoney(product.promotion_price)} S.P
             </h2>
           )}
           <p className="text-skin-primary md:text-lg text-base ">
@@ -272,25 +302,6 @@ function PublicAllProduct({ product, storeId }) {
                         )}
                       </div>
 
-                      {/* <form className="my-2"> */}
-                      {/* <select
-                            className="form-select mb-7 text-zinc-500 pl-2 outline-none"
-                            onChange={handleOptionChange}
-                          >
-                            <option disabled selected value>
-                              Select a Size and color
-                            </option>
-                            {variation.map((data) => (
-                              <option
-                                key={data.id}
-                                value={data.option}
-                                disabled={data.option === selectedOption}
-                              >
-                                {data.option}
-                              </option>
-                            ))}
-                          </select> */}
-
                       <div
                         ref={combinationsRef}
                         className="w-full grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-2 gap-2 overflow-y-scroll max-h-[200px] py-1"
@@ -306,6 +317,15 @@ function PublicAllProduct({ product, storeId }) {
                                 }
                               );
                               varis = varis.join(" - ");
+                              let percent;
+                              if (combination.product.has_promotion == true) {
+                                percent = Math.round(
+                                  calculateOfferPercentage(
+                                    removeCommas(combination.product.price),
+                                    combination.product.promotion_price
+                                  )
+                                );
+                              }
                               return (
                                 <div
                                   key={combination.product.line_id}
@@ -344,9 +364,59 @@ function PublicAllProduct({ product, storeId }) {
                                     <p className="text-xs">
                                       {combination.product.part_number}
                                     </p>
-                                    <p className="text-sm">
-                                      {combination.product.price} S.P
-                                    </p>
+                                    {combination.product.has_promotion ==
+                                    true ? (
+                                      // <div className="w-full flex md:flex-row flex-col-reverse justify-around md:items-center items-start">
+                                      //   <div className=" md:w-[50%] text-sm flex flex-col justify-start items-start">
+                                      //     <div className="flex justify-start items-center">
+                                      //       <p className="line-through decoration-red-500 px-1">
+                                      //         {combination.product.price}
+                                      //       </p>
+                                      //       <p>S.P</p>
+                                      //     </div>
+                                      //     <div className="flex justify-start items-center">
+                                      //       <p className="px-1">
+                                      //         {convertMoney(
+                                      //           combination.product
+                                      //             .promotion_price
+                                      //         )}
+                                      //       </p>
+                                      //       <p>S.P</p>
+                                      //     </div>
+                                      //   </div>
+                                      //   <div className=" flex justify-center text-green-800 items-center 2xl:text-2xl xl:text-xl lg:text-lg text-sm">
+                                      //     <p>{percent}</p>
+                                      //     <p>%</p>
+                                      //   </div>
+                                      // </div>
+                                      <div className="w-full flex md:flex-row flex-col-reverse justify-around md:items-center items-start ">
+                                        <div className=" md:w-[50%] text-sm flex flex-col justify-start items-start">
+                                          <div className="flex justify-start items-center">
+                                            <p className="line-through decoration-red-500 px-1">
+                                              {combination.product.price}
+                                            </p>
+                                            <p>S.P</p>
+                                          </div>
+                                          <div className="flex justify-start items-center">
+                                            <p className="px-1">
+                                              {convertMoney(
+                                                combination.product
+                                                  .promotion_price
+                                              )}
+                                            </p>
+                                            <p>S.P</p>
+                                          </div>
+                                        </div>
+                                        <div className=" flex justify-center px-2 text-green-800 items-center lg:text-2xl md:textlg text-base">
+                                          <p>{percent}</p>
+                                          <p>%</p>
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <p className="text-sm">
+                                        {combination.product.price} S.P
+                                      </p>
+                                    )}
                                   </label>
                                 </div>
                               );

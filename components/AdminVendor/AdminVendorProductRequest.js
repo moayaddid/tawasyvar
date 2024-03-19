@@ -282,14 +282,6 @@ function AdminVendorProductRequest({ request, refetch }) {
                 </div>
               )}
             </div>
-            {/* <button
-              className="bg-red-500 px-2 py-1 rounded-lg"
-              onClick={() => {
-                console.log(selectedItems);
-              }}
-            >
-              Nigga
-            </button> */}
           </DialogContent>
         )}
       </Dialog>

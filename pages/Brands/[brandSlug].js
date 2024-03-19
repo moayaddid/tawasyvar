@@ -26,7 +26,6 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
-    console.log(error.response.data);
     if (error.response.status) {
       if (error.response.status == 500) {
         if (error?.response?.data?.lang && error?.response?.data?.slug) {

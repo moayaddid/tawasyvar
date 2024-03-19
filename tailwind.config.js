@@ -20,6 +20,8 @@ module.exports = {
       fontFamily: {
         'mohave': ['Mohave', 'sans-serif'],
         'montserrat': ['Montserrat', 'sans-serif'],
+        'hajar' : ['hajar'] ,
+        'gothic' : ['gothic']
       },
     },
   },

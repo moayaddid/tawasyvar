@@ -18,6 +18,7 @@ import {
   MdPendingActions,
   MdOutlineDisabledVisible,
   MdOutlineManageAccounts,
+  MdOutlineLocalOffer,
 } from "react-icons/md";
 import { useRouter } from "next/router";
 import { IoSettingsSharp, IoStorefrontSharp } from "react-icons/io5";
@@ -47,7 +48,7 @@ export default function Sidebar(props) {
   }, [Cookies]);
 
   return (
-    <div className={`w-max h-max  `}>
+    <div className={`w-max h-screen  `}>
       <div
         style={{ position: "fixed", overflow: "auto" }}
         className={`top-0 bottom-0 left-0 w-[20%]  bg-[#ff6600] shadow duration-300 pl-2`}
@@ -88,7 +89,7 @@ export default function Sidebar(props) {
                       }}
                     />
                   }
-                  className={`text-zinc-100 outline-none mb-1 mt-2 w-full text-lg text-left `}
+                  className={`text-zinc-100 outline-none mt-2 w-full text-lg text-left `}
                   key="1"
                   title={t("seller.sidebar.orders")}
                   indicator={({ isOpen }) =>
@@ -178,7 +179,7 @@ export default function Sidebar(props) {
                       }}
                     />
                   }
-                  className={`text-zinc-100 outline-none mb-4`}
+                  className={`text-zinc-100 outline-none `}
                   key="2"
                   aria-label="Products"
                   title={t("seller.sidebar.products")}
@@ -316,6 +317,18 @@ export default function Sidebar(props) {
                   </ul>
                 </AccordionItem>
               </Accordion>
+
+              <li className="rounded-sm pb-3">
+                <Link
+                  href="/seller/promotions"
+                  className="flex items-center pl-2 space-x-3 pt-2 rounded-md text-gray-100"
+                >
+                  <MdOutlineLocalOffer className="block text-[20px] font-bold text-white " />
+                  <p className="hidden md:block" style={{ marginLeft: "43px" }}>
+                    {t("promotions")}
+                  </p>
+                </Link>
+              </li>
 
               <li className="rounded-sm pb-3">
                 <Link

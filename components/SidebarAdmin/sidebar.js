@@ -15,7 +15,7 @@ import { SiAdminer, SiSellfy } from "react-icons/si";
 import { FiChevronDown, FiChevronRight, FiSettings } from "react-icons/fi";
 import { BsCartCheckFill, BsBox, BsColumns } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
-import { MdPendingActions, MdOutlineDisabledVisible, MdOutlineManageAccounts } from "react-icons/md";
+import { MdPendingActions, MdOutlineDisabledVisible, MdOutlineManageAccounts, MdOutlineLocalOffer } from "react-icons/md";
 import { useRouter } from "next/router";
 import { TbBrandShopee, TbCategory2, TbGitBranch, TbTruckDelivery } from "react-icons/tb";
 import { RiCoupon2Line } from "react-icons/ri";
@@ -420,6 +420,18 @@ export default function SidebarAdmin(props) {
                   </ul>
                 </AccordionItem>
               </Accordion>
+
+              <li className="rounded-sm pb-3">
+                <Link
+                  href="/admin/Promotions"
+                  className="flex items-center pl-2 space-x-3 pt-2 pb-1 rounded-md text-gray-100"
+                >
+                  <MdOutlineLocalOffer className="block text-[25px] text-white " />
+                  <p className="hidden md:block" style={{ marginLeft: "43px" }}>
+                    Promotion Requests
+                  </p>
+                </Link>
+              </li>
 
               <li className="rounded-sm pb-3">
                 <Link

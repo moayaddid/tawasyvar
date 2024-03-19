@@ -78,7 +78,9 @@ function Products({ store }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const onSelectCategory = (categoryName) => {
-    Cookies.set(`ctg`, categoryName);
+    if (categoryName !== "Offers" && categoryName !== "عروض" ) {
+      Cookies.set(`ctg`, categoryName);
+    }
     setSelectedCategory(categoryName);
   };
 
@@ -93,13 +95,8 @@ function Products({ store }) {
     const category = Cookies.get(`ctg`);
     if (store && store.categories.length > 0) {
       if (category) {
-        // console.log(`category`);
-        // console.log(category);
-        // console.log(store.categories);
         const cat = store.categories.find((catego) => catego.name == category);
-        // console.log(cat);
         if (cat) {
-          // console.log(cat);
           setSelectedCategory(cat.name);
           return;
         } else {
@@ -107,15 +104,20 @@ function Products({ store }) {
           return;
         }
       }
-      setSelectedCategory(store.categories[0].name);
+      if (store.promotions && store.promotions.length > 0) {
+        if(router){
+          if(router.locale === `en`){
+            setSelectedCategory("Offers");
+          }else{
+            setSelectedCategory("عروض");
+
+          }
+        }
+      } else {
+        setSelectedCategory(store.categories[0].name);
+      }
     }
   }, [store]);
-
-  async function fetchStorePage() {
-    try {
-      return await Api.get(`/api/stores-with-products/${storeId}`);
-    } catch {}
-  }
 
   async function search(e) {
     e.preventDefault();
@@ -159,9 +161,17 @@ function Products({ store }) {
   let selectedCategoryData;
 
   if (store && selectedCategory) {
-    selectedCategoryData = store.category.find(
-      (category) => category.name === selectedCategory
-    );
+    if (
+      store.promotions &&
+      store.promotions.length > 0 &&
+      (selectedCategory === "Offers" || selectedCategory === "عروض")
+    ) {
+      selectedCategoryData = { products: store.promotions };
+    } else {
+      selectedCategoryData = store.category.find(
+        (category) => category.name === selectedCategory
+      );
+    }
   }
   let days = [];
   if (store && store.store) {
@@ -278,8 +288,7 @@ function Products({ store }) {
               </div>
               {store.store.free_delivery == true && (
                 <div className="w-full py-1 text-center md:text-lg sm:text-base text-sm text-white bg-green-500 sm:my-3 my-1 px-2 rounded-lg ">
-                  {t("freeDelivery")}{" "}
-                  {store.store.radius} {t("meter")}
+                  {t("freeDelivery")} {store.store.radius} {t("meter")}
                 </div>
               )}
             </div>
@@ -341,7 +350,16 @@ function Products({ store }) {
               <ul className="grid md:w-max w-[90%] mx-auto gap-6 md:overflow-auto overflow-x-scroll">
                 {store && (
                   <FilterCategories
-                    categories={store.categories}
+                    categories={
+                      store.promotions && store.promotions.length > 0
+                        ? (router && router.locale == `en`)
+                          ? [
+                              { id: 999999, name: "Offers" },
+                              ...store.categories,
+                            ]
+                          : [{ id: 999999, name: "عروض" }, ...store.categories]
+                        : store.categories
+                    }
                     selectedCategory={selectedCategory}
                     onSelectCategory={onSelectCategory}
                   />

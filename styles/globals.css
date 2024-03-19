@@ -106,3 +106,13 @@
   ::-webkit-scrollbar-thumb:hover { 
     background: #555;
   }
+
+  @font-face { 
+    font-family: "hajar"; 
+    src: url("../public/fonts/local/RTL-Hajar-Regular.ttf"); 
+  } 
+
+  @font-face { 
+    font-family: "gothic"; 
+    src: url("../public/fonts/local/FONTSPRING-DEMO-ALLROUNDGOTHIC-LIGOBLIQUE.otf"); 
+  } 

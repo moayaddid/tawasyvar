@@ -21,9 +21,11 @@ import {
 import { NextSeo } from "next-seo";
 import { CarouselProduct } from "@/components/ProductCarousel/CarouselProduct";
 import Variations from "@/components/VariationsCustomer/Variations";
+import { calculateOfferPercentage } from "@/components/SellerComponents/SellerPromotion";
+import { removeCommas } from "@/components/CustomerAllProducts/AllProducts";
 
 export async function getServerSideProps(context) {
-  const { params, locale , res } = context;
+  const { params, locale, res } = context;
   const Api = createAxiosInstance();
   try {
     const response = await Api.get(
@@ -86,7 +88,11 @@ function Product({ product }) {
   useEffect(() => {
     if (product) {
       if (product.product) {
-        setPrice(product.product.price);
+        if(product.product.has_promotion == true){
+          setPrice(convertMoney(product.product.promotion_price));
+        }else{
+          setPrice(product.product.price);
+        }
         return;
       } else if (
         product.product_combination &&
@@ -94,9 +100,16 @@ function Product({ product }) {
       ) {
         let price = 9999999999;
         for (const comb of product.product_combination) {
-          const sdsd = comb.product.price.replace(/,/g, "");
-          if (sdsd < price) {
-            price = comb.product.price;
+          if(comb.product.has_promotion === 1){
+            const sdsd = comb.product.promotion_price;
+            if (sdsd < price) {
+              price = comb.product.promotion_price;
+            }
+          }else{
+            const sdsd = comb.product.price.replace(/,/g, "");
+            if (sdsd < price) {
+              price = comb.product.price;
+            }
           }
         }
         setPrice(price);
@@ -140,14 +153,9 @@ function Product({ product }) {
 
   const { t } = useTranslation("");
 
-  // console.log(product);
 
   function getselectedImage(data) {
-    // console.log(`selected image`);
-    // console.log(data);
     if (product.product_combination) {
-      // const combi = product?.product_combination.find((combination) => combination.product?.image == data);
-      // console.log(combi);
       const combi = product?.product_combination.find(
         (combination) =>
           data ==
@@ -156,8 +164,11 @@ function Product({ product }) {
           })
       );
       if (combi) {
-        // console.log(combi);
-        setPrice(combi.product.price);
+        if(combi.product.has_promotion === 1){
+          setPrice(combi.product.promotion_price);
+        }else{
+          setPrice(combi.product.price);
+        }
         setSelectedCombination(combi.product.line_id);
       }
     }
@@ -212,7 +223,7 @@ function Product({ product }) {
 
             <div className="w-full h-full flex flex-col space-y-2 justify-center sm:items-start items-center">
               <div className="flex justify-between w-full">
-                <h1 className=" md:text-xl sm:text-lg text-lg w-[70%] text-gray-600 capitalize">
+                <h1 className=" md:text-2xl sm:text-lg text-xl w-[70%] text-gray-600 capitalize">
                   {product?.product
                     ? product?.product?.name && product?.product?.name
                     : product?.name}
@@ -229,6 +240,24 @@ function Product({ product }) {
                   </p>
                 )}
               </div>
+              {product.product && product.product.has_promotion == true && (
+                <div className="flex justify-start items-center">
+                  <div className="flex justify-start items-end">
+                    <p className="line-through px-1 md:text-2xl text-lg decoration-red-500 decoration-[2px]">
+                      {product.product.price}
+                    </p>
+                    <p>S.P</p>
+                  </div> 
+                  <p className="px-1 md:text-4xl text-2xl " >/</p>
+                  <div className="flex justify-start items-end bg-skin-primary text-white px-1 rounded-lg">
+                    <p className=" md:text-4xl text-2xl px-1 ">
+                      {convertMoney(product.product.promotion_price)}
+                    </p>
+                    <p>S.P</p>
+                  </div>
+                </div>
+              )}
+
               <div className="flex flex-wrap items-center gap-2 py-1">
                 {(product?.product?.brand || product?.brand) && (
                   <p className="md:text-base sm:text-base text-sm text-skin-primary border-2 text-center border-skin-primary px-5 rounded-full">
@@ -260,6 +289,16 @@ function Product({ product }) {
                         }
                       );
                       varis = varis.join(" - ");
+
+                      let percent;
+                      if (combination.product.has_promotion == true) {
+                        percent = Math.round(
+                          calculateOfferPercentage(
+                            removeCommas(combination.product.price),
+                            combination.product.promotion_price
+                          )
+                        );
+                      }
                       return (
                         <div
                           key={combination.product.line_id}
@@ -278,7 +317,11 @@ function Product({ product }) {
                             onChange={(e) => {
                               // console.log(e.target.value);
                               setSelectedCombination(e.target.value);
-                              setPrice(combination.product.price);
+                              if( combination.product.has_promotion == true){
+                                setPrice(combination.product.promotion_price);
+                              }else{
+                                setPrice(combination.product.price);
+                              }
                             }}
                           />
                           <label
@@ -303,9 +346,34 @@ function Product({ product }) {
                                 {`${combination.product.part_number}`}
                               </p>
                             )}
-                            <p className="md:text-lg sm:text-base text-sm">
-                              {combination.product.price} S.P
-                            </p>
+                            {combination.product.has_promotion == true ? (
+                              <div className="w-full flex md:flex-row flex-col-reverse justify-around md:items-center items-start ">
+                                <div className=" md:w-[50%] text-sm flex flex-col justify-start items-start">
+                                  <div className="flex justify-start items-center">
+                                    <p className="line-through decoration-red-500 px-1">
+                                      {combination.product.price}
+                                    </p>
+                                    <p>S.P</p>
+                                  </div>
+                                  <div className="flex justify-start items-center">
+                                    <p className="px-1">
+                                      {convertMoney(
+                                        combination.product.promotion_price
+                                      )}
+                                    </p>
+                                    <p>S.P</p>
+                                  </div>
+                                </div>
+                                <div className=" flex justify-center px-2 text-green-800 items-center lg:text-2xl md:textlg text-base">
+                                  <p>{percent}</p>
+                                  <p>%</p>
+                                </div>
+                              </div>
+                            ) : (
+                              <p className="text-sm">
+                                {combination.product.price} S.P
+                              </p>
+                            )}
                           </label>
                         </div>
                       );

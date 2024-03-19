@@ -157,7 +157,7 @@ function StoreAdmin({ names, refetch }) {
       editData[`opening_days`] = checkedDays;
     }
     if(freeDelivery !== names.free_delivery){
-      editData.free_delivery = freeDelivery ;
+      editData.free_delivery = freeDelivery ?? 0 ;
       if( radius?.current?.value && radius.current.value != names.radius ){
         editData.radius = radius.current.value ;
       }
@@ -219,7 +219,6 @@ function StoreAdmin({ names, refetch }) {
       setIsSaving(false);
       return;
     } else {
-      console.log(editData);
       try {
         const response = await Api.put(
           `/api/admin/edit-store/${names.id}`,

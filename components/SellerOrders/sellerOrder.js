@@ -14,9 +14,13 @@ import { Ring } from "@uiball/loaders";
 import { useTranslation } from "next-i18next";
 
 export function convertMoney(money) {
-  const total = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  try{
+    const total = money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const finalTotal = `${total}`;
   return finalTotal;
+  }catch(error){
+    console.log(error);
+  }
 }
 
 export function convertDate(date) {
