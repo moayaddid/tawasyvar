@@ -92,7 +92,7 @@ function CartProduct({ product, storeid, refetch }) {
     });
     // nid.join(" / ");
   }
-  const name = product.combination ? product.product.name + ` ( ${nid.join(" - ")} )` + ` - ${product.combination?.part_number ? product.combination?.part_number : `-` } ` : product.product.name ;
+  const name = product.combination ? product.product.name + ` ( ${nid.join(" - ")} )` + ` ${product.combination?.part_number ? product.combination?.part_number : `` } ` : product.product.name ;
 
   let imageAr;
 
