@@ -326,7 +326,7 @@ function Product({ product }) {
                           />
                           <label
                             htmlFor={` ${combination.product.line_id}combination`}
-                            className="inline-flex flex-col items-start justify-start w-full px-4 py-1 text-gray-500 bg-white border border-dashed border-gray-500 rounded-lg cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 hover:text-gray-600 hover:bg-gray-100 transition-all duration-500"
+                            className="inline-flex h-full flex-col items-start justify-start w-full px-4 py-1 text-gray-500 bg-white border border-dashed border-gray-500 rounded-lg cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 hover:text-gray-600 hover:bg-gray-100 transition-all duration-500"
                           >
                             <div className="inline-flex justify-between w-full items-center space-x-2">
                               <p className="md:text-lg sm:text-base text-sm">

@@ -36,8 +36,8 @@ function Promotions() {
         </div>
       ) : (
         promos &&
-        promos.data.requests &&
-        (promos.data.requests.length > 0 ? (
+        
+        (promos.data.requests && promos.data.requests.length > 0 ? (
           <div className="py-5 w-full grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 ">
             {promos.data.requests.map((promo, i) => {
               return (
@@ -53,7 +53,7 @@ function Promotions() {
           </div>
         ) : (
           <p className="text-center text-lg w-full py-5">
-            You have no promotions.
+            There are no promotions.
           </p>
         ))
       )}

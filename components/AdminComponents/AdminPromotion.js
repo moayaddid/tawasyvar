@@ -22,8 +22,9 @@ function AdminPromotion({ promo, refetch }) {
   const Api = createAxiosInstance(router);
   const [openPromo, setOpenPromo] = useState(false);
   const [status, setStatus] = useState();
-  const [isDeleting , setIsDeleting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [ending, setEnding] = useState(null);
+  const [defaultStatus, setDefaultStatus] = useState(null);
 
   let varis = [];
 
@@ -34,6 +35,25 @@ function AdminPromotion({ promo, refetch }) {
       }
     });
   }
+
+  useEffect(() => {
+    if (promo.status) {
+      switch (promo.status) {
+        case `expired`:
+          setDefaultStatus(`border-gray-500`);
+          break;
+        case `cancelled`:
+          setDefaultStatus(`border-red-500`);
+          break;
+        case `accepted`:
+          setDefaultStatus(`border-green-500`);
+          break;
+        case `pending`:
+          setDefaultStatus(`border-yellow-500`);
+          break;
+      }
+    }
+  }, [promo.status]);
 
   useEffect(() => {
     if (promo.end_date !== null) {
@@ -51,18 +71,17 @@ function AdminPromotion({ promo, refetch }) {
   }, []);
 
   async function editPromo() {
-    
-    if ( status == undefined || status == null || promo.status === status) {
-        setOpenPromo(false);
-        setStatus(null);
-        return
+    if (status == undefined || status == null || promo.status === status) {
+      setOpenPromo(false);
+      setStatus(null);
+      return;
     } else {
       setIsDeleting(true);
       try {
         const response = await Api.put(
           `/api/admin/change-promotion-status/${promo.id}`,
           {
-            status : Number(status),
+            status,
           }
         );
         setIsDeleting(false);
@@ -82,11 +101,14 @@ function AdminPromotion({ promo, refetch }) {
         onClick={() => {
           setOpenPromo(true);
         }}
-        className="min-w-[25%] border-2 rounded-lg shadow-lg border-gray-100 m-2 px-2 py-1 bg-gray-100 cursor-pointer flex flex-col space-y-2 justify-center items-center hover:border-skin-primary transition-all duration-500"
+        className={`min-w-[25%] border-2 rounded-lg shadow-lg m-2 px-2 py-1 bg-gray-100 cursor-pointer flex flex-col space-y-2 justify-center items-center ${defaultStatus} transition-all duration-500`}
       >
-        <p className="text-lg w-[80%] text-center underline decoration-skin-primary decoration-[2px] ">
-          {promo.store}
-        </p>
+        <div className="w-full flex justify-around items-center">
+          <p>Id : {promo.id}</p>
+          <p className="text-lg w-[80%] text-center underline decoration-skin-primary decoration-[2px] ">
+            {promo.store}
+          </p>
+        </div>
         <p className="text-lg w-[80%] text-center ">{promo.name}</p>
         <p className="md:text-lg text-base bg-skin-primary text-white rounded-lg px-2 py-1 ">
           Offer :{" "}
@@ -154,14 +176,14 @@ function AdminPromotion({ promo, refetch }) {
               )}
               <div className="md:mx-0 mx-auto">
                 <p className="md:text-lg md:mx-0 mx-auto text-base w-max bg-skin-primary text-white rounded-lg px-2 py-1 ">
-                   Offer :{" "}
+                  Offer :{" "}
                   {Math.round(
                     calculateOfferPercentage(
                       promo.final_price,
                       promo.promotion_price
                     )
                   )}
-                  % 
+                  %
                 </p>
                 <p>Started At : {promo.start_date}</p>
                 {ending ? (
@@ -227,25 +249,26 @@ function AdminPromotion({ promo, refetch }) {
                   setStatus(e.target.value);
                 }}
               >
-                <option value={1}>Approved</option>
-                <option value={0}>Pending</option>
+                {/* expired */}
+                <option value={`accepted`}>Approved</option>
+                <option value={`cancelled`}>Cancelled</option>
               </select>
             </label>
           </div>
         </DialogContent>
         <DialogActions className="w-full flex justify-center items-center">
-          { isDeleting == true ? 
-            <div
-            className="px-2 py-1 md:w-[20%] w-[40%] bg-sky-500 flex justify-center items-center rounded-lg text-white "
-          >
-            <Ring speed={3} lineWeight={5} color="white" size={20} />
-          </div>
-          : <button
-            onClick={editPromo}
-            className="px-2 py-1 md:w-[20%] w-[40%] bg-sky-500 rounded-lg text-white "
-          >
-            Save
-          </button>}
+          {isDeleting == true ? (
+            <div className="px-2 py-1 md:w-[20%] w-[40%] bg-sky-500 flex justify-center items-center rounded-lg text-white ">
+              <Ring speed={3} lineWeight={5} color="white" size={20} />
+            </div>
+          ) : (
+            <button
+              onClick={editPromo}
+              className="px-2 py-1 md:w-[20%] w-[40%] bg-sky-500 rounded-lg text-white "
+            >
+              Save
+            </button>
+          )}
         </DialogActions>
       </Dialog>
     </>

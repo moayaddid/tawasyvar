@@ -344,7 +344,7 @@ function PublicAllProduct({ product, storeId }) {
                                   />
                                   <label
                                     htmlFor={` ${combination.product.line_id}combination`}
-                                    className="inline-flex flex-col items-start justify-start w-full px-2 py-1 text-gray-500 bg-white border border-dashed border-gray-500 rounded-lg cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 hover:text-gray-600 hover:bg-gray-100 transition-all duration-500"
+                                    className="inline-flex flex-col items-start justify-start w-full px-2 py-1 text-gray-500 bg-white border border-dashed border-gray-500 rounded-lg cursor-pointer peer-checked:border-orange-500 peer-checked:text-orange-500 hover:text-gray-600 hover:bg-gray-100 transition-all h-full duration-500"
                                   >
                                     <p className="flex flex-wrap items-center space-x-4">
                                       <p className="text-base">{varis}</p>
