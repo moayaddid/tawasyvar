@@ -144,7 +144,7 @@ function AddProducts() {
         className="flex md:flex-row flex-col md:gap-0 gap-2 justify-between my-10 pt-10 pb-5 border-b-2 border-skin-primary "
         id="top"
       >
-        <div className="w-[50%] flex justify-start items-center gap-2 ">
+        <div className="md:w-[50%] w-full flex justify-start items-center gap-2 ">
           <form
             onSubmit={search}
             className="flex bg-gray-100 w-full sm:w-4/5 items-center rounded-lg mx-2 px-2 border-2 border-transparent focus-within:border-skin-primary transition-all duration-700 "
@@ -183,8 +183,8 @@ function AddProducts() {
             />
           )}
         </div>
-        <div className="w-[50%] flex justify-center items-center">
-          <p className="text-gray-500 pr-2">
+        <div className="md:w-[50%] w-full flex md:flex-row flex-col justify-center items-center md:space-y-0 space-y-3">
+          <p className="text-gray-500 pr-2 text-center ">
             {t("seller.addProduct.cantFind")}
           </p>
           <Link
@@ -311,47 +311,47 @@ function AddProducts() {
                         <table className="table w-full" border={4}>
                           <thead className="md:text-xl text-sm ">
                             <tr>
-                              <th className="pb-4 md:px-0 px-4">
+                              <th className="pb-4 md:px-2 px-4">
                                 {t(
                                   "seller.addProduct.selectedProducts.table.productName"
                                 )}
                               </th>
-                              <th className="pb-4 md:px-0 px-4">
+                              <th className="pb-4 md:px-2 px-4">
                                 {t(
                                   "seller.addProduct.selectedProducts.table.variations"
                                 )}
                               </th>
-                              <th className="pb-4 md:px-0 px-4">
+                              <th className="pb-4 md:px-2 px-4">
                                 {t(
                                   "seller.addProduct.selectedProducts.table.brand"
                                 )}
                               </th>
-                              <th className="pb-4 md:px-0 px-4">
+                              <th className="pb-4 md:px-2 px-4">
                                 {t(
                                   "seller.addProduct.selectedProducts.table.category"
                                 )}
                               </th>
-                              <th className="pb-4 md:px-0 px-4">
+                              <th className="pb-4 md:px-2 px-4">
                                 {t(
                                   "seller.addProduct.selectedProducts.table.publish"
                                 )}
                               </th>
-                              <th className="pb-4 md:px-0 px-4">
+                              <th className="pb-4 md:px-2 px-4">
                                 {t(
                                   "seller.addProduct.selectedProducts.table.image"
                                 )}
                               </th>
-                              <th className="pb-4 md:px-0 px-4">
+                              <th className="pb-4 md:px-2 px-4">
                                 {t(
                                   "seller.addProduct.selectedProducts.table.vendor"
                                 )}
                               </th>
-                              <th className="pb-4 md:px-0 px-4">
+                              <th className="pb-4 md:px-2 px-4">
                                 {t(
                                   "seller.addProduct.selectedProducts.table.price"
                                 )}{" "}
                               </th>
-                              <th className="pb-4 md:px-0 px-4"> </th>
+                              <th className="pb-4 md:px-2 px-4"> </th>
                             </tr>
                           </thead>
                           <tbody className="text-lg font-normal text-gray-700 text-center">

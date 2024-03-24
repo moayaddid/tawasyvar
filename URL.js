@@ -3,5 +3,5 @@
 // const url = 'https://absi.tawasyme.com' ; 
 // const url = 'https://absi.damaszone.com' ; 
 const url = 'https://admin.tawasyme.com' ;
-    // const url = "https://flutter.damaszone.com" ;
+    // const url = "https://flutter.deskindamas.com" ;
 export default url ;

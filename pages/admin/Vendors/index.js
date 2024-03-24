@@ -20,10 +20,10 @@ const tableheading = [
     heading: "Company Name",
   },
   {
-    heading: "Location",
+    heading: "City",
   },
   {
-    heading: "City",
+    heading: "Location",
   },
   {
     heading: "Created",
@@ -33,18 +33,6 @@ const tableheading = [
   },
   {
     heading: "Action",
-  },
-];
-
-const data = [
-  {
-    id: 1,
-    name: `vendor 1`,
-    number: `0936467388`,
-    company: `Nigga CO.LTD`,
-    city: `Damascus`,
-    created_at: `-`,
-    updated_at: `-`,
   },
 ];
 

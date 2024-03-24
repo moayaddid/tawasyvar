@@ -50,7 +50,7 @@ const Home = () => {
     staleTime: 1,
     refetchOnMount: true,
     refetchOnWindowFocus: false,
-    enabled: enable,
+    // enabled: enable,
   });
 
   async function fetchDashboard() {
@@ -61,50 +61,59 @@ const Home = () => {
     }
   }
 
-  useEffect(() => {
-    async function initialStoreStatus() {
-      try {
-        const response2 = await Api.get(`/api/seller/store/status`);
-        // console.log(response2);
-        switch (response2.data.status) {
-          case "Store not found":
-            router.replace("/seller/requestStore");
-            break;
+  // useEffect(() => {
+  //   async function initialStoreStatus() {
+  //     try {
+  //       const response2 = await Api.get(`/api/seller/store/status`);
+  //       // console.log(response2);
+  //       switch (response2.data.status) {
+  //         case "Store not found":
+  //           router.replace("/seller/requestStore");
+  //           break;
 
-          case "approved":
-            // console.log(`approved store`);
-            Cookies.set("Sid", response2.data.store_id, { expires: 365 * 10 });
-            // router.replace(`/seller`);
-            setEnable(true);
-            break;
+  //         case "approved":
+  //           // console.log(`approved store`);
+  //           Cookies.set("Sid", response2.data.store_id, { expires: 365 * 10 });
+  //           // router.replace(`/seller`);
+  //           console.log(response2.data);
+  //           setEnable(true);
+  //           break;
 
-          case "pending":
-            Cookies.set("Sid", response2.data.store_id, { expires: 365 * 10 });
-            router.replace(`/seller/pendingStore`);
-            break;
-          // default :
-          // console.log(`default in switch seller status /seller`);
-          // break;
-        }
-      } catch (error) {
-        // console.log(error);
-        setIsLoading(false);
-      }
-      setIsLoading(false);
-    }
-    if (isLoading === true) {
-      initialStoreStatus();
-    } else {
-      return;
-    }
-  }, []);
+  //         case "pending":
+  //           Cookies.set("Sid", response2.data.store_id, { expires: 365 * 10 });
+  //           router.replace(`/seller/pendingStore`);
+  //           break;
+  //         // default :
+  //         // console.log(`default in switch seller status /seller`);
+  //         // break;
+  //       }
+  //     } catch (error) {
+  //       // console.log(error);
+  //       setIsLoading(false);
+  //     }
+  //     setIsLoading(false);
+  //   }
+  //   if (isLoading === true) {
+  //     initialStoreStatus();
+  //   } else {
+  //     return;
+  //   }
+  // }, []);
 
   // if (dashboardData) {
   //   console.log(`dashboard data`);
   //   console.log(dashboardData);
   // }
 
-  if (isLoading == true || dataLoading == true) {
+  // if (isLoading == true || dataLoading == true) {
+  //   return (
+  //     <div className="w-full h-full">
+  //       <TawasyLoader width = {400} height = {400} />
+  //     </div>
+  //   );
+  // }
+
+  if (dataLoading == true) {
     return (
       <div className="w-full h-full">
         <TawasyLoader width = {400} height = {400} />

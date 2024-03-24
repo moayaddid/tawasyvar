@@ -455,7 +455,7 @@ function TotalAddProduct({ selectproduct, refetch }) {
               );
             })}
         </td>
-        <td className=" px-3 ">
+        <td className=" px-3 w-[20%] ">
           {selectproduct.has_vendor && selectproduct.has_vendor === 1 ? (
             <div>
               <label
@@ -476,7 +476,7 @@ function TotalAddProduct({ selectproduct, refetch }) {
                 {t("followVendor")}
               </label>
               {follow == true && (
-                <div className="py-3">
+                <div className="py-3 w-full ">
                   {fetchingVendors == true ? (
                     <div className="flex justify-center items-center">
                       <Ring
@@ -487,9 +487,9 @@ function TotalAddProduct({ selectproduct, refetch }) {
                       />
                     </div>
                   ) : vendors ? (
-                    <div className="flex justify-center items-center">
+                    <div className="flex justify-center items-center w-full ">
                       <select
-                        className="bg-transparent"
+                        className="bg-transparent outline-none px-1  py-1 border-2 border-skin-primary rounded-lg cursor-pointer "
                         onChange={(e) => {
                           findPrice(e.target.value);
                           setSelectedVendor(e.target.value);
@@ -506,6 +506,7 @@ function TotalAddProduct({ selectproduct, refetch }) {
                                 // onClick={() => {
                                 //   priceRef.current.value = vendor.vendor_price;
                                 // }}
+                                className="cursor-pointer"
                                 key={i}
                                 id={vendor.vendor_id}
                                 value={vendor.vendor_id}
