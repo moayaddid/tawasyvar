@@ -47,7 +47,7 @@ function SellerGuard({ children }) {
     } else {
       return;
     }
-  }, []);
+  }, [isFirstTime]);
 
   //   if (isLoading == true) {
   //     return (
@@ -58,7 +58,7 @@ function SellerGuard({ children }) {
   //   }
 
 //   if (isLoading == false) {
-    return <div className="flex">{children}</div>;
+    return <div className="flex" dir="ltr" >{children}</div>;
 //   }
 }
 

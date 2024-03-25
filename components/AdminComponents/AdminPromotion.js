@@ -120,7 +120,7 @@ function AdminPromotion({ promo, refetch }) {
           )}{" "}
           %
         </p>
-        {ending ? (
+        { promo.status === 'expired' ? <p className="text-center">Expired Promotion.</p> : (ending ? (
           <div className="flex flex-wrap justify-start items-center space-x-3">
             <p className="text-lg m-1 ">Ends in :</p>
             <p className="md:text-lg m-1 text-base ">
@@ -130,7 +130,7 @@ function AdminPromotion({ promo, refetch }) {
           </div>
         ) : (
           <p className="text-center">This Promotion has no Ending Date.</p>
-        )}
+        ))}
       </div>
 
       <Dialog
@@ -186,7 +186,7 @@ function AdminPromotion({ promo, refetch }) {
                   %
                 </p>
                 <p>Started At : {promo.start_date}</p>
-                {ending ? (
+                { promo.status === 'expired' ? <p className="text-center" > Expired </p> : ending ? (
                   <div className="flex md:flex-row flex-col justify-start items-center md:space-x-1 md:space-y-0 space-y-1">
                     <p className="text-lg  text-center ">Ends in :</p>
                     <div className="flex flex-wrap justify-start items-center mx-auto ">
@@ -239,7 +239,7 @@ function AdminPromotion({ promo, refetch }) {
               />
             </div>
           </div>
-          <div>
+          { promo.status !== "expired" && <div>
             <label htmlFor="status" className="px-2">
               Promotion Status :
               <select
@@ -254,10 +254,10 @@ function AdminPromotion({ promo, refetch }) {
                 <option value={`cancelled`}>Cancelled</option>
               </select>
             </label>
-          </div>
+          </div>}
         </DialogContent>
         <DialogActions className="w-full flex justify-center items-center">
-          {isDeleting == true ? (
+          { promo.status !== "expired" &&  ( isDeleting == true ? (
             <div className="px-2 py-1 md:w-[20%] w-[40%] bg-sky-500 flex justify-center items-center rounded-lg text-white ">
               <Ring speed={3} lineWeight={5} color="white" size={20} />
             </div>
@@ -268,7 +268,7 @@ function AdminPromotion({ promo, refetch }) {
             >
               Save
             </button>
-          )}
+          ))}
         </DialogActions>
       </Dialog>
     </>

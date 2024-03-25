@@ -19,9 +19,9 @@ export function updateCounter(date) {
   endDate.setHours(23, 59, 59, 999);
 
   const currentDate = new Date();
-  let remainingTime = endDate - currentDate ;
+  let remainingTime = endDate - currentDate;
   const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
-  remainingTime %= (1000 * 60 * 60 * 24);
+  remainingTime %= 1000 * 60 * 60 * 24;
   const hours = Math.floor(remainingTime / (1000 * 60 * 60));
   remainingTime %= 1000 * 60 * 60;
   const minutes = Math.floor(remainingTime / (1000 * 60));
@@ -46,8 +46,7 @@ function SellerPromotion({ promo, refetch }) {
   const [ending, setEnding] = useState(null);
   const [defaultStatus, setDefaultStatus] = useState(null);
 
-  const {t} = useTranslation("");
-
+  const { t } = useTranslation("");
 
   let varis = [];
 
@@ -112,18 +111,45 @@ function SellerPromotion({ promo, refetch }) {
           )}{" "}
           %
         </p>
-        {ending ? (
-          <div className="flex flex-wrap justify-start items-center space-x-3">
-            <p className="text-lg m-1 ">{t("ends")}</p>
-            <p className="md:text-lg m-1 text-base ">
-              {ending.days} {t("days")} , {ending.hours}:{ending.minutes}:
-              {ending.seconds}
+        {promo.status === "expired" ? (
+          <p className="text-center">Expired</p>
+        ) : ending ? (
+          <div
+            className="flex justify-start items-center"
+            dir={router.locale == "ar" ? "rtl" : "ltr"}
+          >
+            <p className="text-lg m-1 " dir="ltr">
+              {t("ends")}
             </p>
+            <p className="md:text-lg m-1 text-base" dir="ltr">
+              {ending.days}
+            </p>
+            <p className="md:text-lg m-1 text-base" dir="ltr">
+              {t("days")}
+            </p>
+            <p className="md:text-lg m-1 text-base" dir="ltr">
+              ,
+            </p>
+            <div className="flex justify-start items-center" dir="ltr">
+              <p className="md:text-lg m-1 text-base" dir="ltr">
+                {ending.hours}
+              </p>
+              <p className="md:text-lg m-1 text-base" dir="ltr">
+                :
+              </p>
+              <p className="md:text-lg m-1 text-base" dir="ltr">
+                {ending.minutes}
+              </p>
+              <p className="md:text-lg m-1 text-base" dir="ltr">
+                :
+              </p>
+              <p className="md:text-lg m-1 text-base" dir="ltr">
+                {ending.seconds}
+              </p>
+            </div>
           </div>
         ) : (
-          <p className="text-center">
-           {t("thisPromo")}
-          </p>
+          <p className="text-center">{t("thisPromo")}</p>
         )}
       </div>
 
@@ -171,7 +197,8 @@ function SellerPromotion({ promo, refetch }) {
               )}
               <div className="md:mx-0 mx-auto">
                 <p className="md:text-lg md:mx-0 mx-auto text-base w-max bg-skin-primary text-white rounded-lg px-2 py-1 ">
-                  {t("youOffered")} :{"  "}
+                  {t("youOffered")}
+                  {"  "}
                   {Math.round(
                     calculateOfferPercentage(
                       promo.final_price,
@@ -180,14 +207,50 @@ function SellerPromotion({ promo, refetch }) {
                   )}
                   %
                 </p>
-                {ending ? (
+                {promo.status === "expired" ? (
+                  <p className="md:text-lg  text-base p-1 text-center mx-auto">
+                    Expired
+                  </p>
+                ) : ending ? (
                   <div className="flex md:flex-row flex-col justify-start items-center md:space-x-1 md:space-y-0 space-y-1">
-                    <p className="text-lg  text-center ">{t("ends")} :</p>
+                    <p className="text-lg  text-center ">{t("ends")}</p>
                     <div className="flex flex-wrap justify-start items-center mx-auto ">
-                      <p className="md:text-lg  text-base p-1 text-center mx-auto ">
-                        {ending.days} {t("days")} , {ending.hours}:{ending.minutes}:
-                        {ending.seconds}
-                      </p>
+                      {/* <p className="md:text-lg  text-base p-1 text-center mx-auto ">
+                        {ending.days} {t("days")} , {ending.hours}:
+                        {ending.minutes}:{ending.seconds}
+                      </p> */}
+
+                      <div
+                        className="md:text-lg  text-base p-1 text-center mx-auto flex justify-start items-center"
+                        dir={router.locale == "ar" ? "rtl" : "ltr"}
+                      >
+                        <p className="md:text-lg m-1 text-base" dir="ltr">
+                          {ending.days}
+                        </p>
+                        <p className="md:text-lg m-1 text-base" dir="ltr">
+                          {t("days")}
+                        </p>
+                        <p className="md:text-lg m-1 text-base" dir="ltr">
+                          ,
+                        </p>
+                        <div className="flex justify-start items-center" dir="ltr" >
+                          <p className="md:text-lg m-1 text-base" dir="ltr">
+                            {ending.hours}
+                          </p>
+                          <p className="md:text-lg m-1 text-base" dir="ltr">
+                            :
+                          </p>
+                          <p className="md:text-lg m-1 text-base" dir="ltr">
+                            {ending.minutes}
+                          </p>
+                          <p className="md:text-lg m-1 text-base" dir="ltr">
+                            :
+                          </p>
+                          <p className="md:text-lg m-1 text-base" dir="ltr">
+                            {ending.seconds}
+                          </p>
+                        </div>
+                      </div>
                       <p className="md:text-lg  text-base p-1 text-center mx-auto ">
                         -
                       </p>
@@ -197,9 +260,7 @@ function SellerPromotion({ promo, refetch }) {
                     </div>
                   </div>
                 ) : (
-                  <p className="text-center">
-                    {t("thisPromo")}
-                  </p>
+                  <p className="text-center">{t("thisPromo")}</p>
                 )}
                 <p className="md:mx-0 mx-auto text-center flex justify-center text-lg items-center  ">
                   {t("oldPrice")} :{" "}
@@ -235,7 +296,6 @@ function SellerPromotion({ promo, refetch }) {
           </div>
         </DialogContent>
       </Dialog>
-
     </>
   );
 }

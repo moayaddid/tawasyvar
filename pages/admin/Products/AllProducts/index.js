@@ -263,6 +263,19 @@ function ProductsAdmin() {
                   <button
                     className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-[20%]"
                     onClick={() => {
+                      setCurrentPage(1);
+                      // setCurrentPage(data.data.pagination.previousPage);
+                    }}
+                    disabled={
+                      allProduct.data.pagination.current_page ==
+                      1
+                    }
+                  >
+                    First Page
+                  </button>
+                  <button
+                    className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-[20%]"
+                    onClick={() => {
                       setCurrentPage(allProduct.data.pagination.current_page - 1);
                       // setCurrentPage(data.data.pagination.previousPage);
                     }}
@@ -286,6 +299,18 @@ function ProductsAdmin() {
                     }
                   >
                     Next Page
+                  </button>
+                  <button
+                    className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-[20%]"
+                    onClick={() => {
+                      setCurrentPage(allProduct.data.pagination.last_page);
+                    }}
+                    disabled={
+                      allProduct.data.pagination.current_page ===
+                      allProduct.data.pagination.last_page
+                    }
+                  >
+                    Last Page
                   </button>
                 </div>
               )}

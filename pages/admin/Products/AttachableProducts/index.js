@@ -16,6 +16,9 @@ const tableheading = [
     heading: "Name",
   },
   {
+    heading: "Attached ? ",
+  },
+  {
     heading: "Image",
   },
 ];
@@ -28,6 +31,7 @@ function AttachableProducts() {
   const [inSearch, setInSearch] = useState(false);
   const [searching, setSearching] = useState(false);
   const [searchedResults, setSearchedResults] = useState();
+  const [isAttached, setIsAttached] = useState(null);
   const searchRef = useRef();
   const {
     data: attachableProducts,
@@ -36,8 +40,8 @@ function AttachableProducts() {
     isFetching,
     isRefetching,
   } = useQuery(
-    [`AttachableProducts`, currentPage],
-    () => fectAttachableProducts(currentPage),
+    [`AttachableProducts`, currentPage, isAttached],
+    () => fectAttachableProducts(currentPage, isAttached),
     {
       staleTime: 1,
       refetchOnWindowFocus: false,
@@ -100,11 +104,17 @@ function AttachableProducts() {
     setSearching(false);
   }
 
-  async function fectAttachableProducts(selectedPage) {
+  async function fectAttachableProducts(selectedPage, attached) {
     try {
       if (selectedPage) {
         return await Api.get(
-          `/api/admin/get-waffer-products?page=${selectedPage}`
+          `/api/admin/get-waffer-products` , {
+            params : {
+              attached : attached !== null ? attached == true ? 1 : 0 : null, 
+              page : selectedPage
+              // attached=${attached}&page=${selectedPage}
+            }
+          }
         );
       }
     } catch (error) {}
@@ -166,9 +176,18 @@ function AttachableProducts() {
           )}
         </div>
         {attachableProducts && attachableProducts.data.pagination && (
-          <div className="w-fit mx-auto flex justify-center items-center h-max gap-4 py-4 ">
+          <div className="w-fit mx-auto flex justify-center items-center h-max py-4 ">
             <button
-              className="px-2 py-1 bg-gray-400 text-white rounded-lg hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed w-max"
+              className="px-2 py-1 bg-[#2837bf] m-1 text-white rounded-lg hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed w-max"
+              onClick={() => {
+                setCurrentPage(1);
+              }}
+              disabled={attachableProducts.data.pagination.current_page == 1}
+            >
+              {`First Page`}
+            </button>
+            <button
+              className="px-2 py-1 bg-gray-400 m-1 text-white rounded-lg hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed w-max"
               onClick={() => {
                 setCurrentPage(
                   attachableProducts.data.pagination.current_page - 1
@@ -178,8 +197,11 @@ function AttachableProducts() {
             >
               {`Previous Page`}
             </button>
+            <p className="m-1 border-b border-skin-primary ">
+              {attachableProducts.data.pagination.current_page}
+            </p>
             <button
-              className="px-2 py-1 bg-gray-400 text-white rounded-lg hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed w-max"
+              className="px-2 py-1 bg-gray-400 m-1 text-white rounded-lg hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed w-max"
               onClick={() => {
                 setCurrentPage(
                   attachableProducts.data.pagination.current_page + 1
@@ -191,6 +213,18 @@ function AttachableProducts() {
               }
             >
               {`Next Page`}
+            </button>
+            <button
+              className="px-2 py-1 bg-[#2837bf] m-1 text-white rounded-lg hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed w-max"
+              onClick={() => {
+                setCurrentPage(attachableProducts.data.pagination.last_page);
+              }}
+              disabled={
+                attachableProducts.data.pagination.current_page ===
+                attachableProducts.data.pagination.last_page
+              }
+            >
+              {`Last Page`}
             </button>
             {isFetching && (
               <Ring size={20} lineWeight={5} speed={2} color="#222222" />
@@ -205,19 +239,43 @@ function AttachableProducts() {
       ) : (
         inSearch == false && (
           <div className="w-full">
-            {attachableProducts &&
-            attachableProducts.data?.products?.length > 0 ? (
               <table className="w-full overflow-auto relative table-auto overflow-y-scroll ">
                 <thead className="sticky top-0 bg-white border-b-2 border-blue-500 overflow-y-scroll">
                   <tr className="text-sm font-semibold text-center border-b-2 border-blue-500 uppercase">
                     <th>Id</th>
-                    {tableheading.map((index) => (
-                      <th className=" px-4 py-4 " key={index.heading}>
-                        {index.heading}
-                      </th>
-                    ))}
+                    {tableheading.map((index) => {
+                      if (index.heading === "Attached ? ") {
+                        return (
+                          <th className=" px-4 py-4 " key={index.heading}>
+                            <button
+                              onClick={() => {
+                                setIsAttached((prev) => {
+                                  if (prev === null) {
+                                    return true;
+                                  } else {
+                                    return !prev;
+                                  }
+                                });
+                              }}
+                              className="px-2 py-1 hover:opacity-75 bg-sky-500 text-white rounded-lg"
+                            >
+                              {index.heading}{" "}
+                              {isAttached !== null &&
+                                (isAttached == true ? `Yes` : `No`)}
+                            </button>
+                          </th>
+                        );
+                      } else {
+                        return (
+                          <th className=" px-4 py-4 " key={index.heading}>
+                            {index.heading}
+                          </th>
+                        );
+                      }
+                    })}
                   </tr>
                 </thead>
+                {attachableProducts?.data?.products?.length > 0 ? (
                 <tbody className="text-lg font-normal text-gray-700 text-center h-[500px]">
                   {attachableProducts?.data?.products &&
                     attachableProducts.data.products.map((prod) => {
@@ -233,12 +291,12 @@ function AttachableProducts() {
                       );
                     })}
                 </tbody>
-              </table>
             ) : (
               <p className="text-center text-lg">
                 There are no Attachable Products
               </p>
             )}
+              </table>
           </div>
         )
       )}

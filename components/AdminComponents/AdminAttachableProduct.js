@@ -16,17 +16,15 @@ import { useRouter } from "next/router";
 import createAxiosInstance from "@/API";
 import { Ring } from "@uiball/loaders";
 import { Accordion, AccordionItem } from "@nextui-org/react";
+import TawasyLoader from "../UI/tawasyLoader";
 
-function AdminAttachableProduct({
-  product,
-  selectedStoreId,
-  refetch,
-}) {
+function AdminAttachableProduct({ product, selectedStoreId, refetch }) {
   const [isLoading, setIsLoading] = useState(false);
   const [OpenAttach, setOpenAttach] = useState(false);
   const router = useRouter();
   const Api = createAxiosInstance(router);
   const searchRef = useRef();
+  const [attachedProducts, setAttachedProducts] = useState(null);
   const [searchedResults, setSearchedResults] = useState();
   const [selectedProduct, setSelectedProduct] = useState();
   const [inSearch, setInSearch] = useState(false);
@@ -34,8 +32,26 @@ function AdminAttachableProduct({
   const [delayedSearch, setDelayedSearch] = useState(null);
   const [isAttaching, setIsAttaching] = useState(false);
 
+  const GetAttachItem = async () => {
+    try {
+      setIsLoading(true);
+      const response = await Api.get(
+        `/api/admin/attached-item/${product.item_id}`
+      );
+      console.log(response.data);
+      setAttachedProducts(response.data.products);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
+    setIsLoading(false);
+  };
   function OpenAttachment() {
     setOpenAttach(true);
+    if (product.attached == true) {
+      GetAttachItem();
+    }
+    // admin/attached-item/{itemId}
   }
 
   function closeAttachment() {
@@ -207,14 +223,11 @@ function AdminAttachableProduct({
   async function attachProduct() {
     setIsAttaching(true);
     try {
-      const response = await Api.post(
-        `/api/admin/attach-product-waffer`,
-        {
-          product_id: selectedProduct.productId,
-          product_combination_id: selectedProduct.combinationId ?? null,
-          product_api_id: product.item_id,
-        }
-      );
+      const response = await Api.post(`/api/admin/attach-product-waffer`, {
+        product_id: selectedProduct.productId,
+        product_combination_id: selectedProduct.combinationId ?? null,
+        product_api_id: product.item_id,
+      });
       refetch();
       closeAttachment();
       setIsAttaching(false);
@@ -228,7 +241,7 @@ function AdminAttachableProduct({
     <>
       <tr
         key={product.id}
-        className="py-10 px-0 bg-gray-100 hover:bg-gray-200 font-medium"
+        className=" px-0 bg-gray-100 hover:bg-gray-200 font-medium"
       >
         <td className="px-4 py-4">{product.item_id}</td>
         <td class="px-4 py-4">
@@ -242,6 +255,13 @@ function AdminAttachableProduct({
           </div>
         </td>
         <td className="px-4 py-4">{product.name}</td>
+        <td
+          className={`px-4 py-4 ${
+            product.attached == true ? `text-green-500` : `text-red-500`
+          } `}
+        >
+          {product.attached == true ? `Yes` : `No`}
+        </td>
         <td className="px-4 py-4 flex justify-center items-center ">
           <Image
             src={product.image ? product.image : logo}
@@ -262,7 +282,7 @@ function AdminAttachableProduct({
         disableRestoreFocus
       >
         <DialogTitle className="flex justify-between items-center">
-          <div className="flex justify-start items-center space-x-3" >
+          <div className="flex justify-start items-center space-x-3">
             <p>Attach Product : {product.name}</p>
           </div>
           <MdClose
@@ -272,63 +292,104 @@ function AdminAttachableProduct({
         </DialogTitle>
         <hr />
         <DialogContent className="w-full flex flex-col justify-start items-start space-y-4 h-[600px]">
-          <div className="flex flex-col justify-start items-start space-y-4 h-full w-full">
-            <div className="flex justify-start items-center w-full ">
-              <p className="text-lg">Search for a product to attach :</p>
-              <div className=" w-[40%] flex flex-col justify-start items-start relative">
-                <form
-                  onSubmit={handleFormSubmit}
-                  className="flex bg-gray-100 w-full items-center px-2 border-b-2 border-transparent focus-within:border-skin-primary transition-all duration-700 mx-auto "
-                >
-                  <input
-                    className="w-full bg-gray-100 outline-none rounded-lg text-sm h-10 placeholder:text-xs placeholder:text-transparent placeholder:md:text-gray-400"
-                    type="text"
-                    ref={searchRef}
-                    onChange={handleInputChange}
-                    placeholder="Search a product name"
-                    onClick={() => {
-                      setInSearch(true);
-                    }}
-                  />
-                  {searching == true ? (
-                    <Ring size={25} lineWeight={5} speed={2} color="#ff6600" />
-                  ) : (
-                    <MdClose
-                      className={`text-red-500 ${
-                        inSearch == true ? `block` : `hidden`
-                      } transition-all duration-300s hover:text-red-600 w-[25px] h-[25px] hover:border-b-2 hover:border-red-600 cursor-pointer`}
+          {isLoading == true ? (
+            <div className="w-full h-full flex justfy-center items-center">
+              <TawasyLoader width={300} height={300} />
+            </div>
+          ) : (
+            <div className="flex flex-col justify-start items-start space-y-4 h-full w-full">
+              <div className="flex justify-start items-center w-full ">
+                <p className="text-lg">Search for a product to attach :</p>
+                <div className=" w-[40%] flex flex-col justify-start items-start relative">
+                  <form
+                    onSubmit={handleFormSubmit}
+                    className="flex bg-gray-100 w-full items-center px-2 border-b-2 border-transparent focus-within:border-skin-primary transition-all duration-700 mx-auto "
+                  >
+                    <input
+                      className="w-full bg-gray-100 outline-none rounded-lg text-sm h-10 placeholder:text-xs placeholder:text-transparent placeholder:md:text-gray-400"
+                      type="text"
+                      ref={searchRef}
+                      onChange={handleInputChange}
+                      placeholder="Search a product name"
                       onClick={() => {
-                        setInSearch(false);
+                        setInSearch(true);
                       }}
                     />
-                  )}
-                </form>
-                {inSearch == true && searchedResults && (
-                  <div className="px-4 z-10 absolute top-0 left-full mx-auto w-full bg-white border border-gray-300 rounded-sm ">
-                    {searchedResults}
-                  </div>
-                )}
-              </div>
-            </div>
-            {selectedProduct !== null && selectedProduct !== undefined ? (
-              <div className="flex flex-wrap justify-start items-center space-x-4">
-                <p className="text-lg">Selected product : </p>
-                <p>{selectedProduct.productName}</p>
-                {selectedProduct.combinationId &&
-                  selectedProduct.combinationId !== null && (
-                    <div className="flex jsutify-start items-center space-x-4">
-                      <p>/</p>
-                      <p>{selectedProduct.variations}</p>
+                    {searching == true ? (
+                      <Ring
+                        size={25}
+                        lineWeight={5}
+                        speed={2}
+                        color="#ff6600"
+                      />
+                    ) : (
+                      <MdClose
+                        className={`text-red-500 ${
+                          inSearch == true ? `block` : `hidden`
+                        } transition-all duration-300s hover:text-red-600 w-[25px] h-[25px] hover:border-b-2 hover:border-red-600 cursor-pointer`}
+                        onClick={() => {
+                          setInSearch(false);
+                        }}
+                      />
+                    )}
+                  </form>
+                  {inSearch == true && searchedResults && (
+                    <div className="px-4 z-10 absolute top-0 left-full mx-auto w-full bg-white border border-gray-300 rounded-sm ">
+                      {searchedResults}
                     </div>
                   )}
+                </div>
               </div>
-            ) : (
-              <div>You did not select a product yet .</div>
-            )}
-            <div className="w-full" >
-            <Image src={product.image ?? logo} alt={product.name} width={0} height={0} className="object-contain w-[35%] h-auto " />
+              {product.attached == true && attachedProducts !== null && (
+                <div className="w-full flex flex-col justify-start items-start">
+                  <p className="p-1 m-1">This product has attached items :</p>
+                  <div className="w-[50%] flex flex-wrap">
+                    {attachedProducts.map((prod, id) => {
+                      return (
+                        <div
+                          key={i}
+                          className="flex flex-wrap justify-start items-center space-x-1 px-2 py-1 border-2 border-skin-primary"
+                        >
+                          <p>{prod.name}</p>
+                          <Image
+                            src={product.image ? product.image : logo}
+                            alt="photo"
+                            width={150}
+                            height={150}
+                            className="object-contain max-h-[150px] max-w-[100px] min-h-[150px] min-w-[150px] "
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+              {selectedProduct !== null && selectedProduct !== undefined ? (
+                <div className="flex flex-wrap justify-start items-center space-x-4">
+                  <p className="text-lg">Selected product : </p>
+                  <p>{selectedProduct.productName}</p>
+                  {selectedProduct.combinationId &&
+                    selectedProduct.combinationId !== null && (
+                      <div className="flex justify-start items-center space-x-4">
+                        <p>/</p>
+                        <p>{selectedProduct.variations}</p>
+                      </div>
+                    )}
+                </div>
+              ) : (
+                <div>You did not select a product yet .</div>
+              )}
+              <div className="w-full">
+                <Image
+                  src={product.image ?? logo}
+                  alt={product.name}
+                  width={0}
+                  height={0}
+                  className="object-contain w-[35%] h-auto "
+                />
+              </div>
             </div>
-          </div>
+          )}
         </DialogContent>
         <DialogActions className="w-full flex justify-center items-center">
           {isAttaching == true ? (
