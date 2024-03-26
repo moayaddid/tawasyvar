@@ -347,7 +347,7 @@ function AdminAttachableProduct({ product, selectedStoreId, refetch }) {
                     {attachedProducts.map((prod, id) => {
                       return (
                         <div
-                          key={i}
+                          key={id}
                           className="flex flex-wrap justify-start items-center space-x-1 px-2 py-1 border-2 border-skin-primary"
                         >
                           <p>{prod.name}</p>
