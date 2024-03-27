@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { Dialog, DialogActions, DialogContent } from "@mui/material";
 import { DialogHeader } from "@material-tailwind/react";
 import Combination from "@/components/SellerVariations/Combination";
+import AdminSearchDropDown from "@/components/AdminComponents/AdminSearchDropDown";
 
 export function generateCombinations(
   attributes,
@@ -289,7 +290,14 @@ const AddNewProductAdmin = () => {
             </div>
 
             <div className="px-6 py-4">
-              <select
+              {categories && (
+                <AdminSearchDropDown
+                  data={categories.data.categories}
+                  title={`Select a category`}
+                  selectItem={(item) => {setCategory(item.name_en);}}
+                />
+              )}
+              {/* <select
                 className="md:w-[400px] w-full  form-select outline-none bg-transparent border-b-2 border-gray-300 "
                 aria-label="Category"
                 name="category"
@@ -314,11 +322,18 @@ const AddNewProductAdmin = () => {
                       </option>
                     );
                   })}
-              </select>
+              </select> */}
             </div>
 
             <div className="px-6 py-4">
-              <select
+            {brands && (
+                <AdminSearchDropDown
+                  data={brands.data.brands}
+                  title={`Select a brand`}
+                  selectItem={(item) => {setBrand(item.name);}}
+                />
+              )}
+              {/* <select
                 className="md:w-[400px] w-full  form-select outline-none bg-transparent border-b-2 border-gray-300 "
                 aria-label="Brand"
                 name="Brand"
@@ -337,7 +352,7 @@ const AddNewProductAdmin = () => {
                       </option>
                     );
                   })}
-              </select>
+              </select> */}
             </div>
 
             <div className="px-6 py-4">
