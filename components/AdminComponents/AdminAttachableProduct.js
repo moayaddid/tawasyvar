@@ -345,18 +345,40 @@ function AdminAttachableProduct({ product, selectedStoreId, refetch }) {
                   <p className="p-1 m-1">This product has attached items :</p>
                   <div className="w-[50%] flex flex-wrap">
                     {attachedProducts.map((prod, id) => {
+                        let vari = [] ; 
+                        let img ;
+                        if(prod.combination){
+                          prod?.combination?.variations?.map((variant) => {
+                            if(variant.option){
+                              vari.push(variant.option);
+                            }
+                          });
+                        }
+
+                        if(prod.combination){
+                          if(prod.combination?.variations[0]?.image){
+                            img = prod.combination?.variations[0]?.image
+                          }
+                        } else {
+                          if(prod.image){
+                            img = prod.image ;
+                          }else {
+                            img = logo ;
+                          }
+                        }
+
                       return (
                         <div
                           key={id}
-                          className="flex flex-wrap justify-start items-center space-x-1 px-2 py-1 border-2 border-skin-primary"
+                          className="flex flex-wrap justify-start items-center space-x-1 px-2 py-1 m-1 border-2 rounded-lg border-skin-primary"
                         >
-                          <p>{prod.name}</p>
+                          <p>{prod.name} {prod.combination ? vari && `( ${vari.join(" - ")} )` :``} {prod?.combination?.part_number && prod.combination.part_number}</p>
                           <Image
-                            src={product.image ? product.image : logo}
+                            src={img ?? logo}
                             alt="photo"
-                            width={150}
-                            height={150}
-                            className="object-contain max-h-[150px] max-w-[100px] min-h-[150px] min-w-[150px] "
+                            width={120}
+                            height={120}
+                            className="object-contain max-h-[120px] max-w-[100px] min-h-[120px] min-w-[120px] "
                           />
                         </div>
                       );

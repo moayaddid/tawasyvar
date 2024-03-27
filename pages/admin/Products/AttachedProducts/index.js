@@ -36,7 +36,7 @@ function AttachedProducts() {
     isRefetching,
   } = useQuery(
     [`AttachedProducts`, currentPage],
-    () => fetchAttachedProducts( currentPage),
+    () => fetchAttachedProducts(currentPage),
     {
       staleTime: 1,
       refetchOnWindowFocus: false,
@@ -50,7 +50,7 @@ function AttachedProducts() {
 
   async function fetchAttachedProducts(selectedPage) {
     try {
-      let storeId ;
+      let storeId;
       if (selectedPage) {
         return await Api.get(
           `/api/admin/attached-products?page=${selectedPage}`
@@ -68,21 +68,26 @@ function AttachedProducts() {
         {attachedProducts && attachedProducts?.data?.pagination && (
           <div className="w-fit mx-auto flex justify-center items-center h-max gap-4 py-4 ">
             <button
+              className="px-2 py-1 bg-[#2837bf] text-white rounded-lg hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed w-max"
+              onClick={() => {
+                setCurrentPage(1);
+              }}
+              disabled={attachedProducts.data.pagination.current_page == 1}
+            >
+              {`First Page`}
+            </button>
+            <button
               className="px-2 py-1 bg-gray-400 text-white rounded-lg hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed w-max"
               onClick={() => {
                 setCurrentPage(
                   attachedProducts.data.pagination.current_page - 1
                 );
-                // scroll(`top`);
-                // setCurrentPage(data.data.pagination.previousPage);
               }}
-              disabled={
-                attachedProducts.data.pagination.current_page ==
-                1
-              }
+              disabled={attachedProducts.data.pagination.current_page == 1}
             >
               {`Previous Page`}
             </button>
+            <p className="border-b-2 border-skin-primary px-2 " >{attachedProducts.data.pagination.current_page}</p>
             <button
               className="px-2 py-1 bg-gray-400 text-white rounded-lg hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed w-max"
               onClick={() => {
@@ -99,6 +104,20 @@ function AttachedProducts() {
             >
               {`Next Page`}
             </button>
+            <button
+              className="px-2 py-1 bg-[#2837bf] text-white rounded-lg hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed w-max"
+              onClick={() => {
+                setCurrentPage(
+                  attachedProducts.data.pagination.last_page
+                );
+              }}
+              disabled={
+                attachedProducts.data.pagination.current_page ===
+                attachedProducts.data.pagination.last_page
+              }
+            >
+              {`Last Page`}
+            </button>
             {isFetching && (
               <Ring size={20} lineWeight={5} speed={2} color="#222222" />
             )}
@@ -111,8 +130,7 @@ function AttachedProducts() {
         </div>
       ) : (
         <div className="w-full">
-          {attachedProducts &&
-          attachedProducts.data?.data?.length > 0 ? (
+          {attachedProducts && attachedProducts.data?.data?.length > 0 ? (
             <table className="w-max min-w-full overflow-auto relative table-auto overflow-y-scroll ">
               <thead className="sticky top-0 bg-white border-b-2 border-blue-500 overflow-y-scroll">
                 <tr className="text-sm font-semibold text-center border-b-2 border-blue-500 uppercase">
@@ -140,7 +158,9 @@ function AttachedProducts() {
               </tbody>
             </table>
           ) : (
-            <p className="text-center text-lg">There are no Attached Products</p>
+            <p className="text-center text-lg">
+              There are no Attached Products
+            </p>
           )}
         </div>
       )}

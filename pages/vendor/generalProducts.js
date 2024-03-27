@@ -256,6 +256,19 @@ function GeneralProducts() {
             inSearch == false && (
               <div className="w-[50%] mx-auto flex justify-center items-center py-5 gap-4 ">
                 <button
+                  className="px-2 py-1 bg-[#2837bf] text-white rounded-lg hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed w-[20%]"
+                  onClick={() => {
+                    setCurrentPage(1);
+                    scroll("top");
+                  }}
+                  disabled={
+                    data.data.pagination.current_page ==
+                    1
+                  }
+                >
+                  {t("seller.addProduct.firstPage")}
+                </button>
+                <button
                   className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-[20%]"
                   onClick={() => {
                     setCurrentPage(data.data.pagination.current_page - 1);
@@ -268,9 +281,9 @@ function GeneralProducts() {
                 >
                   {t("seller.addProduct.previousPage")}
                 </button>
-                {isFetching && (
+                {isFetching ? (
                   <Ring size={20} lineWeight={5} speed={2} color="#ff6600" />
-                )}
+                ) : <p className="px-2 border-b-2 border-skin-primary" >{data.data.pagination.current_page}</p>}
                 <button
                   className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-[20%]"
                   onClick={() => {
@@ -283,6 +296,19 @@ function GeneralProducts() {
                   }
                 >
                   {t("seller.addProduct.nextPage")}
+                </button>
+                <button
+                  className="px-2 py-1 bg-[#2837bf] text-white rounded-lg hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed w-[20%]"
+                  onClick={() => {
+                    setCurrentPage(data.data.pagination.last_page);
+                    scroll(`top`);
+                  }}
+                  disabled={
+                    data.data.pagination.current_page ===
+                    data.data.pagination.last_page
+                  }
+                >
+                  {t("seller.addProduct.lastPage")}
                 </button>
               </div>
             )}
