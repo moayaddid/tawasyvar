@@ -657,5 +657,7 @@
     "yes" : "Yes" ,
     "no" : "No" , 
     "RUSure" : "Are you sure you want to cancel the promotion of this product ?" ,
-    "optional" : "optional"
+    "optional" : "optional",
+    "itemsInPack" : "items in a pack" , 
+    "packs" : "Packs"
 }

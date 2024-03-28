@@ -169,6 +169,7 @@ function VendorProduct({ product, refetch }) {
         </td>
         <td className="px-4 py-4">{convertMoney(price)}</td>
         <td className="px-4 py-4">{product.name}</td>
+        <td className="px-4 py-4">{product.pack ?? " - "}</td>
         <td className="px-4 py-4 self-center ">
           <p>{product.combination ? nid.join(" - ") : `-`}</p>
           {product.combination?.hex && (

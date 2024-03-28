@@ -41,9 +41,9 @@ function ProductsPricingPage() {
     } catch (error) {}
   }
 
-  if (orders) {
-    console.log(orders);
-  }
+  // if (orders) {
+  //   console.log(orders);
+  // }
 
   return (
     <div className="w-[90%] mx-auto py-7 flex flex-col justify-start items-start space-y-5">

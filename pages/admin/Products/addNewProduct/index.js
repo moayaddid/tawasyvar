@@ -63,6 +63,7 @@ const AddNewProductAdmin = () => {
   const skuRef = useRef();
   const eanRef = useRef();
   const sortRef = useRef();
+  const packRef = useRef();
   const [category, setCategory] = useState();
   const [brand, setBrand] = useState();
   const [bigSize, setBigSize] = useState(false);
@@ -166,6 +167,7 @@ const AddNewProductAdmin = () => {
         data.image = image;
         data.sort_order = sortRef.current.value;
         data.category_name = category;
+        data.pack = packRef.current.value;
         data.ean_code = eanRef.current.value;
         data.sku = skuRef.current.value;
         data.brand_name = brand;
@@ -208,6 +210,7 @@ const AddNewProductAdmin = () => {
             image: image,
             sort_order: sortRef.current.value,
             category_name: category,
+            pack : packRef.current.value,
             ean_code: eanRef.current.value,
             sku: skuRef.current.value,
             brand_name: brand,
@@ -388,6 +391,16 @@ const AddNewProductAdmin = () => {
                 required
               />
             </div>
+            <div className="px-6 py-4">
+              <input
+                className="md:w-[400px] w-full h-max border-b-2  outline-none  text-xl focus:border-skin-primary transition-all duration-700"
+                name="pack"
+                type="number"
+                style={{ WebkitAppearance: "none", MozAppearance: "textfield" }}
+                placeholder="Number of Items in a Pack"
+                ref={packRef}
+              />
+            </div>
 
             <div className="px-6 py-4 ">
               <input
@@ -442,8 +455,8 @@ const AddNewProductAdmin = () => {
 
           {/* <div className="w-full flex justify-center "> */}
           {saving == true ? (
-            <div className="w-full flex justify-center">
-              <Ring size={20} speed={2} lineWeight={5} color="white" />
+            <div className="w-full flex justify-center bg-[#ff6600] text-white md:w-[400px] py-2 rounded-lg">
+              <Ring size={20} speed={2} lineWeight={5} color="  white" />
             </div>
           ) : (
             <button

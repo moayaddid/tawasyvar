@@ -244,11 +244,12 @@ function AdminPromotion({ promo, refetch }) {
               Promotion Status :
               <select
                 className="bg-transparent px-2"
-                defaultValue={promo.status}
+                defaultValue={(promo.status !==  "pending" && promo.status !== "expired") ? promo.status : null }
                 onChange={(e) => {
                   setStatus(e.target.value);
                 }}
               >
+                <option selected disabled value={null} >select a Status for this promotion</option>
                 {/* expired */}
                 <option value={`accepted`}>Approved</option>
                 <option value={`cancelled`}>Cancelled</option>

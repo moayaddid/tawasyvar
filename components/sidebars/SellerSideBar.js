@@ -27,13 +27,16 @@ import LocaleSwitcher from "../UI/localeSwitcher/localeSwitcher";
 import { useTranslation } from "next-i18next";
 import { FaRegHandshake, FaUserFriends } from "react-icons/fa";
 import { VscArchive } from "react-icons/vsc";
+import { useSelector } from "react-redux";
 
 export default function Sidebar(props) {
+  const sellerName = useSelector((state) => state.SAS.sellerName);
+  const storeName = useSelector((state) => state.SAS.storeName);
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { t } = useTranslation("");
-  const [name, setName] = useState();
-  const [STname , setSTname] = useState();
+  // const [name, setName] = useState();
+  // const [STname , setSTname] = useState();
 
   function logOut() {
     Cookies.remove("AT");
@@ -42,14 +45,14 @@ export default function Sidebar(props) {
     router.replace("/login");
   }
 
-  useEffect(() => {
-    if (Cookies?.get("SName")) {
-      setName(Cookies.get("SName"));
-    } 
-    if(Cookies?.get("STName")){
-      setSTname(Cookies.get("STName"))
-    }
-  }, [Cookies]);
+  // useEffect(() => {
+  //   if (Cookies?.get("SName")) {
+  //     setName(Cookies.get("SName"));
+  //   } 
+  //   if(Cookies?.get("STName")){
+  //     setSTname(Cookies.get("STName"))
+  //   }
+  // }, [Cookies]);
 
   return (
     <div className={`w-max h-screen  `}>
@@ -64,7 +67,7 @@ export default function Sidebar(props) {
           <div className="   hidden w-full px-3 md:flex md:flex-col justify-start items-start text-center text-white">
             <p className="text-xl">{t("welcome")} :</p>
             <p className="text-2xl w-full text-start px-4 line-clamp-3 ">
-              {name ?? ` - `} {`( ${STname ?? " - "} )`}
+              {sellerName ?? ` - `} {`( ${storeName ?? " - "} )`}
             </p>
           </div>
           <LocaleSwitcher />

@@ -60,6 +60,7 @@ function VendorSelecteableProduct({
         >
           {product.name}
         </h1>
+        { product.pack && <i className="text-gray-400" >{product.pack} items in a pack *</i>}
         {product?.combination && (
           <div className="flex flex-col justify-center items-start space-y-1">
             <p className="line-clamp-3  text-red-500">

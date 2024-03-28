@@ -110,6 +110,7 @@ function AdminAttachedProduct({ product, refetch }) {
           <div className="flex flex-col w-full justify-start items-start space-y-1">
             <p className="text-lg">This product is attached to :</p>
             <div className="flex flex-wrap justify-start items-center space-x-1">
+              <p>( {product.waffer_id} ) - </p>
               <p>{product.waffer_name}</p>
               <Image
                 src={product.waffer_image ? product.waffer_image : logo}

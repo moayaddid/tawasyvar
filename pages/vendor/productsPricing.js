@@ -29,6 +29,9 @@ const tableheading = [
     heading: `product name`,
   },
   {
+    heading: `items per pack`,
+  },
+  {
     heading: `variations`,
   },
   {
@@ -418,6 +421,7 @@ function ProductsPricingPage() {
                         >
                           {/* <td className="py-6">{product.product_id}</td> */}
                           <td>{product.name}</td>
+                          <td>{product.pack ?? " - "}</td>
                           <td>
                             {product.combiantion
                               ? product.combiantion?.variations

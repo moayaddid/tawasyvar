@@ -209,6 +209,8 @@ function SellerVendorPage() {
                 <tr className="text-sm font-semibold text-center border-b-2 border-blue-500 capitalize">
                   <th>{t("name")}</th>
                   <th>{t("combination")}</th>
+                  <th>{t("packs")}</th>
+                  <th>{t("itemsInPack")}</th>
                   <th>{t("quantity")}</th>
                 </tr>
               </thead>
@@ -230,7 +232,9 @@ function SellerVendorPage() {
                         <td className="text-red-500">
                           {product?.combination ? varis.join(" - ") : ` - `}
                         </td>
-                        <td>{product.amount}</td>
+                        <td className="px-2 py-2">{product.amount}</td>
+                        <td>{product.packs}</td>
+                        <td>{Number(product.packs) * Number(product.amount)}</td>
                       </tr>
                     );
                   })}

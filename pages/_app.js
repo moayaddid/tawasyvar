@@ -17,6 +17,7 @@ import { GoogleTagManager , GoogleAnalytics } from '@next/third-parties/google' 
 import cartSlice from "@/Store/CartSlice";
 import selectedSlice from "@/Store/SelectedSlice";
 import vendorSlice from "@/Store/VendorSlice";
+import sellerAuthSlice from "@/Store/sellerAuthSlice";
 // import { GoogleAnalytics } from '@next/third-parties/google';
 
 const tawasyFont = localfont({
@@ -39,6 +40,7 @@ function App({ Component, pageProps }) {
 
 const store = configureStore({
     reducer : {
+        SAS : sellerAuthSlice.reducer,
         cart : cartSlice.reducer,
         selected : selectedSlice.reducer,
         vendor : vendorSlice.reducer,

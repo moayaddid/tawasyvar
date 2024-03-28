@@ -63,6 +63,7 @@ function AdminProduct({ product, refetch }) {
   const newSku = useRef();
   const newEanCode = useRef();
   const newSortOrder = useRef();
+  const packRef = useRef();
   const router = useRouter();
   const Api = createAxiosInstance(router);
   const {
@@ -196,6 +197,7 @@ function AdminProduct({ product, refetch }) {
     }
     addIfDifferent(newSku.current.value, "sku");
     addIfDifferent(newEanCode.current.value, "ean_code");
+    addIfDifferent(packRef.current.value, "pack");
     addIfDifferent(newSortOrder.current.value, "sort_order");
     if (product.slug) {
       addIfDifferent(status, "status");
@@ -457,6 +459,7 @@ function AdminProduct({ product, refetch }) {
         <td className="px-4 ">{product.brand && product.brand}</td>
         <td className="px-4 ">{product.sku}</td>
         <td className="px-4 ">{product.ean_code}</td>
+        <td className="px-4 ">{product.pack ?? " - "}</td>
         <td
           className={`${
             router.pathname === "/admin/Products/PendingProduct" && `hidden`
@@ -621,6 +624,17 @@ function AdminProduct({ product, refetch }) {
                     // placeholder={product.ean_code}
                     defaultValue={product.ean_code}
                     ref={newEanCode}
+                  />
+                </div>
+
+                <div className="flex items-center">
+                  <label className="w-[30%] text-lg px-2">Number of items in a pack :</label>
+                  <input
+                    className="my-3 w-[70%] text-black placeholder:text-zinc-500 pl-2 outline-none border-b-2 focus:border-skin-primary transition-all duration-700"
+                    type="text"
+                    // placeholder={product.ean_code}
+                    defaultValue={product.pack}
+                    ref={packRef}
                   />
                 </div>
 

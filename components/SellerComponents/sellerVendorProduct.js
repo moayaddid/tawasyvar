@@ -52,6 +52,7 @@ function SellerVendorProduct({ product, selectedProducts, selectProduct }) {
         >
           {product.name}
         </h1>
+        { product.pack && <i className="text-gray-400" >{product.pack} {t("itemsInPack")} *</i>}
         {product?.combination && (
           <div className="flex flex-col justify-center items-start space-y-1">
             <p className="line-clamp-3  text-red-500">
@@ -69,7 +70,7 @@ function SellerVendorProduct({ product, selectedProducts, selectProduct }) {
             </div>
           )}
         </div>
-        <div className="w-[90%] flex flex-col justify-between items-center space-y-2  mx-auto">
+        <div className="w-[95%] flex flex-col justify-between items-center space-y-2  mx-auto">
           <div className=" flex flex-wrap justify-start items-center">
             <p className="text-skin-primary px-2 py-1 my-1 mx-1 border rounded-lg border-skin-primary">
               {product?.brand}
@@ -89,12 +90,13 @@ function SellerVendorProduct({ product, selectedProducts, selectProduct }) {
                   line_id: product.line_id ?? null,
                   combination: product.combination ?? null,
                   amount: amount,
+                  packs : product.pack
                 //   note: noteRef.current.value ?? null,
                 });
               }}
               className={`${
                 isSelected() == true ? `bg-red-500` : `bg-green-500`
-              } hover:opacity-80 text-white w-max px-3 py-1 transition-all duration-500 rounded-lg text-center `}
+              } hover:opacity-80 text-white w-max px-3 py-1 transition-all duration-500  rounded-lg text-center `}
             >
               {isSelected() == true ? `${t("unselect")}` : `${t("select")}`}
             </button>
@@ -115,7 +117,7 @@ function SellerVendorProduct({ product, selectedProducts, selectProduct }) {
               >
                 <BiPlus />
               </button>
-              <p className="px-2 py-1 border-b border-skin-primary">{amount}</p>
+              <p className="px-2 py-1 border-b border-skin-primary">{amount}{" "}({t("packs")})</p>
               <button
                 className="hover:text-skin-primary disabled:text-gray-400 px-2 transition-all duration-300  text-lg"
                 disabled={amount == 1}

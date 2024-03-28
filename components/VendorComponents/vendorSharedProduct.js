@@ -113,6 +113,7 @@ function VendorSharedProduct({ product }) {
               </div>
             )}
           </div>
+          { product.pack && <i className="text-gray-400" >{product.pack} items in a pack *</i>}
           {product.message &&
           product.message == "Product found in another store type." ? (
             <div className="text-red-500">

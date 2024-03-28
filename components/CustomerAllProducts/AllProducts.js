@@ -279,11 +279,13 @@ function PublicAllProduct({ product, storeId }) {
                         <h1 className=" md:text-xl sm:text-lg text-lg w-[70%] text-gray-600 capitalize">
                           {product.name}
                         </h1>
-                        {product.price && (
+                        {product.price && (product.has_promotion == true ? (
                           <p className="bg-gray-200 sm:text-lg  w-max text-sm h-max sm:flex-none flex py-2 px-2 text-gray-600 ">
-                            {convertMoney(product.price)} S.P
+                            {convertMoney(product.promotion_price)} S.P
                           </p>
-                        )}
+                        ) : <p className="bg-gray-200 sm:text-lg  w-max text-sm h-max sm:flex-none flex py-2 px-2 text-gray-600 ">
+                        {convertMoney(product.price)} S.P
+                      </p>) }
                       </div>
                       <div className="flex flex-wrap space-x-3">
                         {product.brand && product.brand && (

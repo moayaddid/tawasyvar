@@ -21,80 +21,12 @@ function VendorSelectedProduct({ selectproduct, refetch }) {
   const dispatch = useDispatch();
 
   async function saveProduct() {
-    // if (
-    //   selectproduct.variations &&
-    //   selectproduct.variations.length > 0
-    // ) {
-    //   setIsSaving(true);
-    //   try {
-    //     const response = await Api.post(
-    //       `/api/seller/add-products-to-store/${selectproduct.product_id}`,
-    //       {
-    //         price: priceRef.current.value,
-    //         availability: available,
-    //         variation: selectproduct.line_id,
-    //       }
-    //     );
-    //     refetch();
-    //     setIsSaving(false);
-    //   } catch (error) {
-    //     // console.log(error);
-    //   }
-    //   setIsSaving(false);
-    // } else {
-    //   setIsSaving(true);
-    //   try {
-    //     const response = await Api.post(
-    //       `/api/seller/add-products-to-store/${selectproduct.product_id}`,
-    //       {
-    //         price: priceRef.current.value,
-    //         availability: available,
-    //       }
-    //     );
-    //     refetch();
-    //     setIsSaving(false);
-    //   } catch (error) {
-    //     // console.log(error);
-    //   }
-    //   setIsSaving(false);
-    // }
   }
 
   async function unSelectProduct() {
-    // if (
-    //   selectproduct.variations &&
-    //   selectproduct.variations.length > 0
-    // ) {
-    //   setIsDeleting(true);
-    //   try {
-    //     const response = await Api.post(
-    //       `/api/seller/unselect-product/${selectproduct.product_id}`, {
-    //       variation: selectproduct.line_id
-    //     }
-    //     );
-    //     refetch();
-    //     setIsDeleting(false);
-    //   } catch (error) {
-    //     setIsDeleting(false);
-    //   }
-    //   setIsDeleting(false);
-    // } else {
-    //   setIsDeleting(true);
-    //   try {
-    //     const response = await Api.post(
-    //       `/api/seller/unselect-product/${selectproduct.product_id}`
-    //     );
-    //     refetch();
-    //     setIsDeleting(false);
-    //   } catch (error) {
-    //     setIsDeleting(false);
-    //   }
-    //   setIsDeleting(false);
-    // }
     dispatch(vendorActions.unSelectProduct(selectproduct));
   }
 
-  // const variations = selectproduct.variations && selectproduct.variations.length > 0 && selectproduct.variations.option.join(`-`) ;
   let varis = [];
   const variations =
     selectproduct.variations &&
@@ -140,6 +72,7 @@ function VendorSelectedProduct({ selectproduct, refetch }) {
             {/* </p> */}
           {/* </Link> */}
         </td>
+        <td className="px-4">{selectproduct.pack ?? " - "}</td>
         <td className="px-4">
           {selectproduct.variations &&
             selectproduct.variations.length > 0 ? (

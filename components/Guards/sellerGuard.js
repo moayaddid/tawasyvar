@@ -3,10 +3,13 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import TawasyLoader from "../UI/tawasyLoader";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { getCookiesSeller } from "@/Store/sellerAuthSlice";
 
 const isFirstTime = true;
 
 function SellerGuard({ children }) {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(isFirstTime);
   const router = useRouter();
   const Api = createAxiosInstance(router);
@@ -15,6 +18,7 @@ function SellerGuard({ children }) {
     async function initialStoreStatus() {
       try {
         const response2 = await Api.get(`/api/seller/store/status`);
+        dispatch(getCookiesSeller());
         // console.log(response2);
         switch (response2.data.status) {
           case "Store not found":

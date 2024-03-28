@@ -51,6 +51,9 @@ const tableheading = [
     heading: "Ean Code",
   },
   {
+    heading: "items per pack",
+  },
+  {
     heading: "Sold Quantity",
   },
 
@@ -230,7 +233,7 @@ function ProductsAdmin() {
                 {allProduct && allProduct.data.products.length > 0 ? (
                   <table className="w-max overflow-auto table-auto">
                     <thead className="sticky top-0 bg-white border-b-2 border-blue-500">
-                      <tr className="text-sm font-semibold text-center border-b-2 border-blue-500 uppercase">
+                      <tr className="text-sm font-semibold text-center border-b-2 border-blue-500 capitalize">
                         <th>Id</th>
                         {tableheading.map((index) => (
                           <th className=" px-4 py-4 " key={index.heading}>

@@ -30,6 +30,9 @@ const tableheading = [
     heading: `name`,
   },
   {
+    heading : `items per pack`
+  },
+  {
     heading: `variations`,
   },
   {
@@ -73,13 +76,13 @@ function MyProducts() {
 
   return (
     <div className="w-full h-full">
-      <div className="w-[90%] mx-auto py-10 flex flex-col justify-start items-start">
+      <div className="w-[95%] mx-auto py-10 flex flex-col justify-start items-start">
         <p className="text-3xl">My Products</p>
         <hr className="pb-5" />
         { isLoading == true ? <div className="flex justify-center items-center w-full h-full " ><TawasyLoader width = {300} height = {300} /></div> : <div className="mt-6 overflow-x-auto w-full  ">
           { products && products.data.products && products.data.products.length > 0 ? <table className="w-full overflow-x-auto table-auto">
             <thead className="">
-              <tr className="text-sm font-semibold text-center border-b-2 border-blue-500 uppercase">
+              <tr className="text-sm font-semibold text-center border-b-2 border-blue-500 capitalize">
                 <th>{`id`}</th>
                 {tableheading.map((index) => (
                   <th key={index.heading}>{index.heading}</th>

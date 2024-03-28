@@ -8,7 +8,7 @@ import { convertDate } from "../SellerOrders/sellerOrder";
 import { useTranslation } from "next-i18next";
 import { convertDateStringToDate } from "../AdminOrders/OrderAdmin";
 
-function SellerVendorOrder({ order }) {
+function  SellerVendorOrder({ order }) {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [orderDetails, setOrderDetails] = useState();
@@ -108,13 +108,23 @@ function SellerVendorOrder({ order }) {
 
                 <div className="md:px-16 px-2">
                   <div className="w-[100%]">
-                    <div className="grid grid-cols-6  md:gap-4 gap-1 text-gray-800 md:text-xl text-xs font-medium bg-gray-200 py-2">
-                      <div className="col-span-3">
+                    <div className="grid grid-cols-4  md:gap-4 gap-1 text-gray-800 md:text-xl text-xs font-medium bg-gray-200 py-2">
+                      <div className="col-span-1">
                         <h4 className="text-center">
                           {t("orders.orderDetails.name")}
                         </h4>
                       </div>
-                      <div className="col-span-3">
+                      <div className="col-span-1">
+                        <h4 className="text-center">
+                          {t("packs")}
+                        </h4>
+                      </div>
+                      <div className="col-span-1">
+                        <h4 className="text-center">
+                          {t("itemsInPack")}
+                        </h4>
+                      </div>
+                      <div className="col-span-1">
                         <h4 className="text-center">
                           {t("orders.orderDetails.quantity")}
                         </h4>
@@ -141,13 +151,19 @@ function SellerVendorOrder({ order }) {
                       return (
                         <div
                           key={index}
-                          className="grid grid-cols-6  md:gap-4 gap-1 md:py-10 py-2 text-gray-700 md:text-lg text-sm font-medium border-b-2 border-gray-300"
+                          className="grid grid-cols-4  md:gap-4 gap-1 md:py-10 py-2 text-gray-700 md:text-lg text-sm font-medium border-b-2 border-gray-300"
                         >
-                          <div className="col-span-3">
+                          <div className="col-span-1">
                             <h3 className="w-full text-center">{name}</h3>
                           </div>
-                          <div className="col-span-3">
-                            <h3 className="text-center">{item.quantity}</h3>
+                          <div className="col-span-1">
+                            <h3 className="w-full text-center">{item.quantity}</h3>
+                          </div>
+                          <div className="col-span-1">
+                            <h3 className="w-full text-center">{item.pack}</h3>
+                          </div>
+                          <div className="col-span-1">
+                            <h3 className="text-center">{Number(item.quantity) * Number(item.pack)}</h3>
                           </div>
                         </div>
                       );
