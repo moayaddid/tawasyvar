@@ -458,6 +458,8 @@
       "noAvailable" : "لا يوجد منتجات تناسب نوع متجرك." ,
       "selectProduct" : "اختيار منتج" ,
       "notCompatible" : "هذا المنتج لا يتوافق مع نوع متجرك" ,
+      "firstPage" : "الصفحة الأولى",
+      "lastPage" : "الصفحة الأخيرة",
       "nextPage" : "الصفحة التالية" ,
       "previousPage" : "الصفحة السابقة" ,
       "selectedProducts" : {

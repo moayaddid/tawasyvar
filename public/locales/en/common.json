@@ -456,6 +456,8 @@
       "search" : "Search a product by name",
       "noAvailable" : "There are no available products for your store type." ,
       "selectProduct" : "Select Product" ,
+      "firstPage" : "First Page",
+      "lastPage" : "Last Page",
       "nextPage" : "Next Page" ,
       "previousPage" : "Previous Page" ,
       "selectedProducts" : {
