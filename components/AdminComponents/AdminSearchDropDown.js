@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { BiDownArrowAlt } from "react-icons/bi";
 import { BsArrowDown } from "react-icons/bs";
 
-function AdminSearchDropDown({ data, title, selectItem }) {
+function AdminSearchDropDown({ data, title, selectItem , type }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -12,7 +12,7 @@ function AdminSearchDropDown({ data, title, selectItem }) {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
     const results = data.filter((item) => {
-      if (item.name_en) {
+      if (type === `category`) {
         return item.name_en.toLowerCase().includes(term);
       } else {
         return item.name.toLowerCase().includes(term);
@@ -83,7 +83,7 @@ function AdminSearchDropDown({ data, title, selectItem }) {
                         }}
                         className="text-gray-400 cursor-pointer hover:bg-gray-100 w-full hover:text-skin-primary text-ellipsis text-start"
                       >
-                        {result.name_en}
+                        { type === `category` ?  result.name_en : result.name}
                       </div>
                     );
                   })}

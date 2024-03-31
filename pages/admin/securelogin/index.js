@@ -40,17 +40,6 @@ const AdminLogin = () => {
     setIsLoading(false);
   };
 
-  function handleRoleChange(event) {
-    setSelectedRole(Number(event.target.value));
-  }
-
-  function handleKeyDown(event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      handleLogin(event);
-    }
-  }
-
   return (
     <div className="flex flex-col items-center justify-start h-screen bg-white gap-12 mx-auto px-4 pt-28 w-full">
       <Image src={Logo} alt="Logo" width={400} height={290} className="mx-3" />
@@ -71,7 +60,7 @@ const AdminLogin = () => {
           className="outline-none appearance-none border-b-2 border-gray-300 focus:border-[#FD6500] placeholder:text-gray-300 w-full transition-all duration-700"
           placeholder="Email"
           inputMode="email"
-          required
+          required = {true}
         />
         <input
           type="password"
@@ -79,7 +68,7 @@ const AdminLogin = () => {
           className="outline-none appearance-none border-b-2 border-gray-300 focus:border-[#FD6500] placeholder:text-gray-300 w-full transition-all duration-700"
           placeholder="password"
           inputMode="password"
-          required
+          required = {true}
         />
         <style jsx>{`
           /* Chrome, Safari, Edge, Opera */

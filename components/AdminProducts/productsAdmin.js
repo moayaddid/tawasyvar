@@ -26,6 +26,7 @@ import { generateCombinations } from "@/pages/admin/Products/addNewProduct";
 import Combination from "../SellerVariations/Combination";
 import Variations from "../AdminVariations/ProductVariations/Variations";
 import AdminProductVariation from "../AdminVariations/AdminProductVariation";
+import AdminNotes from "../AdminComponents/AdminNotes";
 
 function AdminProduct({ product, refetch }) {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -50,11 +51,16 @@ function AdminProduct({ product, refetch }) {
   const [isDeclining, setIsDeclining] = useState(false);
   const [combinations, setCombinations] = useState();
   const [loading, setLoading] = useState(false);
-  const [bigSize , setBigSize] = useState(product.big_size ? product.big_size : false );
+  const [bigSize, setBigSize] = useState(
+    product.big_size ? product.big_size : false
+  );
   const [loadingProductVariations, setLoadingProductVariations] =
     useState(false);
   // const [varis, setVaris] = useState();
   // const [options, setOptions] = useState();
+  const [notesOpen, setNotesOpen] = useState(false);
+  const [loadingNotes, setLoadingNotes] = useState(false);
+  const [notes, setNotes] = useState([]);
   const [variants, setVariants] = useState();
   const newNameAr = useRef();
   const newNameEn = useRef();
@@ -186,8 +192,8 @@ function AdminProduct({ product, refetch }) {
     addIfDifferent(newdescAr.current.value, "description_ar");
     addIfDifferent(newdescEn.current.value, "description_en");
     // addIfDifferent((bigSize == false ? 0 : 1), "big_size");
-    if(bigSize != product.big_size){
-      editData.big_size = (bigSize == true) ? 1 : 0; 
+    if (bigSize != product.big_size) {
+      editData.big_size = bigSize == true ? 1 : 0;
     }
     if (category && category !== product.category) {
       editData.category_name = category;
@@ -398,6 +404,45 @@ function AdminProduct({ product, refetch }) {
     setIsSavingVariations(false);
   }
 
+  async function openNotes() {
+    setNotesOpen(true);
+    setLoadingNotes(true);
+    // setTimeout(() => {
+      setNotes([
+        {
+          id: "1",
+          created_at: "2024-03-30T08:17:20.000000Z",
+          note: "note from me",
+          sender: "Mahmoud",
+        },
+        {
+          id: "2",
+          created_at: "2024-03-30T05:17:20.000000Z",
+          note: "note from him",
+          sender: "ayham",
+        },
+        {
+          id: "3",
+          created_at: "2024-03-30T02:17:20.000000Z",
+          note: "note",
+          sender: "abd",
+        },
+      ]);
+      setLoadingNotes(false);
+    // }, 3000);
+  }
+
+  function closeNotes() {
+    setNotesOpen(false);
+    setNotes([]);
+  }
+
+  async function sendNote (note) {
+    console.log(`send note function `)
+    console.log(note);
+    return true ;
+  }
+
   return (
     <>
       <tr
@@ -409,35 +454,38 @@ function AdminProduct({ product, refetch }) {
           <div class="flex space-x-3 justify-center items-center ">
             <button
               onClick={openDialog}
-              class="items-center px-2 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none"
+              className="items-center px-2 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none"
             >
               <FiEdit />
             </button>
-            {/* {product.has_variation == true && ( */}
             <button
               onClick={openVariations}
-              class="items-center px-2 py-2 text-white bg-yellow-500 rounded-md hover:bg-yellow-600 focus:outline-none"
+              className="items-center px-2 py-2 text-white bg-yellow-500 rounded-md hover:bg-yellow-600 focus:outline-none"
             >
               <IoMdGitNetwork />
             </button>
-            {/* // )} */}
-            {/* <button
-              class="items-center px-2 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none"
-              onClick={() => {
-                setIsDeleting(true);
-              }}
-            >
-              <RiDeleteBin6Line />
-            </button> */}
+            {/* <AdminNotes
+              NotesFor={product.name_en}
+              isLoading={loadingNotes}
+              ViewNotes={notesOpen}
+              closeNotes={closeNotes}
+              onCLickButton={openNotes}
+              notes={notes}
+              SendNote={(data) => {sendNote(data)}}
+              className={`w-full h-full`}
+            /> */}
           </div>
         </td>
-        <td className={`px-4 w-[5%] ${product.has_variation ? `text-green-500` : `text-red-500`}`}>{product.has_variation ? `Yes` : `No`}</td>
+        <td
+          className={`px-4 w-[5%] ${
+            product.has_variation ? `text-green-500` : `text-red-500`
+          }`}
+        >
+          {product.has_variation ? `Yes` : `No`}
+        </td>
         <td className=" px-4  w-[10%] ">{product.name_ar}</td>
         <td className="px-4  w-[10%]">{product.name_en}</td>
         <td className="px-4  w-[10%] ">{product.description_ar}</td>
-        {/* <td className="px-4 py-4 w-[10%] ">
-          sdhjkgasd ahjsgdkjahsdgf khjsk jhgbasdjfkh asbhjdfk hbasdkfbvh khvj asldkjhf asdjkha jkhsdbak jhdbaksjhd akjhsbd asd lajksbd 
-        </td> */}
         <td className="px-4  w-[10%]">{product.description_en}</td>
         <td className="px-4 ">{product.category}</td>
         <td className="px-4  h-full w-max ">
@@ -628,7 +676,9 @@ function AdminProduct({ product, refetch }) {
                 </div>
 
                 <div className="flex items-center">
-                  <label className="w-[30%] text-lg px-2">Number of items in a pack :</label>
+                  <label className="w-[30%] text-lg px-2">
+                    Number of items in a pack :
+                  </label>
                   <input
                     className="my-3 w-[70%] text-black placeholder:text-zinc-500 pl-2 outline-none border-b-2 focus:border-skin-primary transition-all duration-700"
                     type="text"
@@ -638,37 +688,36 @@ function AdminProduct({ product, refetch }) {
                   />
                 </div>
 
-                {product.slug &&
-                <div className="flex items-center">
-                  <label className="w-[30%] text-lg px-2">Status :</label>
-                  <select
-                    className="w-[80%] form-select outline-none bg-transparent border-b-2 border-gray-300 "
-                    aria-label="Status"
-                    name="Status"
-                    defaultValue={product.status}
-                    onChange={
-                      (e) => {
-
-                      setStatus(e.target.value);
-                    }
-                    // changeStatus
-                  }
-                  >
-                    <option className="bg-white" disabled selected value>
-                      Select a Status
-                    </option>
-                    <option className="bg-white" value="approved">
-                      Approved
-                    </option>
-                    <option className="bg-white" value="declined">
-                      Declined
-                    </option>
-                    <option className="bg-white" value="pending">
-                      Pending
-                    </option>
-                  </select>
-                </div>
-                 } 
+                {product.slug && (
+                  <div className="flex items-center">
+                    <label className="w-[30%] text-lg px-2">Status :</label>
+                    <select
+                      className="w-[80%] form-select outline-none bg-transparent border-b-2 border-gray-300 "
+                      aria-label="Status"
+                      name="Status"
+                      defaultValue={product.status}
+                      onChange={
+                        (e) => {
+                          setStatus(e.target.value);
+                        }
+                        // changeStatus
+                      }
+                    >
+                      <option className="bg-white" disabled selected value>
+                        Select a Status
+                      </option>
+                      <option className="bg-white" value="approved">
+                        Approved
+                      </option>
+                      <option className="bg-white" value="declined">
+                        Declined
+                      </option>
+                      <option className="bg-white" value="pending">
+                        Pending
+                      </option>
+                    </select>
+                  </div>
+                )}
 
                 {/* <div className="flex items-center">
                   <label className="w-[30%] text-lg px-2">Code :</label>
@@ -702,16 +751,21 @@ function AdminProduct({ product, refetch }) {
                 </div>
               </div>
 
-                <div className="flex items-center" >
-                  <input
-                    id="big"
-                    type="checkbox"
-                    checked = {bigSize}
-                    onChange={() => {setBigSize(!bigSize)}}
-                    className="cursor-pointer"
-                  />
-                  <label htmlFor="big" className="cursor-pointer px-2"> Big Size Product </label>
-                </div>
+              <div className="flex items-center">
+                <input
+                  id="big"
+                  type="checkbox"
+                  checked={bigSize}
+                  onChange={() => {
+                    setBigSize(!bigSize);
+                  }}
+                  className="cursor-pointer"
+                />
+                <label htmlFor="big" className="cursor-pointer px-2">
+                  {" "}
+                  Big Size Product{" "}
+                </label>
+              </div>
 
               <hr className="text-gray-400" />
               <div className="w-full flex justify-center items-center">
@@ -733,7 +787,7 @@ function AdminProduct({ product, refetch }) {
             </Stack>
           )}
         </DialogContent>
-        {product.status == "pending" &&  !product.slug &&(
+        {product.status == "pending" && !product.slug && (
           <DialogActions>
             <button
               type="button"
@@ -869,17 +923,19 @@ function AdminProduct({ product, refetch }) {
                     </div>
                     {variations.data.product_combination &&
                     variations.data.product_combination.length > 0 ? (
-                      variations.data.product_combination.map((variation , i) => {
-                        return (
-                          <ProductCombination
-                          key={i}
-                            product={variation.product}
-                            refetch={() => {
-                              refetchCombinations();
-                            }}
-                          />
-                        );
-                      })
+                      variations.data.product_combination.map(
+                        (variation, i) => {
+                          return (
+                            <ProductCombination
+                              key={i}
+                              product={variation.product}
+                              refetch={() => {
+                                refetchCombinations();
+                              }}
+                            />
+                          );
+                        }
+                      )
                     ) : (
                       <div> This Products has no variation combinations. </div>
                     )}

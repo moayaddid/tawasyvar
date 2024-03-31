@@ -295,6 +295,7 @@ const AddNewProductAdmin = () => {
             <div className="px-6 py-4">
               {categories && (
                 <AdminSearchDropDown
+                  type={`category`}
                   data={categories.data.categories}
                   title={`Select a category`}
                   selectItem={(item) => {setCategory(item.name_en);}}
@@ -331,6 +332,7 @@ const AddNewProductAdmin = () => {
             <div className="px-6 py-4">
             {brands && (
                 <AdminSearchDropDown
+                  type={`brand`}
                   data={brands.data.brands}
                   title={`Select a brand`}
                   selectItem={(item) => {setBrand(item.name);}}
