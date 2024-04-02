@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "next-i18next";
 
 export async function getServerSideProps(context) {
   const { locale } = context;
@@ -19,37 +20,13 @@ export async function getServerSideProps(context) {
   };
 }
 
-const tableheading = [
-  {
-    heading: `action`,
-  },
-  {
-    heading: `price`,
-  },
-  {
-    heading: `name`,
-  },
-  {
-    heading : `items per pack`
-  },
-  {
-    heading: `variations`,
-  },
-  {
-    heading: `part Number`,
-  },
-  {
-    heading: `brand`,
-  },
-  {
-    heading: `image`,
-  },
-];
 
 function MyProducts() {
   const router = useRouter();
   const Api = createAxiosInstance(router);
   const dispatch = useDispatch();
+  const { t } = useTranslation("");
+
   const {
     data: products,
     isLoading,
@@ -59,7 +36,33 @@ function MyProducts() {
     refetchOnMount: true,
     refetchOnWindowFocus: false,
   });
-
+  const tableheading = [
+    {
+      heading: t("action"),
+    },
+    {
+      heading: t("price"),
+    },
+    {
+      heading: t("name"),
+    },
+    {
+      heading : t("itemsInPack")
+    },
+    {
+      heading: t("v.variations"),
+    },
+    {
+      heading: `part Number`,
+    },
+    {
+      heading: t("v.brand"),
+    },
+    {
+      heading: t("v.image"),
+    },
+  ];
+  
   async function fetchVendorProducts () {
     try{
       return await Api.get(`/api/vendor/products`);
@@ -77,7 +80,7 @@ function MyProducts() {
   return (
     <div className="w-full h-full">
       <div className="w-[95%] mx-auto py-10 flex flex-col justify-start items-start">
-        <p className="text-3xl">My Products</p>
+        <p className="text-3xl">{t("v.myProducts")}</p>
         <hr className="pb-5" />
         { isLoading == true ? <div className="flex justify-center items-center w-full h-full " ><TawasyLoader width = {300} height = {300} /></div> : <div className="mt-6 overflow-x-auto w-full  ">
           { products && products.data.products && products.data.products.length > 0 ? <table className="w-full overflow-x-auto table-auto">

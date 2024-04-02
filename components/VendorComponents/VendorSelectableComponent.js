@@ -2,19 +2,14 @@ import Image from "next/image";
 import logo from "@/public/images/tawasylogo.png";
 import { convertMoney } from "../SellerOrders/sellerOrder";
 import { useState } from "react";
+import { useTranslation } from "next-i18next";
 
 function VendorSelecteableProduct({
   product,
   selectedProducts,
   selectProduct,
 }) {
-  // function isSelected() {
-  //   if (selectedProducts.includes(product?.store_product_id)) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
+  const {t} = useTranslation("") ;
 
   function isSelected() {
     if (selectedProducts.some(obj => obj.id === product.vendor_product_id)) {
@@ -60,7 +55,7 @@ function VendorSelecteableProduct({
         >
           {product.name}
         </h1>
-        { product.pack && <i className="text-gray-400" >{product.pack} items in a pack *</i>}
+        { product.pack && <i className="text-gray-400" >{product.pack} {t("itemsInPack")}</i>}
         {product?.combination && (
           <div className="flex flex-col justify-center items-start space-y-1">
             <p className="line-clamp-3  text-red-500">
@@ -91,9 +86,9 @@ function VendorSelecteableProduct({
             }}
             className={`${
               isSelected() == true ? `bg-red-500` : `bg-green-500`
-            } hover:opacity-80 text-white w-min px-3 py-1 transition-all duration-500 rounded-lg text-center `}
+            } hover:opacity-80 text-white px-3 py-1 transition-all duration-500 rounded-lg text-center `}
           >
-            {isSelected() == true ? `Unselect` : `Select`}
+            {isSelected() == true ? `${t("unselect")}` : `${t("select")}`}
           </button>
         </div>
       </div>

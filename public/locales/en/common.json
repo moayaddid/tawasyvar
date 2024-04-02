@@ -661,5 +661,29 @@
     "RUSure" : "Are you sure you want to cancel the promotion of this product ?" ,
     "optional" : "optional",
     "itemsInPack" : "items in a pack" , 
-    "packs" : "Packs"
+    "packs" : "Packs",
+    "v" : {
+      "mainDashboard" : "Main Dashboard " ,
+      "myFollowers" : "My Followers" ,
+      "myProducts" : "My Products",
+      "pricingProducts" : "Products that needs pricing",
+      "generalProducts" : "General Products" , 
+      "requestedProducts" : "Requested Products",
+      "sellersRequests" : "Sellers Order Requests",
+      "request" : "Request",
+      "selected" : "Selected",
+      "variations" : "Variations",
+      "brand" : "Brand",
+      "image" : "Image",
+      "category" : "Category",
+      "noFollowers" : "You have no follower stores yet.",
+      "noSellerRequests" : "You have no seller order requests. ",
+      "seller" : "Seller" ,
+      "sellerNumber" : "Seller Number",
+      "note" : "Note",
+      "noNote" : "none provided",
+      "noSelectedProducts" : "You did not select any product yet.",
+      "areYouSure" : "Are you sure you want to delete this product ?" 
+    },
+    "noVars" : "This product has no variations."
 }

@@ -312,6 +312,8 @@ function GeneralProducts() {
                 </button>
               </div>
             )}
+
+
           <Dialog
             disableAutoFocus
             disableRestoreFocus
@@ -347,7 +349,7 @@ function GeneralProducts() {
                                 )}
                               </th>
                               <th className="pb-4 md:px-0 px-4">
-                                items per pack
+                                {t("itemsInPack")}
                               </th>
                               <th className="pb-4 md:px-0 px-4">
                                 {t(
@@ -375,14 +377,14 @@ function GeneralProducts() {
                     ) : (
                       <div className="w-full h-full flex justify-center items-center text-center">
                         <p>
-                          {t("seller.addProduct.selectedProducts.noProducts")}
+                          {t("v.noSelectedProducts")}
                         </p>
                       </div>
                     )
                   ) : (
                     <div className="w-full h-full flex justify-center items-center text-center">
                       <p>
-                        {t("seller.addProduct.selectedProducts.noProducts")}
+                        {t("v.noSelectedProducts")}
                       </p>
                     </div>
                   )}
@@ -403,11 +405,13 @@ function GeneralProducts() {
                   onClick={requestProducts}
                   className="bg-green-600 hover:bg-green-600 px-2 py-1 rounded-lg text-white w-[10%] mx-auto my-auto"
                 >
-                  Request
+                  {t("v.request")}
                 </button>}
               </DialogActions>
             )}
           </Dialog>
+
+          
         </div>
       )}
 

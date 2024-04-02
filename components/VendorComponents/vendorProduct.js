@@ -276,7 +276,7 @@ function VendorProduct({ product, refetch }) {
           <Stack spacing={1} margin={3}>
             <div className="flex flex-col justify-start items-start w-full ">
               <p className="text-lg ">
-                {t("seller.products.action.delete.areYouSure")}
+                {t("v.areYouSure")}
               </p>
               <p className="text-xl">{product.name}</p>
             </div>
@@ -285,7 +285,7 @@ function VendorProduct({ product, refetch }) {
         <DialogActions>
           <button
             type="button"
-            className="bg-green-700 px-8 py-3 text-white rounded-lg "
+            className="bg-green-700 px-8 mx-1 py-3 text-white rounded-lg "
             data-dismiss="modal"
             onClick={deleteProduct}
           >

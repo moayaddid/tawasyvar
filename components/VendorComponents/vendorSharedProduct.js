@@ -113,7 +113,7 @@ function VendorSharedProduct({ product }) {
               </div>
             )}
           </div>
-          { product.pack && <i className="text-gray-400" >{product.pack} items in a pack *</i>}
+          { product.pack && <i className="text-gray-400" >{product.pack} {t("itemsInPack")} *</i>}
           {product.message &&
           product.message == "Product found in another store type." ? (
             <div className="text-red-500">
@@ -133,7 +133,7 @@ function VendorSharedProduct({ product }) {
                 className="cursor-default bg-gray-600 text-white px-4 rounded-full text-base transform duration-500 "
               >
                 {/* {t("seller.addProduct.selectProduct")} */}
-                Selected
+                {t("v.selected")}
               </button>
             )
           ) : (

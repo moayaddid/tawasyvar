@@ -661,5 +661,31 @@
     "RUSure" : "هل أنت متأكد من إلغاء هذا العرض ؟" ,
     "optional" : "اختياري",
     "itemsInPack" : "عدد القطع في الطرد" , 
-    "packs" : "طرد"
+    "packs" : "طرد",
+    "v" : {
+      "mainDashboard" : "الصفحة الرئيسية " ,
+      "myFollowers" : "المتاجر المتابعة لي" ,
+      "myProducts" : "منتجاتي",
+      "pricingProducts" : "منتجات بحاجة للتسعير",
+      "generalProducts" : "المنتجات العامة" , 
+      "requestedProducts" : "المنتجات المطلوبة مسبقاً",
+      "sellersRequests" : "طلبات البائعين",
+      "request" : "أرسل الطلب",
+      "selected" : "تم اختياره",
+      "variations" : "الأنواع",
+      "brand" : "العلامة التجارية",
+      "image" : "الصورة",
+      "category" : "التصنيفات",
+      "noFollowers" : "لا يوجد اي متاجر تتابعك حالياً.",
+      "noSellerRequests" : "لا يوجد لديك أية طلبات من البائعين.",
+      "seller" : "البائع" ,
+      "sellerNumber" : "رقم هاتف البائع",
+      "note" : "ملاحظات",
+      "noNote" : "لا يوجد",
+      "noSelectedProducts" : "لم تختر أي منتج بعد.",
+      "areYouSure" : "هل انت متأكد من أنك تريد حذف هذا المنتج ؟"
+
+    },
+    "noVars" : "هذا المنتج ليس له أية أنواع."
+
   }

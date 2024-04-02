@@ -17,6 +17,7 @@ import { Ring } from "@uiball/loaders";
 import { useQuery } from "react-query";
 import TawasyLoader from "@/components/UI/tawasyLoader";
 import logo from "@/public/images/tawasylogo.png";
+import { useTranslation } from "next-i18next";
 
 export async function getServerSideProps(context) {
   const { locale } = context;
@@ -39,6 +40,7 @@ function MyFollowers() {
   const [details, setDetails] = useState(null);
   const router = useRouter();
   const Api = createAxiosInstance(router);
+  const { t } = useTranslation("");
 
   const {
     data: followers,
@@ -79,7 +81,7 @@ function MyFollowers() {
 
   return (
     <div className="w-full h-full">
-      <p className="text-3xl py-10 px-7 ">Stores following my Pricing :</p>
+      <p className="text-3xl py-10 px-7 ">{t("v.myFollowers")} :</p>
       <hr className="h-px bg-gray-700 mb-10" />
       {followersLoading == true ? (
         <div className="w-full h-full flex justify-center items-center">
@@ -214,7 +216,7 @@ function MyFollowers() {
                                 {/* <div className=" flex flex ">  </div> */}
                                 <p className="text-xl">{product.name}</p>
                                 <p className="text-xl">
-                                  Brand : {product.brand}
+                                  {t("v.brand")} : {product.brand}
                                 </p>
                                 <p></p>
                               </div>
@@ -229,7 +231,7 @@ function MyFollowers() {
             ))
           ) : (
             <div className="text-lg text-center">
-              You have no follower stores yet.
+              {t("v.noFollowers")}
             </div>
           )}
           {/* <Accordion

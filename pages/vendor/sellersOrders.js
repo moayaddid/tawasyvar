@@ -10,6 +10,7 @@ import TawasyLoader from "@/components/UI/tawasyLoader";
 import { Ring } from "@uiball/loaders";
 import { MdArrowDropDown, MdClose } from "react-icons/md";
 import VendorSellerOrder from "@/components/VendorComponents/vendorSellerOrder";
+import { useTranslation } from "next-i18next";
 
 export async function getServerSideProps(context) {
   const { locale } = context;
@@ -24,6 +25,8 @@ export async function getServerSideProps(context) {
 function ProductsPricingPage() {
   const router = useRouter();
   const Api = createAxiosInstance(router);
+  const { t } = useTranslation("");
+
   const {
     data: orders,
     isLoading,
@@ -41,13 +44,9 @@ function ProductsPricingPage() {
     } catch (error) {}
   }
 
-  // if (orders) {
-  //   console.log(orders);
-  // }
-
   return (
     <div className="w-[90%] mx-auto py-7 flex flex-col justify-start items-start space-y-5">
-      <p className="px-2 text-start text-3xl">My Sellers Orders</p>
+      <p className="px-2 text-start text-3xl">{t("v.sellersRequests")} :</p>
       <hr className="w-full" />
       {isLoading == true ? (
         <div className="w-full flex justify-center items-center">
@@ -64,7 +63,7 @@ function ProductsPricingPage() {
               })}
             </div>
           ) : (
-            <div className="w-full text-center"> You have no orders. </div>
+            <div className="w-full text-center"> {t("v.noSellerRequests")} </div>
           )}
         </div>
       )}

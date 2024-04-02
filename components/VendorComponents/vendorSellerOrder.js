@@ -53,11 +53,11 @@ function VendorSellerOrder({ order }) {
               <div>{order.id}</div>
             </h3>
             <h3 className="font-medium text-xl flex items-center gap-2 text-gray-500 mb-2">
-              <div>Seller : </div>
+              <div>{t("v.seller")} : </div>
               <div>{order.seller}</div>
             </h3>
             <h3 className="font-medium text-xl flex items-center gap-2 text-gray-500 mb-2">
-              <div>Seller Number : </div>
+              <div>{t("v.sellerNumber")} : </div>
               <div>{order.phone_number}</div>
             </h3>
           </div>
@@ -99,11 +99,11 @@ function VendorSellerOrder({ order }) {
                   </div>
                   <div className="flex flex-col md:flex-wrap ">
                     <h4 className="text-gray-700 text-lg flex justify-start gap-2 items-center font-medium ">
-                      <div>Seller:</div>
+                      <div>{t("v.sellerNumber")} :</div>
                       <div>{orderDetails.seller}</div>
                     </h4>
                     <h4 className="text-gray-700 text-lg flex justify-start gap-2 items-center font-medium">
-                      <div>Seller Number :</div>
+                      <div>{t("v.sellerNumber")} :</div>
                       <div>{orderDetails.phone_number}</div>
                     </h4>
                   </div>
@@ -175,10 +175,10 @@ function VendorSellerOrder({ order }) {
                   <hr />
                   <div className="my-6">
                     <p>
-                      Notes :
+                    {t("v.note")} :
                       {orderDetails.note
                         ? `( ${orderDetails.note} )`
-                        : "( No Notes Provided. )"}
+                        :  `( ${t("v.noNote")} )`}
                     </p>
                   </div>
                 </div>

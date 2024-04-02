@@ -45,8 +45,8 @@ export default function VendorSidebar(props) {
             <Image src={Logo} className="items-center pt-6 pb-3 md:w-44 w-10" />
           </div>
 
-          {/* <LocaleSwitcher /> */}
-          <div className="flex-1 pt-16">
+          <LocaleSwitcher />
+          <div className="flex-1 ">
             <ul className="pt-2 pb-4 space-y-1 text-lg font-normal">
               <li className="rounded-sm pb-3">
                 <Link
@@ -96,25 +96,21 @@ export default function VendorSidebar(props) {
                       >
                         <MdDataset className="block text-[23px] text-white mt-1" />
                         <p className="hidden md:block">
-                          General Products
+                          {t("v.generalProducts")}
                         </p>
                       </button>
                     </li>
 
                     <li className={`pt-3`}>
-                      <button
+                      <Link
                         className="flex items-center p-2 space-x-4 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/vendor/myProducts",
-                          });
-                        }}
+                        href= "/vendor/myProducts"
                       >
                         <BsBox className="block text-[19px] text-white " />
                         <p className="hidden md:block">
-                          My Products
+                          {t("v.myProducts")}
                         </p>
-                      </button>
+                      </Link>
                     </li>
 
                     <li className={`pt-3`}>
@@ -128,19 +124,15 @@ export default function VendorSidebar(props) {
                     </li>
 
                     <li className={`pt-3`}>
-                      <button
+                      <Link
                         className="flex items-center p-2 space-x-4 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/vendor/productsPricing",
-                          });
-                        }}
+                        href="/vendor/productsPricing"
                       >
                         <VscArchive className="block text-[19px] text-white " />
                         <p className="hidden md:block">
-                          Requested Products
+                          {t("v.requestedProducts")}
                         </p>
-                      </button>
+                      </Link>
                     </li>
                   </ul>
                 </AccordionItem>
@@ -153,7 +145,7 @@ export default function VendorSidebar(props) {
                 >
                   <IoStorefrontSharp className="block text-[20px] text-white " />
                   <p className="hidden md:block" style={{ marginLeft: "43px" }}>
-                    Followers
+                    {t("v.myFollowers")}
                   </p>
                 </Link>
               </li>
@@ -165,7 +157,7 @@ export default function VendorSidebar(props) {
                 >
                   <LuClipboardCopy className="block text-[20px] text-white " />
                   <p className="hidden md:block" style={{ marginLeft: "43px" }}>
-                    Sellers Order Requests
+                    {t("v.sellersRequests")}
                   </p>
                 </Link>
               </li>

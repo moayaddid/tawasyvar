@@ -11,6 +11,7 @@ import { Ring } from "@uiball/loaders";
 import logo from "@/public/images/tawasylogo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { vendorActions } from "@/Store/VendorSlice";
+import { useTranslation } from "next-i18next";
 
 function VendorProductCombination({ product }) {
   const [selecting, setSelecting] = useState(false);
@@ -20,6 +21,7 @@ function VendorProductCombination({ product }) {
   const Api = createAxiosInstance(router);
   const [hex, setHex] = useState(product.hex && product.hex);
   const selectedProducts = useSelector((state) => state.vendor.products);
+  const {t} = useTranslation("") ;
 
   useEffect(() => {
     if (product) {
@@ -90,11 +92,11 @@ function VendorProductCombination({ product }) {
     <div className="flex w-full justify-between items-center py-3 border-b-2 border-gray-300">
       <p>{product.name}</p>
       <p>{vari}</p>
-      <div
+     { hex && <div
         className={`flex items-center justify-center w-[25px] p-3 h-[25px] rounded-full border border-skin-primary`}
         style={{ backgroundColor: `${hex && hex}` }}
-      ></div>
-      <p>Part Number: {product.part_number}</p>
+      ></div>}
+      <p>Part Number : {product.part_number ?? " - "}</p>
       <div className="max-w-[200px] overflow-x-auto ">
         {imagesArray.map((image, i) => {
           return (
@@ -115,7 +117,7 @@ function VendorProductCombination({ product }) {
         //   onClick={selectCombination}
           className="px-2 py-1 bg-gray-500 rounded-lg text-white text-center"
         >
-          Selected
+          {t("v.selected")}
         </div>
       ) : (
         //   : selecting == true ? (
@@ -127,7 +129,7 @@ function VendorProductCombination({ product }) {
           onClick={selectCombination}
           className="px-2 py-1 bg-skin-primary rounded-lg text-white text-center hover:opacity-70"
         >
-          Select
+          {t("seller.addProduct.selectProduct")}
         </button>
       )}
     </div>

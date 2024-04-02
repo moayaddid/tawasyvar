@@ -8,6 +8,8 @@ import { BiSolidUserDetail } from "react-icons/bi";
 import { BsBox } from "react-icons/bs";
 import { FaUsersBetweenLines } from "react-icons/fa6";
 import { useQuery } from "react-query";
+import { useTranslation } from "next-i18next";
+
 
 export async function getServerSideProps(context) {
   const { locale } = context;
@@ -22,6 +24,7 @@ export async function getServerSideProps(context) {
 function VendorHome() {
   const router = useRouter();
   const Api = createAxiosInstance(router);
+  const { t } = useTranslation("");
   const { data, isLoading } = useQuery(
     "vendordahsboard",
     fetchVendorDashboard,
@@ -40,7 +43,7 @@ function VendorHome() {
 
   return (
     <div className="w-[90%] h-full mx-auto">
-      <p className="text-3xl py-10 px-7 ">Main Dashboard :</p>
+      <p className="text-3xl py-10 px-7 ">{t("v.mainDashboard")} :</p>
       <hr className="h-px bg-gray-700 mb-10" />
       {isLoading == true ? (
         <div className="w-full h-full flex justify-center items-center">
@@ -48,14 +51,14 @@ function VendorHome() {
         </div>
       ) : (
         data && data.data &&
-        <div className="grid md:grid-cols-3 sm:grid-cols-1 grid-col-1 gap-4">
+        <div className="grid md:grid-cols-3 sm:grid-cols-1 grid-col-1 gap-4" dir={router.locale === "ar" ? "rtl" : "ltr" } >
           <Link
             href="/vendor/followers"
             className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary"
           >
             <div className="flex justify-between pb-4">
               <div>
-                <h2 className="text-xl">My Followers : </h2>
+                <h2 className="text-xl">{t("v.myFollowers")} : </h2>
               </div>
               <div className="text-skin-primary w-[25px] h-[25px]">
                 <BiSolidUserDetail
@@ -74,7 +77,7 @@ function VendorHome() {
           >
             <div className="flex justify-between pb-4">
               <div>
-                <h2 className="text-xl">My Products : </h2>
+                <h2 className="text-xl">{t("v.myProducts")} : </h2>
               </div>
               <div className="text-skin-primary w-[25px] h-[25px]">
                 <FaUsersBetweenLines
@@ -93,7 +96,7 @@ function VendorHome() {
           >
             <div className="flex justify-between pb-4">
               <div>
-                <h2 className="text-xl">Products That Needs Pricing :</h2>
+                <h2 className="text-xl">{t("v.pricingProducts")} :</h2>
               </div>
               <div className="text-skin-primary w-[25px] h-[25px]">
                 <BsBox

@@ -10,6 +10,8 @@ import Link from "next/link";
 import { MdCheck, MdClose } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { vendorActions } from "@/Store/VendorSlice";
+import { useTranslation } from "next-i18next";
+
 
 function VendorSelectedProduct({ selectproduct, refetch }) {
   const [isSaving, setIsSaving] = useState(false);
@@ -18,6 +20,8 @@ function VendorSelectedProduct({ selectproduct, refetch }) {
   const priceRef = useRef();
   const router = useRouter();
   const Api = createAxiosInstance(router);
+  const { t } = useTranslation("");
+
   const dispatch = useDispatch();
 
   async function saveProduct() {
@@ -84,7 +88,7 @@ function VendorSelectedProduct({ selectproduct, refetch }) {
               <p>{varis && varis}</p>
             </div>
           ) : (
-            <p className="text-base">This product has no variations</p>
+            <p className="text-base">{t("noVars")}</p>
           )}
         </td>
         {/* <td>{selectproduct.brand}</td>
@@ -146,7 +150,7 @@ function VendorSelectedProduct({ selectproduct, refetch }) {
                 onClick={unSelectProduct}
                 className="cursor-pointer rounded-lg hover:bg-opacity-80 px-2 py-1 bg-red-500 text-white "
               >
-                Unselect
+                {t("unselect")}
               </button>
             
             {/* {!isSaving ? (

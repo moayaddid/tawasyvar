@@ -10,6 +10,7 @@ import TawasyLoader from "@/components/UI/tawasyLoader";
 import { Ring } from "@uiball/loaders";
 import { toast } from "react-toastify";
 import { MdArrowDropDown, MdClose } from "react-icons/md";
+import { useTranslation } from "next-i18next";
 
 export async function getServerSideProps(context) {
   const { locale } = context;
@@ -21,35 +22,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-const tableheading = [
-  // {
-  //   heading: `id`,
-  // },
-  {
-    heading: `product name`,
-  },
-  {
-    heading: `items per pack`,
-  },
-  {
-    heading: `variations`,
-  },
-  {
-    heading: `part Number`,
-  },
-  {
-    heading: `category`,
-  },
-  {
-    heading: `brand`,
-  },
-  {
-    heading: `image`,
-  },
-  {
-    heading: `Price`,
-  },
-];
+
 
 function ProductsPricingPage() {
   const [allProducts, setAllProducts] = useState([]);
@@ -62,6 +35,8 @@ function ProductsPricingPage() {
   const [isLoadingCatBrand, setIsLoadingCatBrand] = useState(false);
   const router = useRouter();
   const Api = createAxiosInstance(router);
+  const { t } = useTranslation("");
+
   const {
     data: products,
     isLoading,
@@ -76,6 +51,36 @@ function ProductsPricingPage() {
       refetchOnWindowFocus: false,
     }
   );
+
+  const tableheading = [
+    // {
+    //   heading: `id`,
+    // },
+    {
+      heading: t("name"),
+    },
+    {
+      heading: t("itemsInPack"),
+    },
+    {
+      heading: t("v.variations"),
+    },
+    {
+      heading: `part Number`,
+    },
+    {
+      heading: t("v.category"),
+    },
+    {
+      heading: t("v.brand"),
+    },
+    {
+      heading: t("v.image"),
+    },
+    {
+      heading: t("price"),
+    },
+  ];
 
   async function fetchCategoriesBrands() {
     setIsLoadingCatBrand(true);
@@ -250,7 +255,7 @@ function ProductsPricingPage() {
   return (
     <div className="w-full h-screen flex flex-col justify-start items-start space-y-2">
       <div className="px-5 py-10 text-3xl h-[10%] ">
-        Requested Products Pricing :
+        {t("v.requestedProducts")} :
       </div>
        <div className="px-5 py-5 flex flex-col justify-start items-start space-y-5">
         <button
@@ -259,7 +264,7 @@ function ProductsPricingPage() {
           }}
           className="flex justify-around items-center"
         >
-          <p className="px-1">Filters</p>
+          <p className="px-1">{t("filter")}</p>
           <MdArrowDropDown
             className={` transition-all duration-300 text-[22px] ${
               toggleFilters == true && `rotate-90`
@@ -277,13 +282,13 @@ function ProductsPricingPage() {
             </div>
           ) : (
             <div className="flex flex-wrap justify-start items-center space-x-4">
-              {toggleFilters == true && <p>Filter by :</p>}
+              {toggleFilters == true && <p>{t("filterBy")} :</p>}
               {toggleFilters == true && categories && (
                 <label
                   htmlFor="categories px-1 "
                   className="border border-skin-primary px-2 py-1 select-none rounded-lg "
                 >
-                  Filter by Categories :
+                  {t("filterByCat")} :
                   <select
                     id="categories"
                     className="bg-transparent box-content px-2 w-min hover:bg-gray-100 cursor-pointer "
@@ -293,7 +298,7 @@ function ProductsPricingPage() {
                     value={1}
                   >
                     <option disabled selected className="box-content" value={1}>
-                      Select a category
+                    {t("selectCat")}
                     </option>
                     {categories &&
                       categories
@@ -317,7 +322,7 @@ function ProductsPricingPage() {
                   htmlFor="brands "
                   className="border border-skin-primary px-2 py-1 select-none rounded-lg "
                 >
-                  Filter by Brands :
+                  {t("filterByBra")} :
                   <select
                     id="brands"
                     className="bg-transparent px-2 hover:bg-gray-100 cursor-pointer py-1 "
@@ -327,7 +332,7 @@ function ProductsPricingPage() {
                     value={1}
                   >
                     <option disabled selected value={1}>
-                      Select a Brand
+                    {t("selectBra")}
                     </option>
                     {brands &&
                       brands.map((brand) => {
@@ -349,9 +354,9 @@ function ProductsPricingPage() {
         </div>
         <hr />
         <div className="flex flex-wrap gap-2 items-center">
-          <p>Applied Filters :</p>
+          <p>{t("appliedFilters")} :</p>
           {categoryFilters?.length < 1 && brandFilters?.length < 1 ? (
-            <p>( None )</p>
+            <p>( {t("none")} )</p>
           ) : (
             <div className="flex flex-wrap gap-2 items-center">
               {categoryFilters?.length > 0 &&
@@ -453,7 +458,7 @@ function ProductsPricingPage() {
                           </td>
                           <td>
                             <input
-                              placeholder="Price"
+                              placeholder={t("price")}
                               type="text"
                               inputMode="numeric"
                               className="outline-none border-b border-transparent focus:border-skin-primary transition-all duration-500"
@@ -494,7 +499,7 @@ function ProductsPricingPage() {
               onClick={saveProducts}
               className="w-[10%] my-2 disabled:bg-gray-400 disabled:opacity-80 disabled:cursor-not-allowed bg-green-500 rounded-lg px-2 py-1 text-center text-white hover:opacity-80 transition-all duration-500 "
             >
-              Save Prodcuts
+              {router.locale === "ar" ? "احفظ المنتجات المسعّرة" : "Save Products"}
             </button>
           )}
         </div>
