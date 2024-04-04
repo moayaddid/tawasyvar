@@ -15,6 +15,8 @@ import createAxiosInstance from "@/API";
 import TawasyLoader from "../UI/tawasyLoader";
 import { Ring } from "@uiball/loaders";
 import { MdClose } from "react-icons/md";
+import { getOrderNote_endpoint, postOrderNote_endpoint } from "@/api/endpoints/endPoints";
+import Notes from "../AdminComponents/Notes";
 
 export function convertDateStringToDate(inputString) {
   // Create a new Date object using the input string
@@ -43,6 +45,7 @@ function OrderAdmin({ names, refetch }) {
   const [isAccepting, setIsAccepting] = useState(false);
   const [orderDetails, setOrderDetails] = useState();
   const [open, openchange] = useState(false);
+  const [orderNotes , setOrderNotes] = useState();
 
   const reason =
     router.pathname == "/admin/Orders/RejectedOrders" ||
@@ -61,11 +64,28 @@ function OrderAdmin({ names, refetch }) {
     try {
       const response = await Api.get(`/api/admin/order/${names.order_id}`);
       setOrderDetails(response.data.data);
+      // setIsLoading(false);
+    } catch (error) {
       setIsLoading(false);
-    } catch (error) {}
+      openchange(false);
+    }
+    try {
+      const noteResponse = await Api.get(`${getOrderNote_endpoint}/${names.order_id}`);
+      if(noteResponse.data.notes){
+        setOrderNotes(noteResponse.data.notes);
+      }else{
+        setOrderNotes([]);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
+    setIsLoading(false);
   };
   const closepopup = () => {
     openchange(false);
+    setOrderDetails();
+    setOrderNotes();
   };
 
   async function cancelOrder() {
@@ -118,6 +138,10 @@ function OrderAdmin({ names, refetch }) {
       setIsAccepting(false);
     }
   }
+
+  // if(orderNotes) {
+  //   console.log(orderNotes);
+  // }
 
   return (
     <>
@@ -310,6 +334,9 @@ function OrderAdmin({ names, refetch }) {
                     </p>
                   )}
                 </div>
+                {orderNotes ? <div>
+                  <Notes Id={orderDetails.order_id} endpoint={postOrderNote_endpoint} notes={orderNotes} />
+                </div> : <p>{`Couldn't get notes something wrong happend.`}</p>}
               </Stack>
             )
           )}

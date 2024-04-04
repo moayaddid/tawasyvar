@@ -27,6 +27,8 @@ import Combination from "../SellerVariations/Combination";
 import Variations from "../AdminVariations/ProductVariations/Variations";
 import AdminProductVariation from "../AdminVariations/AdminProductVariation";
 import AdminNotes from "../AdminComponents/AdminNotes";
+import { getProductNote_endpoint, postProductNote_endpoint } from "@/api/endpoints/endPoints";
+import lego from "@/public/images/lego.png"
 
 function AdminProduct({ product, refetch }) {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -404,45 +406,6 @@ function AdminProduct({ product, refetch }) {
     setIsSavingVariations(false);
   }
 
-  async function openNotes() {
-    setNotesOpen(true);
-    setLoadingNotes(true);
-    // setTimeout(() => {
-      setNotes([
-        {
-          id: "1",
-          created_at: "2024-03-30T08:17:20.000000Z",
-          note: "note from me",
-          sender: "Mahmoud",
-        },
-        {
-          id: "2",
-          created_at: "2024-03-30T05:17:20.000000Z",
-          note: "note from him",
-          sender: "ayham",
-        },
-        {
-          id: "3",
-          created_at: "2024-03-30T02:17:20.000000Z",
-          note: "note",
-          sender: "abd",
-        },
-      ]);
-      setLoadingNotes(false);
-    // }, 3000);
-  }
-
-  function closeNotes() {
-    setNotesOpen(false);
-    setNotes([]);
-  }
-
-  async function sendNote (note) {
-    console.log(`send note function `)
-    console.log(note);
-    return true ;
-  }
-
   return (
     <>
       <tr
@@ -464,16 +427,12 @@ function AdminProduct({ product, refetch }) {
             >
               <IoMdGitNetwork />
             </button>
-            {/* <AdminNotes
+            <AdminNotes
               NotesFor={product.name_en}
-              isLoading={loadingNotes}
-              ViewNotes={notesOpen}
-              closeNotes={closeNotes}
-              onCLickButton={openNotes}
-              notes={notes}
-              SendNote={(data) => {sendNote(data)}}
-              className={`w-full h-full`}
-            /> */}
+              entityId={product.id}
+              getEndpoint = {getProductNote_endpoint}
+              postEndpoint={postProductNote_endpoint}
+            />
           </div>
         </td>
         <td

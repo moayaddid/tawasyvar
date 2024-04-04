@@ -16,6 +16,8 @@ import TawasyLoader from "../UI/tawasyLoader";
 import VendorBrandAddition from "../VendorComponents/vendorBrandAddition";
 import { useQuery } from "react-query";
 import VendorStoreTypeAddition from "../VendorComponents/vendorStoreTypeAddition";
+import AdminNotes from "../AdminComponents/AdminNotes";
+import { getVendorNote_endpoint, postVendorNote_endpoint } from "@/api/endpoints/endPoints";
 
 function AdminVendor({ vendor, refetch }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -134,18 +136,25 @@ function AdminVendor({ vendor, refetch }) {
           <div class="flex-col lg:flex-row items-center space-y-2 lg:space-y-0">
             <button
               onClick={openEditor}
-              class="items-center px-2 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none"
+              class="items-center px-2 py-2 mx-1 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none"
             >
               <FiEdit />
             </button>
             <button
-              class="items-center px-2 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none"
+              class="items-center px-2 py-2 mx-1 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none"
               onClick={() => {
                 setIsDeleting(true);
               }}
             >
               <RiDeleteBin6Line />
             </button>
+            <AdminNotes
+              NotesFor={`${vendor.name} - ${vendor.company_name}`}
+              entityId={vendor.id}
+              getEndpoint = {getVendorNote_endpoint}
+              postEndpoint={postVendorNote_endpoint}
+              className={`mx-1`}
+            />
           </div>
         </td>
       </tr>

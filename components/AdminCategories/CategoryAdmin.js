@@ -13,6 +13,8 @@ import { convertDateStringToDate } from "../AdminOrders/OrderAdmin";
 import { useRouter } from "next/router";
 import createAxiosInstance from "@/API";
 import { toast } from "react-toastify";
+import AdminNotes from "../AdminComponents/AdminNotes";
+import { getCategoryNote_endpoint, postCategoryNote_endpoint } from "@/api/endpoints/endPoints";
 
 function CategoryAdmin({ names, refetch }) {
   const router = useRouter();
@@ -109,6 +111,13 @@ function CategoryAdmin({ names, refetch }) {
             >
               <FiEdit />
             </button>
+            <AdminNotes
+              NotesFor={`${names.name_en}`}
+              entityId={names.id}
+              getEndpoint = {getCategoryNote_endpoint}
+              postEndpoint={postCategoryNote_endpoint}
+              className={`mx-1`}
+            />
             {/* <button
               class="items-center px-2 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none"
               onClick={() => {

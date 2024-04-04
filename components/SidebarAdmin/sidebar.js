@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Logo from "../../public/images/tawasylogowhite.png";
 import Image from "next/image";
@@ -15,9 +15,19 @@ import { SiAdminer, SiSellfy } from "react-icons/si";
 import { FiChevronDown, FiChevronRight, FiSettings } from "react-icons/fi";
 import { BsCartCheckFill, BsBox, BsColumns } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
-import { MdPendingActions, MdOutlineDisabledVisible, MdOutlineManageAccounts, MdOutlineLocalOffer } from "react-icons/md";
+import {
+  MdPendingActions,
+  MdOutlineDisabledVisible,
+  MdOutlineManageAccounts,
+  MdOutlineLocalOffer,
+} from "react-icons/md";
 import { useRouter } from "next/router";
-import { TbBrandShopee, TbCategory2, TbGitBranch, TbTruckDelivery } from "react-icons/tb";
+import {
+  TbBrandShopee,
+  TbCategory2,
+  TbGitBranch,
+  TbTruckDelivery,
+} from "react-icons/tb";
 import { RiCoupon2Line } from "react-icons/ri";
 import { FaStore } from "react-icons/fa";
 import Cookies from "js-cookie";
@@ -32,6 +42,7 @@ export default function SidebarAdmin(props) {
   const [logginOut, setLoggingOut] = useState(false);
   const router = useRouter();
   const Api = createAxiosInstance(router);
+  const [name, setName] = useState("");
 
   async function logOut() {
     try {
@@ -47,6 +58,15 @@ export default function SidebarAdmin(props) {
     setLoggingOut(false);
   }
 
+  useEffect(() => {
+    if (Cookies) {
+      const name = Cookies.get("AName");
+      if (name) {
+        setName(name);
+      }
+    }
+  }, [Cookies]);
+
   return (
     <div className="w-full h-screen ">
       <div
@@ -57,7 +77,7 @@ export default function SidebarAdmin(props) {
           <div className=" flex justify-center">
             <Image src={Logo} className="items-center pt-6 pb-3 md:w-44 w-10" />
           </div>
-
+          <p className="text-2xl text-white underline decoration-2 text-center ">{name}</p>
           <div className="flex-1">
             <ul className="pt-5 pb-4 space-y-1 text-lg font-normal">
               <li className="rounded-sm pb-3">
@@ -92,7 +112,7 @@ export default function SidebarAdmin(props) {
                 </Link>
               </li>
 
-              <Accordion className="w-full" >
+              <Accordion className="w-full">
                 <AccordionItem
                   startContent={
                     <BsCartCheckFill
@@ -189,7 +209,7 @@ export default function SidebarAdmin(props) {
                 htmlFor="productsbreaker"
                 className="text-white w-max mx-auto"
               >
-                Vendors 
+                Vendors
               </label>
               <hr id="vendorsbreaker"></hr>
 
@@ -226,7 +246,7 @@ export default function SidebarAdmin(props) {
                           });
                         }}
                       >
-                        <MdOutlineManageAccounts  className="block text-[25px] text-white " />
+                        <MdOutlineManageAccounts className="block text-[25px] text-white " />
                         <p className="hidden md:block">Vendors Managment</p>
                       </button>
                     </li>
@@ -240,7 +260,9 @@ export default function SidebarAdmin(props) {
                         }}
                       >
                         <VscArchive className="block text-[20px] text-white " />
-                        <p className="hidden md:block">Vendors Product Requests</p>
+                        <p className="hidden md:block">
+                          Vendors Product Requests
+                        </p>
                       </button>
                     </li>
                   </ul>
