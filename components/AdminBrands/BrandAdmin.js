@@ -18,7 +18,12 @@ import Image from "next/image";
 import logo from "@/public/images/tawasylogo.png";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import AdminNotes from "../AdminComponents/AdminNotes";
-import { getBrandNote_endpoint, postBrandNote_endpoint } from "@/api/endpoints/endPoints";
+import {
+  getBrandNote_endpoint,
+  postBrandNote_endpoint,
+} from "@/api/endpoints/endPoints";
+import { BiSolidContact } from "react-icons/bi";
+import AdminContacts from "../AdminComponents/Contacts/AdminContacts";
 
 function BrandAdmin({ names, refetch }) {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -150,16 +155,16 @@ function BrandAdmin({ names, refetch }) {
         <td className="px-4 py-4" width={`10%`}>
           {convertDateStringToDate(names.updated_at)}
         </td>
-        <td class="px-4 py-4">
-          <div class="flex-col lg:flex-row items-center space-y-2 lg:space-y-0">
+        <td className="px-4 py-4">
+          <div className="flex-col lg:flex-row items-center space-y-2 lg:space-y-0">
             <button
               onClick={() => setIsEditing(true)}
-              class="items-center mx-1 px-2 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none"
+              className="items-center mx-1 px-2 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none"
             >
               <FiEdit />
             </button>
             <button
-              class="items-center mx-1 px-2 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none"
+              className="items-center mx-1 px-2 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none"
               onClick={() => {
                 setIsDeleting(true);
               }}
@@ -169,10 +174,14 @@ function BrandAdmin({ names, refetch }) {
             <AdminNotes
               NotesFor={`${names.name}`}
               entityId={names.id}
-              getEndpoint = {getBrandNote_endpoint}
+              getEndpoint={getBrandNote_endpoint}
               postEndpoint={postBrandNote_endpoint}
               className={`mx-1`}
             />
+            {/* <button className="items-center mx-1 px-2 py-2 text-white bg-skin-primary opacity-70 rounded-md hover:opacity-100 focus:outline-none" >
+              <BiSolidContact />
+            </button> */}
+            {/* <AdminContacts ContactsFor={`${names.name}`} entityId={names.id} /> */}
           </div>
         </td>
       </tr>

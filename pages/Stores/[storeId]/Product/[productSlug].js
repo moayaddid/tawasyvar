@@ -65,10 +65,14 @@ export async function getServerSideProps(context) {
             res.end();
             return true;
           }
+        } else {
+          return {
+            notFound: true,
+          };
         }
       } else {
         return {
-          notFound: true,
+            notFound: true,
         };
       }
     }
@@ -88,9 +92,9 @@ function Product({ product }) {
   useEffect(() => {
     if (product) {
       if (product.product) {
-        if(product.product.has_promotion == true){
+        if (product.product.has_promotion == true) {
           setPrice(convertMoney(product.product.promotion_price));
-        }else{
+        } else {
           setPrice(product.product.price);
         }
         return;
@@ -100,12 +104,12 @@ function Product({ product }) {
       ) {
         let price = 9999999999;
         for (const comb of product.product_combination) {
-          if(comb.product.has_promotion === 1){
+          if (comb.product.has_promotion === 1) {
             const sdsd = comb.product.promotion_price;
             if (sdsd < price) {
               price = comb.product.promotion_price;
             }
-          }else{
+          } else {
             const sdsd = comb.product.price.replace(/,/g, "");
             if (sdsd < price) {
               price = comb.product.price;
@@ -153,7 +157,6 @@ function Product({ product }) {
 
   const { t } = useTranslation("");
 
-
   function getselectedImage(data) {
     if (product.product_combination) {
       const combi = product?.product_combination.find(
@@ -164,9 +167,9 @@ function Product({ product }) {
           })
       );
       if (combi) {
-        if(combi.product.has_promotion === 1){
+        if (combi.product.has_promotion === 1) {
           setPrice(combi.product.promotion_price);
-        }else{
+        } else {
           setPrice(combi.product.price);
         }
         setSelectedCombination(combi.product.line_id);
@@ -247,8 +250,8 @@ function Product({ product }) {
                       {product.product.price}
                     </p>
                     <p>S.P</p>
-                  </div> 
-                  <p className="px-1 md:text-4xl text-2xl " >/</p>
+                  </div>
+                  <p className="px-1 md:text-4xl text-2xl ">/</p>
                   <div className="flex justify-start items-end bg-skin-primary text-white px-1 rounded-lg">
                     <p className=" md:text-4xl text-2xl px-1 ">
                       {convertMoney(product.product.promotion_price)}
@@ -317,9 +320,9 @@ function Product({ product }) {
                             onChange={(e) => {
                               // console.log(e.target.value);
                               setSelectedCombination(e.target.value);
-                              if( combination.product.has_promotion == true){
+                              if (combination.product.has_promotion == true) {
                                 setPrice(combination.product.promotion_price);
-                              }else{
+                              } else {
                                 setPrice(combination.product.price);
                               }
                             }}

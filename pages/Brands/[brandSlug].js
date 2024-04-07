@@ -14,7 +14,7 @@ import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 
 export async function getServerSideProps(context) {
-  const { locale, query , res } = context;
+  const { locale, query, res } = context;
   try {
     const response = await axios.get(`${url}/api/brand/${query.brandSlug}`, {
       headers: { "Accept-Language": locale ? locale : "en" },
@@ -44,12 +44,20 @@ export async function getServerSideProps(context) {
             res.end();
             return true;
           }
+        } else {
+          return {
+            notFound: true,
+          };
         }
       } else {
         return {
           notFound: true,
         };
       }
+    } else {
+      return {
+        notFound: true,
+      };
     }
   }
 }

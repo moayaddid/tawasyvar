@@ -33,7 +33,7 @@ export async function getServerSideProps(context) {
   // console.log(response);
   if(!response.data){
     return {
-      notFound : true ,
+        notFound: true,
     }
   }
   return {

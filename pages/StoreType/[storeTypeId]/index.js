@@ -14,7 +14,7 @@ import axios from "axios";
 import url from "@/URL";
 
 export async function getServerSideProps(context) {
-  const { params, locale, req , res } = context;
+  const { params, locale, req, res } = context;
   const Api = createAxiosInstance(`asdasd`);
   const token = req.cookies.AT;
   const user = req.cookies.user;
@@ -67,12 +67,20 @@ export async function getServerSideProps(context) {
             res.end();
             return true;
           }
+        } else {
+          return {
+            notFound: true,
+          };
         }
       } else {
         return {
-          notFound: true,
+            notFound: true,
         };
       }
+    } else {
+      return {
+        notFound: true,
+      };
     }
   }
 }

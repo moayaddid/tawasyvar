@@ -23,6 +23,12 @@ import Cookies from "js-cookie";
 
 export async function getServerSideProps(context) {
   const { params, locale, res, req } = context;
+
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
+
   const Api = createAxiosInstance();
   try {
     const response = await Api.get(
@@ -38,7 +44,7 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
-    console.log(error.response);
+    // console.log(error.response);
     if (error.response.status) {
       if (error.response.status == 500) {
         if (error?.response?.data?.lang && error?.response?.data?.slug) {
@@ -57,12 +63,20 @@ export async function getServerSideProps(context) {
             res.end();
             return true;
           }
+        } else {
+          return {
+            notFound: true,
+          };
         }
       } else {
         return {
           notFound: true,
         };
       }
+    } else {
+      return {
+          notFound: true,
+      };
     }
   }
 }
@@ -79,7 +93,7 @@ function Products({ store }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const onSelectCategory = (categoryName) => {
-    if (categoryName !== "Offers" && categoryName !== "عروض" ) {
+    if (categoryName !== "Offers" && categoryName !== "عروض") {
       Cookies.set(`ctg`, categoryName);
     }
     setSelectedCategory(categoryName);
@@ -106,12 +120,11 @@ function Products({ store }) {
         }
       }
       if (store.promotions && store.promotions.length > 0) {
-        if(router){
-          if(router.locale === `en`){
+        if (router) {
+          if (router.locale === `en`) {
             setSelectedCategory("Offers");
-          }else{
+          } else {
             setSelectedCategory("عروض");
-
           }
         }
       } else {
@@ -353,7 +366,7 @@ function Products({ store }) {
                   <FilterCategories
                     categories={
                       store.promotions && store.promotions.length > 0
-                        ? (router && router.locale == `en`)
+                        ? router && router.locale == `en`
                           ? [
                               { id: 999999, name: "Offers" },
                               ...store.categories,

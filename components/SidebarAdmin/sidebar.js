@@ -77,7 +77,9 @@ export default function SidebarAdmin(props) {
           <div className=" flex justify-center">
             <Image src={Logo} className="items-center pt-6 pb-3 md:w-44 w-10" />
           </div>
-          <p className="text-2xl text-white underline decoration-2 text-center ">{name}</p>
+          <p className="text-2xl text-white underline decoration-2 text-center ">
+            {name}
+          </p>
           <div className="flex-1">
             <ul className="pt-5 pb-4 space-y-1 text-lg font-normal">
               <li className="rounded-sm pb-3">
@@ -136,70 +138,50 @@ export default function SidebarAdmin(props) {
                 >
                   <ul>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
+                        href={"/admin/Orders/CancelledOrders"}
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/admin/Orders/CancelledOrders",
-                          });
-                        }}
                       >
                         <AiOutlineCloseCircle className="block text-[20px] text-white " />
                         <p className="hidden md:block"> Cancelled Orders</p>
-                      </button>
+                      </Link>
                     </li>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
+                        href={`/admin/Orders/PendingOrders`}
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/admin/Orders/PendingOrders",
-                          });
-                        }}
                       >
                         <MdPendingActions className="block text-[20px] text-white " />
                         <p className="hidden md:block"> Pending Orders</p>
-                      </button>
+                      </Link>
                     </li>
 
                     <li className={`pt-3`}>
-                      <button
+                      <Link
+                        href={`/admin/Orders/RejectedOrders`}
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/admin/Orders/RejectedOrders",
-                          });
-                        }}
                       >
                         <AiOutlineCloseCircle className="block text-[20px] text-white " />
                         <p className="hidden md:block">Declined Orders</p>
-                      </button>
+                      </Link>
                     </li>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/admin/Orders/AcceptedOrders",
-                          });
-                        }}
+                        href={`/admin/Orders/AcceptedOrders`}
                       >
                         <AiOutlineCarryOut className="block text-[20px] text-white " />
                         <p className="hidden md:block">Accepted Orders</p>
-                      </button>
+                      </Link>
                     </li>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/admin/Orders/AllOrders",
-                          });
-                        }}
+                        href={`/admin/Orders/AllOrders`}
                       >
                         <BsBox className="block text-[20px] text-white " />
                         <p className="hidden md:block">All Orders</p>
-                      </button>
+                      </Link>
                     </li>
                   </ul>
                 </AccordionItem>
@@ -238,32 +220,24 @@ export default function SidebarAdmin(props) {
                 >
                   <ul>
                     <li className={``}>
-                      <button
+                      <Link
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/admin/Vendors",
-                          });
-                        }}
+                        href={"/admin/Vendors"}
                       >
                         <MdOutlineManageAccounts className="block text-[25px] text-white " />
                         <p className="hidden md:block">Vendors Managment</p>
-                      </button>
+                      </Link>
                     </li>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/admin/Vendors/ProductsRequests",
-                          });
-                        }}
+                        href={"/admin/Vendors/ProductsRequests"}
                       >
                         <VscArchive className="block text-[20px] text-white " />
                         <p className="hidden md:block">
                           Vendors Product Requests
                         </p>
-                      </button>
+                      </Link>
                     </li>
                   </ul>
                 </AccordionItem>
@@ -302,53 +276,36 @@ export default function SidebarAdmin(props) {
                 >
                   <ul>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/admin/Products/PendingProduct",
-                          });
-                        }}
+                        href={"/admin/Products/PendingProduct"}
                       >
                         <MdOutlineDisabledVisible className="block text-[20px] text-white " />
                         <p className="hidden md:block">Pending Products</p>
-                      </button>
+                      </Link>
                     </li>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/admin/Products/ShareProduct",
-                          });
-                        }}
+                        href={"/admin/Products/ShareProduct"}
                       >
                         <AiTwotoneEye className="block text-[20px] text-white " />
                         <p className="hidden md:block">Shared Products</p>
-                      </button>
+                      </Link>
                     </li>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/admin/Products/AllProducts",
-                          });
-                        }}
+                        href={"/admin/Products/AllProducts"}
                       >
                         <BsBox className="block text-[20px] text-white " />
                         <p className="hidden md:block">All Products</p>
-                      </button>
+                      </Link>
                     </li>
                     <li className={`pt-3`}>
                       <Link
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
                         href={`/admin/Products/newStoreProducts`}
-                        // onClick={() => {
-                        //   router.push({
-                        //     pathname: "/admin/Products/AllProducts",
-                        //   });
-                        // }}
                       >
                         <BsBox className="block text-[20px] text-white " />
                         <p className="hidden md:block">New Store Products</p>
@@ -399,45 +356,31 @@ export default function SidebarAdmin(props) {
                 >
                   <ul>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/admin/Store/PendingStores",
-                            // query: { type : "PendingProducts"},
-                          });
-                        }}
+                        href={"/admin/Store/PendingStores"}
                       >
                         <MdOutlineDisabledVisible className="block text-[20px] text-white " />
                         <p className="hidden md:block">Pending Store</p>
-                      </button>
+                      </Link>
                     </li>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/admin/Store/ActiveStores",
-                            // query: { type :"activeProducts"},
-                          });
-                        }}
+                        href={"/admin/Store/ActiveStores"}
                       >
                         <AiTwotoneEye className="block text-[20px] text-white " />
                         <p className="hidden md:block">Active Store</p>
-                      </button>
+                      </Link>
                     </li>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/admin/Store/AllStore",
-                          });
-                        }}
+                        href={"/admin/Store/AllStore"}
                       >
                         <BsBox className="block text-[20px] text-white " />
                         <p className="hidden md:block">All Store</p>
-                      </button>
+                      </Link>
                     </li>
                   </ul>
                 </AccordionItem>
@@ -584,30 +527,22 @@ export default function SidebarAdmin(props) {
                 >
                   <ul>
                     <li className={``}>
-                      <button
+                      <Link
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/admin/Ads/StoreTypeADS",
-                          });
-                        }}
+                        href={"/admin/Ads/StoreTypeADS"}
                       >
                         <MdOutlineDisabledVisible className="block text-[20px] text-white " />
                         <p className="hidden md:block">Store Type ADS</p>
-                      </button>
+                      </Link>
                     </li>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/admin/Ads/HomeADS",
-                          });
-                        }}
+                        href={"/admin/Ads/HomeADS"}
                       >
                         <AiTwotoneEye className="block text-[20px] text-white " />
                         <p className="hidden md:block">Home ADS</p>
-                      </button>
+                      </Link>
                     </li>
                   </ul>
                 </AccordionItem>

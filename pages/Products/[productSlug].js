@@ -52,12 +52,20 @@ export async function getServerSideProps(context) {
             res.end();
             return true;
           }
+        } else {
+          return {
+              notFound: true,
+          };
         }
       } else {
         return {
-          notFound: true,
+            notFound: true,
         };
       }
+    } else {
+      return {
+          notFound: true,
+      };
     }
   }
 }
