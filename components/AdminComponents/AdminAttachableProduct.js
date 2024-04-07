@@ -38,7 +38,7 @@ function AdminAttachableProduct({ product, selectedStoreId, refetch }) {
       const response = await Api.get(
         `/api/admin/attached-item/${product.item_id}`
       );
-      console.log(response.data);
+      // console.log(response.data);
       setAttachedProducts(response.data.products);
       setIsLoading(false);
     } catch (error) {

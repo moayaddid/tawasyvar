@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 function ContactItem({ contact }) {
   function copyText(e) {
-    console.log(e.target.innerText);
+    // console.log(e.target.innerText);
     navigator.clipboard.writeText(e.target.innerText);
     toast.warn("Copied to clipboard" , {autoClose : 1000 , hideProgressBar : true , theme : "dark"})
   }

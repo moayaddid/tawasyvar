@@ -20,6 +20,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import PublicAllProduct from "@/components/CustomerAllProducts/AllProducts";
 import Cookies from "js-cookie";
+import { GiConsoleController } from "react-icons/gi";
 
 export async function getServerSideProps(context) {
   const { params, locale, res, req } = context;
@@ -31,12 +32,9 @@ export async function getServerSideProps(context) {
 
   const Api = createAxiosInstance();
   try {
-    const response = await Api.get(
-      `/api/stores-with-products/${params.storeId}`,
-      {
-        headers: { "Accept-Language": locale || "en" },
-      }
-    );
+    const response = await Api.get(`/api/g/${params.storeId}`, {
+      headers: { "Accept-Language": locale || "en" },
+    });
     return {
       props: {
         ...(await serverSideTranslations(locale, ["common"])),
@@ -75,7 +73,7 @@ export async function getServerSideProps(context) {
       }
     } else {
       return {
-          notFound: true,
+        notFound: true,
       };
     }
   }
@@ -91,12 +89,63 @@ function Products({ store }) {
   const [searchedResults, setSearchedResults] = useState();
   const searchRef = useRef();
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategoryData, setSelectedCategoryData] = useState();
+  const [selectedCategoryDataPagination, setSelectedCategoryDataPagination] =
+    useState();
+  // const [page, setPage] = useState(() => {
+  //   const cookiePage = Cookies.get("page");
+  //   const category = Cookies.get("ctg");
+  //   if(category){
+  //     if(store.categories.some((categ) => categ.id == category)){
+  //       return cookiePage ? parseInt(cookiePage) : 1;
+  //     }
+  //   }else{
+  //     return 1 ;
+  //   }
+  // });
 
-  const onSelectCategory = (categoryName) => {
-    if (categoryName !== "Offers" && categoryName !== "عروض") {
-      Cookies.set(`ctg`, categoryName);
+  const [page , setPage] = useState(1);
+
+  const {
+    data: categoryProducts,
+    isFetching,
+    isLoading,
+  } = useQuery(
+    ["CategoryProdutcs", selectedCategory, page],
+    () => {
+      return fetchCategoryProducts(selectedCategory, page);
+    },
+    {
+      staleTime: 1,
+      refetchOnMount: true,
+      refetchOnWindowFocus: false,
+      enabled: Boolean(selectedCategory) && selectedCategory !== 99999999,
     }
-    setSelectedCategory(categoryName);
+  );
+
+  async function fetchCategoryProducts(category, page) {
+    try {
+      const response = await Api.get(
+        `/api/store/${store.store.id}/category/${category}?page=${page}`
+      );
+      // setSelectedCategoryData(response.data.products);
+      // setSelectedCategoryDataPagination(response.data.pagination);
+      return response;
+    } catch (error) {}
+  }
+
+  const onSelectCategory = (categoryId) => {
+    // if (categoryName !== "Offers" && categoryName !== "عروض") {
+    if (categoryId !== 99999999) {
+      Cookies.set(`ctg`, categoryId);
+      setSelectedCategory(categoryId);
+      setPage(1);
+      return;
+    } else {
+      setSelectedCategory(99999999);
+      setSelectedCategoryData(store.promotions);
+      setSelectedCategoryDataPagination();
+    }
   };
 
   useEffect(() => {
@@ -110,25 +159,40 @@ function Products({ store }) {
     const category = Cookies.get(`ctg`);
     if (store && store.categories.length > 0) {
       if (category) {
-        const cat = store.categories.find((catego) => catego.name == category);
+        const cat = store.categories.find((catego) => catego.id == category);
         if (cat) {
-          setSelectedCategory(cat.name);
+          // console.log(`inhere`);
+          // if (cat.id !== store.category_id) {
+          const page = Cookies.get("page");
+          if (page) {
+            setPage(page);
+          } else {
+            setPage(1);
+          }
+          setSelectedCategory(cat.id);
+          // }
           return;
         } else {
-          setSelectedCategory(store.categories[0].name);
+          setSelectedCategory(store.categories[0].id);
           return;
         }
       }
       if (store.promotions && store.promotions.length > 0) {
-        if (router) {
-          if (router.locale === `en`) {
-            setSelectedCategory("Offers");
-          } else {
-            setSelectedCategory("عروض");
-          }
-        }
+        setSelectedCategory(99999999);
+        setSelectedCategoryData(store.promotions);
+        setSelectedCategoryDataPagination();
+        // if (router) {
+        //   if (router.locale === `en`) {
+        //     setSelectedCategory("Offers");
+        //   } else {
+        //     setSelectedCategory("عروض");
+        //   }
+        // }
+        // setSelectedCategory(99999999);
       } else {
-        setSelectedCategory(store.categories[0].name);
+        setSelectedCategory(store.category_id);
+        setSelectedCategoryData(store.products.original.products);
+        setSelectedCategoryDataPagination(store.products.original.pagination);
       }
     }
   }, [store]);
@@ -172,21 +236,39 @@ function Products({ store }) {
     setSearching(false);
   }
 
-  let selectedCategoryData;
+  // let selectedCategoryData;
 
-  if (store && selectedCategory) {
-    if (
-      store.promotions &&
-      store.promotions.length > 0 &&
-      (selectedCategory === "Offers" || selectedCategory === "عروض")
-    ) {
-      selectedCategoryData = { products: store.promotions };
-    } else {
-      selectedCategoryData = store.category.find(
-        (category) => category.name === selectedCategory
-      );
+  // if (store && selectedCategory) {
+  //   if (
+  //     store.promotions &&
+  //     store.promotions.length > 0 &&
+  //     (selectedCategory === 99999999)
+  //   ) {
+  //     selectedCategoryData = { products: store.promotions };
+  //   } else {
+  //     selectedCategoryData = store.category.find(
+  //       (category) => category.name === selectedCategory
+  //     );
+  //   }
+  // }
+
+  useEffect(() => {
+    if (categoryProducts) {
+      // console.log(`in useEffect`);
+      setSelectedCategoryData(categoryProducts.data.products);
+      setSelectedCategoryDataPagination(categoryProducts.data.pagination);
     }
-  }
+    // else{
+    //   setSelectedCategory(store.category_id)
+    //   setSelectedCategoryData(store.products.original.products)
+    //   setSelectedCategoryDataPagination(store.products.original.pagination);
+    // }
+  }, [
+    categoryProducts,
+    categoryProducts?.data.products,
+    categoryProducts?.data.pagination,
+  ]);
+
   let days = [];
   if (store && store.store) {
     const beforeDays = JSON.parse(store.store.opening_days);
@@ -368,10 +450,13 @@ function Products({ store }) {
                       store.promotions && store.promotions.length > 0
                         ? router && router.locale == `en`
                           ? [
-                              { id: 999999, name: "Offers" },
+                              { id: 99999999, name: "Offers" },
                               ...store.categories,
                             ]
-                          : [{ id: 999999, name: "عروض" }, ...store.categories]
+                          : [
+                              { id: 99999999, name: "عروض" },
+                              ...store.categories,
+                            ]
                         : store.categories
                     }
                     selectedCategory={selectedCategory}
@@ -381,11 +466,22 @@ function Products({ store }) {
               </ul>
             </div>
 
-            <div className="flex w-[90%] justify-center mx-auto mt-4 mb-7">
+            {/* {isFetching == true && !categoryProducts ? (
+              <div className="flex justify-center items-center">
+                <TawasyLoader width={300} height={300} />
+              </div>
+            ) : ( */}
+            <div
+              className={`flex flex-col w-[90%] items-center justify-center mx-auto mt-4 mb-7 ${
+                isFetching == true
+                  ? `opacity-60 pointer-events-none `
+                  : `opacity-100`
+              } `}
+            >
               <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 gap-y-7 mx-auto ">
                 {store &&
                   selectedCategoryData &&
-                  selectedCategoryData.products.map((product, index) => (
+                  selectedCategoryData.map((product, index) => (
                     // <ProductCustomer key={product.id} product={product} />
                     <PublicAllProduct
                       key={`${
@@ -396,7 +492,42 @@ function Products({ store }) {
                     />
                   ))}
               </div>
+              {selectedCategoryDataPagination && (
+                <div className="w-full flex justify-center items-center my-4">
+                  <button
+                    className="w-max px-2 py-1 disabled:opacity-70 disabled:cursor-not-allowed text-center rounded-lg bg-skin-primary text-white"
+                    onClick={() => {
+                      Cookies.set(
+                        "page",
+                        selectedCategoryDataPagination.current_page - 1,
+                        { expires: 10 * 365 }
+                      );
+                      setPage(selectedCategoryDataPagination.current_page - 1);
+                    }}
+                    disabled={selectedCategoryDataPagination.current_page == 1}
+                  >{`<<`}</button>
+                  <p className="underline decoration-skin-primary text-black mx-2">
+                    {selectedCategoryDataPagination.current_page}
+                  </p>
+                  <button
+                    onClick={() => {
+                      Cookies.set(
+                        "page",
+                        selectedCategoryDataPagination.current_page + 1,
+                        { expires: 10 * 365 }
+                      );
+                      setPage(selectedCategoryDataPagination.current_page + 1);
+                    }}
+                    disabled={
+                      selectedCategoryDataPagination.current_page ==
+                      selectedCategoryDataPagination.last_page
+                    }
+                    className="w-max px-2 py-1 text-center disabled:opacity-70 disabled:cursor-not-allowed rounded-lg bg-skin-primary text-white"
+                  >{`>>`}</button>
+                </div>
+              )}
             </div>
+            {/* // )} */}
           </div>
         )}
 
