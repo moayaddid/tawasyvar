@@ -163,12 +163,12 @@ function Products({ store }) {
         if (cat) {
           // console.log(`inhere`);
           // if (cat.id !== store.category_id) {
-          const page = Cookies.get("page");
-          if (page) {
-            setPage(page);
-          } else {
-            setPage(1);
-          }
+          // const page = Cookies.get("page");
+          // if (page) {
+          //   setPage(page);
+          // } else {
+          //   setPage(1);
+          // }
           setSelectedCategory(cat.id);
           // }
           return;
