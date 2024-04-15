@@ -18,6 +18,9 @@ import { MdArrowForward, MdClose } from "react-icons/md";
 
 const tableheading = [
   {
+    heading: "Action",
+  },
+  {
     heading: "Name",
   },
   {

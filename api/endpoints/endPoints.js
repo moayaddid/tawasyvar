@@ -12,3 +12,6 @@ export const postBrandNote_endpoint = "/api/admin/add-brand-note";
 
 export const getCategoryNote_endpoint = "/api/admin/get-category-notes";
 export const postCategoryNote_endpoint = "/api/admin/add-category-note";
+
+export const getCustomerNote_endpoint = "/api/admin/get-customer-notes";
+export const postCustomerNote_endpoint = "/api/admin/add-customer-note";
