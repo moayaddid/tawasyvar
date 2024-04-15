@@ -93,14 +93,13 @@ const SignUp = () => {
         latitude: address ? address.lat : null,
       });
       setIsLoading(false);
-      Cookies.set("number", response.data.customer.phone_number, {
+      Cookies.set("number", customerNumberRef.current.value, {
         expires: 365 * 10,
       });
       Cookies.remove("AT");
       Cookies.remove("user");
       Cookies.remove("Sid");
       Cookies.set("user", "customer", { expires: 365 * 10 });
-      Cookies.set("registered", true, { expires: 365 * 10 });
       router.push("/verification");
     } catch (error) {
       setIsLoading(false);
@@ -158,14 +157,14 @@ const SignUp = () => {
       Cookies.remove("AT");
       Cookies.remove("Sid");
       Cookies.remove("user");
-      Cookies.set("number", response.data.seller.phone_number, {
+      Cookies.set("number", sellerNumberRef.current.value, {
         expires: 365 * 10,
       });
       Cookies.set("user", "seller", { expires: 365 * 10 });
-      Cookies.set("registered", true, { expires: 365 * 10 });
       router.push("/verification");
     } catch (error) {
       setIsLoading(false);
+      console.log(error);
     }
     setIsLoading(false);
   }
