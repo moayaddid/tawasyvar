@@ -27,7 +27,7 @@ function SellersAdmin({ names, refetch }) {
       const response = await Api.post(`/api/admin/change-phone/${names.id}`, {
         new_phone_number: phoneNumberRef.current.value,
       });
-      // refetch();
+      refetch();
       setIsSaving(false);
       setIsEditing(false);
     } catch (error) {
@@ -43,8 +43,12 @@ function SellersAdmin({ names, refetch }) {
         className="py-10 bg-gray-100 hover:bg-gray-200 font-medium   "
       >
         <td className="px-4 py-4">{names.id}</td>
-        <td className="px-4 py-4">{names.name}</td>
+        <td className="px-4 py-4 text-center ">{names.name}</td>
         <td className="px-4 py-4">{names.phone_number}</td>
+        {/* <td className="px-4 py-4">{names.store_id ?? " - "}</td> */}
+        <td className="px-4 py-4 w-[10%] ">
+          {names.store_name ?? "this seller has no store. "}
+        </td>
         <td className="px-4 py-4">{names.verify_code}</td>
         <td className="px-4 py-4">{names.city}</td>
         <td className="px-4 py-4">{names.location}</td>
@@ -67,6 +71,9 @@ function SellersAdmin({ names, refetch }) {
       </tr>
 
       <Dialog
+        disableAutoFocus
+        disableEnforceFocus
+        disableRestoreFocus
         open={isEditing}
         onClose={() => {
           setIsEditing(false);
@@ -76,7 +83,8 @@ function SellersAdmin({ names, refetch }) {
       >
         <DialogTitle className=" flex justify-between items-center border-b-2 border-gray-200">
           <p className="py-2 pl-3 text-gray-600">
-            Edit Phone Number of seller : {names.name}
+            Edit Phone Number of seller : {names.name}{" "}
+            {names.store_name && <p>of store : ( {names.store_name} )</p>}
           </p>
           <div>
             <MdClose

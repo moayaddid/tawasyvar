@@ -74,6 +74,7 @@ const Locations = ({ onLocation, className, defaultAddress }) => {
     geocoder.geocode({ location: coordinates }, (results, status) => {
       if (status === google.maps.GeocoderStatus.OK) {
         const address = results[0].formatted_address;
+        // console.table({ address, lng: longitude, lat: latitude });
         onLocation({ address, lng: longitude, lat: latitude });
         setAddress(address);
       }

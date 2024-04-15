@@ -18,6 +18,9 @@ const tableheading = [
     heading: "Seller ID",
   },
   {
+    heading : "Seller Name"
+  },
+  {
     heading: "Name Ar",
   },
   {

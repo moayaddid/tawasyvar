@@ -225,7 +225,7 @@ function PublicAllProduct({ product, storeId }) {
           {product.price && (
             <button
               onClick={addToCart}
-              title={product.has_variation === true ? t("variationProduct") : t("store.product.addToCart")}
+              title={product.has_variation == true ? t("variationProduct") : t("store.product.addToCart")}
               className="capitalize md:h-[20%] border-2 border-skin-primary px-4 rounded-full justify-self-end  text-base transform duration-500"
             >
               {adding == true ? (

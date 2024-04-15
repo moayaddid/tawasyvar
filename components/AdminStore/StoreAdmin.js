@@ -156,14 +156,16 @@ function StoreAdmin({ names, refetch }) {
     if (!arraysAreEqual(capitalizedDaysArray, checkedDays)) {
       editData[`opening_days`] = checkedDays;
     }
-    if(freeDelivery !== names.free_delivery){
-      editData.free_delivery = freeDelivery ?? 0 ;
-      if( radius?.current?.value && radius.current.value != names.radius ){
-        editData.radius = radius.current.value ;
+    if (freeDelivery !== names.free_delivery) {
+      editData.free_delivery = freeDelivery ?? 0;
+      if (radius?.current?.value && radius.current.value != names.radius) {
+        editData.radius = radius.current.value;
       }
-    }else{
-      if(radius.current.value != names.radius ){
-        editData.radius = radius.current.value ;
+    } else {
+      if (radius?.current?.value) {
+        if (radius.current.value != names.radius) {
+          editData.radius = radius.current.value;
+        }
       }
     }
 
@@ -199,7 +201,6 @@ function StoreAdmin({ names, refetch }) {
         setStoreImage();
       } catch (error) {
         setIsSaving(false);
-
       }
     }
 
@@ -262,6 +263,7 @@ function StoreAdmin({ names, refetch }) {
           </div>
         </td>
         <td className="px-4 py-4">{names.seller_id}</td>
+        <td className="px-4 py-4">{names.seller}</td>
         <td className="px-4 py-4" width={`10%`}>
           {names.name_ar}
         </td>
@@ -320,8 +322,10 @@ function StoreAdmin({ names, refetch }) {
         maxWidth="xl"
       >
         <DialogTitle className="flex justify-between border-b-2 border-black">
-          <h4 className="text-gray-500 md:pl-6 font-medium">
-            Edit Store : {names.name_en}
+          <h4 className="text-gray-500 md:pl-6 font-medium flex flex-wrap justify-start items-center ">
+            Edit Store :{" "}
+            <p className="text-skin-primary px-2 ">{names.name_en}</p>/ Of
+            Seller : ( <p className="text-sky-600 px-2 ">{names.seller} )</p>
           </h4>
         </DialogTitle>
         <DialogContent>

@@ -23,6 +23,12 @@ const tableheading = [
   {
     heading: "Phone",
   },
+  // {
+  //   heading: "Store Id",
+  // },
+  {
+    heading: "Store Name",
+  },
   {
     heading: "Verification Code",
   },
@@ -177,7 +183,7 @@ function AllCustomer() {
 
         <div className="w-full h-[70%] overflow-x-auto ">
           {inSearch == false && (
-            <table className="w-full overflow-x-auto table-auto">
+            <table className="w-max overflow-x-auto table-auto">
               <thead className="">
                 <tr className="text-sm font-semibold text-center border-b-2 border-gray-400 uppercase">
                   <th>Id</th>
