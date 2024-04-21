@@ -95,11 +95,7 @@ const Store = () => {
       </div>
     );
   }
-
-  // if(sellerStoreData){
-  //   console.log(sellerStoreData);
-  // }
-
+  
   return (
     <div
       className="md:px-7 w-full h-full flex flex-col justify-start items-center "
@@ -198,6 +194,8 @@ const Store = () => {
               categories={sellerStoreData?.categories}
               selectedCategory={selectedCategory}
               onSelectCategory={onSelectCategory}
+              categoryIdHeader={`name`}
+              categoryNameHeader={`name`}
             />
           )}
         </ul>

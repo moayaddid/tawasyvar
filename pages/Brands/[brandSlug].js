@@ -63,7 +63,6 @@ export async function getServerSideProps(context) {
 }
 
 function BrandPage({ brand }) {
-  // console.log(brand);
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState();
@@ -73,15 +72,10 @@ function BrandPage({ brand }) {
   const onSelectCategory = (categoryName) => {
     Cookies.set(`ctg`, categoryName);
     setSelectedCategory(categoryName);
-    // console.log(`category selected`) ;
-    // console.log(categories);
     const cat = brand?.categories_with_products.find(
       (catego) => catego.category_name == categoryName
     );
     if (cat) {
-      // console.log(`cat found`) ;
-      // console.log(cat);
-      // setSelectedCategory(cat.category_name);
       setCategoryProducts(cat.products);
       return;
     }
@@ -92,11 +86,9 @@ function BrandPage({ brand }) {
       let cats = [];
       brand?.categories_with_products?.map((singleCategory) => {
         if (singleCategory.products && singleCategory.products?.length > 0) {
-          cats.push({ name: singleCategory.category_name });
+          cats.push(singleCategory);
         }
       });
-      // console.log(`cats`);
-      // console.log(cats);
       setCategories(cats);
     }
   }, [brand]);
@@ -226,6 +218,8 @@ function BrandPage({ brand }) {
                   categories={categories}
                   selectedCategory={selectedCategory}
                   onSelectCategory={onSelectCategory}
+                  categoryIdHeader={`category_name`}
+                  categoryNameHeader={`category_name`}
                 />
               )}
             </ul>
@@ -236,7 +230,6 @@ function BrandPage({ brand }) {
               {brand &&
                 categoryProducts &&
                 categoryProducts.map((product, index) => (
-                  // <ProductCustomer key={product.id} product={product} />
                   <PublicAllProduct
                     key={`${
                       product.name ? product.name : product.slug

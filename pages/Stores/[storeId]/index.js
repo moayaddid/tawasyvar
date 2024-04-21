@@ -42,7 +42,6 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
-    // console.log(error.response);
     if (error.response.status) {
       if (error.response.status == 500) {
         if (error?.response?.data?.lang && error?.response?.data?.slug) {
@@ -104,6 +103,7 @@ function Products({ store }) {
   //   }
   // });
 
+
   const [page , setPage] = useState(1);
 
   const {
@@ -161,7 +161,6 @@ function Products({ store }) {
       if (category) {
         const cat = store.categories.find((catego) => catego.id == category);
         if (cat) {
-          // console.log(`inhere`);
           // if (cat.id !== store.category_id) {
           // const page = Cookies.get("page");
           // if (page) {
@@ -228,8 +227,6 @@ function Products({ store }) {
         );
       setSearchedResults(component);
       setSearching(false);
-      // console.log(`product search`);
-      // console.log(response.data.data);
     } catch (error) {
       setSearching(false);
     }
@@ -254,7 +251,6 @@ function Products({ store }) {
 
   useEffect(() => {
     if (categoryProducts) {
-      // console.log(`in useEffect`);
       setSelectedCategoryData(categoryProducts.data.products);
       setSelectedCategoryDataPagination(categoryProducts.data.pagination);
     }
@@ -461,6 +457,8 @@ function Products({ store }) {
                     }
                     selectedCategory={selectedCategory}
                     onSelectCategory={onSelectCategory}
+                    categoryIdHeader={`id`}
+                    categoryNameHeader={`name`}
                   />
                 )}
               </ul>
