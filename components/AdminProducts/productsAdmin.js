@@ -854,6 +854,7 @@ function AdminProduct({ product, refetch }) {
         <DialogContent>
           {loadingVariations ||
           // isFetching ||
+          //asdhjgsdahjgasdhjg
           // isFetchingProductVariations ||
           // optionsFetching ||
           optionsLoading ||
