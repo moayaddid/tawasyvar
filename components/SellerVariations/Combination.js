@@ -4,12 +4,13 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { MdCheck } from "react-icons/md";
 
-function Combination({ combination, productId , refetch = null }) {
+function Combination({ combination, productId, refetch = null }) {
   const [isSelecting, setIsSelecting] = useState(false);
   const [selected, setSelected] = useState(false);
   const router = useRouter();
   const Api = createAxiosInstance(router);
   const partNumberRef = useRef();
+  const eanCodeRef = useRef();
   const hexRef = useRef();
   async function SelectVariation(variation) {
     // console.log(variation);
@@ -18,7 +19,12 @@ function Combination({ combination, productId , refetch = null }) {
     try {
       const response = await Api.post(
         `/api/admin/add-combinations/${productId}`,
-        { variations: [...variation], part_number: partNumberRef.current.value , hex : hexRef.current.value }
+        {
+          variations: [...variation],
+          part_number: partNumberRef.current.value,
+          hex: hexRef.current.value,
+          ean_code: eanCodeRef.current.value,
+        }
       );
       setIsSelecting(false);
       refetch();
@@ -45,35 +51,50 @@ function Combination({ combination, productId , refetch = null }) {
               <div className="justify-self-end">
                 <MdCheck className="text-green-500  w-[25px] h-[25px] " />
               </div>
-            ) : isSelecting == true ? (
-              <div className="justify-self-end">
-                <Ring size={20} speed={2} lineWeight={5} color="#ff6600" />
-              </div>
-            ) : (
-              <div className="flex justify-start w-full items-center space-x-4 ">
+            ) :
+            //  isSelecting == true ? (
+            //   <div className="justify-self-end">
+            //     <Ring size={20} speed={2} lineWeight={5} color="#ff6600" />
+            //   </div>
+            // ) : 
+            (
+              <div className="flex flex-grow justify-start w-full items-center space-x-4 ">
                 <input
                   type="text"
                   ref={hexRef}
                   placeholder="Hex Color"
                   maxLength={7}
-                  className="outline-none w-[50%] border-b border-gray-300 transition-all duration-500 focus:border-skin-primary"
+                  className="outline-none border-b border-gray-300 transition-all duration-500 focus:border-skin-primary"
                 />
                 <input
                   type="text"
                   ref={partNumberRef}
                   placeholder="Part Number"
                   maxLength={30}
-                  className="outline-none w-[50%] border-b border-gray-300 transition-all duration-500 focus:border-skin-primary"
+                  className="outline-none border-b border-gray-300 transition-all duration-500 focus:border-skin-primary"
                 />
-                <button
-                  onClick={() => {
-                    //   console.log(value);
-                    SelectVariation(value);
-                  }}
-                  className="justify-self-end text-white px-2 py-1 bg-skin-primary rounded-lg hover:opacity-80"
-                >
-                  Save
-                </button>
+                <input
+                  type="text"
+                  ref={eanCodeRef}
+                  placeholder="EAN code"
+                  maxLength={30}
+                  className="outline-none border-b border-gray-300 transition-all duration-500 focus:border-skin-primary"
+                />
+                {isSelecting == true ? (
+                  <div className="justify-self-end">
+                    <Ring size={20} speed={2} lineWeight={5} color="#ff6600" />
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => {
+                      //   console.log(value);
+                      SelectVariation(value);
+                    }}
+                    className="justify-self-end text-white px-2 py-1 bg-skin-primary rounded-lg hover:opacity-80"
+                  >
+                    Save
+                  </button>
+                )}
               </div>
             )}
           </div>

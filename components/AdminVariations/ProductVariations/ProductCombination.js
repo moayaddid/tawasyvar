@@ -22,18 +22,45 @@ function ProductCombination({ product, refetch }) {
   const router = useRouter();
   const Api = createAxiosInstance(router);
   const partNumberRef = useRef();
+  const eanCodeRef = useRef();
   const hexRef = useRef();
 
   async function SavePartNumber() {
     setIsSavingEditing(true);
     try {
-      const response = await Api.put(
-        `/api/admin/edit-part-number/${product.line_id}`,
-        { part_number: partNumberRef.current.value }
-      );
-      setIsSavingEditing(false);
-      refetch();
-      setIsEditing(false);
+      let editData = {};
+      if (
+        partNumberRef &&
+        partNumberRef.current.value !== null &&
+        partNumberRef.current.value !== undefined &&
+        partNumberRef.current.value != product.part_number
+      ) {
+        editData[`part_number`] = partNumberRef.current.value;
+      }
+      if (
+        eanCodeRef &&
+        eanCodeRef.current.value !== null &&
+        eanCodeRef.current.value !== undefined &&
+        eanCodeRef.current.value != product.combination_ean_code
+      ) {
+        editData[`combination_ean_code`] = eanCodeRef.current.value;
+      }
+
+      if (Object.keys(editData).length) {
+        const response = await Api.put(
+          `/api/admin/edit-part-number/${product.line_id}`,
+          {
+            part_number: partNumberRef.current.value,
+            ean_code: eanCodeRef.current.value,
+          }
+        );
+        setIsSavingEditing(false);
+        refetch();
+        setIsEditing(false);
+      } else {
+        setIsSavingEditing(false);
+        setIsEditing(false);
+      }
     } catch (error) {
       setIsSavingEditing(false);
     }
@@ -58,8 +85,8 @@ function ProductCombination({ product, refetch }) {
   async function EditHex() {
     setSavingHex(true);
     try {
-      const response = await Api.put(`/api/admin/edit-hex/${product.line_id}` , {
-        hex : hexRef.current.value
+      const response = await Api.put(`/api/admin/edit-hex/${product.line_id}`, {
+        hex: hexRef.current.value,
       });
       refetch();
       setSavingHex(false);
@@ -122,17 +149,49 @@ function ProductCombination({ product, refetch }) {
         <div className="flex-col justify-start items-center space-y-2">
           <div className="flex justify-end  items-center space-x-4 ">
             {isEditing == false ? (
-              <p>{product.part_number ? product.part_number : "Part Number"}</p>
+              <div className="flex flex-wrap justify-start items-center">
+                <p className="text-red-500 m-1">
+                  {product.part_number
+                    ? `Part Number : ${product.part_number}`
+                    : "Part Number"}
+                </p>
+                <p className="text-blue-500 m-1">
+                  {product.combination_ean_code
+                    ? `Ean code : ${product.combination_ean_code}`
+                    : "Ean Code"}
+                </p>
+              </div>
             ) : (
-              <input
-                type="text"
-                ref={partNumberRef}
-                placeholder="Part Number"
-                defaultValue={product.part_number ? product.part_number : null}
-                autoFocus
-                maxLength={30}
-                className="outline-none w-[80%] border-b border-transparent transition-all duration-500 focus:border-skin-primary"
-              />
+              <div className="flex flex-wrap justify-start items-center">
+                <label htmlFor="partnumber" className="text-red-500">
+                  Part Number :
+                  <input
+                    id="partnumber"
+                    type="text"
+                    ref={partNumberRef}
+                    placeholder="Part Number"
+                    defaultValue={
+                      product.part_number ? product.part_number : null
+                    }
+                    autoFocus
+                    maxLength={30}
+                    className="outline-none w-[80%] border-b border-transparent transition-all duration-500 focus:border-skin-primary"
+                  />
+                </label>
+                <label htmlFor="eancode" className="text-blue-500">
+                  EAN Code :
+                  <input
+                    id="eancode"
+                    type="text"
+                    ref={eanCodeRef}
+                    placeholder="EAN Code"
+                    defaultValue={product.combination_ean_code ? product.combination_ean_code : null}
+                    autoFocus
+                    maxLength={30}
+                    className="outline-none w-[80%] border-b border-transparent transition-all duration-500 focus:border-skin-primary"
+                  />
+                </label>
+              </div>
             )}
             {isSavingEdit == true ? (
               <div className="justify-self-end">
