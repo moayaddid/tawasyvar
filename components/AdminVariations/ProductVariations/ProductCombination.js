@@ -34,7 +34,7 @@ function ProductCombination({ product, refetch }) {
         partNumberRef.current.value !== null &&
         partNumberRef.current.value !== undefined &&
         partNumberRef.current.value != product.part_number &&
-        partNumberRef.current.value != ""
+        partNumberRef.current.value.trim() != ""
       ) {
         editData[`part_number`] = partNumberRef.current.value;
       }
@@ -43,7 +43,7 @@ function ProductCombination({ product, refetch }) {
         eanCodeRef.current.value !== null &&
         eanCodeRef.current.value !== undefined &&
         eanCodeRef.current.value != product.combination_ean_code &&
-        eanCodeRef.current.value != ""
+        eanCodeRef.current.value.trim() != ""
       ) {
         editData[`ean_code`] = eanCodeRef.current.value;
       }
