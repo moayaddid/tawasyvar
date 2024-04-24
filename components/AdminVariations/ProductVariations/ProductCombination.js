@@ -33,7 +33,8 @@ function ProductCombination({ product, refetch }) {
         partNumberRef &&
         partNumberRef.current.value !== null &&
         partNumberRef.current.value !== undefined &&
-        partNumberRef.current.value != product.part_number
+        partNumberRef.current.value != product.part_number &&
+        partNumberRef.current.value != ""
       ) {
         editData[`part_number`] = partNumberRef.current.value;
       }
@@ -41,7 +42,8 @@ function ProductCombination({ product, refetch }) {
         eanCodeRef &&
         eanCodeRef.current.value !== null &&
         eanCodeRef.current.value !== undefined &&
-        eanCodeRef.current.value != product.combination_ean_code
+        eanCodeRef.current.value != product.combination_ean_code &&
+        eanCodeRef.current.value != ""
       ) {
         editData[`ean_code`] = eanCodeRef.current.value;
       }
@@ -186,7 +188,11 @@ function ProductCombination({ product, refetch }) {
                     type="text"
                     ref={eanCodeRef}
                     placeholder="EAN Code"
-                    defaultValue={product.combination_ean_code ? product.combination_ean_code : null}
+                    defaultValue={
+                      product.combination_ean_code
+                        ? product.combination_ean_code
+                        : null
+                    }
                     autoFocus
                     maxLength={30}
                     className="outline-none w-[80%] border-b border-transparent transition-all duration-500 focus:border-skin-primary"
