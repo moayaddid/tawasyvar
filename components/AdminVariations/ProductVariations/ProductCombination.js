@@ -43,16 +43,17 @@ function ProductCombination({ product, refetch }) {
         eanCodeRef.current.value !== undefined &&
         eanCodeRef.current.value != product.combination_ean_code
       ) {
-        editData[`combination_ean_code`] = eanCodeRef.current.value;
+        editData[`ean_code`] = eanCodeRef.current.value;
       }
 
       if (Object.keys(editData).length) {
         const response = await Api.put(
           `/api/admin/edit-part-number/${product.line_id}`,
-          {
-            part_number: partNumberRef.current.value,
-            ean_code: eanCodeRef.current.value,
-          }
+          // {
+          //   part_number: partNumberRef.current.value,
+          //   ean_code: eanCodeRef.current.value,
+          // }
+          editData
         );
         setIsSavingEditing(false);
         refetch();
