@@ -97,7 +97,7 @@ function AllProducts({ brands }) {
       <div>
         <div className="bg-gray-100 w-full py-3" id="top">
           <h1 className="text-3xl text-gray-600 font-medium w-[90%] mx-auto">
-            {t("allBrands")}
+            {t("titles.allBrands")}
           </h1>
         </div>
         <div

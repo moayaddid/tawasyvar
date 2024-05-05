@@ -17,7 +17,15 @@ import VendorBrandAddition from "../VendorComponents/vendorBrandAddition";
 import { useQuery } from "react-query";
 import VendorStoreTypeAddition from "../VendorComponents/vendorStoreTypeAddition";
 import AdminNotes from "../AdminComponents/AdminNotes";
-import { getVendorNote_endpoint, postVendorNote_endpoint } from "@/api/endpoints/endPoints";
+import {
+  createVendorContacts_endpoint,
+  deleteVendorContacts_endpoint,
+  editVendorContacts_endpoint,
+  getVendorContacts_endpoint,
+  getVendorNote_endpoint,
+  postVendorNote_endpoint,
+} from "@/api/endpoints/endPoints";
+import AdminLinks from "../AdminComponents/AdminLinks/AdminLinks";
 
 function AdminVendor({ vendor, refetch }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -151,9 +159,17 @@ function AdminVendor({ vendor, refetch }) {
             <AdminNotes
               NotesFor={`${vendor.name} - ${vendor.company_name}`}
               entityId={vendor.id}
-              getEndpoint = {getVendorNote_endpoint}
+              getEndpoint={getVendorNote_endpoint}
               postEndpoint={postVendorNote_endpoint}
               className={`mx-1`}
+            />
+            <AdminLinks
+              editEndPoint={editVendorContacts_endpoint}
+              entityId={vendor.id}
+              linksFor={vendor.company_name}
+              getEndPoint={getVendorContacts_endpoint}
+              postEndPoint={createVendorContacts_endpoint}
+              resetEndPoint={deleteVendorContacts_endpoint}
             />
           </div>
         </td>
@@ -297,7 +313,6 @@ function AdminVendor({ vendor, refetch }) {
                   />
                 )}
               </div>
-              
             </Stack>
           )}
         </DialogContent>

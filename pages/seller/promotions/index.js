@@ -22,7 +22,6 @@ import { useQuery } from "react-query";
 import TawasyLoader from "@/components/UI/tawasyLoader";
 import { useTranslation } from "next-i18next";
 
-
 export async function getServerSideProps(context) {
   const { locale } = context;
 
@@ -85,7 +84,7 @@ function Promotions() {
   const [selectedEndDate, setSelectedEndDate] = useState();
   const [isConfirming, setIsConfirming] = useState(false);
   const searchRef = useRef();
-  const {t} = useTranslation("");
+  const { t } = useTranslation("");
 
   const {
     data: promos,
@@ -255,11 +254,15 @@ function Promotions() {
       refetch();
       closeNewPromo();
     } catch (error) {
+      if (error.response.data.message) {
+        setIsConfirming(false);
+        closeNewPromo();
+        refetch();
+      }
       setIsConfirming(false);
     }
     setIsConfirming(false);
   }
-
 
   return (
     <>
@@ -270,7 +273,7 @@ function Promotions() {
             onClick={() => {
               setOpenNewPromo(true);
             }}
-            className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:opacity-80"
+            className="px-2 py-1 bg-skin-primary  text-white rounded-lg hover:opacity-80"
           >
             {t("newPromo")}
           </button>
@@ -298,9 +301,7 @@ function Promotions() {
               })}
             </div>
           ) : (
-            <p className="text-center text-lg w-full py-5">
-              {t("noPromos")}
-            </p>
+            <p className="text-center text-lg w-full py-5">{t("noPromos")}</p>
           ))
         )}
       </div>
@@ -365,9 +366,11 @@ function Promotions() {
                 {selectedProduct.combination && (
                   <div className="flex justify-start items-center space-x-4">
                     <p>-</p>
-                    {selectedProduct.combination?.variations?.map((variant , i) => {
-                      return <p key={i} >{variant.option}</p>;
-                    })}
+                    {selectedProduct.combination?.variations?.map(
+                      (variant, i) => {
+                        return <p key={i}>{variant.option}</p>;
+                      }
+                    )}
                     {selectedProduct.combination?.part_number && (
                       <p>{selectedProduct.combination.part_number}</p>
                     )}
@@ -401,9 +404,7 @@ function Promotions() {
                       }}
                     />
                   </label>
-                  <p className="text-sm text-red-500">
-                    {t("sotSelecting")}
-                  </p>
+                  <p className="text-sm text-red-500">{t("sotSelecting")}</p>
                 </div>
                 <label
                   htmlFor="oldprice"

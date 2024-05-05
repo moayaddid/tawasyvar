@@ -48,14 +48,7 @@ const RequestStore = () => {
   const router = useRouter();
   const Api = createAxiosInstance(router);
   const {t} = useTranslation("");
-
-  const handleLogin = () => {
-    // setIsLoggedIn(true);
-    // window.location.href = "/layout";
-  };
-
   const [address, setAddress] = useState();
-  const inputRef = useRef(null);
   const ArNameRef = useRef();
   const EnNameRef = useRef();
   const areaRef = useRef();
@@ -64,20 +57,12 @@ const RequestStore = () => {
   const [image, setImage] = useState();
   const openTimeRef = useRef();
   const closeTimeRef = useRef();
-  const openDayRef = useRef();
   const [storeType, selectedStoreType] = useState();
   const [storeTypes, setStoreTypes] = useState();
   const maxLength = 255;
   const [areaMaxLength, setAreaMaxLength] = useState(maxLength);
   const [streetMaxLength, setStreetMaxLength] = useState(maxLength);
   // const streetMaxLength = 255 ;
-
-  let token;
-
-  useEffect(() => {
-    const at = Cookies.get("AT");
-    token = at;
-  }, [token]);
 
   useEffect(() => {
     setImage(null);
@@ -87,11 +72,8 @@ const RequestStore = () => {
   useEffect(() => {
     async function fetchStoreTypes() {
       setIsLoading(true);
-      const token = Cookies.get("AT");
       try {
         const response = await Api.get(`/api/seller/store-types/all`);
-        // console.log(`store types`);
-        // console.log(response);
         setStoreTypes(response.data.data);
       } catch (error) {
         console.log(error);
@@ -191,7 +173,6 @@ const RequestStore = () => {
   }
 
   return (
-    <Fragment>
       <div className={`h-screen w-screen bg-[#ff6600] overflow-scroll `}>
         <div className="w-[70%] mx-auto h-full ">
           <div className=" w-full">
@@ -487,11 +468,9 @@ const RequestStore = () => {
                 </fieldset>
               </Stack>
             </DialogContent>
-            <DialogActions></DialogActions>
           </Dialog>
         </div>
       </div>
-    </Fragment>
   );
 };
 export default RequestStore;

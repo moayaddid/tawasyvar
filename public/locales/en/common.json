@@ -507,7 +507,29 @@
       "submit" : "Submit Store",
       "openingTime" : "Opening Time",
       "closingTime" : "Closing time",
-      "openingDays" : "Opening Days"
+      "openingDays" : "Opening Days",
+      "requestStore" : "Request a new store"
+    },
+    "employees" : {
+      "name" : "Name" , 
+      "phoneNumber" : "Phone Number",
+      "role" : "Role",
+      "action" : "Action", 
+      "myEmployees" : "My Employees" ,
+      "addEmployee" : "Add an Employee" ,
+      "noEmployees" : "You dont have any employees yet.",
+      "eName" : "Employee Name" ,
+      "eNumber" : "Employee Number" ,
+      "eAddress" : "Employee Address",
+      "submit" : "Submit",
+      "deleteEmployee" : "Delete Employee :",
+      "rusDelete" : "Are you sure you want to delete this Employee ?" , 
+      "yes" : "Yes" , 
+      "no" : "No",
+      "createNewStore" : "Create New Store" ,
+      "changeStore" : "Change Store" , 
+      "chooseStore" : "Choose Store" , 
+      "confirm" : "Confirm"
     }
   },
   "login" : {

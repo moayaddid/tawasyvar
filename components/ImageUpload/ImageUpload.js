@@ -6,7 +6,9 @@ import Image from "next/image";
 
 const ImageUpload = (props) => {
   const inputRef = useRef(null);
-  const [imag, setimage] = useState(props.defaultImage ? props.defaultImage : null);
+  const [imag, setimage] = useState(
+    props.defaultImage ? props.defaultImage : null
+  );
 
   const handleImageClick = () => {
     inputRef.current.click();
@@ -27,7 +29,11 @@ const ImageUpload = (props) => {
         {imag ? (
           <div className="flex justify-start items-center w-full gap-6">
             <Image
-              src={props.defaultImage && imag == props.defaultImage ? props.defaultImage : URL.createObjectURL(imag)}
+              src={
+                props.defaultImage && imag == props.defaultImage
+                  ? props.defaultImage
+                  : URL.createObjectURL(imag)
+              }
               alt="upload image"
               unoptimized
               width={props.width}
@@ -37,7 +43,11 @@ const ImageUpload = (props) => {
           </div>
         ) : (
           // <Image src={UploadImg} alt='upload image' width={200} height={150}/>
-          <div className="w-max h-max cursor-pointer border-b-2 border-white hover:text-gray-300 hover:border-gray-300 ml-4">
+          <div
+            className={`w-max h-max cursor-pointer border-b-2 border-white hover:opacity-80 hover:border-gray-300 m-4 ${
+              props.className ?? ""
+            }`}
+          >
             Choose an Image
           </div>
         )}

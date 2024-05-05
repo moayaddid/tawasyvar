@@ -296,6 +296,10 @@ function TotalAddProduct({ selectproduct, refetch }) {
         setIsDeleted(true);
         setIsDeleting(false);
       } catch (error) {
+        console.log(error.response.data.message);
+        if(error.response.data.message == 'Product is not selected'){
+          refetch();
+        }
         setIsDeleting(false);
       }
       setIsDeleting(false);
@@ -538,7 +542,7 @@ function TotalAddProduct({ selectproduct, refetch }) {
             placeholder="price"
           />
         </td>
-        <td className="">
+        <td className="px-4 mx-2">
           {isDone == true ? (
             <div className="flex justify-center items-center">
               <FaRegCircleCheck className="w-[26px] h-[26px] text-green-500 " />

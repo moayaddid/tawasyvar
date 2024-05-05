@@ -371,7 +371,7 @@
       "products" : "المنتجات" , 
       "product" : {
         "unpublished" : "المنتجات غير المنشورة" ,
-        "published" : "المنجات المنشورة",
+        "published" : "المنتجات المنشورة",
         "add" : "ضف منتج",
         "all" : "جميع المنتجات"
       } , 
@@ -505,10 +505,32 @@
       "address" : "العنوان",
       "storeImage" : "صورة غلاف المتجر",
       "storeLogo" : "صورة شعار المتجر",
-      "submit" : "Submit Store",
-      "openingTime" : "Opening Time",
-      "closingTime" : "Closing time",
-      "openingDays" : "Opening Days"
+      "submit" : "أرسل الطلب",
+      "openingTime" : "وقت فتح المتجر",
+      "closingTime" : "وقت إغلاق المتجر",
+      "openingDays" : "أيام فتح المتجر" , 
+      "requestStore" : "طلب فتح متجر جديد"
+    },
+    "employees" : {
+      "name" : "الإسم" , 
+      "phoneNumber" : "رقم الهاتف",
+      "role" : "الوظيفة",
+      "action" : "Action", 
+      "myEmployees" : "الموظفين" ,
+      "addEmployee" : "إضافة موظف" ,
+      "noEmployees" : ".لا يوجد لديك أي موظف بعد",
+      "eName" : "إسم الموظف" ,
+      "eNumber" : "رقم هاتف الموظف" ,
+      "eAddress" : "عنوان الموظف",
+      "submit" : "تم",
+      "deleteEmployee" : "حذف موظف :",
+      "rusDelete" : "هل أنت متأكد من حذفك للموظف ؟" , 
+      "yes" : "نعم" , 
+      "no" : "لا",
+      "createNewStore" : "إنشاء متجر جديد" ,
+      "changeStore" : "تغيير المتجر" , 
+      "chooseStore" : "اختر متجر" , 
+      "confirm" : "تأكيد"
     }
   },
   "login" : {

@@ -15,3 +15,18 @@ export const postCategoryNote_endpoint = "/api/admin/add-category-note";
 
 export const getCustomerNote_endpoint = "/api/admin/get-customer-notes";
 export const postCustomerNote_endpoint = "/api/admin/add-customer-note";
+
+export const getSellerContacts_endpoint = "/api/admin/get-contact-seller";
+export const createSellerContacts_endpoint = "/api/admin/create-contact-seller";
+export const editSellerContacts_endpoint = "/api/admin/edit-contact-seller";
+export const deleteSellerContacts_endpoint = "/api/admin/delete-contact-seller";
+
+export const getStoreContacts_endpoint = "/api/admin/get-contact-store";
+export const createStoreContacts_endpoint = "/api/admin/create-contact-store";
+export const editStoreContacts_endpoint = "/api/admin/edit-contact-store";
+export const deleteStoreContacts_endpoint = "/api/admin/delete-contact-store";
+
+export const getVendorContacts_endpoint = "/api/admin/get-contact-vendor";
+export const createVendorContacts_endpoint = "/api/admin/create-contact-vendor";
+export const editVendorContacts_endpoint = "/api/admin/edit-contact-vendor";
+export const deleteVendorContacts_endpoint = "/api/admin/delete-contact-vendor";

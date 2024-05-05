@@ -13,6 +13,12 @@ const createAxiosInstance = (router) => {
     const token = Cookies.get("AT");
     return token ? `Bearer ${token}` : "";
   };
+
+  const updateStoreId = () => {
+    const storeID = Cookies.get("Sid");
+    return storeID ?? "";
+  };
+
   updateAuthorizationHeader();
   axiosInstance.interceptors.request.use(
     (config) => {
@@ -22,12 +28,15 @@ const createAxiosInstance = (router) => {
         config.headers["Accept-Language"] = `${locale}`;
       }
       config.headers.Authorization = updateAuthorizationHeader();
+      if (config.url && config.url.includes("/seller/")) {
+        config.headers["storeId"] = updateStoreId();
+      }
 
       config.headers["Accept"] = "application/json";
       // config.headers["Content-Type"] = "application/json";
 
       if (config.method === "options") {
-        config.headers["Access-Control-Max-Age"] = "3600"; 
+        config.headers["Access-Control-Max-Age"] = "3600";
       }
 
       return config;
@@ -45,17 +54,20 @@ const createAxiosInstance = (router) => {
           response.config.method === "delete") &&
         !response.config.noSuccessToast
       ) {
-        toast.success(response.data.message || "Request successful \b نفّذ الطلب بنجاح ", {
-          toastId: response.data.message,
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.success(
+          response.data.message || "Request successful \b نفّذ الطلب بنجاح ",
+          {
+            toastId: response.data.message,
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          }
+        );
       }
       return response;
     },
@@ -79,15 +91,16 @@ const createAxiosInstance = (router) => {
           const isAdmin =
             error.config.url && error.config.url.includes("/admin/");
 
-          const isVendor = error.config.url && error.config.url.includes("/vendor");
+          const isVendor =
+            error.config.url && error.config.url.includes("/vendor");
 
           if (isAdmin == true) {
             router.push(`/admin/securelogin`);
           } else if (isVendor == true) {
-              router.push(`/vendor/login`);
-          }else {
-            if(error.config.url && !(error.config.url.includes("/seller"))){
-              Cookies.set("url" , router.asPath , { expires: 365 * 10 });
+            router.push(`/vendor/login`);
+          } else {
+            if (error.config.url && !error.config.url.includes("/seller")) {
+              Cookies.set("url", router.asPath, { expires: 365 * 10 });
             }
             router.push(`/login`);
           }

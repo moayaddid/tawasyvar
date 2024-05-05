@@ -1,44 +1,102 @@
 import axios from "axios";
 
-export const revalidate = 604800
+export const revalidate = 604800;
 
 async function generateSiteMap(data, type) {
   let output = [];
-  if (type === `products`) {
-    data.data.products.map((product) => {
-      if (product.slug_ar) {
-        output.push(
-          `<url><loc>https://www.tawasyme.com/ar/Products/${
-            product.slug_ar
-          }</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>`
-        );
-      }
-      if (product.slug_en) {
-        output.push(
-          `<url><loc>https://www.tawasyme.com/Products/${
-            product.slug_en
-          }</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>`
-        );
-      }
-    });
-  }else{
-    data.data.stores.map((store) => {
+  switch (type) {
+    case `products`:
+      data.data.products.map((product) => {
+        if (product.slug_ar) {
+          output.push(
+            `<url><loc>https://www.tawasyme.com/ar/Products/${
+              product.slug_ar
+            }</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>`
+          );
+        }
+        if (product.slug_en) {
+          output.push(
+            `<url><loc>https://www.tawasyme.com/Products/${
+              product.slug_en
+            }</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>`
+          );
+        }
+      });
+      break;
+
+    case `stores`:
+      data.data.stores.map((store) => {
         if (store.slug_ar) {
           output.push(
             `<url><loc>https://www.tawasyme.com/ar/Stores/${
               store.slug_ar
-            }</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>`
+            }</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>`
           );
         }
         if (store.slug_en) {
           output.push(
             `<url><loc>https://www.tawasyme.com/Stores/${
               store.slug_en
+            }</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>`
+          );
+        }
+      });
+      break;
+
+    case `brands`:
+      data.data.brands.map((brand) => {
+        if (brand.slug_ar) {
+          output.push(
+            `<url><loc>https://www.tawasyme.com/ar/Brands/${
+              brand.slug_ar
+            }</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>`
+          );
+        }
+        if (brand.slug_en) {
+          output.push(
+            `<url><loc>https://www.tawasyme.com/Brands/${
+              brand.slug_en
             }</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>`
           );
         }
       });
+      break;
   }
+  // if (type === `products`) {
+  //   data.data.products.map((product) => {
+  //     if (product.slug_ar) {
+  //       output.push(
+  //         `<url><loc>https://www.tawasyme.com/ar/Products/${
+  //           product.slug_ar
+  //         }</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>`
+  //       );
+  //     }
+  //     if (product.slug_en) {
+  //       output.push(
+  //         `<url><loc>https://www.tawasyme.com/Products/${
+  //           product.slug_en
+  //         }</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>`
+  //       );
+  //     }
+  //   });
+  // }else{
+  //   data.data.stores.map((store) => {
+  //       if (store.slug_ar) {
+  //         output.push(
+  //           `<url><loc>https://www.tawasyme.com/ar/Stores/${
+  //             store.slug_ar
+  //           }</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>`
+  //         );
+  //       }
+  //       if (store.slug_en) {
+  //         output.push(
+  //           `<url><loc>https://www.tawasyme.com/Stores/${
+  //             store.slug_en
+  //           }</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>`
+  //         );
+  //       }
+  //     });
+  // }
 
   return output;
 }
@@ -57,6 +115,7 @@ export async function getServerSideProps({ res }) {
   );
   let pros = [];
   let stos = [];
+  let bros = [];
   if (products) {
     pros = await generateSiteMap(products, `products`);
   }
@@ -69,16 +128,27 @@ export async function getServerSideProps({ res }) {
     stos = await generateSiteMap(stores, `stores`);
   }
 
+  const brands = await axios.get(
+    `http://admin.tawasyme.com/api/all-brands-all`
+  );
+
+  if (brands) {
+    bros = await generateSiteMap(brands, `brands`);
+  }
+
   const defaultdata = `
   <url><loc>https://tawasyme.com</loc><lastmod>2024-02-18T09:08:40.472Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
   <url><loc>https://tawasyme.com/AboutUs</loc><lastmod>2024-02-18T09:08:40.473Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
   <url><loc>https://tawasyme.com/ContactUs</loc><lastmod>2024-02-18T09:08:40.473Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
   <url><loc>https://tawasyme.com/Products</loc><lastmod>2024-02-18T09:08:40.473Z</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
-  <url><loc>https://tawasyme.com/Stores</loc><lastmod>2024-02-18T09:08:40.473Z</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
-  <url><loc>https://tawasyme.com/ar/Stores</loc><lastmod>2024-02-18T09:08:40.473Z</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://tawasyme.com/Stores</loc><lastmod>2024-02-18T09:08:40.473Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tawasyme.com/ar/Stores</loc><lastmod>2024-02-18T09:08:40.473Z</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://tawasyme.com/ar/AboutUs</loc><lastmod>2024-02-18T09:08:40.473Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
   <url><loc>https://tawasyme.com/ar/ContactUs</loc><lastmod>2024-02-18T09:08:40.473Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://tawasyme.com/ar/Products</loc><lastmod>2024-02-18T09:08:40.473Z</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>`;
+  <url><loc>https://tawasyme.com/ar/Products</loc><lastmod>2024-02-18T09:08:40.473Z</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://tawasyme.com/ar/Brands</loc><lastmod>2024-02-18T09:08:40.473Z</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://tawasyme.com/Brands</loc><lastmod>2024-02-18T09:08:40.473Z</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  `;
   // We generate the XML sitemap with the posts data
   //   const sitemap = generateSiteMap(posts);
 
@@ -89,6 +159,7 @@ export async function getServerSideProps({ res }) {
   ${defaultdata}
   ${pros.join("")}
   ${stos.join("")}
+  ${bros.join("")}
   </urlset>
   `;
 

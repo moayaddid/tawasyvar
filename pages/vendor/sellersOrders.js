@@ -54,7 +54,7 @@ function ProductsPricingPage() {
         </div>
       ) : (
         <div className="w-full">
-          {orders && orders.data && orders?.data?.orders.length > 0 ? (
+          {orders && orders.data && orders?.data?.orders?.length > 0 ? (
             <div className="w-full flex flex-wrap justify-start items-center">
               {orders.data.orders.map((order, i) => {
                 return (

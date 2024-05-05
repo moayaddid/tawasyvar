@@ -14,12 +14,12 @@ const tableheading = [
   {
     heading: "Action",
   },
-  {
-    heading: "Seller ID",
-  },
-  {
-    heading : "Seller Name"
-  },
+  // {
+  //   heading: "Seller ID",
+  // },
+  // {
+  //   heading : "Seller Name"
+  // },
   {
     heading: "Name Ar",
   },

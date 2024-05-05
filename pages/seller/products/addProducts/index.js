@@ -336,7 +336,7 @@ function AddProducts() {
                   {selectedProducts && !selectedProducts.message ? (
                     selectedProducts.length > 0 ? (
                       <div className=" mt-5">
-                        <table className="table w-full" border={4}>
+                        <table className="table lg:w-full w-max" border={4}>
                           <thead className="md:text-xl text-sm ">
                             <tr>
                               <th className="pb-4 md:px-2 px-4">

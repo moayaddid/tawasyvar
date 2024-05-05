@@ -20,6 +20,8 @@ import logo from "@/public/images/tawasylogo.png";
 import TawasyLoader from "../UI/tawasyLoader";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import AdminLinks from "../AdminComponents/AdminLinks/AdminLinks";
+import { createStoreContacts_endpoint, deleteStoreContacts_endpoint, editStoreContacts_endpoint, getStoreContacts_endpoint } from "@/api/endpoints/endPoints";
 
 const openingDays = [
   "Saturday",
@@ -245,13 +247,21 @@ function StoreAdmin({ names, refetch }) {
       >
         <td className="px-4 py-4">{names.id}</td>
         <td class="px-4 py-4">
-          <div class="flex-col lg:flex-row lg:space-x-2 items-center space-y-2 lg:space-y-0">
+          <div class="flex-col  items-center space-y-2 lg:space-y-0">
             <button
               onClick={openEdit}
               class="items-center px-2 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none"
             >
               <FiEdit2 />
             </button>
+            <AdminLinks
+              editEndPoint={editStoreContacts_endpoint}
+              getEndPoint={getStoreContacts_endpoint}
+              postEndPoint={createStoreContacts_endpoint}
+              resetEndPoint={deleteStoreContacts_endpoint}
+              linksFor={names.name_en}
+              entityId={names.id}
+            />
             {/* <button
               class="items-center px-2 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none"
               onClick={() => {
@@ -262,8 +272,8 @@ function StoreAdmin({ names, refetch }) {
             </button> */}
           </div>
         </td>
-        <td className="px-4 py-4">{names.seller_id}</td>
-        <td className="px-4 py-4">{names.seller}</td>
+        {/* <td className="px-4 py-4">{names.seller_id}</td>
+        <td className="px-4 py-4">{names.seller}</td> */}
         <td className="px-4 py-4" width={`10%`}>
           {names.name_ar}
         </td>
@@ -324,8 +334,8 @@ function StoreAdmin({ names, refetch }) {
         <DialogTitle className="flex justify-between border-b-2 border-black">
           <h4 className="text-gray-500 md:pl-6 font-medium flex flex-wrap justify-start items-center ">
             Edit Store :{" "}
-            <p className="text-skin-primary px-2 ">{names.name_en}</p>/ Of
-            Seller : ( <p className="text-sky-600 px-2 ">{names.seller} )</p>
+            {/* <p className="text-skin-primary px-2 ">{names.name_en}</p>/ Of
+            Seller : ( <p className="text-sky-600 px-2 ">{names.seller} )</p> */}
           </h4>
         </DialogTitle>
         <DialogContent>

@@ -104,7 +104,7 @@ function SellerOrders({ orders, refetch }) {
       // openchange(false);
     }
     setRejecting(false);
-    // openchange(false);
+    openchange(false);
   }
 
   const openGoogleMaps = (latitude, longitude, desLat, desLon) => {
@@ -275,7 +275,7 @@ function SellerOrders({ orders, refetch }) {
 
               <div className="flex flex-col justify-start items-start gap-3 md:text-xl text-base w-full ">
                 <div className="w-full">
-                  <p
+                  <div
                     className={`py-1 border-b-2 border-skin-primary flex justify-between items-center `}
                   >
                     {t("seller.orders.orderDetails.coupon")} :
@@ -294,27 +294,27 @@ function SellerOrders({ orders, refetch }) {
                         ? "لا"
                         : `No`}
                     </p>
-                  </p>
-                  <p className="py-1 border-b-2 border-skin-primary flex justify-between items-center">
+                  </div>
+                  <div className="py-1 border-b-2 border-skin-primary flex justify-between items-center">
                     {t("seller.orders.orderDetails.totalQuantity")} :
                     <p className="pr-5">{orderDetails?.total_quantity}</p>
-                  </p>
-                  <p className="py-1 border-b-2 border-skin-primary flex justify-between items-center">
+                  </div>
+                  <div className="py-1 border-b-2 border-skin-primary flex justify-between items-center">
                     {t("seller.orders.orderDetails.discount")} :
                     <p className="pr-5">{orderDetails?.discount}</p>
-                  </p>
-                  <p className="py-1 border-b-2 border-skin-primary flex justify-between items-center">
+                  </div>
+                  <div className="py-1 border-b-2 border-skin-primary flex justify-between items-center">
                     {t("seller.orders.orderDetails.totalPrice")} :
                     <p className="pr-5">{orderDetails?.total_price}</p>
-                  </p>
-                  <p className="py-1 border-b-2 border-skin-primary flex justify-between items-center">
+                  </div>
+                  <div className="py-1 border-b-2 border-skin-primary flex justify-between items-center">
                     {t("seller.orders.orderDetails.deliveryFee")} :
                     <p className="pr-5">{orderDetails?.delivery_price}</p>
-                  </p>
-                  <p className="py-1 border-b-2 border-skin-primary flex justify-between items-center">
+                  </div>
+                  <div className="py-1 border-b-2 border-skin-primary flex justify-between items-center">
                     {t("seller.orders.orderDetails.finalPrice")} :
                     <p className="pr-5">{orderDetails?.final_price}</p>
-                  </p>
+                  </div>
                 </div>
                 <p className="w-[50%]">
                   {t("seller.orders.orderDetails.notes")} :{" "}

@@ -162,6 +162,7 @@ function BrandPage({ brand }) {
                   src={brand?.brand_details?.brand_logo ?? logo}
                   width={0}
                   height={0}
+                  alt={brand?.brand_details?.brand_name}
                   className="rounded-lg  border-4 object-contain border-white "
                   style={{ width: "100%", height: "100%" }}
                 />
@@ -191,6 +192,7 @@ function BrandPage({ brand }) {
                 src={brand?.brand_details?.brand_logo ?? logo}
                 width={0}
                 height={0}
+                alt={brand?.brand_details?.brand_name}
                 className="rounded-lg  border-4 object-contain border-white "
                 style={{ width: "100%", height: "100%" }}
               />

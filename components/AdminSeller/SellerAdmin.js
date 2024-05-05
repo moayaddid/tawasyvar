@@ -12,10 +12,21 @@ import createAxiosInstance from "@/API";
 import { FiEdit } from "react-icons/fi";
 import { Ring } from "@uiball/loaders";
 import { MdClose } from "react-icons/md";
+import Image from "next/image";
+import logo from "@/public/images/tawasylogo.png";
+import { BiStore } from "react-icons/bi";
+import AdminLinks from "../AdminComponents/AdminLinks/AdminLinks";
+import {
+  createSellerContacts_endpoint,
+  deleteSellerContacts_endpoint,
+  editSellerContacts_endpoint,
+  getSellerContacts_endpoint,
+} from "@/api/endpoints/endPoints";
 
 function SellersAdmin({ names, refetch }) {
   const router = useRouter();
   const Api = createAxiosInstance(router);
+  const [openStores, setOpenStores] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const phoneNumberRef = useRef();
@@ -45,10 +56,21 @@ function SellersAdmin({ names, refetch }) {
         <td className="px-4 py-4">{names.id}</td>
         <td className="px-4 py-4 text-center ">{names.name}</td>
         <td className="px-4 py-4">{names.phone_number}</td>
-        {/* <td className="px-4 py-4">{names.store_id ?? " - "}</td> */}
-        <td className="px-4 py-4 w-[10%] ">
-          {names.store_name ?? "this seller has no store. "}
+        <td className="px-4 py-4">
+          <div className="flex justify-center items-center h-full ">
+            <button
+              onClick={() => {
+                setOpenStores(true);
+              }}
+              className="  flex justify-center items-center hover:opacity-75 rounded-lg bg-violet-800"
+            >
+              <BiStore className="text-white m-3 w-[20px] h-[20px]  " />
+            </button>
+          </div>
         </td>
+        {/* <td className="px-4 py-4 w-[10%] ">
+          {names.store_name ?? "this seller has no store. "}
+        </td> */}
         <td className="px-4 py-4">{names.verify_code}</td>
         <td className="px-4 py-4">{names.city}</td>
         <td className="px-4 py-4">{names.location}</td>
@@ -61,12 +83,23 @@ function SellersAdmin({ names, refetch }) {
           {convertDateStringToDate(names.updated_at)}
         </td>
         <td className="px-4 py-4">
-          <button
-            onClick={() => setIsEditing(true)}
-            className="items-center px-2 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none"
-          >
-            <FiEdit />
-          </button>
+          <div className="flex flex-wrap justify-start items-center">
+            <button
+              onClick={() => setIsEditing(true)}
+              className="items-center px-2 py-2 m-1 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none"
+            >
+              <FiEdit />
+            </button>
+            <AdminLinks
+              editEndPoint={editSellerContacts_endpoint}
+              entityId={names.id}
+              linksFor={names.name}
+              className={`m-1`}
+              getEndPoint={getSellerContacts_endpoint}
+              postEndPoint={createSellerContacts_endpoint}
+              resetEndPoint={deleteSellerContacts_endpoint}
+            />
+          </div>
         </td>
       </tr>
 
@@ -83,8 +116,7 @@ function SellersAdmin({ names, refetch }) {
       >
         <DialogTitle className=" flex justify-between items-center border-b-2 border-gray-200">
           <p className="py-2 pl-3 text-gray-600">
-            Edit Phone Number of seller : {names.name}{" "}
-            {names.store_name && <p>of store : ( {names.store_name} )</p>}
+            Edit Phone Number of seller : {names.name}
           </p>
           <div>
             <MdClose
@@ -128,6 +160,60 @@ function SellersAdmin({ names, refetch }) {
         </DialogContent>
 
         {/* <DialogActions className="grid md:grid-cols-2 grid-cols-1 "></DialogActions> */}
+      </Dialog>
+
+      <Dialog
+        open={openStores}
+        disableAutoFocus
+        disableEnforceFocus
+        disableRestoreFocus
+        maxWidth={"lg"}
+        fullWidth
+        onClose={() => {
+          setOpenStores(false);
+        }}
+      >
+        <DialogTitle className="w-full flex justify-between items-center ">
+          <p className="text-lg">Stores of ( {names.name} )</p>
+          <MdClose
+            onClick={() => {
+              setOpenStores(false);
+            }}
+            className="w-[25px] h-[25px] text-black hover:text-red-500 border-b-2 border-transparent hover:border-red-500 transition-colors duration-300 ease-in-out "
+          />
+        </DialogTitle>
+        <DialogContent className="w-full flex justify-start flex-col items-start space-y-3">
+          {names.store_name.map((store, i) => {
+            return (
+              <div
+                key={i}
+                className="w-full px-3 py-1 rounded-lg border-2 border-skin-primary flex justify-around items-center space-x-2"
+              >
+                {/* <Image
+                  src={store.store_logo ?? logo}
+                  alt={store.store_name ?? "store"}
+                  width={75}
+                  height={75}
+                  className="object-contain"
+                  onError={(e) => {
+                    e.currentTarget.src = logo;
+                    e.currentTarget.onerror = null;
+                  }}
+                /> */}
+                <p className="font-medium">{store.store_name ?? " - "}</p>
+                {store.role && (
+                  <p>
+                    (
+                    {store.role == "super"
+                      ? " Owner "
+                      : " Normal User "}
+                    )
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </DialogContent>
       </Dialog>
     </>
   );

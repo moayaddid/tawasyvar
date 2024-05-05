@@ -27,7 +27,7 @@ const tableheading = [
   //   heading: "Store Id",
   // },
   {
-    heading: "Store Name",
+    heading: "Stores",
   },
   {
     heading: "Verification Code",

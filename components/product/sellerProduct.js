@@ -247,7 +247,13 @@ function SellerProduct({ product, refetch }) {
       setPrice(newPrice.current.value);
       setIsEditing(false);
     } catch (error) {
-      // console.log(error);
+      console.log(error.response.data.error);
+      if (error.response.data.error == "Product not found in store.") {
+        setIsEditing(false);
+        setEditingPrice(false);
+        refetch();
+        // return;
+      }
     }
     // setIsEditing(false);
     setEditingPrice(false);
@@ -274,6 +280,9 @@ function SellerProduct({ product, refetch }) {
       setDeleting(false);
     } catch (error) {
       // setIsDeleting(false);
+      if (error.response.data.error == "Product not found in store.") {
+        refetch();
+      }
       setDeleting(false);
       // console.log(error);
     }
@@ -455,13 +464,13 @@ function SellerProduct({ product, refetch }) {
     }
   }
 
-  function findPrice (id) {
-    if(vendors){
-     vendors.map((v) => {
-      if(v.vendor_id == id){
-        priceRef.current.value = v.vendor_price ;
-      }
-     });
+  function findPrice(id) {
+    if (vendors) {
+      vendors.map((v) => {
+        if (v.vendor_id == id) {
+          priceRef.current.value = v.vendor_price;
+        }
+      });
     }
   }
 
@@ -521,8 +530,12 @@ function SellerProduct({ product, refetch }) {
             )}
           </div>
         </td>
-        { price && <td className="px-4 py-4">{convertMoney(Number(price))}</td>}
-        <td className="px-4 py-4">{product.final_price ? convertMoney(Number(product.final_price)) : `-`}</td>
+        {price && <td className="px-4 py-4">{convertMoney(Number(price))}</td>}
+        <td className="px-4 py-4">
+          {product.final_price
+            ? convertMoney(Number(product.final_price))
+            : `-`}
+        </td>
         <td className="px-4 py-4">
           <Link href={`/Products/${product.slug}`} legacyBehavior>
             <a
@@ -539,10 +552,10 @@ function SellerProduct({ product, refetch }) {
           }`}
         >
           {product.has_vendor === 1
-            ? (router.locale === `en`)
+            ? router.locale === `en`
               ? `Yes`
               : `نعم`
-            : (router.locale === `en`)
+            : router.locale === `en`
             ? `No`
             : `لا`}
         </td>

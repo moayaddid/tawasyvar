@@ -24,12 +24,6 @@ import { GiConsoleController } from "react-icons/gi";
 
 export async function getServerSideProps(context) {
   const { params, locale, res, req } = context;
-
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
-  );
-
   const Api = createAxiosInstance();
   try {
     const response = await Api.get(`/api/g/${params.storeId}`, {
@@ -42,27 +36,33 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
+    // console.log(error.response);
     if (error.response.status) {
       if (error.response.status == 500) {
         if (error?.response?.data?.lang && error?.response?.data?.slug) {
           if (error?.response?.data?.lang == "ar") {
-            res.writeHead(301, {
-              Location: `/ar/Stores/${encodeURIComponent(
-                error.response.data.slug
-              )}`,
-            });
-            res.end();
-            return true;
+            return {
+              redirect: {
+                destination: `/ar/Stores/${encodeURIComponent(
+                  error.response.data.slug
+                )}`,
+                permanent: false,
+              },
+            };
           } else {
-            res.writeHead(301, {
-              Location: `/Stores/${error.response.data.slug}`,
-            });
-            res.end();
-            return true;
+            return {
+              redirect: {
+                destination: `/Stores/${error.response.data.slug}`,
+                permanent: false,
+              },
+            };
           }
         } else {
           return {
-            notFound: true,
+            redirect: {
+              destination : `/500`,
+              permanent : false 
+            },
           };
         }
       } else {
@@ -103,8 +103,7 @@ function Products({ store }) {
   //   }
   // });
 
-
-  const [page , setPage] = useState(1);
+  const [page, setPage] = useState(1);
 
   const {
     data: categoryProducts,

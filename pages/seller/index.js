@@ -54,6 +54,7 @@ const Home = () => {
   });
 
   async function fetchDashboard() {
+    // const sid = Cookies.get("Sid");
     try {
       return await Api.get(`/api/seller/dashboard`);
     } catch (error) {

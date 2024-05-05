@@ -27,7 +27,7 @@ import { useTranslation } from "next-i18next";
 
 export async function getServerSideProps(context) {
   const { locale } = context;
-  
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
@@ -56,7 +56,7 @@ const Setting = () => {
 
   async function fetchStoreData() {
     try {
-      return await Api.get(`/api/seller/store/products`);
+      return await Api.get(`/api/seller/get-opening-time`);
     } catch (error) {}
   }
 
@@ -77,19 +77,12 @@ const Setting = () => {
     openchange(false);
   };
 
-  // const [checkedDays, setCheckedDays] = useState(
-  //   names.opening_days ? capitalizedDaysArray : []
-  // );
-
-  // let capitalizedDaysArray;
-
   useEffect(() => {
     if (storeData) {
-      if (storeData.data.data.store.opening_days) {
-        const capitalizedDaysArray = storeData.data.data.store.opening_days.map(
+      if (storeData.data.store.opening_days) {
+        const capitalizedDaysArray = storeData.data.store.opening_days.map(
           (day) => day.charAt(0).toUpperCase() + day.slice(1)
         );
-        // daysArray = capitalizedDaysArray;
         setOldDays(capitalizedDaysArray);
         setCheckedDays(capitalizedDaysArray);
       }
@@ -101,27 +94,10 @@ const Setting = () => {
     function arraysAreEqual(arr1, arr2) {
       return JSON.stringify(arr1) === JSON.stringify(arr2);
     }
-    // if (
-    //   !openingTimeRef.current.value ||
-    //   !closingTimeRef.current.value ||
-    //   arraysAreEqual(checkedDays, daysArray)
-    // ) {
-    //   toast.error("At least one field is required to edit Your Store.", {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "colored",
-    //   });
-    //   return;
-    // }
     let editData = {};
 
     const addIfDifferent = (fieldValue, fieldName) => {
-      const originalValue = storeData.data.data.store[fieldName];
+      const originalValue = storeData.data.store[fieldName];
       if (
         fieldValue !== undefined &&
         fieldValue.trim() !== "" &&
@@ -136,35 +112,33 @@ const Setting = () => {
     if (arraysAreEqual(oldDays, checkedDays) == false) {
       editData[`opening_days`] = checkedDays;
     }
-    if(Object.keys(editData).length < 1) {
-      toast.error(`Please fill all the fields | الرجاء تعبئة جميع الحقول المطلوبة `, {
-        toastId: `Please fill all the fields | الرجاء تعبئة جميع الحقول المطلوبة `,
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-      })
-      return ;
-    }else{
-    setIsSaving(true);
-      try {
-        const response = await Api.put(
-        `/api/seller/store/edit`,
-        editData
+    if (Object.keys(editData).length < 1) {
+      toast.error(
+        `Please fill all the fields | الرجاء تعبئة جميع الحقول المطلوبة `,
+        {
+          toastId: `Please fill all the fields | الرجاء تعبئة جميع الحقول المطلوبة `,
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        }
       );
-      refetch();
-      setIsSaving(false);
-    } catch (error) {
+      return;
+    } else {
+      setIsSaving(true);
+      try {
+        const response = await Api.put(`/api/seller/store/edit`, editData);
+        refetch();
+        setIsSaving(false);
+      } catch (error) {
+        setIsSaving(false);
+      }
       setIsSaving(false);
     }
-    setIsSaving(false);
-  }
-
-    // console.log(editData);
   }
 
   if (isLoading) {
@@ -178,40 +152,49 @@ const Setting = () => {
   return (
     <>
       {storeData && (
-        <div className="w-full h-full" dir={router.locale == "ar" ? "rtl" : "ltr"}>
+        <div
+          className="w-full h-screen flex flex-col justify-start items-center "
+          dir={router.locale == "ar" ? "rtl" : "ltr"}
+        >
           <div className="w-full bg-gray-100 py-1 md:px-4">
-            <h1 className="text-2xl text-skin-primary">
-              {t("seller.setting.storeSettings")} : {storeData.data.data.store.name}
-            </h1>
+            <h4 className="text-2xl text-skin-primary">
+              {t("seller.setting.storeSettings")} : {storeData.data.store.name}
+            </h4>
           </div>
           <form
-            className="flex flex-col items-center gap-y-6 md:pt-14 pt-4 md:px-4 px-1 md:w-[70%] w-[90%] mx-auto h-[90%]"
+            className="flex flex-col justify-start items-center my-auto space-y-5 md:pt-14 pt-4 md:px-4 px-1 md:w-[70%] w-[90%] mx-auto h-[90%]"
             onSubmit={saveEdits}
           >
             <div className="flex justify-center gap-3 md:w-[50%] w-[100%]">
-              <label className="md:text-xl text-base text-gray-600">{t("seller.setting.openingTime")} : </label>
+              <label className="md:text-xl text-base text-gray-600">
+                {t("seller.setting.openingTime")} :
+              </label>
               <br />
               <input
                 className="outline-none"
                 type="time"
-                defaultValue={storeData.data.data.store.opening_time}
+                defaultValue={storeData.data.store.opening_time}
                 ref={openingTimeRef}
               />
             </div>
 
-            <div className="flex justify-center gap-3md:w-[50%] w-[100%]">
-              <label className="md:text-xl text-base text-gray-600">{t("seller.setting.closingTime")} : </label>
+            <div className="flex justify-center gap-3 md:w-[50%] w-[100%]">
+              <label className="md:text-xl text-base text-gray-600">
+                {t("seller.setting.closingTime")} :{" "}
+              </label>
               <br />
               <input
                 className="outline-none"
                 type="time"
-                defaultValue={storeData.data.data.store.closing_time}
+                defaultValue={storeData.data.store.closing_time}
                 ref={closingTimeRef}
               />
             </div>
 
             <div className="md:flex md:flex-row sm:flex-col justify-center md:gap-3  w-[100%]">
-              <label className="md:text-xl text-base text-gray-600">{t("seller.setting.openingDays")} : </label>
+              <label className="md:text-xl text-base text-gray-600">
+                {t("seller.setting.openingDays")} :{" "}
+              </label>
               <br />
               <div className="print-value">
                 <input
@@ -234,7 +217,6 @@ const Setting = () => {
                 <button
                   className="text-white px-10 py-2 my-2 rounded-md bg-skin-primary md:w-[15%] w-[100%]"
                   type="submit"
-                  // onClick={() => console.log(checkedDays)}
                 >
                   {t("seller.setting.saveChanges")}
                 </button>
@@ -246,7 +228,7 @@ const Setting = () => {
 
       <Dialog open={open} onClose={closepopup} fullWidth maxWidth="sm">
         <DialogTitle>
-        {t("seller.setting.openingDays")}
+          {t("seller.setting.openingDays")}
           <IconButton onClick={closepopup} style={{ float: "right" }}>
             <MdClose />
           </IconButton>{" "}

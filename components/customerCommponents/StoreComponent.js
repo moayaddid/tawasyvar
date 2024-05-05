@@ -60,12 +60,11 @@ function StoreComponent({ store }) {
           <div className=" opacity-40 md:w-[100px] w-[100px] md:h-[100px] h-[100px]">
             <Image
               className=" object-contain select-none pointer-events-none "
-              // src={`https://www.befunky.com/images/prismic/e8c80c0a-bc59-4df2-a86e-cc4eabd44285_hero-blur-image-1.jpg?auto=avif,webp&format=jpg&width=900`}
               src={store.logo ? store.logo : logo}
               width={0}
               height={0}
               sizes="100vw"
-              style={{ width: "100%", height: "100%" }} // optional
+              style={{ width: "100%", height: "100%" }}
             />
           </div>
           <div className="w-[60%] h-full flex flex-col justify-center items-start box-border px-2 ">

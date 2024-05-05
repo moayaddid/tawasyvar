@@ -19,24 +19,60 @@ import {
   MdOutlineDisabledVisible,
   MdOutlineManageAccounts,
   MdOutlineLocalOffer,
+  MdClose,
 } from "react-icons/md";
 import { useRouter } from "next/router";
 import { IoSettingsSharp, IoStorefrontSharp } from "react-icons/io5";
 import Cookies from "js-cookie";
 import LocaleSwitcher from "../UI/localeSwitcher/localeSwitcher";
 import { useTranslation } from "next-i18next";
-import { FaRegHandshake, FaUserFriends } from "react-icons/fa";
+import { FaRegHandshake, FaUserFriends, FaUsers } from "react-icons/fa";
 import { VscArchive } from "react-icons/vsc";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { BiSolidStore } from "react-icons/bi";
+import createAxiosInstance from "@/API";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
+import TawasyLoader from "../UI/tawasyLoader";
+import { getCookiesSeller } from "@/Store/sellerAuthSlice";
 
 export default function Sidebar(props) {
   const sellerName = useSelector((state) => state.SAS.sellerName);
   const storeName = useSelector((state) => state.SAS.storeName);
+  const sellerRole = useSelector((state) => state.SAS.role);
+  const storeSlug = useSelector((state) => state.SAS.slug);
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedStore, setSelectedStore] = useState();
+  const [selectedRole, setSelectedRole] = useState();
   const router = useRouter();
+  const Api = createAxiosInstance(router);
   const { t } = useTranslation("");
+  const [sellerStores, setSellerStores] = useState();
+  const [slug, setSlug] = useState();
   // const [name, setName] = useState();
   // const [STname , setSTname] = useState();
+
+  useEffect(() => {
+    if (storeSlug) {
+      if (router.isReady) {
+        if (router.locale == "ar") {
+          setSlug(`/ar/Stores/${encodeURIComponent(storeSlug)}`);
+        } else {
+          setSlug(`/Stores/${storeSlug}`);
+        }
+      }
+    }
+  }, [storeSlug]);
+
+  useEffect(() => {
+    dispatch(getCookiesSeller());
+  }, [dispatch]);
 
   function logOut() {
     Cookies.remove("AT");
@@ -48,28 +84,54 @@ export default function Sidebar(props) {
   // useEffect(() => {
   //   if (Cookies?.get("SName")) {
   //     setName(Cookies.get("SName"));
-  //   } 
+  //   }
   //   if(Cookies?.get("STName")){
   //     setSTname(Cookies.get("STName"))
   //   }
   // }, [Cookies]);
 
+  async function openChangeStore() {
+    setOpen(true);
+    setIsLoading(true);
+    try {
+      const response = await Api.get(`/api/seller/get-seller-stores`);
+      setSellerStores(response.data.stores);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
+    setIsLoading(false);
+  }
+
+  function closeChangeStore() {
+    setSelectedRole();
+    setSelectedStore();
+    setSellerStores();
+    setOpen(false);
+  }
+
   return (
-    <div className={`w-max h-screen  `}>
+    <div className={`w-max h-screen`}>
       <div
         style={{ position: "fixed", overflow: "auto" }}
         className={`top-0 bottom-0 left-0 w-[20%]  bg-[#ff6600] shadow duration-300 pl-2`}
       >
         <div className="space-y-3">
           <div className=" flex justify-center">
-            <Image src={Logo} className="items-center pt-6 pb-3 md:w-44 w-10" />
+            <Image src={Logo} className="items-center pt-6 pb-3 md:w-44 w-10" alt="" />
           </div>
-          <div className="   hidden w-full px-3 md:flex md:flex-col justify-start items-start text-center text-white">
+          <div className="hidden w-full px-3 md:flex md:flex-col justify-start items-start text-center text-white">
             <p className="text-xl">{t("welcome")} :</p>
             <p className="text-2xl w-full text-start px-4 line-clamp-3 ">
               {sellerName ?? ` - `} {`( ${storeName ?? " - "} )`}
             </p>
           </div>
+          <button
+            onClick={openChangeStore}
+            className=" w-full text-center text-white pt-5 border-b-2 border-transparent hover:border-white transition-all duration-300 ease-in-out"
+          >
+            {t("seller.employees.changeStore")}
+          </button>
           <LocaleSwitcher />
           <div className="flex-1">
             <ul className="pt-2 pb-4 space-y-1 text-lg font-normal">
@@ -109,69 +171,73 @@ export default function Sidebar(props) {
                 >
                   <ul>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
+                        href={`/seller/orders?type=pendingOrders`}
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/seller/orders",
-                            query: { type: "pendingOrders" },
-                          });
-                        }}
+                        // onClick={() => {
+                        //   router.push({
+                        //     pathname: "/seller/orders",
+                        //     query: { type: "pendingOrders" },
+                        //   });
+                        // }}
                       >
                         <MdPendingActions className="block text-[20px] text-white " />
                         <p className="hidden md:block">
                           {t("seller.sidebar.order.pending")}
                         </p>
-                      </button>
+                      </Link>
                     </li>
 
                     <li className={`pt-3`}>
-                      <button
+                      <Link
+                        href={`/seller/orders?type=rejectedOrders`}
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/seller/orders",
-                            query: { type: "rejectedOrders" },
-                          });
-                        }}
+                        // onClick={() => {
+                        //   router.push({
+                        //     pathname: "/seller/orders",
+                        //     query: { type: "rejectedOrders" },
+                        //   });
+                        // }}
                       >
                         <AiOutlineCloseCircle className="block text-[20px] text-white " />
                         <p className="hidden md:block">
                           {t("seller.sidebar.order.rejected")}
                         </p>
-                      </button>
+                      </Link>
                     </li>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
+                        href={`/seller/orders?type=acceptedOrders`}
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/seller/orders",
-                            query: { type: "acceptedOrders" },
-                          });
-                        }}
+                        // onClick={() => {
+                        //   router.push({
+                        //     pathname: "/seller/orders",
+                        //     query: { type: "acceptedOrders" },
+                        //   });
+                        // }}
                       >
                         <AiOutlineCarryOut className="block text-[20px] text-white " />
                         <p className="hidden md:block">
                           {t("seller.sidebar.order.accepted")}
                         </p>
-                      </button>
+                      </Link>
                     </li>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
+                        href={`/seller/orders?type=allOrders`}
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/seller/orders",
-                            query: { type: "allOrders" },
-                          });
-                        }}
+                        // onClick={() => {
+                        //   router.push({
+                        //     pathname: "/seller/orders",
+                        //     query: { type: "allOrders" },
+                        //   });
+                        // }}
                       >
                         <BsBox className="block text-[20px] text-white " />
                         <p className="hidden md:block">
                           {t("seller.sidebar.order.all")}
                         </p>
-                      </button>
+                      </Link>
                     </li>
                   </ul>
                 </AccordionItem>
@@ -200,53 +266,56 @@ export default function Sidebar(props) {
                 >
                   <ul>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
+                        href={`/seller/products?type=disabledProducts`}
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/seller/products",
-                            query: { type: "disabledProducts" },
-                          });
-                        }}
+                        // onClick={() => {
+                        //   router.push({
+                        //     pathname: "/seller/products",
+                        //     query: { type: "disabledProducts" },
+                        //   });
+                        // }}
                       >
                         <MdOutlineDisabledVisible className="block text-[20px] text-white " />
                         <p className="hidden md:block">
                           {t("seller.sidebar.product.unpublished")}
                         </p>
-                      </button>
+                      </Link>
                     </li>
                     <li className={`pt-3`}>
-                      <button
+                      <Link
+                        href={`/seller/products?type=activeProducts`}
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/seller/products",
-                            query: { type: "activeProducts" },
-                          });
-                        }}
+                        // onClick={() => {
+                        //   router.push({
+                        //     pathname: "/seller/products",
+                        //     query: { type: "activeProducts" },
+                        //   });
+                        // }}
                       >
                         <AiTwotoneEye className="block text-[20px] text-white " />
                         <p className="hidden md:block">
                           {t("seller.sidebar.product.published")}
                         </p>
-                      </button>
+                      </Link>
                     </li>
 
                     <li className={`pt-3`}>
-                      <button
+                      <Link
+                        href={`/seller/products/addProducts`}
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
-                        onClick={() => {
-                          router.push({
-                            pathname: "/seller/products/addProducts",
-                            query: { type: "allProducts" },
-                          });
-                        }}
+                        // onClick={() => {
+                        //   router.push({
+                        //     pathname: "/seller/products/addProducts",
+                        //     query: { type: "allProducts" },
+                        //   });
+                        // }}
                       >
                         <IoMdAdd className="block text-[20px] text-white mt-1" />
                         <p className="hidden md:block">
                           {t("seller.sidebar.product.add")}
                         </p>
-                      </button>
+                      </Link>
                     </li>
 
                     <li className={`pt-3`}>
@@ -262,7 +331,8 @@ export default function Sidebar(props) {
                     </li>
 
                     <li className={`pt-3`}>
-                      <button
+                      <Link
+                        href={`/seller/products?type=allProducts`}
                         className="flex items-center p-2 space-x-3 rounded-md text-gray-100"
                         onClick={() => {
                           router.push({
@@ -275,7 +345,7 @@ export default function Sidebar(props) {
                         <p className="hidden md:block">
                           {t("seller.sidebar.product.all")}
                         </p>
-                      </button>
+                      </Link>
                     </li>
                   </ul>
                 </AccordionItem>
@@ -337,17 +407,52 @@ export default function Sidebar(props) {
                 </Link>
               </li>
 
-              <li className="rounded-sm pb-3">
-                <Link
-                  href="/seller/store"
-                  className="flex items-center pl-2 space-x-3 pt-2 rounded-md text-gray-100"
-                >
-                  <IoStorefrontSharp className="block text-[20px] text-white " />
-                  <p className="hidden md:block" style={{ marginLeft: "43px" }}>
-                    {t("seller.sidebar.store")}
-                  </p>
-                </Link>
-              </li>
+              {slug && (
+                <li className="rounded-sm pb-3">
+                  <Link
+                    href={slug}
+                    target="_blank"
+                    className="flex items-center pl-2 space-x-3 pt-2 rounded-md text-gray-100"
+                  >
+                    <IoStorefrontSharp className="block text-[20px] text-white " />
+                    <p
+                      className="hidden md:block"
+                      style={{ marginLeft: "43px" }}
+                    >
+                      {t("seller.sidebar.store")}
+                    </p>
+                  </Link>
+                </li>
+              )}
+
+              {sellerRole && sellerRole == "super" ? (
+                <li className="rounded-sm pb-3">
+                  <Link
+                    href="/seller/employees"
+                    className="flex items-center pl-2 space-x-3 pt-4 rounded-md text-gray-100"
+                  >
+                    <FaUsers className="block text-[20px] text-white " />
+                    <p
+                      className="hidden md:block"
+                      style={{ marginLeft: "43px" }}
+                    >
+                      {t("seller.employees.myEmployees")}
+                    </p>
+                  </Link>
+                </li>
+              ) : (
+                <li className="rounded-sm pb-3 opacity-60 pointer-events-none">
+                  <div className="flex items-center pl-2 space-x-3 pt-4 rounded-md text-gray-100">
+                    <FaUsers className="block text-[20px] text-white " />
+                    <p
+                      className="hidden md:block"
+                      style={{ marginLeft: "43px" }}
+                    >
+                      {t("seller.employees.myEmployees")}
+                    </p>
+                  </div>
+                </li>
+              )}
 
               <li className="rounded-sm pb-3">
                 <Link
@@ -357,6 +462,18 @@ export default function Sidebar(props) {
                   <IoSettingsSharp className="block text-[20px] text-white " />
                   <p className="hidden md:block" style={{ marginLeft: "43px" }}>
                     {t("seller.sidebar.settings")}
+                  </p>
+                </Link>
+              </li>
+
+              <li className="rounded-sm pb-3">
+                <Link
+                  href={`/seller/newStore`}
+                  className="flex items-center pl-2 pt-3 space-x-3 rounded-md text-gray-100"
+                >
+                  <BiSolidStore className="block text-[20px] text-white" />
+                  <p className="hidden md:block" style={{ marginLeft: "43px" }}>
+                    {t("seller.employees.createNewStore")}
                   </p>
                 </Link>
               </li>
@@ -376,6 +493,79 @@ export default function Sidebar(props) {
           </div>
         </div>
       </div>
+
+      <Dialog
+        open={open}
+        disableAutoFocus
+        disableEnforceFocus
+        disableRestoreFocus
+        maxWidth="lg"
+        fullWidth
+        onClose={closeChangeStore}
+      >
+        <DialogTitle className="w-full flex justify-between items-center">
+          <p>{t("seller.employees.changeStore")} :</p>
+          <MdClose
+            className="w-[20px] h-[20px] text-black hover:text-red-500 border-b-2 border-transparent hover:border-red-500"
+            onClick={closeChangeStore}
+          />
+        </DialogTitle>
+        <DialogContent>
+          {isLoading == true ? (
+            <div className="w-full h-full flex justify-center items-center">
+              <TawasyLoader width={200} height={300} />
+            </div>
+          ) : sellerStores && sellerStores?.length < 1 ? (
+            <p className="text-center">You have No Stores.</p>
+          ) : (
+            <div className="w-full flex flex-col justify-start items-center  ">
+              {sellerStores?.map((store, i) => {
+                return (
+                  <div
+                    key={i}
+                    onClick={() => {
+                      setSelectedStore(store.store_id);
+                      setSelectedRole(store.role);
+                    }}
+                    className={`flex flex-wrap justify-around items-center w-[90%] border-b-2 cursor-pointer hover:border-skin-primary transition-all duration-500 ease-in-out ${
+                      selectedStore == store.store_id
+                        ? `border-skin-primary`
+                        : `border-zinc-500 `
+                    } `}
+                  >
+                    <Image
+                      src={store.store_logo ?? Logo}
+                      alt={store.store_name ?? ""}
+                      width={50}
+                      height={50}
+                      className="object-contain"
+                    />
+                    <p>{store.store_name}</p>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </DialogContent>
+        {sellerStores && (
+          <DialogActions className="w-full flex justify-center items-center">
+            <button
+              className="bg-skin-primary rounded-lg px-2 py-3 text-white disabled:bg-gray-500 disabled:cursor-not-allowed "
+              disabled={!selectedStore}
+              onClick={() => {
+                Cookies.remove("Sid");
+                Cookies.set("Sid", selectedStore, { expires: 365 * 10 });
+                Cookies.remove("role");
+                Cookies.set("role", selectedRole, { expires: 365 * 10 });
+                router.reload();
+                closeChangeStore();
+              }}
+            >
+              {t("seller.employees.confirm")}
+            </button>
+          </DialogActions>
+        )}
+      </Dialog>
     </div>
   );
 }

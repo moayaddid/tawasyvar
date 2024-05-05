@@ -14,6 +14,14 @@ import Cookies from "js-cookie";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
+import { MdClose } from "react-icons/md";
+import TawasyLoader from "@/components/UI/tawasyLoader";
 
 export async function getServerSideProps({ locale }) {
   return {
@@ -29,6 +37,36 @@ const Code = () => {
   const verifyNumber = useRef();
   const Api = createAxiosInstance(router);
   const { t } = useTranslation("");
+  const [openSelectStore, setOpenSelectStore] = useState(false);
+  const [sellerStores, setSellerStores] = useState();
+  const [selectedStore, setSelectedStore] = useState();
+  const [role, setRole] = useState();
+  const [gettingStores, setGettingStores] = useState(false);
+
+  async function fetchStores() {
+    setGettingStores(true);
+    try {
+      const response = await Api.get(`/api/seller/get-seller-stores`);
+      setSellerStores(response.data.stores);
+      setGettingStores(false);
+    } catch (error) {
+      setGettingStores(false);
+    }
+    setGettingStores(false);
+  }
+
+  function closeChangeStore() {
+    setOpenSelectStore(false);
+  }
+
+  function selectStore() {
+    Cookies.remove("Sid");
+    Cookies.remove("role");
+    Cookies.set("Sid", selectedStore, { expires: 365 * 10 });
+    Cookies.set("role", role, { expires: 365 * 10 });
+    router.push("/seller");
+    closeChangeStore();
+  }
 
   const handleVerify = async (e) => {
     e.preventDefault();
@@ -42,38 +80,15 @@ const Code = () => {
           phone_number: number,
           verification_code: verifyNumber.current.value,
         });
-        Cookies.remove("number");
+        // Cookies.remove("number");
         Cookies.set("AT", response.data.token, { expires: 365 * 10 });
-        Cookies.set("SName" , response.data.seller.name , {expires : 365 * 10});
-        try {
-          const response2 = await Api.get(`/api/seller/store/status`);
-          // console.log(`response in verification status`);
-          switch (response2.data.status) {
-            case "Store not found":
-              router.replace("/seller/requestStore");
-              break;
-
-            case "approved":
-              Cookies.set("Sid", response2.data.store_id, {
-                expires: 365 * 10,
-              });
-              router.replace(`/seller`);
-              break;
-
-            case "pending":
-              Cookies.set("Sid", response2.data.store_id, {
-                expires: 365 * 10,
-              });
-              router.replace(`/seller/pendingStore`);
-              break;
-          }
-        } catch (error) {
-          console.log(error);
-        }
+        Cookies.set("SName", response.data.seller.name, { expires: 365 * 10 });
+        setOpenSelectStore(true);
+        fetchStores();
         setIsLoading(false);
-        if (response.status !== 200) {
-          throw new Error(response);
-        }
+        // if (response.status !== 200) {
+        //   throw new Error(response);
+        // }
       } catch (error) {
         toast.error(error.response.data.error, {
           toastId: error.response.data.error,
@@ -97,12 +112,12 @@ const Code = () => {
         Cookies.remove("number");
         Cookies.set("AT", response.data.token, { expires: 365 * 10 });
         if (formerUrl) {
-          if(!formerUrl.includes("/seller")){
+          if (!formerUrl.includes("/seller")) {
             router.replace(formerUrl);
             Cookies.remove("url");
-          }else{
+          } else {
             Cookies.remove("url");
-            router.replace("/")
+            router.replace("/");
           }
         } else {
           router.replace("/");
@@ -154,14 +169,13 @@ const Code = () => {
   }
 
   return (
-    <Fragment>
+    <>
       <div className={`w-screen h-screen bg-white `}>
         <div className="flex flex-col justify-start items-center gap-12 mx-auto px-4 pt-28 w-fit ">
           <Link href={"/"}>
             <Image src={Logo} alt="Logo" width={400} height={290} />
           </Link>
           <span className="text-xl font-medium text-center ">
-            {/* الرجاء ادخال رمز التحقق الذي تم ارساله اليكم عن طؤيق الواتس أب أو التواصل معنل على الرقم التالي  */}
             <p> {t("verification.contactUs")}</p>
             <Link href="tel:+963987000888" legacyBehavior>
               <a
@@ -212,7 +226,75 @@ const Code = () => {
           </span>
         </div>
       </div>
-    </Fragment>
+
+      <Dialog
+        open={openSelectStore}
+        disableAutoFocus
+        disableEnforceFocus
+        disableRestoreFocus
+        maxWidth="lg"
+        fullWidth
+      >
+        <DialogTitle className="w-full flex justify-start items-center">
+          <p>{t("seller.employees.chooseStore")} :</p>
+        </DialogTitle>
+        <DialogContent>
+          {gettingStores == true ? (
+            <div className="w-full h-full flex justify-center items-center">
+              <TawasyLoader width={200} height={300} />
+            </div>
+          ) : sellerStores ? (
+            sellerStores?.length < 1 ? (
+              <p className="text-center">You have No Stores.</p>
+            ) : (
+              <div className="w-full flex flex-col justify-start items-center">
+                {sellerStores?.map((store, i) => {
+                  return (
+                    <div
+                      key={i}
+                      onClick={() => {
+                        setSelectedStore(store.store_id);
+                        setRole(store.role);
+                      }}
+                      className={`flex flex-wrap justify-around cursor-pointer items-center w-[90%] border-b-2 hover:border-skin-primary transition-all duration-500 ease-in-out ${
+                        selectedStore == store.store_id
+                          ? `border-skin-primary`
+                          : `border-zinc-500 `
+                      } `}
+                    >
+                      <Image
+                        src={store.store_logo ?? Logo}
+                        alt={store.store_name ?? ""}
+                        width={50}
+                        height={50}
+                        className="object-contain"
+                      />
+                      <p>{store.store_name}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            )
+          ) : (
+            <button
+              className="text-skin-primary border-b-2 border-transparent hover:border-skin-primary"
+              onClick={fetchStores}
+            >
+              Refresh
+            </button>
+          )}
+        </DialogContent>
+        <DialogActions className="w-full flex justify-center items-center">
+          <button
+            className="bg-skin-primary rounded-lg px-2 py-3 text-center text-white disabled:bg-gray-500 disabled:cursor-not-allowed "
+            disabled={!selectedStore}
+            onClick={selectStore}
+          >
+            {t("seller.employees.confirm")}
+          </button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 
