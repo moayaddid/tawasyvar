@@ -16,6 +16,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
+import { BiPlus } from "react-icons/bi";
 
 export async function getServerSideProps(context) {
   const { locale } = context;
@@ -96,7 +97,7 @@ function PendingPage() {
     }
   }
 
-  function openStores () {
+  function openStores() {
     setOpenSelectStore(true);
     fetchStores();
   }
@@ -158,7 +159,7 @@ function PendingPage() {
             sellerStores?.length < 1 ? (
               <p className="text-center">You have No Stores.</p>
             ) : (
-              <div className="w-full flex flex-col justify-start items-center">
+              <div className="w-full flex flex-wrap justify-center items-center">
                 {sellerStores?.map((store, i) => {
                   return (
                     <div
@@ -167,23 +168,43 @@ function PendingPage() {
                         setSelectedStore(store.store_id);
                         setRole(store.role);
                       }}
-                      className={`flex flex-wrap justify-around cursor-pointer items-center w-[90%] border-b-2 hover:border-skin-primary transition-all duration-500 ease-in-out ${
+                      className={`flex flex-col justify-around cursor-pointer items-center m-1 w-[25%] border-2 rounded-lg hover:border-skin-primary transition-all duration-500 ease-in-out ${
                         selectedStore == store.store_id
                           ? `border-skin-primary`
                           : `border-zinc-500 `
-                      } ${data.data.store_id == store.store_id ? `opacity-60 pointer-events-none` : `opacity-100`} `}
+                      } `}
                     >
-                      <Image
-                        src={store.store_logo ?? Logo}
-                        alt={store.store_name ?? ""}
-                        width={50}
-                        height={50}
-                        className="object-contain"
-                      />
+                      <div className="w-[40%] mx-auto h-auto">
+                        <Image
+                          src={store.store_logo ?? Logo}
+                          alt={store.store_name ?? ""}
+                          width={0}
+                          height={0}
+                          className="object-contain w-full h-auto"
+                        />
+                      </div>
                       <p>{store.store_name}</p>
+                      <p>
+                        {store.role == `super`
+                          ? router.locale == "ar"
+                            ? `( مالك المتجر ) `
+                            : `( Owner ) `
+                          : router.locale == "ar"
+                          ? `( موظف )`
+                          : `( Employee )`}
+                      </p>
                     </div>
                   );
                 })}
+                <Link
+                  href={`/seller/requestStore`}
+                  className={`flex flex-col justify-around cursor-pointer items-center m-1 w-[25%] h-full border-2 rounded-lg hover:border-skin-primary transition-all duration-500 ease-in-out`}
+                >
+                  <div className="w-full flex justify-center items-center mx-auto h-auto text-skin-primary ">
+                    <BiPlus className="w-[15%] h-auto" />
+                  </div>
+                  <p>{t("seller.employees.createNewStore")}</p>
+                </Link>
               </div>
             )
           ) : (

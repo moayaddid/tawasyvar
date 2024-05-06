@@ -29,7 +29,7 @@ import { useTranslation } from "next-i18next";
 import { FaRegHandshake, FaUserFriends, FaUsers } from "react-icons/fa";
 import { VscArchive } from "react-icons/vsc";
 import { useDispatch, useSelector } from "react-redux";
-import { BiSolidStore } from "react-icons/bi";
+import { BiPlus, BiSolidStore } from "react-icons/bi";
 import createAxiosInstance from "@/API";
 import {
   Dialog,
@@ -118,7 +118,11 @@ export default function Sidebar(props) {
       >
         <div className="space-y-3">
           <div className=" flex justify-center">
-            <Image src={Logo} className="items-center pt-6 pb-3 md:w-44 w-10" alt="" />
+            <Image
+              src={Logo}
+              className="items-center pt-6 pb-3 md:w-44 w-10"
+              alt=""
+            />
           </div>
           <div className="hidden w-full px-3 md:flex md:flex-col justify-start items-start text-center text-white">
             <p className="text-xl">{t("welcome")} :</p>
@@ -425,7 +429,7 @@ export default function Sidebar(props) {
                 </li>
               )}
 
-              {sellerRole && sellerRole == "super" ? (
+              {sellerRole && sellerRole == "super" && (
                 <li className="rounded-sm pb-3">
                   <Link
                     href="/seller/employees"
@@ -439,18 +443,6 @@ export default function Sidebar(props) {
                       {t("seller.employees.myEmployees")}
                     </p>
                   </Link>
-                </li>
-              ) : (
-                <li className="rounded-sm pb-3 opacity-60 pointer-events-none">
-                  <div className="flex items-center pl-2 space-x-3 pt-4 rounded-md text-gray-100">
-                    <FaUsers className="block text-[20px] text-white " />
-                    <p
-                      className="hidden md:block"
-                      style={{ marginLeft: "43px" }}
-                    >
-                      {t("seller.employees.myEmployees")}
-                    </p>
-                  </div>
                 </li>
               )}
 
@@ -466,7 +458,7 @@ export default function Sidebar(props) {
                 </Link>
               </li>
 
-              <li className="rounded-sm pb-3">
+              {/* <li className="rounded-sm pb-3">
                 <Link
                   href={`/seller/newStore`}
                   className="flex items-center pl-2 pt-3 space-x-3 rounded-md text-gray-100"
@@ -476,7 +468,7 @@ export default function Sidebar(props) {
                     {t("seller.employees.createNewStore")}
                   </p>
                 </Link>
-              </li>
+              </li> */}
 
               <li className="rounded-sm pb-3">
                 <button
@@ -518,7 +510,7 @@ export default function Sidebar(props) {
           ) : sellerStores && sellerStores?.length < 1 ? (
             <p className="text-center">You have No Stores.</p>
           ) : (
-            <div className="w-full flex flex-col justify-start items-center  ">
+            <div className="w-full flex flex-wrap justify-center items-center  ">
               {sellerStores?.map((store, i) => {
                 return (
                   <div
@@ -527,23 +519,43 @@ export default function Sidebar(props) {
                       setSelectedStore(store.store_id);
                       setSelectedRole(store.role);
                     }}
-                    className={`flex flex-wrap justify-around items-center w-[90%] border-b-2 cursor-pointer hover:border-skin-primary transition-all duration-500 ease-in-out ${
+                    className={`flex flex-col justify-around cursor-pointer items-center m-1 w-[25%] border-2 rounded-lg hover:border-skin-primary transition-all duration-500 ease-in-out ${
                       selectedStore == store.store_id
                         ? `border-skin-primary`
                         : `border-zinc-500 `
                     } `}
                   >
-                    <Image
-                      src={store.store_logo ?? Logo}
-                      alt={store.store_name ?? ""}
-                      width={50}
-                      height={50}
-                      className="object-contain"
-                    />
+                    <div className="w-[40%] mx-auto h-auto">
+                      <Image
+                        src={store.store_logo ?? Logo}
+                        alt={store.store_name ?? ""}
+                        width={0}
+                        height={0}
+                        className="object-contain w-full h-auto"
+                      />
+                    </div>
                     <p>{store.store_name}</p>
+                    <p>
+                      {store.role == `super`
+                        ? router.locale == "ar"
+                          ? `( مالك المتجر ) `
+                          : `( Owner ) `
+                        : router.locale == "ar"
+                        ? `( موظف )`
+                        : `( Employee )`}
+                    </p>
                   </div>
                 );
               })}
+              <Link
+                href={`/seller/newStore`}
+                className={`flex flex-col justify-around cursor-pointer items-center m-1 w-[25%] h-full border-2 rounded-lg hover:border-skin-primary transition-all duration-500 ease-in-out`}
+              >
+                <div className="w-full flex justify-center items-center mx-auto h-auto text-skin-primary ">
+                  <BiPlus className="w-[15%] h-auto" />
+                </div>
+                <p>{t("seller.employees.createNewStore")}</p>
+              </Link>
             </div>
           )}
         </DialogContent>
