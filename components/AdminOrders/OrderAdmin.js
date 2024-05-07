@@ -15,7 +15,10 @@ import createAxiosInstance from "@/API";
 import TawasyLoader from "../UI/tawasyLoader";
 import { Ring } from "@uiball/loaders";
 import { MdClose } from "react-icons/md";
-import { getOrderNote_endpoint, postOrderNote_endpoint } from "@/api/endpoints/endPoints";
+import {
+  getOrderNote_endpoint,
+  postOrderNote_endpoint,
+} from "@/api/endpoints/endPoints";
 import Notes from "../AdminComponents/Notes";
 
 export function convertDateStringToDate(inputString) {
@@ -45,7 +48,7 @@ function OrderAdmin({ names, refetch }) {
   const [isAccepting, setIsAccepting] = useState(false);
   const [orderDetails, setOrderDetails] = useState();
   const [open, openchange] = useState(false);
-  const [orderNotes , setOrderNotes] = useState();
+  const [orderNotes, setOrderNotes] = useState();
 
   const reason =
     router.pathname == "/admin/Orders/RejectedOrders" ||
@@ -64,16 +67,19 @@ function OrderAdmin({ names, refetch }) {
     try {
       const response = await Api.get(`/api/admin/order/${names.order_id}`);
       setOrderDetails(response.data.data);
+      // console.table(response.data.data.seller_);
       // setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
       openchange(false);
     }
     try {
-      const noteResponse = await Api.get(`${getOrderNote_endpoint}/${names.order_id}`);
-      if(noteResponse.data.notes){
+      const noteResponse = await Api.get(
+        `${getOrderNote_endpoint}/${names.order_id}`
+      );
+      if (noteResponse.data.notes) {
         setOrderNotes(noteResponse.data.notes);
-      }else{
+      } else {
         setOrderNotes([]);
       }
       setIsLoading(false);
@@ -156,8 +162,8 @@ function OrderAdmin({ names, refetch }) {
         {reason == true && (
           <td className="py-5">{names.reason ? names.reason : "None Given"}</td>
         )}
-        <td className="py-5">{names.shipping_address}</td>
-        <td className="py-5">{convertDateStringToDate(names.created_at)}</td>
+        <td className="py-5">{names.shipping_address ?? " - "}</td>
+        <td className="py-5">{convertDate(names.date)}</td>
         {/* <td className="pb-5">{names.created}</td> */}
         <td className="py-5">{convertDateStringToDate(names.updated_at)}</td>
         <td className="py-5">
@@ -230,12 +236,18 @@ function OrderAdmin({ names, refetch }) {
                     : "( None given )"}
                 </p>
               </div>
-              <p className="text-gray-400">
-                Seller Number :{" "}
-                {orderDetails.seller_phone_number
-                  ? orderDetails.seller_phone_number
-                  : `-`}
-              </p>
+              <div className="text-gray-400 flex w-full flex-wrap justify-start items-center ">
+                <p>Seller Number :</p>
+                {orderDetails?.seller_phone_number &&
+                  orderDetails.seller_phone_number.map((seller, i) => {
+                    return (
+                      <p
+                        key={i}
+                        className="m-1"
+                      >{`( ${seller.name} : ${seller.phone_number} )`}</p>
+                    );
+                  })}
+              </div>
 
               <p className="text-gray-400">
                 Customer Name :{" "}
@@ -334,9 +346,17 @@ function OrderAdmin({ names, refetch }) {
                     </p>
                   )}
                 </div>
-                {orderNotes ? <div>
-                  <Notes Id={orderDetails.order_id} endpoint={postOrderNote_endpoint} notes={orderNotes} />
-                </div> : <p>{`Couldn't get notes something wrong happend.`}</p>}
+                {orderNotes ? (
+                  <div>
+                    <Notes
+                      Id={orderDetails.order_id}
+                      endpoint={postOrderNote_endpoint}
+                      notes={orderNotes}
+                    />
+                  </div>
+                ) : (
+                  <p>{`Couldn't get notes something wrong happend.`}</p>
+                )}
               </Stack>
             )
           )}

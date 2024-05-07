@@ -248,7 +248,7 @@ const Code = () => {
             sellerStores?.length < 1 ? (
               <p className="text-center">You have No Stores.</p>
             ) : (
-              <div className="w-full h-max flex flex-wrap mx-auto justify-center items-center">
+              <div className="w-full h-full grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 items-center">
                 {sellerStores?.map((store, i) => {
                   return (
                     <div
@@ -257,19 +257,19 @@ const Code = () => {
                         setSelectedStore(store.store_id);
                         setRole(store.role);
                       }}
-                      className={`flex flex-col justify-around cursor-pointer items-center m-1 w-[25%] border-2 rounded-lg hover:border-skin-primary transition-all duration-500 ease-in-out ${
+                      className={`flex flex-col justify-around py-1 cursor-pointer items-center m-1 w-full border-2 rounded-lg hover:border-skin-primary transition-all duration-500 ease-in-out ${
                         selectedStore == store.store_id
                           ? `border-skin-primary`
                           : `border-zinc-500 `
                       } `}
                     >
-                      <div className="w-[40%] mx-auto h-auto">
+                      <div className="w-full mx-auto flex justify-center items-center">
                         <Image
                           src={store.store_logo ?? Logo}
                           alt={store.store_name ?? ""}
                           width={0}
                           height={0}
-                          className="object-contain w-full h-auto"
+                          className="object-contain lg:w-[225px] w-[150px] lg:h-[225px] h-[150px]"
                         />
                       </div>
                       <p>{store.store_name}</p>
@@ -287,7 +287,7 @@ const Code = () => {
                 })}
                 <Link
                   href={`/seller/requestStore`}
-                  className={`flex flex-col justify-around cursor-pointer items-center m-1 w-[25%] h-full border-2 rounded-lg hover:border-skin-primary transition-all duration-500 ease-in-out`}
+                  className={`flex flex-col justify-center cursor-pointer items-center m-1 w-full h-full border-2 rounded-lg hover:border-skin-primary transition-all duration-500 ease-in-out`}
                 >
                   <div className="w-full flex justify-center items-center mx-auto h-auto text-skin-primary ">
                     <BiPlus className="w-[15%] h-auto" />
