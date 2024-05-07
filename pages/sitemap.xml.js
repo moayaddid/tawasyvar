@@ -111,7 +111,7 @@ export async function getServerSideProps({ res }) {
   //   const posts = await request.json();
 
   const products = await axios.get(
-    `https://admin.tawasyme.com/api/all-products-all`
+    `https://admin2.tawasyme.com/api/all-products-all`
   );
   let pros = [];
   let stos = [];
@@ -121,7 +121,7 @@ export async function getServerSideProps({ res }) {
   }
 
   const stores = await axios.get(
-    `http://admin.tawasyme.com/api/all-stores-all`
+    `http://admin2.tawasyme.com/api/all-stores-all`
   );
 
   if (stores) {
@@ -129,7 +129,7 @@ export async function getServerSideProps({ res }) {
   }
 
   const brands = await axios.get(
-    `http://admin.tawasyme.com/api/all-brands-all`
+    `http://admin2.tawasyme.com/api/all-brands-all`
   );
 
   if (brands) {

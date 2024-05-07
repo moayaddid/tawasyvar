@@ -53,33 +53,55 @@ export async function getServerSideProps(context) {
       if (error.response.status == 500) {
         if (error?.response?.data?.lang && error?.response?.data?.slug) {
           if (error?.response?.data?.lang == "ar") {
-            res.writeHead(301, {
-              Location: `/ar/StoreType/${encodeURIComponent(
-                error.response.data.slug
-              )}`,
-            });
-            res.end();
-            return true;
+            // res.writeHead(301, {
+            //   Location: `/ar/StoreType/${encodeURIComponent(
+            //     error.response.data.slug
+            //   )}`,
+            // });
+            // res.end();
+            // return true;
+            return {
+              redirect : {
+                destination : `/ar/StoreType/${encodeURIComponent(
+                  error.response.data.slug
+                )}` , permanent : false 
+              }
+            };
           } else {
-            res.writeHead(301, {
-              Location: `/StoreType/${error.response.data.slug}`,
-            });
-            res.end();
-            return true;
+            // res.writeHead(301, {
+            //   Location: `/StoreType/${error.response.data.slug}`,
+            // });
+            // res.end();
+            // return true;
+            return {
+              redirect : {
+                destination : `/StoreType/${error.response.data.slug}` , 
+                permanent : false
+              }
+            } ;
           }
         } else {
           return {
-            notFound: true,
+            redirect: {
+              destination: "/404",
+              permanent: false,
+            },
           };
         }
       } else {
         return {
-            notFound: true,
+          redirect: {
+            destination: "/404",
+            permanent: false,
+          },
         };
       }
     } else {
       return {
-        notFound: true,
+        redirect: {
+          destination: "/404",
+          permanent: false,
+        },
       };
     }
   }

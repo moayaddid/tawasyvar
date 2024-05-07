@@ -59,20 +59,26 @@ export async function getServerSideProps(context) {
           }
         } else {
           return {
-            redirect: {
-              destination : `/500`,
-              permanent : false 
-            },
+            redirect : {
+              destination : "/404" ,
+               permanent : false ,
+            }
           };
         }
       } else {
         return {
-          notFound: true,
+          redirect : {
+            destination : "/404" ,
+             permanent : false ,
+          }
         };
       }
     } else {
       return {
-        notFound: true,
+        redirect : {
+          destination : "/404" ,
+           permanent : false ,
+        }
       };
     }
   }

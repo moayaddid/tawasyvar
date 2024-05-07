@@ -30,40 +30,62 @@ export async function getServerSideProps(context) {
       if (error.response.status == 500) {
         if (error?.response?.data?.lang && error?.response?.data?.slug) {
           if (error?.response?.data?.lang == "ar") {
-            res.writeHead(301, {
-              Location: `/ar/Brands/${encodeURIComponent(
-                error.response.data.slug
-              )}`,
-            });
-            res.end();
-            return true;
+            // res.writeHead(301, {
+            //   Location: `/ar/Brands/${encodeURIComponent(
+            //     error.response.data.slug
+            //   )}`,
+            // });
+            // res.end();
+            // return true;
+            return {
+              redirect: {
+                destination: `/ar/Brands/${encodeURIComponent(
+                  error.response.data.slug
+                )}`,
+                permanent: false,
+              },
+            };
           } else {
-            res.writeHead(301, {
-              Location: `/Brands/${error.response.data.slug}`,
-            });
-            res.end();
-            return true;
+            // res.writeHead(301, {
+            //   Location: `/Brands/${error.response.data.slug}`,
+            // });
+            // res.end();
+            // return true;
+            return {
+              redirect: {
+                destination: `/Brands/${error.response.data.slug}`,
+                permanent: false,
+              },
+            };
           }
         } else {
           return {
-            notFound: true,
+            redirect: {
+              destination: "/404",
+              permanent: false,
+            },
           };
         }
       } else {
         return {
-          notFound: true,
+          redirect: {
+            destination: "/404",
+            permanent: false,
+          },
         };
       }
     } else {
       return {
-        notFound: true,
+        redirect: {
+          destination: "/404",
+          permanent: false,
+        },
       };
     }
   }
 }
 
 function BrandPage({ brand }) {
-
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState();
   const [categoryProducts, setCategoryProducts] = useState();

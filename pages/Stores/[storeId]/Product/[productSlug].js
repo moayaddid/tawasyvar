@@ -42,6 +42,9 @@ export async function getServerSideProps(context) {
     };
   } catch (error) {
     if (error.response.status) {
+      console.log(`asdasdasd`);
+      console.log(locale);
+      console.log(error.response.data);
       if (error.response.status == 500) {
         if (
           error?.response?.data?.lang &&
@@ -49,30 +52,52 @@ export async function getServerSideProps(context) {
           error?.response?.data?.store_slug
         ) {
           if (error?.response?.data?.lang == "ar") {
-            res.writeHead(301, {
-              Location: `/ar/Stores/${encodeURIComponent(
-                error.response.data.store_slug
-              )}/Product/${encodeURIComponent(
-                error.response.data.product_slug
-              )}`,
-            });
-            res.end();
-            return true;
+            // res.writeHead(301, {
+            //   Location: `/ar/Stores/${encodeURIComponent(
+            //     error.response.data.store_slug
+            //   )}/Product/${encodeURIComponent(
+            //     error.response.data.product_slug
+            //   )}`,
+            // });
+            // res.end();
+            // return true;
+            return {
+              redirect: {
+                destination: `/ar/Stores/${encodeURIComponent(
+                  error.response.data.store_slug
+                )}/Product/${encodeURIComponent(
+                  error.response.data.product_slug
+                )}`,
+                permanent: false,
+              },
+            };
           } else {
-            res.writeHead(301, {
-              Location: `/Stores/${error.response.data.store_slug}/Product/${error.response.data.product_slug}`,
-            });
-            res.end();
-            return true;
+            // res.writeHead(301, {
+            //   Location: `/Stores/${error.response.data.store_slug}/Product/${error.response.data.product_slug}`,
+            // });
+            // res.end();
+            // return true;
+            return {
+              redirect: {
+                destination: `/Stores/${error.response.data.store_slug}/Product/${error.response.data.product_slug}`,
+                permanent: false,
+              },
+            };
           }
         } else {
           return {
-            notFound: true,
+            redirect: {
+              destination: "/404",
+              permanent: false,
+            },
           };
         }
       } else {
         return {
-            notFound: true,
+          redirect: {
+            destination: "/404",
+            permanent: false,
+          },
         };
       }
     }

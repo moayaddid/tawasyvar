@@ -20,7 +20,7 @@ import { CarouselProduct } from "@/components/ProductCarousel/CarouselProduct";
 import Variations from "@/components/VariationsCustomer/Variations";
 
 export async function getServerSideProps(context) {
-  const { params, locale , res } = context;
+  const { params, locale, res } = context;
   const Api = createAxiosInstance();
   // console.log(response);
   try {
@@ -34,38 +34,55 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
-     if (error.response.status) {
+    console.log(error);
+    if (error.response.status) {
       if (error.response.status == 500) {
         if (error?.response?.data?.lang && error?.response?.data?.slug) {
           if (error?.response?.data?.lang == "ar") {
-            res.writeHead(301, {
-              Location: `/ar/Products/${encodeURIComponent(
-                error.response.data.slug
-              )}`,
-            });
-            res.end();
-            return true;
+            // res.writeHead(301, {
+            //   Location: `/ar/Products/${encodeURIComponent(
+            //     error.response.data.slug
+            //   )}`,
+            // });
+            // res.end();
+            // return true ;
+            return {
+              redirect: {
+                destination: `/ar/Products/${encodeURIComponent(
+                  error.response.data.slug
+                )}`,
+                permanent: false,
+              },
+            };
           } else {
-            res.writeHead(301, {
-              Location: `/Products/${error.response.data.slug}`,
-            });
-            res.end();
-            return true;
+            // res.writeHead(301, {
+            //   Location: `/Products/${error.response.data.slug}`,
+            // });
+            // res.end();
+            // return true;
+            return {
+              redirect: {
+                destination: `/Products/${error.response.data.slug}`,
+                permanent: false,
+              },
+            };
           }
         } else {
           return {
-              notFound: true,
+            redirect: {
+              destination: "/404",
+              permanent: false,
+            },
           };
         }
       } else {
         return {
-            notFound: true,
+          redirect: {
+            destination: "/404",
+            permanent: false,
+          },
         };
       }
-    } else {
-      return {
-          notFound: true,
-      };
     }
   }
 }
