@@ -230,8 +230,8 @@ function Product({ product }) {
         }
         canonical={
           router.locale == `en`
-            ? `https://tawasyme.com/store/${router.query.storeId}/Product/${router.query.productSlug}`
-            : `https://tawasyme.com/ar/store/${router.query.storeId}/Product/${router.query.productSlug}`
+            ? `https://tawasyme.com/Stores/${router.query.storeId}/Product/${router.query.productSlug}`
+            : `https://tawasyme.com/ar/Stores/${router.query.storeId}/Product/${router.query.productSlug}`
         }
       />
       <div className="w-full h-full flex justify-center">

@@ -284,8 +284,8 @@ function Products({ store }) {
           description={store.store.name}
           canonical={
             router.locale == `en`
-              ? `https://tawasyme.com/store/${router.query.storeId}`
-              : `https://tawasyme.com/ar/store/${router.query.storeId}`
+              ? `https://tawasyme.com/Stores/${router.query.storeId}`
+              : `https://tawasyme.com/ar/Stores/${router.query.storeId}`
           }
         />
       )}
