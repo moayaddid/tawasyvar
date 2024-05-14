@@ -71,6 +71,13 @@ export default function Sidebar(props) {
   }, [storeSlug]);
 
   useEffect(() => {
+    const Storeid = Cookies.get("Sid");
+    if (!Storeid) {
+      openChangeStore();
+    }
+  }, [Cookies]);
+
+  useEffect(() => {
     dispatch(getCookiesSeller());
   }, [dispatch]);
 
@@ -95,7 +102,7 @@ export default function Sidebar(props) {
     setIsLoading(true);
     try {
       const response = await Api.get(`/api/seller/get-seller-stores`);
-      setSellerStores(response.data.stores);
+      setSellerStores(response.data);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -507,56 +514,69 @@ export default function Sidebar(props) {
             <div className="w-full h-full flex justify-center items-center">
               <TawasyLoader width={200} height={300} />
             </div>
-          ) : sellerStores && sellerStores?.length < 1 ? (
-            <p className="text-center">You have No Stores.</p>
           ) : (
-            <div className="w-full h-full grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 items-center  ">
-              {sellerStores?.map((store, i) => {
-                return (
-                  <div
-                    key={i}
-                    onClick={() => {
-                      setSelectedStore(store.store_id);
-                      setSelectedRole(store.role);
-                    }}
-                    className={`flex flex-col justify-around cursor-pointer items-center m-1 w-full border-2 rounded-lg hover:border-skin-primary transition-all duration-500 ease-in-out ${
-                      selectedStore == store.store_id
-                        ? `border-skin-primary`
-                        : `border-zinc-500 `
-                    } `}
-                  >
-                    <div className="w-full mx-auto flex justify-center items-center">
-                      <Image
-                        src={store.store_logo ?? Logo}
-                        alt={store.store_name ?? ""}
-                        width={0}
-                        height={0}
-                        className="object-contain lg:w-[225px] w-[150px] lg:h-[225px] h-[150px]"
-                      />
-                    </div>
-                    <p>{store.store_name}</p>
-                    <p>
-                      {store.role == `super`
-                        ? router.locale == "ar"
-                          ? `( مالك المتجر ) `
-                          : `( Owner ) `
-                        : router.locale == "ar"
-                        ? `( موظف )`
-                        : `( Employee )`}
-                    </p>
+            sellerStores &&
+            (sellerStores?.message == `you do not have any stores` ? (
+              <div className="w-full h-full grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 items-center  ">
+                <Link
+                  href={`/seller/requestStore`}
+                  className={`flex flex-col justify-center cursor-pointer items-center m-1 w-full h-full border-2 rounded-lg hover:border-skin-primary transition-all duration-500 ease-in-out`}
+                >
+                  <div className="w-full flex justify-center items-center mx-auto h-auto text-skin-primary ">
+                    <BiPlus className="w-[15%] h-auto" />
                   </div>
-                );
-              })}
-              <Link
-                href={`/seller/newStore`}
-                className={`flex flex-col justify-center cursor-pointer items-center m-1 w-full h-full border-2 rounded-lg hover:border-skin-primary transition-all duration-500 ease-in-out`}
-              >
-                <div className="w-full flex justify-center items-center mx-auto h-auto text-skin-primary ">
-                  <BiPlus className="w-[15%] h-auto" />
-                </div>
-                <p>{t("seller.employees.createNewStore")}</p>
-              </Link>
-            </div>
+                  <p>{t("seller.employees.createNewStore")}</p>
+                </Link>
+              </div>
+            ) : (
+              <div className="w-full h-full grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 items-center  ">
+                {sellerStores?.stores?.map((store, i) => {
+                  return (
+                    <div
+                      key={i}
+                      onClick={() => {
+                        setSelectedStore(store.store_id);
+                        setSelectedRole(store.role);
+                      }}
+                      className={`flex flex-col justify-around cursor-pointer items-center m-1 w-full border-2 rounded-lg hover:border-skin-primary transition-all duration-500 ease-in-out ${
+                        selectedStore == store.store_id
+                          ? `border-skin-primary`
+                          : `border-zinc-500 `
+                      } `}
+                    >
+                      <div className="w-full mx-auto flex justify-center items-center">
+                        <Image
+                          src={store.store_logo ?? Logo}
+                          alt={store.store_name ?? ""}
+                          width={0}
+                          height={0}
+                          className="object-contain lg:w-[225px] w-[150px] lg:h-[225px] h-[150px]"
+                        />
+                      </div>
+                      <p>{store.store_name}</p>
+                      <p>
+                        {store.role == `super`
+                          ? router.locale == "ar"
+                            ? `( مالك المتجر ) `
+                            : `( Owner ) `
+                          : router.locale == "ar"
+                          ? `( موظف )`
+                          : `( Employee )`}
+                      </p>
+                    </div>
+                  );
+                })}
+                <Link
+                  href={`/seller/newStore`}
+                  className={`flex flex-col justify-center cursor-pointer items-center m-1 w-full h-full border-2 rounded-lg hover:border-skin-primary transition-all duration-500 ease-in-out`}
+                >
+                  <div className="w-full flex justify-center items-center mx-auto h-auto text-skin-primary ">
+                    <BiPlus className="w-[15%] h-auto" />
+                  </div>
+                  <p>{t("seller.employees.createNewStore")}</p>
+                </Link>
+              </div>
+            ))
           )}
         </DialogContent>
         {sellerStores && (

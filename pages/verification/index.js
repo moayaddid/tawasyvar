@@ -48,7 +48,7 @@ const Code = () => {
     setGettingStores(true);
     try {
       const response = await Api.get(`/api/seller/get-seller-stores`);
-      setSellerStores(response.data.stores);
+      setSellerStores(response.data);
       setGettingStores(false);
     } catch (error) {
       setGettingStores(false);
@@ -245,11 +245,21 @@ const Code = () => {
               <TawasyLoader width={200} height={300} />
             </div>
           ) : sellerStores ? (
-            sellerStores?.length < 1 ? (
-              <p className="text-center">You have No Stores.</p>
+            ( sellerStores?.message == `you do not have any stores`) ? (
+              <div className="w-full h-full grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 items-center">
+                <Link
+                  href={`/seller/requestStore`}
+                  className={`flex flex-col justify-center cursor-pointer items-center m-1 w-full h-full border-2 rounded-lg hover:border-skin-primary transition-all duration-500 ease-in-out`}
+                >
+                  <div className="w-full flex justify-center items-center mx-auto h-auto text-skin-primary ">
+                    <BiPlus className="w-[15%] h-auto" />
+                  </div>
+                  <p>{t("seller.employees.createNewStore")}</p>
+                </Link>
+              </div>
             ) : (
               <div className="w-full h-full grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3 items-center">
-                {sellerStores?.map((store, i) => {
+                {sellerStores.stores?.map((store, i) => {
                   return (
                     <div
                       key={i}
