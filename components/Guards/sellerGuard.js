@@ -15,6 +15,7 @@ function SellerGuard({ children }) {
   const Api = createAxiosInstance(router);
 
   useEffect(() => {
+    const sid = Cookies.get("Sid");
     async function initialStoreStatus() {
       try {
         const response2 = await Api.get(`/api/seller/store/status`);
@@ -22,8 +23,13 @@ function SellerGuard({ children }) {
         // console.log(response2);
         switch (response2.data.status) {
           case "Store not found":
+            Cookies.remove("Sid");
+            Cookies.remove("role");
+            Cookies.remove("SName");
+            Cookies.remove("STName");
+            Cookies.remove("slug");
             router.replace("/seller/requestStore");
-            // isFirstTime = false ; 
+            // isFirstTime = false ;
             setIsLoading(false);
             break;
 
@@ -40,8 +46,8 @@ function SellerGuard({ children }) {
             Cookies.set("STName", response2.data.store_name, {
               expires: 365 * 10,
             });
-            Cookies.set("slug" , response2.data.slug , { expires: 365 * 10 });
-            // isFirstTime = false ; 
+            Cookies.set("slug", response2.data.slug, { expires: 365 * 10 });
+            // isFirstTime = false ;
             setIsLoading(false);
             break;
 
@@ -51,7 +57,7 @@ function SellerGuard({ children }) {
             Cookies.set("Sid", response2.data.store_id, { expires: 365 * 10 });
             Cookies.set("role", response2.data.role, { expires: 365 * 10 });
             router.replace(`/seller/pendingStore`);
-            // isFirstTime = false ; 
+            // isFirstTime = false ;
             setIsLoading(false);
             break;
         }
@@ -65,9 +71,11 @@ function SellerGuard({ children }) {
     dispatch(getCookiesSeller());
     if (isLoading == true) {
       dispatch(getCookiesSeller());
-      initialStoreStatus();
-    } 
-  }, [isFirstTime , isLoading]);
+      if (sid) {
+        initialStoreStatus();
+      }
+    }
+  }, [isFirstTime, isLoading, Cookies]);
 
   // if (isLoading == true) {
   //   return (
