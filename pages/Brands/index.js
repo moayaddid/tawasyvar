@@ -160,7 +160,18 @@ function AllProducts({ brands }) {
               <div className="text-center" > {t("noBrands")} . </div>
             )} 
             {brands && brands.pagination && (
-              <div className="w-fit mx-auto flex justify-center items-center h-max gap-4 py-4 ">
+              <div className="w-fit mx-auto flex justify-center items-center h-max space-x-4 py-4 ">
+                <Link
+                  className={`px-2 py-1 ${
+                    brands.pagination.current_page ===
+                    1
+                      ? `pointer-events-none opacity-50 cursor-not-allowed`
+                      : `pointer-events-auto`
+                  } bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] select-none w-max`}
+                  href={`/Brands?page=1`}
+                >
+                  {t("seller.addProduct.firstPage")}
+                </Link>
                 <Link
                   className={`px-2 py-1 ${
                     brands.pagination.current_page ===
@@ -186,6 +197,19 @@ function AllProducts({ brands }) {
                   }`}
                 >
                   {t("stores.nextPage")}
+                </Link>
+                <Link
+                  className={`px-2 py-1 ${
+                    brands.pagination.current_page ===
+                    brands.pagination.last_page
+                      ? `pointer-events-none opacity-50 cursor-not-allowed`
+                      : `pointer-events-auto`
+                  } bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] select-none w-max`}
+                  href={`/Brands?page=${
+                    brands.pagination.last_page
+                  }`}
+                >
+                  {t("seller.addProduct.lastPage")}
                 </Link>
               </div>
             )}

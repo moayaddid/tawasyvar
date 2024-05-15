@@ -19,11 +19,15 @@ import logo from "@/public/images/tawasylogo.png";
 import ImageUpload from "../ImageUpload/ImageUpload";
 import AdminNotes from "../AdminComponents/AdminNotes";
 import {
+  createBrandContacts_endpoint,
+  deleteBrandContacts_endpoint,
+  editBrandContacts_endpoint,
+  getBrandContacts_endpoint,
   getBrandNote_endpoint,
   postBrandNote_endpoint,
 } from "@/api/endpoints/endPoints";
 import { BiSolidContact } from "react-icons/bi";
-import AdminContacts from "../AdminComponents/Contacts/AdminContacts";
+import AdminLinks from "../AdminComponents/AdminLinks/AdminLinks";
 
 function BrandAdmin({ names, refetch }) {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -178,10 +182,14 @@ function BrandAdmin({ names, refetch }) {
               postEndpoint={postBrandNote_endpoint}
               className={`mx-1`}
             />
-            {/* <button className="items-center mx-1 px-2 py-2 text-white bg-skin-primary opacity-70 rounded-md hover:opacity-100 focus:outline-none" >
-              <BiSolidContact />
-            </button> */}
-            {/* <AdminContacts ContactsFor={`${names.name}`} entityId={names.id} /> */}
+            <AdminLinks
+              entityId={names.id}
+              linksFor={names.name}
+              editEndPoint={editBrandContacts_endpoint}
+              getEndPoint={getBrandContacts_endpoint}
+              postEndPoint={createBrandContacts_endpoint}
+              resetEndPoint={deleteBrandContacts_endpoint}
+            />
           </div>
         </td>
       </tr>

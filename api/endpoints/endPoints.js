@@ -30,3 +30,8 @@ export const getVendorContacts_endpoint = "/api/admin/get-contact-vendor";
 export const createVendorContacts_endpoint = "/api/admin/create-contact-vendor";
 export const editVendorContacts_endpoint = "/api/admin/edit-contact-vendor";
 export const deleteVendorContacts_endpoint = "/api/admin/delete-contact-vendor";
+
+export const getBrandContacts_endpoint = "/api/admin/get-contact-brand";
+export const createBrandContacts_endpoint = "/api/admin/create-contact-brand";
+export const editBrandContacts_endpoint = "/api/admin/edit-contact-brand";
+export const deleteBrandContacts_endpoint = "/api/admin/delete-contact-brand";
