@@ -1,4 +1,5 @@
 import createAxiosInstance from "@/API";
+import AdminDashboardCard from "@/components/AdminComponents/AdminDashboardCard";
 import withLayoutAdmin from "@/components/UI/adminLayout";
 import TawasyLoader from "@/components/UI/tawasyLoader";
 import Link from "next/link";
@@ -93,10 +94,12 @@ function AdminPage() {
     },
   ];
 
-  if(isLoading){
-    return <div className="w-full h-full" >
-      <TawasyLoader width={400} height={400} />
-    </div>
+  if (isLoading) {
+    return (
+      <div className="w-full h-full">
+        <TawasyLoader width={400} height={400} />
+      </div>
+    );
   }
 
   // if(adminDashboard){
@@ -105,139 +108,175 @@ function AdminPage() {
 
   return (
     <>
-      { adminDashboard && <div className="md:px-10">
-        <h1 className="py-6 text-2xl">Dashboard</h1>
-        <div className="grid md:grid-cols-3 sm:grid-cols-1 grid-col-1 gap-4">
-          <Link href='/admin/Customers' className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary">
-            <div className="flex justify-between pb-4">
+      {adminDashboard && (
+        <div className="md:px-10">
+          <h1 className="py-6 text-2xl">Dashboard</h1>
+          <div className="grid md:grid-cols-3 sm:grid-cols-1 grid-col-1 gap-4">
+            <Link
+              href="/admin/Customers"
+              className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary"
+            >
+              <div className="flex justify-between pb-4">
+                <div>
+                  <h2 className="text-xl">Total Customers</h2>
+                </div>
+                <div className="text-skin-primary w-[25px] h-[25px]">
+                  <BiSolidUserDetail
+                    style={{ width: "25px", height: "25px", color: "#ff6600" }}
+                  />
+                </div>
+              </div>
               <div>
-                <h2 className="text-xl">Total Customers</h2>
+                <p>{adminDashboard.data.data.total_customers}</p>
               </div>
-              <div className="text-skin-primary w-[25px] h-[25px]">
-                <BiSolidUserDetail
-                  style={{ width: "25px", height: "25px", color: "#ff6600" }}
-                />
-              </div>
-            </div>
-            <div>
-              <p >{adminDashboard.data.data.total_customers}</p>
-            </div>
-          </Link>
+            </Link>
 
-          <Link href='/admin/Sellers' className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary">
-            <div className="flex justify-between pb-4">
-              <div>
-                <h2 className="text-xl">Total Sellers</h2>
+            {/* <Link
+              href="/admin/Sellers"
+              className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary"
+            >
+              <div className="flex justify-between pb-4">
+                <div>
+                  <h2 className="text-xl">Total Sellers</h2>
+                </div>
+                <div className="text-skin-primary w-[25px] h-[25px]">
+                  <FaUsersBetweenLines
+                    style={{ width: "25px", height: "25px", color: "#ff6600" }}
+                  />
+                </div>
               </div>
-              <div className="text-skin-primary w-[25px] h-[25px]">
+              <div>
+                <p>{adminDashboard.data.data.total_sellers}</p>
+              </div>
+            </Link> */}
+
+            <AdminDashboardCard
+              data={adminDashboard.data.data.total_sellers}
+              name={`Total Sellers`}
+              href={`/admin/Sellers`}
+              icon={
                 <FaUsersBetweenLines
                   style={{ width: "25px", height: "25px", color: "#ff6600" }}
                 />
-              </div>
-            </div>
-            <div>
-              <p>{adminDashboard.data.data.total_sellers}</p>
-            </div>
-          </Link>
+              }
+            />
 
-          <Link href='/admin/Products/AllProducts' className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary">
-            <div className="flex justify-between pb-4">
+            <Link
+              href="/admin/Products/AllProducts"
+              className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary"
+            >
+              <div className="flex justify-between pb-4">
+                <div>
+                  <h2 className="text-xl">Total Products</h2>
+                </div>
+                <div className="text-skin-primary w-[25px] h-[25px]">
+                  <BsBox
+                    style={{ width: "25px", height: "25px", color: "#ff6600" }}
+                  />
+                </div>
+              </div>
               <div>
-                <h2 className="text-xl">Total Products</h2>
+                <p>{adminDashboard.data.data.total_products}</p>
               </div>
-              <div className="text-skin-primary w-[25px] h-[25px]">
-                <BsBox
-                  style={{ width: "25px", height: "25px", color: "#ff6600" }}
-                />
-              </div>
-            </div>
-            <div>
-              <p>{adminDashboard.data.data.total_products}</p>
-            </div>
-          </Link>
+            </Link>
 
-          <Link href='/admin/StoreTypes' className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary">
-            <div className="flex justify-between pb-4">
+            <Link
+              href="/admin/StoreTypes"
+              className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary"
+            >
+              <div className="flex justify-between pb-4">
+                <div>
+                  <h2 className="text-xl">Total Store Types</h2>
+                </div>
+                <div className="text-skin-primary w-[25px] h-[25px]">
+                  <MdOutlineStorefront
+                    style={{ width: "25px", height: "25px", color: "#ff6600" }}
+                  />
+                </div>
+              </div>
               <div>
-                <h2 className="text-xl">Total Store Types</h2>
+                <p>{adminDashboard.data.data.total_store_types}</p>
               </div>
-              <div className="text-skin-primary w-[25px] h-[25px]">
-                <MdOutlineStorefront
-                  style={{ width: "25px", height: "25px", color: "#ff6600" }}
-                />
-              </div>
-            </div>
-            <div>
-              <p>{adminDashboard.data.data.total_store_types}</p>
-            </div>
-          </Link>
+            </Link>
 
-          <Link href='/admin/Orders/AllOrders' className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary">
-            <div className="flex justify-between pb-4">
+            <Link
+              href="/admin/Orders/AllOrders"
+              className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary"
+            >
+              <div className="flex justify-between pb-4">
+                <div>
+                  <h2 className="text-xl">Total Orders</h2>
+                </div>
+                <div className="text-skin-primary w-[25px] h-[25px]">
+                  <BsFillCartCheckFill
+                    style={{ width: "25px", height: "25px", color: "#ff6600" }}
+                  />
+                </div>
+              </div>
               <div>
-                <h2 className="text-xl">Total Orders</h2>
+                <p>{adminDashboard.data.data.total_orders}</p>
               </div>
-              <div className="text-skin-primary w-[25px] h-[25px]">
-                <BsFillCartCheckFill
-                  style={{ width: "25px", height: "25px", color: "#ff6600" }}
-                />
-              </div>
-            </div>
-            <div>
-              <p>{adminDashboard.data.data.total_orders}</p>
-            </div>
-          </Link>
+            </Link>
 
-          <Link href='/admin/Store/PendingStores' className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary">
-            <div className="flex justify-between pb-4">
+            <Link
+              href="/admin/Store/PendingStores"
+              className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary"
+            >
+              <div className="flex justify-between pb-4">
+                <div>
+                  <h2 className="text-xl">Pending Store Requests</h2>
+                </div>
+                <div className="text-skin-primary w-[25px] h-[25px]">
+                  <MdOutlinePendingActions
+                    style={{ width: "25px", height: "25px", color: "#ff6600" }}
+                  />
+                </div>
+              </div>
               <div>
-                <h2 className="text-xl">Pending Store Requests</h2>
+                <p>{adminDashboard.data.data.pending_store_requests}</p>
               </div>
-              <div className="text-skin-primary w-[25px] h-[25px]">
-                <MdOutlinePendingActions
-                  style={{ width: "25px", height: "25px", color: "#ff6600" }}
-                />
-              </div>
-            </div>
-            <div>
-              <p>{adminDashboard.data.data.pending_store_requests}</p>
-            </div>
-          </Link>
+            </Link>
 
-          <Link href='/admin/Products/PendingProduct' className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary">
-            <div className="flex justify-between pb-4">
+            <Link
+              href="/admin/Products/PendingProduct"
+              className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary"
+            >
+              <div className="flex justify-between pb-4">
+                <div>
+                  <h2 className="text-xl">Pending Product Requests</h2>
+                </div>
+                <div className="text-skin-primary w-[25px] h-[25px]">
+                  <MdRestore
+                    style={{ width: "25px", height: "25px", color: "#ff6600" }}
+                  />
+                </div>
+              </div>
               <div>
-                <h2 className="text-xl">Pending Product Requests</h2>
+                <p>{adminDashboard.data.data.pending_product_requests}</p>
               </div>
-              <div className="text-skin-primary w-[25px] h-[25px]">
-                <MdRestore
-                  style={{ width: "25px", height: "25px", color: "#ff6600" }}
-                />
-              </div>
-            </div>
-            <div>
-              <p>{adminDashboard.data.data.pending_product_requests}</p>
-            </div>
-          </Link>
+            </Link>
 
-          <Link href='/admin/Store/AllStore' className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary">
-            <div className="flex justify-between pb-4">
+            <Link
+              href="/admin/Store/AllStore"
+              className="border-2 border-gray-400 py-4 px-5 rounded-md hover:border-skin-primary"
+            >
+              <div className="flex justify-between pb-4">
+                <div>
+                  <h2 className="text-xl">Total Stores</h2>
+                </div>
+                <div className="text-skin-primary w-[25px] h-[25px]">
+                  <MdOutlineStorefront
+                    style={{ width: "25px", height: "25px", color: "#ff6600" }}
+                  />
+                </div>
+              </div>
               <div>
-                <h2 className="text-xl">Total Stores</h2>
+                <p>{adminDashboard.data.data.total_stores}</p>
               </div>
-              <div className="text-skin-primary w-[25px] h-[25px]">
-                <MdOutlineStorefront
-                  style={{ width: "25px", height: "25px", color: "#ff6600" }}
-                />
-              </div>
-            </div>
-            <div>
-              <p>{adminDashboard.data.data.total_stores}</p>
-            </div>
-          </Link>
-
+            </Link>
+          </div>
         </div>
-      </div>}
+      )}
     </>
   );
 }
