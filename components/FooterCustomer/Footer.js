@@ -158,7 +158,7 @@ const Footer = () => {
             </div>
             <div className="flex justify-start items-center space-x-1">
               <p className="px-2" >{t("footer.developed")}</p>
-              <Link href={"https://deskindamas.com/"} legacyBehavior>
+              <Link href={"https://technologies.deskindamas.com"} legacyBehavior>
                 <a
                   target="_blank"
                   className="text-base text-skin-primary w-max border-b-2 border-transparent hover:border-skin-primary transition-all duration-500"
