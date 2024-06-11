@@ -195,8 +195,8 @@ function Products({ store }) {
         // setSelectedCategory(99999999);
       } else {
         setSelectedCategory(store.category_id);
-        setSelectedCategoryData(store.products.original.products);
-        setSelectedCategoryDataPagination(store.products.original.pagination);
+        setSelectedCategoryData(store.products.products);
+        setSelectedCategoryDataPagination(store.products.pagination);
       }
     }
   }, [store]);
