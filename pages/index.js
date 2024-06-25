@@ -299,8 +299,8 @@ function CustomerPage({ data }) {
                     className="bg-gray-100 outline-none sm:text-sm text-xs w-fit h-10 mx-2 px-2"
                   >
                     <option value="storeType">{t("home.storeType")}</option>
-                    <option value="category">{t("home.category")}</option>
-                    <option value="brand">{t("home.brand")}</option>
+                    {/* <option value="category">{t("home.category")}</option> */}
+                    {/* <option value="brand">{t("home.brand")}</option> */}
                   </select>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
