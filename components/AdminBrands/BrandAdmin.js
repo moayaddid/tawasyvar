@@ -146,7 +146,7 @@ function BrandAdmin({ names, refetch }) {
         <td className="px-4 py-4">{names.name_ar ?? ` - `}</td>
         <td className="px-4 py-4">
           <Image
-            src={names.image ?? logo}
+            src={names.logo ?? logo}
             alt={names.name}
             width={100}
             height={100}

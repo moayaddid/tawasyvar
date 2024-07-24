@@ -444,11 +444,7 @@ function ProductsPricingPage() {
                           <td className="flex justify-center items-center my-auto h-full">
                             <Image
                               src={
-                                product.combiantion
-                                  ? product?.combiantion?.variations[0]?.image
-                                  : product.image
-                                  ? product.image
-                                  : logo
+                                product.combiantion ? product.combiantion.variations[0].image ? product.combiantion.variations[0].image : product.image ?? logo : product.image ?? logo
                               }
                               width={75}
                               alt={product.name}
