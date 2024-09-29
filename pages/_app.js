@@ -58,7 +58,7 @@ const store = configureStore({
           />
           <Provider store={store} >
             <Component {...pageProps} />
-            <Analytics/>
+            <Analytics debug= {false} />
             <GoogleTagManager gtmId="GTM-WJTGWG84" />
             {/* <GoogleAnalytics gaId="G-4C6MQ427TW" />  */}
           </Provider>

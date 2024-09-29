@@ -23,6 +23,7 @@ import {
 } from "react-icons/md";
 import { useRouter } from "next/router";
 import {
+  TbArrowsSort,
   TbBrandShopee,
   TbCategory2,
   TbGitBranch,
@@ -385,6 +386,18 @@ export default function SidebarAdmin(props) {
                   </ul>
                 </AccordionItem>
               </Accordion>
+
+              <li className="rounded-sm pb-3">
+                <Link
+                  href="/admin/products-sort"
+                  className="flex items-center pl-2 space-x-3 pt-2 pb-1 rounded-md text-gray-100"
+                >
+                  <TbArrowsSort  className="block text-[25px] text-white " />
+                  <p className="hidden md:block" style={{ marginLeft: "43px" }}>
+                    Products Sort Order
+                  </p>
+                </Link>
+              </li>
 
               <li className="rounded-sm pb-3">
                 <Link
