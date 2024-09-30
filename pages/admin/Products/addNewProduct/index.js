@@ -165,7 +165,7 @@ const AddNewProductAdmin = () => {
         data.description_ar = arDescRef.current.value;
         data.description_en = enDescRef.current.value;
         data.image = image;
-        data.sort_order = sortRef.current.value;
+        data.sort_order = sortRef.current.value ?? null;
         data.category_name = category;
         data.pack = packRef.current.value;
         data.ean_code = eanRef.current.value;
@@ -208,7 +208,7 @@ const AddNewProductAdmin = () => {
             description_ar: arDescRef.current.value,
             description_en: enDescRef.current.value,
             image: image,
-            sort_order: sortRef.current.value,
+            sort_order: sortRef.current.value ?? "",
             category_name: category,
             pack : packRef.current.value,
             ean_code: eanRef.current.value,
@@ -390,7 +390,6 @@ const AddNewProductAdmin = () => {
                 style={{ WebkitAppearance: "none", MozAppearance: "textfield" }}
                 placeholder="sort_order"
                 ref={sortRef}
-                required
               />
             </div>
             <div className="px-6 py-4">

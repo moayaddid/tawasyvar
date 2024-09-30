@@ -27,8 +27,11 @@ import Combination from "../SellerVariations/Combination";
 import Variations from "../AdminVariations/ProductVariations/Variations";
 import AdminProductVariation from "../AdminVariations/AdminProductVariation";
 import AdminNotes from "../AdminComponents/AdminNotes";
-import { getProductNote_endpoint, postProductNote_endpoint } from "@/api/endpoints/endPoints";
-import lego from "@/public/images/lego.png"
+import {
+  getProductNote_endpoint,
+  postProductNote_endpoint,
+} from "@/api/endpoints/endPoints";
+import lego from "@/public/images/lego.png";
 
 function AdminProduct({ product, refetch }) {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -206,7 +209,7 @@ function AdminProduct({ product, refetch }) {
     addIfDifferent(newSku.current.value, "sku");
     addIfDifferent(newEanCode.current.value, "ean_code");
     addIfDifferent(packRef.current.value, "pack");
-    addIfDifferent(newSortOrder.current.value, "sort_order");
+    // addIfDifferent(newSortOrder.current.value, "sort_order");
     if (product.slug) {
       addIfDifferent(status, "status");
     }
@@ -430,7 +433,7 @@ function AdminProduct({ product, refetch }) {
             <AdminNotes
               NotesFor={product.name_en}
               entityId={product.id}
-              getEndpoint = {getProductNote_endpoint}
+              getEndpoint={getProductNote_endpoint}
               postEndpoint={postProductNote_endpoint}
             />
           </div>
@@ -691,13 +694,14 @@ function AdminProduct({ product, refetch }) {
 
                 <div className="flex items-center">
                   <label className="w-[30%] text-lg px-2">Sort Order :</label>
-                  <input
+                  {/* <input
                     className="my-3 w-[70%] text-black placeholder:text-zinc-500 pl-2 outline-none border-b-2 focus:border-skin-primary transition-all duration-700 "
                     type="text"
                     // placeholder={product.sort_order}
                     defaultValue={product.sort_order}
                     ref={newSortOrder}
-                  />
+                  /> */}
+                  <p>{product.sort_order}</p>
                 </div>
 
                 <div className="flex items-center">

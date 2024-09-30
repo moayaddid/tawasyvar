@@ -353,7 +353,7 @@ function ProductSorting() {
                     />
                   </div>
                 )}
-                {brandFilters && (
+                {products && brandFilters && (
                   <div className="px-2 py-1 flex justify-between items-center space-x-2 rounded-2xl border border-skin-primary select-none ">
                     <p>{getName(products.data.brands, brandFilters)}</p>
                     <MdClose
