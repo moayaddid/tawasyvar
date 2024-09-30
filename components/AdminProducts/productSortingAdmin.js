@@ -12,8 +12,8 @@ function AdminSortingProduct({ product, refetch }) {
   const router = useRouter();
   const api = createAxiosInstance(router);
   const [brandSort, setBrandSort] = useState(product.brand_sort_order ?? "");
-  const [productSort, setProductSort] = useState(
-    product.product_sort_order ?? ""
+  const [productSort, setProductSort] = useState(""
+    // product.product_sort_order ?? ""
   );
   const [editing, setEditing] = useState(false);
 
@@ -96,7 +96,8 @@ function AdminSortingProduct({ product, refetch }) {
               //   minLength={0}
               //   maxLength={6}
               pattern="\d{1,4}"
-              value={productSort}
+              // value={productSort}
+              placeholder={product.product_sort_order}
               max={9999}
               //   min={100000}
               onChange={handleProductSortChange}
@@ -106,12 +107,12 @@ function AdminSortingProduct({ product, refetch }) {
           </td>
         ) : (
           <td className="px-4 ">
-            {productSort}
+            {product.product_sort_order}
           </td>
         )}
-        <td className="px-4">{`${
+        { editing == true ? <td className="px-4">{`${
           product.category_sort_order
-        }-${brandSort}-${productSort}`}</td>
+        }-${brandSort}-${productSort}`}</td> : <td>{` - `}</td>}
         <td>
           {editing == true ? (
             loading == false ? (
