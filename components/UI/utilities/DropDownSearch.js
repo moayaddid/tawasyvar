@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { BiDownArrowAlt } from "react-icons/bi";
 import { BsArrowDown } from "react-icons/bs";
 
-function DropDownSearch({ data, title, selectItem , show , get , id }) {
+function DropDownSearch({ data, title, selectItem , show , get , id , width }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -42,7 +42,7 @@ function DropDownSearch({ data, title, selectItem , show , get , id }) {
   return (
     <div
       id={id}
-      className=" relative  w-full border-b-2 border-gray-300"
+      className={`relative ${ width ?? `w-full`} border-b-2 border-gray-300`}
       ref={dropdownRef}
     >
       <div
@@ -67,6 +67,7 @@ function DropDownSearch({ data, title, selectItem , show , get , id }) {
               placeholder="Search..."
               value={searchTerm}
               onChange={handleSearch}
+              autoFocus
             />
             {Results &&
               (Results.length > 0 ? (
@@ -86,7 +87,7 @@ function DropDownSearch({ data, title, selectItem , show , get , id }) {
                   })}
                 </div>
               ) : (
-                <p className="text-center">There no results</p>
+                <p className="text-center">No results.</p>
               ))}
           </div>
         </div>

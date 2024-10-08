@@ -2,6 +2,7 @@ import createAxiosInstance from "@/API";
 import AdminSortingProduct from "@/components/AdminProducts/productSortingAdmin";
 import withLayoutAdmin from "@/components/UI/adminLayout";
 import TawasyLoader from "@/components/UI/tawasyLoader";
+import DropDownSearch from "@/components/UI/utilities/DropDownSearch";
 import { Ring } from "@uiball/loaders";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
@@ -261,77 +262,33 @@ function ProductSorting() {
         </div>
 
         <div className="flex flex-col justify-start items-start space-y-5">
-          <div className="flex flex-wrap justify-start items-center space-x-4">
+          <div className="flex justify-start items-center space-x-4 w-full">
             <p>Filter By :</p>
             {products && products.data.categories && (
-              <label
-                htmlFor="categories px-1 "
-                className="border border-skin-primary px-2 py-1 select-none rounded-lg "
-              >
-                Categories :
-                <select
-                  id="categories"
-                  className="bg-transparent box-content px-2 w-min hover:bg-gray-100 cursor-pointer "
-                  onChange={(e) => {
-                    setCategoryFilters(e.target.value);
-                    setCurrentPage(1);
-                    // addCategoryFilter(e.target.value);
-                  }}
-                  value={1}
-                >
-                  <option disabled selected className="box-content" value={1}>
-                    Select Category
-                  </option>
-                  {products.data.categories &&
-                    products.data.categories
-                      .filter((obj) => !categoryFilters?.includes(obj.id))
-                      .map((category , i) => {
-                        return (
-                          <option
-                            key={i}
-                            value={category.id}
-                            className="cursor-pointer"
-                          >
-                            {category.name_en}
-                          </option>
-                        );
-                      })}
-                </select>
-              </label>
+              <DropDownSearch
+              width={`w-[20%]`}
+                data={products.data.categories}
+                selectItem={(item) => {
+                  setCategoryFilters(item.id);
+                  setCurrentPage(1);
+                }}
+                show={`name_en`}
+                get={`id`}
+                title={`Select Category`}
+              />
             )}
             {products && products.data.brands && (
-              <label
-                htmlFor="brands "
-                className="border border-skin-primary px-2 py-1 select-none rounded-lg "
-              >
-                Brands :
-                <select
-                  id="brands"
-                  className="bg-transparent px-2 hover:bg-gray-100 cursor-pointer py-1 "
-                  onChange={(e) => {
-                    setBrandFilters(e.target.value);
-                    setCurrentPage(1);
-                    // addBrandFilter(e.target.value);
-                  }}
-                  value={1}
-                >
-                  <option disabled selected value={1}>
-                    Select Brand
-                  </option>
-                  {products.data.brands &&
-                    products.data.brands.map((brand , i) => {
-                      return (
-                        <option
-                          key={i}
-                          value={brand.id}
-                          className="cursor-pointer"
-                        >
-                          {brand.name}
-                        </option>
-                      );
-                    })}
-                </select>
-              </label>
+              <DropDownSearch
+              width={`w-[20%]`}
+                data={products.data.brands}
+                selectItem={(item) => {
+                  setBrandFilters(item.id);
+                  setCurrentPage(1);
+                }}
+                show={`name`}
+                get={`id`}
+                title={`Select Brand`}
+              />
             )}
           </div>
 
@@ -343,7 +300,10 @@ function ProductSorting() {
               <div className="flex flex-wrap gap-2 items-center">
                 {categoryFilters && (
                   <div className="px-2 py-1 flex justify-between items-center space-x-2 rounded-2xl border border-skin-primary select-none ">
-                    <p>{getName(products.data.categories, categoryFilters)}</p>
+                    <p>{`Category : ${getName(
+                      products.data.categories,
+                      categoryFilters
+                    )}`}</p>
                     <MdClose
                       onClick={() => {
                         setCategoryFilters();
@@ -355,7 +315,10 @@ function ProductSorting() {
                 )}
                 {products && brandFilters && (
                   <div className="px-2 py-1 flex justify-between items-center space-x-2 rounded-2xl border border-skin-primary select-none ">
-                    <p>{getName(products.data.brands, brandFilters)}</p>
+                    <p>{`Brand : ${getName(
+                      products.data.brands,
+                      brandFilters
+                    )}`}</p>
                     <MdClose
                       onClick={() => {
                         setBrandFilters();
@@ -368,6 +331,11 @@ function ProductSorting() {
               </div>
             )}
           </div>
+
+            <button onClick={refetch} className="outline-none px-2 py-1 rounded-lg bg-skin-primary text-white  ">
+              refresh
+            </button>
+
         </div>
 
         {products?.data?.products && (

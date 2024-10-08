@@ -401,6 +401,18 @@ export default function SidebarAdmin(props) {
 
               <li className="rounded-sm pb-3">
                 <Link
+                  href="/admin/category-attach"
+                  className="flex items-center pl-2 space-x-3 pt-2 pb-1 rounded-md text-gray-100"
+                >
+                  <TbArrowsSort  className="block text-[25px] text-white " />
+                  <p className="hidden md:block" style={{ marginLeft: "43px" }}>
+                    {`Category-Brand Attach`}
+                  </p>
+                </Link>
+              </li>
+
+              <li className="rounded-sm pb-3">
+                <Link
                   href="/admin/Promotions"
                   className="flex items-center pl-2 space-x-3 pt-2 pb-1 rounded-md text-gray-100"
                 >

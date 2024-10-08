@@ -11,14 +11,14 @@ function AdminSortingProduct({ product, refetch }) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const api = createAxiosInstance(router);
-  const [brandSort, setBrandSort] = useState(product.brand_sort_order ?? "");
+  // const [brandSort, setBrandSort] = useState(product.brand_sort_order ?? "");
   const [productSort, setProductSort] = useState(""
     // product.product_sort_order ?? ""
   );
   const [editing, setEditing] = useState(false);
 
   function cancelEditing() {
-    setBrandSort(product.brand_sort_order ?? "");
+    // setBrandSort(product.brand_sort_order ?? "");
     setProductSort(product.product_sort_order ?? "");
     setEditing(false);
   }
@@ -33,7 +33,7 @@ function AdminSortingProduct({ product, refetch }) {
       const response = await api.put(
         `/api/admin/edit-product-sort-order/${product.product_id}`,
         {
-          brand_sort_order: brandSort ?? null,
+          // brand_sort_order: brandSort ?? null,
           product_sort_order: Number(productSort),
         }
       );
@@ -45,17 +45,24 @@ function AdminSortingProduct({ product, refetch }) {
     }
   }
 
-  const handleBrandSortChange = (e) => {
-    const value = e.target.value;
-    if (value.length <= 4) {
-      setBrandSort(value);
-    }
-  };
+  // const handleBrandSortChange = (e) => {
+  //   const value = e.target.value;
+  //   if (value.length <= 4) {
+  //     setBrandSort(value);
+  //   }
+  // };
 
   const handleProductSortChange = (e) => {
     const value = e.target.value;
-    if (value.length <= 4) {
+    if (value.length <= 4 && /^\d*$/.test(value)) {
       setProductSort(value);
+    }
+  };
+
+  const onlyNumberKey = (e) => {
+    const ASCIICode = e.which ? e.which : e.keyCode;
+    if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57)) {
+      e.preventDefault();
     }
   };
 
@@ -71,7 +78,7 @@ function AdminSortingProduct({ product, refetch }) {
         <td>{product.category_name}</td>
         <td className=" px-4">{product.category_sort_order}</td>
         <td className="px-4">{product.brand_name}</td>
-        {editing == true ? (
+        {/* {editing == true ? (
           <td className="px-4">
             <input
               type="number"
@@ -85,9 +92,9 @@ function AdminSortingProduct({ product, refetch }) {
               onChange={handleBrandSortChange}
             />
           </td>
-        ) : (
+        ) : ( */}
           <td className="px-4">{product.brand_sort_order}</td>
-        )}
+        {/* )} */}
         <td className="px-4">{product.product_name}</td>
         {editing == true ? (
           <td className="px-4">
@@ -95,14 +102,16 @@ function AdminSortingProduct({ product, refetch }) {
               type="number"
               //   minLength={0}
               //   maxLength={6}
+              inputMode="numeric"
               pattern="\d{1,4}"
-              // value={productSort}
+              value={productSort}
               placeholder={product.product_sort_order}
-              max={9999}
+              // max={9999}
               //   min={100000}
               onChange={handleProductSortChange}
+              onKeyPress={onlyNumberKey}
               required
-              className="outline-none px-2 w-max"
+              className="outline-none px-2 w-full"
             />
           </td>
         ) : (
@@ -112,7 +121,7 @@ function AdminSortingProduct({ product, refetch }) {
         )}
         { editing == true ? <td className="px-4">{`${
           product.category_sort_order
-        }-${brandSort}-${productSort}`}</td> : <td>{` - `}</td>}
+        }-${product.brand_sort_order}-${productSort}`}</td> : <td>{` - `}</td>}
         <td>
           {editing == true ? (
             loading == false ? (
