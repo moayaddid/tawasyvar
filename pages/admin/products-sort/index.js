@@ -292,7 +292,7 @@ function ProductSorting() {
             )}
           </div>
 
-          <div className="flex flex-wrap gap-2 items-center pb-2">
+          <div className="flex flex-wrap gap-2 items-center">
             <p>Applied Filters :</p>
             {!categoryFilters && !brandFilters ? (
               <p>None</p>
@@ -332,7 +332,7 @@ function ProductSorting() {
             )}
           </div>
 
-            <button onClick={refetch} className="outline-none px-2 py-1 rounded-lg bg-skin-primary text-white  ">
+            <button onClick={refetch} className="outline-none px-2 py-1 mb-4 rounded-lg bg-skin-primary text-white  ">
               refresh
             </button>
 
@@ -341,7 +341,7 @@ function ProductSorting() {
         {products?.data?.products && (
           <>
             {products?.data?.products && products.data.products.length > 0 ? (
-              <table className="min-w-full max-w-max overflow-x-auto ">
+              <table className="min-w-full max-w-full overflow-x-auto ">
                 <thead className="">
                   <tr className="text-sm font-semibold text-center border-b-2 border-gray-400 uppercase">
                     <th>Id</th>

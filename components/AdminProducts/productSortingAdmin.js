@@ -12,7 +12,8 @@ function AdminSortingProduct({ product, refetch }) {
   const router = useRouter();
   const api = createAxiosInstance(router);
   // const [brandSort, setBrandSort] = useState(product.brand_sort_order ?? "");
-  const [productSort, setProductSort] = useState(""
+  const [productSort, setProductSort] = useState(
+    ""
     // product.product_sort_order ?? ""
   );
   const [editing, setEditing] = useState(false);
@@ -23,7 +24,8 @@ function AdminSortingProduct({ product, refetch }) {
     setEditing(false);
   }
 
-  async function EditSorter() {
+  async function EditSorter(e) {
+    e.preventDefault();
     if (!productSort) {
       toast.error(`you should at least add a product sort order`);
       return;
@@ -93,46 +95,49 @@ function AdminSortingProduct({ product, refetch }) {
             />
           </td>
         ) : ( */}
-          <td className="px-4">{product.brand_sort_order}</td>
+        <td className="px-4">{product.brand_sort_order}</td>
         {/* )} */}
         <td className="px-4">{product.product_name}</td>
         {editing == true ? (
           <td className="px-4">
-            <input
-              type="number"
-              //   minLength={0}
-              //   maxLength={6}
-              inputMode="numeric"
-              pattern="\d{1,4}"
-              value={productSort}
-              placeholder={product.product_sort_order}
-              // max={9999}
-              //   min={100000}
-              onChange={handleProductSortChange}
-              onKeyPress={onlyNumberKey}
-              required
-              className="outline-none px-2 w-full"
-            />
+            <form onSubmit={EditSorter}>
+              <input
+                type="number"
+                //   minLength={0}
+                //   maxLength={6}
+                inputMode="numeric"
+                pattern="\d{1,4}"
+                value={productSort}
+                placeholder={product.product_sort_order}
+                // max={9999}
+                //   min={100000}
+                onChange={handleProductSortChange}
+                onKeyPress={onlyNumberKey}
+                required
+                className="outline-none px-2 w-full"
+              />
+            </form>
           </td>
         ) : (
-          <td className="px-4 ">
-            {product.product_sort_order}
-          </td>
+          <td className="px-4 ">{product.product_sort_order}</td>
         )}
-        { editing == true ? <td className="px-4">{`${
-          product.category_sort_order
-        }-${product.brand_sort_order}-${productSort}`}</td> : <td>{` - `}</td>}
+        {editing == true ? (
+          <td className="px-4">{`${product.category_sort_order}-${product.brand_sort_order}-${productSort}`}</td>
+        ) : (
+          <td>{` - `}</td>
+        )}
         <td>
           {editing == true ? (
             loading == false ? (
               <div className="flex justify-center items-center space-x-4">
-                <CgCheck
-                  onClick={EditSorter}
-                  size={40}
+                <button
+                  type="submit"
                   className="items-center px-2 py-2 text-white bg-green-500 rounded-md hover:opacity-80 focus:outline-none"
-                />
+                >
+                  <CgCheck size={20} />
+                </button>
                 <BiX
-                  size={40}
+                  size={36}
                   onClick={cancelEditing}
                   className="items-center px-2 py-2 text-white bg-red-500 rounded-md hover:opacity-80 focus:outline-none"
                 />
