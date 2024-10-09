@@ -266,7 +266,7 @@ function ProductSorting() {
             <p>Filter By :</p>
             {products && products.data.categories && (
               <DropDownSearch
-              width={`w-[20%]`}
+                width={`w-[20%]`}
                 data={products.data.categories}
                 selectItem={(item) => {
                   setCategoryFilters(item.id);
@@ -279,7 +279,7 @@ function ProductSorting() {
             )}
             {products && products.data.brands && (
               <DropDownSearch
-              width={`w-[20%]`}
+                width={`w-[20%]`}
                 data={products.data.brands}
                 selectItem={(item) => {
                   setBrandFilters(item.id);
@@ -292,7 +292,7 @@ function ProductSorting() {
             )}
           </div>
 
-          <div className="flex flex-wrap gap-2 items-center">
+          <div className="flex flex-wrap items-center gap-2 ">
             <p>Applied Filters :</p>
             {!categoryFilters && !brandFilters ? (
               <p>None</p>
@@ -330,12 +330,13 @@ function ProductSorting() {
                 )}
               </div>
             )}
-          </div>
-
-            <button onClick={refetch} className="outline-none px-2 py-1 mb-4 rounded-lg bg-skin-primary text-white  ">
-              refresh
+            <button
+              onClick={refetch}
+              className="outline-none px-2 py-1 rounded-lg bg-skin-primary text-white  "
+            >
+              Refresh
             </button>
-
+          </div>
         </div>
 
         {products?.data?.products && (

@@ -24,8 +24,10 @@ function AdminSortingProduct({ product, refetch }) {
     setEditing(false);
   }
 
-  async function EditSorter(e) {
-    e.preventDefault();
+  async function EditSorter(e = null) {
+    if(e){
+      e.preventDefault();
+    }
     if (!productSort) {
       toast.error(`you should at least add a product sort order`);
       return;
@@ -132,6 +134,7 @@ function AdminSortingProduct({ product, refetch }) {
               <div className="flex justify-center items-center space-x-4">
                 <button
                   type="submit"
+                  onClick={EditSorter}
                   className="items-center px-2 py-2 text-white bg-green-500 rounded-md hover:opacity-80 focus:outline-none"
                 >
                   <CgCheck size={20} />
