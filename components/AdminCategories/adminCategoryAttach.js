@@ -1,9 +1,18 @@
 import createAxiosInstance from "@/API";
-import { Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
+// import { DialogHeader } from "@material-tailwind/react";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Stack,
+} from "@mui/material";
 import { Ring } from "@uiball/loaders";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
+import { BiTrash } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
+import ButtonComponent from "../UI/utilities/buttonComponent";
 
 function AdminCategoryAttach({ category, refetch }) {
   const router = useRouter();
@@ -12,16 +21,15 @@ function AdminCategoryAttach({ category, refetch }) {
   const [editing, setEditing] = useState(false);
   const [sortRef, setSortRef] = useState();
   const formRef = useRef();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   async function editAttachment(e) {
     e.preventDefault();
     if (!formRef.current.reportValidity()) {
       return;
     }
-    if (
-      sortRef &&
-      sortRef !== category.sort_order
-    ) {
+    if (sortRef && sortRef !== category.sort_order) {
       setEditing(true);
       try {
         const response = await Api.put(
@@ -56,6 +64,19 @@ function AdminCategoryAttach({ category, refetch }) {
     }
   };
 
+  async function DeleteAttachment () {
+    setDeleting(true);
+    try{
+      const response = await Api.delete(`/api/admin/delete-brand-sort-order/${category.id}`);
+      refetch();
+      setDeleting(false);
+      setIsDeleting(false);
+    }catch(error){
+      setDeleting(false);
+    }
+    setDeleting(false);
+  }
+
   return (
     <>
       <tr
@@ -70,9 +91,17 @@ function AdminCategoryAttach({ category, refetch }) {
           <div class="flex-col lg:flex-row items-center space-y-2 lg:space-y-0">
             <button
               onClick={() => setIsEditing(true)}
-              class="items-center px-2 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none"
+              className="items-center px-2 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none"
             >
               <FiEdit />
+            </button>
+            <button
+              onClick={() => {
+                setIsDeleting(true);
+              }}
+              className="items-center px-2 py-2 mx-2 text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none"
+            >
+              <BiTrash />
             </button>
           </div>
         </td>
@@ -145,6 +174,34 @@ function AdminCategoryAttach({ category, refetch }) {
             </form>
           </Stack>
         </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={isDeleting}
+        onClose={() => {
+          setIsDeleting(false);
+        }}
+        fullWidth
+        maxWidth="lg"
+      >
+        <DialogTitle>{`Deleting attachment : ${category.brand} - ${category.category}`}</DialogTitle>
+        <DialogContent className="w-full h-full flex justify-center items-center">
+          <p>{`Are you sure about deleting this attachment with a sort-order of ${category.sort_order} ? `}</p>
+        </DialogContent>
+        <DialogActions className="w-full flex justify-center items-center">
+          <ButtonComponent
+            isLoading={deleting}
+            title={`Yes`}
+            onClick={DeleteAttachment}
+            className={`w-[20%] px-2 py-1 rounded-md text-white bg-green-500`}
+            color={`white`}
+          />
+          <ButtonComponent
+            title={`No`}
+            onClick={() => {setIsDeleting(false)}}
+            className={`w-[20%] px-2 py-1 rounded-md text-white bg-red-500`}
+          />
+        </DialogActions>
       </Dialog>
     </>
   );
