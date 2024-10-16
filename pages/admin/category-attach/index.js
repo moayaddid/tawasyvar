@@ -26,25 +26,32 @@ function CategoryBrandAttach() {
   const [allCategories, setAllCategories] = useState();
   const [allBrands, setAllBrands] = useState();
   const [gettingData, setGettingData] = useState(false);
-  const [sortRef , setSortRef] = useState();
+  const [sortRef, setSortRef] = useState();
+  const [page, setCurrentPage] = useState(1);
   const formRef = useRef();
 
   const {
     data: categories,
     isLoading,
+    isFetching,
     refetch,
-  } = useQuery(`categoryAttachments`, fetchCategoryAttach, {
+  } = useQuery([`categoryAttachments`, page], () => fetchCategoryAttach(page), {
     staleTime: 1,
     refetchOnMount: true,
     refetchOnWindowFocus: false,
+    keepPreviousData : true
   });
 
-  async function fetchCategoryAttach() {
+  async function fetchCategoryAttach(page) {
     try {
-      return await Api.get(`/api/admin/brand-sort-order`);
+      return await Api.get(`/api/admin/brand-sort-order?page=${page}`);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  if (categories) {
+    console.log(categories);
   }
 
   const handleSortChange = (e) => {
@@ -275,6 +282,63 @@ function CategoryBrandAttach() {
               ) : (
                 <p className="text-xl text-center w-full">{`There are no attachments yet.`}</p>
               )}
+            </div>
+          )}
+
+          {categories && categories.data.pagination && (
+            <div className="w-[50%] mx-auto my-2 flex justify-center items-center h-max gap-4 ">
+              <button
+                className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-[20%]"
+                onClick={() => {
+                  setCurrentPage(1);
+                  // setCurrentPage(data.data.pagination.previousPage);
+                }}
+                disabled={categories.data.pagination.current_page == 1}
+              >
+                First Page
+              </button>
+              <button
+                className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-[20%]"
+                onClick={() => {
+                  setCurrentPage(categories.data.pagination.current_page - 1);
+                  // setCurrentPage(data.data.pagination.previousPage);
+                }}
+                disabled={categories.data.pagination.current_page == 1}
+              >
+                Previous Page
+              </button>
+              {isFetching ? (
+                <Ring size={20} lineWeight={5} speed={2} color="#222222" />
+              ) : (
+                <p className=" px-2 border-b-2 border-skin-primary">
+                  {categories.data.pagination.current_page}
+                </p>
+              )}
+              <button
+                className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-[20%]"
+                onClick={() => {
+                  setCurrentPage(categories.data.pagination.current_page + 1);
+                  // setCurrentPage(data.data.pagination.nextPage);
+                }}
+                disabled={
+                  categories.data.pagination.current_page ===
+                  categories.data.pagination.last_page
+                }
+              >
+                Next Page
+              </button>
+              <button
+                className="px-2 py-1 bg-skin-primary text-white rounded-lg hover:bg-[#ff9100] disabled:opacity-50 disabled:cursor-not-allowed w-[20%]"
+                onClick={() => {
+                  setCurrentPage(categories.data.pagination.last_page);
+                }}
+                disabled={
+                  categories.data.pagination.current_page ===
+                  categories.data.pagination.last_page
+                }
+              >
+                Last Page
+              </button>
             </div>
           )}
 
